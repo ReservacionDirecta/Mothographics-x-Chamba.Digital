@@ -4,6 +4,7 @@
  */
 
 import { useState } from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
 import { 
   ArrowRight, 
@@ -556,7 +557,7 @@ export default function App() {
     setModalData({ ...modalData, isOpen: false });
   };
 
-  return (
+  const MainContent = () => (
     <div className="selection:bg-accent selection:text-white">
       <Navbar />
       <main className="pt-[70px]">
@@ -575,5 +576,14 @@ export default function App() {
         content={modalData.content} 
       />
     </div>
+  );
+
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/Mothographics×ChambaDigital" element={<MainContent />} />
+        <Route path="*" element={<Navigate to="/Mothographics×ChambaDigital" replace />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
