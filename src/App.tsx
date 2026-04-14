@@ -322,7 +322,7 @@ const Services = ({ onOpenModal }: any) => (
       />
       <PricingCard 
         title="El Ecosistema Web (Desarrollo)"
-        description="Sistemas robustos de alta conversión."
+        description="Sistemas robustos (Ej: kabsa.pe - Web Corporativa)."
         delay={0.2}
         onOpenDetails={() => onOpenModal('Desarrollo Web', "Construimos sitios que no solo son bonitos, sino que están optimizados para la venta. Desde landings ultra-rápidas hasta ecosistemas de e-commerce complejos con integraciones de pagos y logística.\n\nTodo bajo una arquitectura que prioriza la velocidad de carga y la experiencia del usuario (UX), asegurando que cada visitante tenga el camino más corto hacia la conversión.")}
         items={[
@@ -358,12 +358,13 @@ const Portfolio = () => {
   ];
 
   const webs = [
-    { url: "www.dupla.work", label: "Dupla Work" },
-    { url: "olivosdelperu.com", label: "Olivos del Perú" },
-    { url: "clasedesurf.com", label: "Clase de Surf" },
-    { url: "jahsurfperu.com", label: "Jah Surf Perú" },
-    { url: "penalindamancora.com", label: "Peña Linda" },
-    { url: "puntanegritos.com", label: "Punta Negritos" }
+    { url: "www.dupla.work", label: "Dupla Work", thumb: "https://s.wordpress.com/mshots/v1/https://www.dupla.work?w=600" },
+    { url: "kabsa.pe", label: "Kabsa", thumb: "https://s.wordpress.com/mshots/v1/https://kabsa.pe?w=600" },
+    { url: "olivosdelperu.com", label: "Olivos del Perú", thumb: "https://s.wordpress.com/mshots/v1/https://olivosdelperu.com?w=600" },
+    { url: "clasedesurf.com", label: "Clase de Surf", thumb: "https://s.wordpress.com/mshots/v1/https://clasedesurf.com?w=600" },
+    { url: "jahsurfperu.com", label: "Jah Surf Perú", thumb: "https://s.wordpress.com/mshots/v1/https://jahsurfperu.com?w=600" },
+    { url: "penalindamancora.com", label: "Peña Linda", thumb: "https://s.wordpress.com/mshots/v1/https://penalindamancora.com?w=600" },
+    { url: "puntanegritos.com", label: "Punta Negritos", thumb: "https://s.wordpress.com/mshots/v1/https://puntanegritos.com?w=600" }
   ];
 
   return (
@@ -376,7 +377,7 @@ const Portfolio = () => {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-12 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_1.2fr] gap-12 items-start">
         {/* Hoteles */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}
@@ -418,17 +419,28 @@ const Portfolio = () => {
               <ExternalLink className="w-5 h-5 text-accent" />
               Desarrollo Web
             </h3>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {webs.map((web, i) => (
                 <motion.a
                   key={i}
                   href={`https://${web.url}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.05)" }}
-                  className="p-3 glass rounded-[8px] border-white/5 text-center transition-colors"
+                  whileHover={{ y: -5 }}
+                  className="group flex flex-col glass rounded-[12px] border-white/5 overflow-hidden transition-all hover:border-accent/30"
                 >
-                  <span className="text-[12px] font-medium text-muted hover:text-accent transition-colors">{web.url}</span>
+                  <div className="aspect-video w-full overflow-hidden bg-white/5 relative">
+                    <img 
+                      src={web.thumb} 
+                      alt={web.label}
+                      referrerPolicy="no-referrer"
+                      className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+                    />
+                    <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors" />
+                  </div>
+                  <div className="p-3 text-center border-t border-white/5">
+                    <span className="text-[11px] font-bold text-muted group-hover:text-accent transition-colors uppercase tracking-wider">{web.label}</span>
+                  </div>
                 </motion.a>
               ))}
             </div>
