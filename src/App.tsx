@@ -145,72 +145,96 @@ const Hero = () => (
 
 const Opportunity = () => (
   <section id="oportunidad" className="py-20 px-6 md:px-10 max-w-[1024px] mx-auto">
-    <div className="grid grid-cols-1 md:grid-cols-[1.2fr_0.8fr] gap-[30px] items-start">
+    <div className="text-center mb-16">
+      <span className="label-editorial mx-auto">La Sinergia Estratégica</span>
+      <h2 className="text-[32px] md:text-[48px] font-bold tracking-tight leading-tight mb-6">
+        Donde el Arte se encuentra <br className="hidden md:block" /> con la <span className="text-accent">Ciencia de Datos</span>.
+      </h2>
+      <p className="text-muted text-[16px] md:text-[18px] max-w-2xl mx-auto leading-relaxed">
+        Guido, tu trabajo ya genera la base perfecta: marcas con una identidad visual impecable. Chamba Digital inyecta la maquinaria para que ese arte <strong className="text-fg">facture en automático.</strong>
+      </p>
+    </div>
+
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
       <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.2 }}
-        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-        className="glass p-6 md:p-8 rounded-[12px]"
+        initial={{ opacity: 0, x: -20 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+        className="glass p-8 rounded-[16px] border-white/5 relative overflow-hidden"
       >
-        <motion.h2 
-          initial={{ opacity: 0, x: -20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.2, duration: 0.8 }}
-          className="text-[24px] font-bold mb-4 tracking-[-0.5px] text-fg"
-        >
-          El Ecosistema Perfecto.
-        </motion.h2>
-        <motion.p 
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.4, duration: 0.8 }}
-          className="text-[14px] text-muted leading-[1.6] mb-6"
-        >
-          Guido, tu trabajo ya genera la base perfecta: marcas con una identidad visual impecable y contenido de alto nivel. Lo único que falta en la ecuación para que tus clientes escalen es <strong className="text-fg font-medium">inyectar tráfico calificado y sistemas de conversión.</strong>
-        </motion.p>
-        
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <motion.div 
-            whileHover={{ y: -5, backgroundColor: "rgba(255, 255, 255, 0.05)" }}
-            className="p-4 bg-white/[0.02] border border-white/[0.05] rounded-[8px] transition-colors cursor-default"
-          >
-            <h4 className="text-[11px] uppercase text-accent font-bold mb-2">Mothographics</h4>
-            <p className="text-[12px] text-[#ccc]">Capturando la magia: Historias visuales que trascienden marcas e industrias. (El Arte)</p>
-          </motion.div>
-          <motion.div 
-            whileHover={{ y: -5, backgroundColor: "rgba(255, 255, 255, 0.05)" }}
-            className="p-4 bg-white/[0.02] border border-white/[0.05] rounded-[8px] transition-colors cursor-default"
-          >
-            <h4 className="text-[11px] uppercase text-accent font-bold mb-2">Chamba Digital</h4>
-            <p className="text-[12px] text-[#ccc]">Ads, Desarrollo Web, Chatbots IA y Sistemas de Conversión. (La Ciencia)</p>
-          </motion.div>
+        <div className="absolute top-0 right-0 p-6 opacity-5">
+          <Palette className="w-24 h-24" />
         </div>
+        <h3 className="text-[20px] font-bold mb-4 flex items-center gap-3">
+          <Palette className="w-5 h-5 text-accent" />
+          El Arte (Mothographics)
+        </h3>
+        <ul className="space-y-3">
+          {[
+            "Storytelling visual de alto impacto.",
+            "Branding que trasciende industrias.",
+            "Excelencia estética y emocional.",
+            "25 años de autoridad creativa."
+          ].map((item, i) => (
+            <li key={i} className="flex items-center gap-2 text-[14px] text-muted">
+              <div className="w-1.5 h-1.5 rounded-full bg-accent/40" />
+              {item}
+            </li>
+          ))}
+        </ul>
       </motion.div>
-      
-      <motion.div 
+
+      <motion.div
         initial={{ opacity: 0, x: 20 }}
         whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true, amount: 0.5 }}
-        transition={{ delay: 0.3, duration: 0.8 }}
-        className="flex flex-col gap-4"
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+        className="glass p-8 rounded-[16px] border-accent/10 relative overflow-hidden bg-accent/[0.02]"
       >
-        <motion.div 
-          whileHover={{ scale: 1.02 }}
-          className="flex items-start gap-4 p-4 glass rounded-[12px] cursor-default"
-        >
-          <div className="p-2 bg-white/10 rounded-lg">
-            <CheckCircle2 className="w-5 h-5 text-accent" />
-          </div>
-          <div>
-            <p className="text-[14px] font-bold">Escalabilidad inmediata</p>
-            <p className="text-[12px] text-muted">Transformamos el arte en resultados medibles.</p>
-          </div>
-        </motion.div>
+        <div className="absolute top-0 right-0 p-6 opacity-5">
+          <Zap className="w-24 h-24 text-accent" />
+        </div>
+        <h3 className="text-[20px] font-bold mb-4 flex items-center gap-3">
+          <Zap className="w-5 h-5 text-accent" />
+          La Ciencia (Chamba Digital)
+        </h3>
+        <ul className="space-y-3">
+          {[
+            "Sistemas de tráfico y Meta Ads.",
+            "Webs de alta conversión (UX/UI).",
+            "Automatización con Agentes IA.",
+            "Escalabilidad técnica y datos."
+          ].map((item, i) => (
+            <li key={i} className="flex items-center gap-2 text-[14px] text-muted">
+              <div className="w-1.5 h-1.5 rounded-full bg-accent" />
+              {item}
+            </li>
+          ))}
+        </ul>
       </motion.div>
     </div>
+
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.8, delay: 0.2 }}
+      className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
+    >
+      {[
+        { title: "Agencia 360", desc: "Posicionamiento Full-Stack inmediato.", icon: Globe },
+        { title: "Nuevos Ingresos", desc: "Venta de Web y Sistemas IA.", icon: TrendingUp },
+        { title: "Cero Fricción", desc: "Nosotros manejamos la técnica.", icon: CheckCircle2 },
+        { title: "Datos Reales", desc: "Reportes de ROI para tus clientes.", icon: MessageSquare }
+      ].map((item, i) => (
+        <div key={i} className="p-5 glass rounded-[12px] border-white/5 hover:border-accent/20 transition-colors">
+          <item.icon className="w-6 h-6 text-accent mb-3" />
+          <h4 className="text-[14px] font-bold mb-1">{item.title}</h4>
+          <p className="text-[12px] text-muted leading-relaxed">{item.desc}</p>
+        </div>
+      ))}
+    </motion.div>
   </section>
 );
 
