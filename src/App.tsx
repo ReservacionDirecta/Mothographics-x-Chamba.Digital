@@ -460,17 +460,27 @@ const Portfolio = () => {
               <MessageSquare className="w-5 h-5 text-accent" />
               Proyecto Personal IA
             </h3>
-            <p className="text-[13px] text-muted mb-4 leading-relaxed">
+            <p className="text-[13px] text-muted mb-6 leading-relaxed">
               Desarrollo de agentes inteligentes especializados en el sector hospitalidad.
             </p>
             <motion.a
               href="https://hothelia.com"
               target="_blank"
               rel="noopener noreferrer"
-              whileHover={{ x: 5 }}
-              className="inline-flex items-center gap-2 text-[14px] font-bold text-accent"
+              className="group/link block relative aspect-video w-full rounded-[8px] overflow-hidden border border-white/5 mb-4"
             >
-              hothelia.com <ArrowRight className="w-4 h-4" />
+              <img 
+                src="https://s.wordpress.com/mshots/v1/https://hothelia.com?w=600" 
+                alt="Hothelia"
+                referrerPolicy="no-referrer"
+                className="w-full h-full object-cover grayscale group-hover/link:grayscale-0 transition-all duration-500"
+              />
+              <div className="absolute inset-0 bg-black/40 group-hover/link:bg-transparent transition-colors flex items-center justify-center">
+                <div className="bg-black/60 backdrop-blur-md px-4 py-2 rounded-full border border-white/10 opacity-0 group-hover/link:opacity-100 transition-opacity flex items-center gap-2">
+                  <span className="text-[12px] font-bold text-white">Visitar hothelia.com</span>
+                  <ArrowRight className="w-3 h-3 text-accent" />
+                </div>
+              </div>
             </motion.a>
           </motion.div>
         </div>
