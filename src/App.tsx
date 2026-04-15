@@ -21,7 +21,9 @@ import {
   User,
   Mail,
   Send,
-  MapPin
+  MapPin,
+  Instagram,
+  Linkedin
 } from "lucide-react";
 
 const Logo = ({ className = "" }: { className?: string }) => (
@@ -70,56 +72,126 @@ const SplashScreen = () => (
   </motion.div>
 );
 
-const Modal = ({ isOpen, onClose, title, content }: any) => (
-  <AnimatePresence>
-    {isOpen && (
-      <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          onClick={onClose}
-          className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-        />
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.9, y: 20 }}
-          className="relative w-full max-w-[500px] glass p-8 rounded-[16px] border-accent/20 shadow-2xl"
-        >
-          <button 
-            onClick={onClose}
-            className="absolute top-4 right-4 p-2 hover:bg-white/10 rounded-full transition-colors"
-          >
-            <X className="w-5 h-5 text-muted" />
-          </button>
-          
-          <div className="flex items-center gap-3 mb-6">
-            <div className="p-2 bg-accent/10 rounded-lg">
-              <Info className="w-5 h-5 text-accent" />
+const Modal = ({ isOpen, onClose, title, content }: any) => {
+  const renderContent = () => {
+    if (typeof content === 'string') {
+      return (
+        <div className="space-y-4 text-[14px] text-muted leading-relaxed">
+          {content.split('\n\n').map((paragraph: string, i: number) => (
+            <p key={i}>{paragraph}</p>
+          ))}
+        </div>
+      );
+    }
+
+    return (
+      <div className="space-y-8">
+        <p className="text-[14px] text-muted leading-relaxed">{content.description}</p>
+        
+        {content.caseStudies && content.caseStudies.length > 0 && (
+          <div>
+            <div className="flex items-center gap-2 mb-4">
+              <div className="h-[1px] flex-grow bg-white/5" />
+              <h4 className="text-[11px] font-black uppercase tracking-[0.2em] text-accent shrink-0">📈 Casos de Éxito</h4>
+              <div className="h-[1px] flex-grow bg-white/5" />
             </div>
-            <h3 className="text-[20px] font-bold tracking-tight">{title}</h3>
+            <div className="grid gap-3">
+              {content.caseStudies.map((item: string, i: number) => (
+                <motion.div 
+                  key={i}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.1 }}
+                  className="p-4 bg-white/[0.02] border border-white/5 rounded-[12px] flex gap-3 items-start group hover:border-accent/30 transition-colors"
+                >
+                  <div className="w-1.5 h-1.5 rounded-full bg-accent mt-1.5 shrink-0 shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
+                  <span className="text-[13px] leading-relaxed text-fg/90">{item}</span>
+                </motion.div>
+              ))}
+            </div>
           </div>
-          
-          <div className="space-y-4 text-[14px] text-muted leading-relaxed">
-            {content.split('\n\n').map((paragraph: string, i: number) => (
-              <p key={i}>{paragraph}</p>
-            ))}
+        )}
+
+        {content.testimonials && content.testimonials.length > 0 && (
+          <div>
+            <div className="flex items-center gap-2 mb-4">
+              <div className="h-[1px] flex-grow bg-white/5" />
+              <h4 className="text-[11px] font-black uppercase tracking-[0.2em] text-accent shrink-0">⭐ Testimonios</h4>
+              <div className="h-[1px] flex-grow bg-white/5" />
+            </div>
+            <div className="space-y-4">
+              {content.testimonials.map((item: string, i: number) => (
+                <motion.div 
+                  key={i}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 + (i * 0.1) }}
+                  className="relative p-5 rounded-[16px] bg-accent/[0.03] border-l-4 border-accent/40"
+                >
+                  <p className="text-[13px] italic leading-relaxed text-muted mb-2">"{item.split(' - ')[0]}"</p>
+                  {item.includes(' - ') && (
+                    <p className="text-[11px] font-bold text-accent uppercase tracking-wider">— {item.split(' - ')[1]}</p>
+                  )}
+                </motion.div>
+              ))}
+            </div>
           </div>
-          
-          <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={onClose}
-            className="w-full mt-8 bg-accent text-white py-3 rounded-[8px] font-bold text-[14px]"
-          >
-            Entendido
-          </motion.button>
-        </motion.div>
+        )}
       </div>
-    )}
-  </AnimatePresence>
-);
+    );
+  };
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+            className="absolute inset-0 bg-black/80 backdrop-blur-md"
+          />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+            className="relative w-full max-w-[550px] glass p-6 sm:p-10 rounded-[24px] border-accent/20 shadow-2xl overflow-hidden"
+          >
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-accent to-transparent opacity-50" />
+            
+            <button 
+              onClick={onClose}
+              className="absolute top-4 right-4 p-2 hover:bg-white/10 rounded-full transition-colors z-10"
+            >
+              <X className="w-5 h-5 text-muted" />
+            </button>
+            
+            <div className="flex items-center gap-4 mb-8">
+              <div className="p-3 bg-accent/10 rounded-xl shadow-[0_0_15px_rgba(59,130,246,0.1)]">
+                <Info className="w-6 h-6 text-accent" />
+              </div>
+              <h3 className="text-[22px] sm:text-[26px] font-black tracking-tight leading-none">{title}</h3>
+            </div>
+            
+            <div className="max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar">
+              {renderContent()}
+            </div>
+            
+            <motion.button
+              whileHover={{ scale: 1.02, y: -2 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={onClose}
+              className="w-full mt-10 bg-accent text-white py-4 rounded-[12px] font-bold text-[15px] shadow-[0_10px_20px_rgba(59,130,246,0.2)]"
+            >
+              Cerrar Detalle
+            </motion.button>
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
+  );
+};
 
 const Navbar = () => (
   <nav className="fixed top-0 left-0 right-0 z-50 h-[70px] px-6 md:px-10 flex items-center justify-between border-b border-glass-border bg-black/80 backdrop-blur-[10px]">
@@ -357,7 +429,18 @@ const Services = ({ onOpenModal }: any) => (
         title="El Motor de Tráfico (Meta Ads)"
         description="Ideal para activar ventas rápidas (Ej: Galería de Arte)."
         delay={0.1}
-        onOpenDetails={() => onOpenModal('Meta Ads: Motor de Tráfico', "Nuestro sistema de Meta Ads no se limita a 'poner anuncios'. Realizamos un estudio profundo de audiencias, instalamos la API de conversiones para saltar las limitaciones de iOS, y creamos embudos de retargeting que persiguen a los interesados hasta que compran.\n\n📈 CASOS DE ÉXITO:\n- Galería de Arte: Incremento del 300% en leads calificados en 30 días.\n- E-commerce de Moda: ROAS (Retorno de Inversión Publicitaria) de 4.5x constante.\n- Sector Inmobiliario: Reducción del 40% en el costo por lead mediante segmentación avanzada.\n\n⭐ TESTIMONIOS:\n'Chamba Digital transformó nuestra inversión en un activo real. Pasamos de gastar dinero a generar ventas predecibles.' - Cliente Sector Retail.\n'La precisión técnica con la que manejan las audiencias es algo que no habíamos visto en otras agencias.' - Director de Marketing.")}
+        onOpenDetails={() => onOpenModal('Meta Ads: Motor de Tráfico', {
+          description: "Nuestro sistema de Meta Ads no se limita a 'poner anuncios'. Realizamos un estudio profundo de audiencias, instalamos la API de conversiones para saltar las limitaciones de iOS, y creamos embudos de retargeting que persiguen a los interesados hasta que compran.",
+          caseStudies: [
+            "Galería de Arte: Incremento del 300% en leads calificados en 30 días.",
+            "E-commerce de Moda: ROAS (Retorno de Inversión Publicitaria) de 4.5x constante.",
+            "Sector Inmobiliario: Reducción del 40% en el costo por lead mediante segmentación avanzada."
+          ],
+          testimonials: [
+            "Chamba Digital transformó nuestra inversión en un activo real. Pasamos de gastar dinero a generar ventas predecibles. - Cliente Sector Retail",
+            "La precisión técnica con la que manejan las audiencias es algo que no habíamos visto en otras agencias. - Director de Marketing"
+          ]
+        })}
         items={[
           { 
             name: "Setup Inicial", 
@@ -375,7 +458,18 @@ const Services = ({ onOpenModal }: any) => (
         title="Web & Vertical Hotelero"
         description="Desarrollo general y sistemas para hoteles."
         delay={0.2}
-        onOpenDetails={() => onOpenModal('Desarrollo Web & Tech', "Somos tu brazo de desarrollo. Construimos desde webs corporativas de alto impacto hasta sistemas especializados para hoteles. \n\nNos especializamos en la integración de PMS (Property Management Systems) y Motores de Reserva Directa para que los hoteles recuperen el control de sus ventas y reduzcan comisiones de terceros.\n\nNos encargamos de toda la complejidad técnica (hosting, seguridad, integraciones API) para que tú te enfoques en la estrategia creativa y la relación con el cliente.")}
+        onOpenDetails={() => onOpenModal('Desarrollo Web & Tech', {
+          description: "Somos tu brazo de desarrollo. Construimos desde webs corporativas de alto impacto hasta sistemas especializados para hoteles. Nos encargamos de toda la complejidad técnica (hosting, seguridad, integraciones API) para que tú te enfoques en la estrategia creativa.",
+          caseStudies: [
+            "Hotel Boutique: Recuperación del 25% de reservas directas eliminando comisiones de OTAs.",
+            "Plataforma E-learning: Escalado de 0 a 5,000 alumnos con infraestructura serverless.",
+            "Inmobiliaria: Sistema de gestión de inventario en tiempo real con sincronización automática."
+          ],
+          testimonials: [
+            "La integración del motor de reservas fue un antes y un después para nuestra rentabilidad. - Gerente de Operaciones Hoteleras",
+            "Entienden el negocio, no solo el código. Eso es lo que los hace diferentes. - CEO Startup Tech"
+          ]
+        })}
         items={[
           { name: "Web Corporativa / Landing", price: "Desde $450 USD" },
           { name: "Motor de Reservas Directas", price: "Desde $650 USD" },
@@ -387,7 +481,18 @@ const Services = ({ onOpenModal }: any) => (
         title="La Automatización (Sistemas)"
         description="Atención y ventas 24/7."
         delay={0.3}
-        onOpenDetails={() => onOpenModal('Automatización con IA', "Liberamos a tu equipo de tareas repetitivas. Implementamos agentes de IA que atienden clientes 24/7, califican leads en tiempo real y agendan citas automáticamente en tu calendario.\n\nConectamos tus herramientas favoritas (CRM, Slack, WhatsApp) para que la información fluya sin errores humanos, permitiendo que el negocio crezca sin aumentar la carga operativa.")}
+        onOpenDetails={() => onOpenModal('Automatización con IA', {
+          description: "Liberamos a tu equipo de tareas repetitivas. Implementamos agentes de IA que atienden clientes 24/7, califican leads en tiempo real y agendan citas automáticamente en tu calendario.",
+          caseStudies: [
+            "Agencia de Viajes: Automatización del 80% de consultas frecuentes vía WhatsApp.",
+            "Clínica Dental: Reducción del 50% en inasistencias mediante recordatorios inteligentes.",
+            "SaaS B2B: Calificación automática de leads que incrementó la eficiencia del equipo de ventas en un 30%."
+          ],
+          testimonials: [
+            "El agente de IA atiende mejor que muchos humanos. Es impresionante la precisión. - Dueño de Negocio Local",
+            "Ahorramos más de 20 horas semanales en tareas administrativas gracias a sus automatizaciones. - Director Operativo"
+          ]
+        })}
         items={[
           { name: "Chatbots de Ventas con IA", price: "Desde $300 USD" },
           { name: "Integraciones a medida", price: "Desde $400 USD" },
@@ -597,27 +702,29 @@ const BusinessModel = () => (
 );
 
 const Footer = () => (
-  <footer className="min-h-[100px] py-8 md:py-0 px-6 md:px-10 flex flex-col md:flex-row items-center justify-between gap-8 md:gap-0 border-t border-glass-border bg-white/[0.02]">
-    <div className="flex flex-col gap-1 text-center md:text-left">
-      <p className="text-[14px] font-bold">Próximo Paso: Piloto Galería Arte Urbano</p>
-      <span className="text-[12px] text-muted">Validemos la maquinaria en 2 semanas antes de escalar.</span>
-    </div>
-    
-    <div className="flex flex-col md:flex-row items-center gap-4 md:gap-[30px]">
-      <div className="text-[11px] text-muted italic text-center md:text-right">
-        México × Perú <br />
-        Por Yosward Ríos - Chamba Digital
+  <footer className="py-12 px-6 md:px-10 border-t border-glass-border bg-black/40 backdrop-blur-md">
+    <div className="max-w-[1024px] mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
+      <div className="flex flex-col gap-2 text-center md:text-left">
+        <p className="text-[16px] font-black tracking-tight">Próximo Paso: <span className="text-accent">Piloto Galería Arte Urbano</span></p>
+        <span className="text-[13px] text-muted">Validemos la maquinaria en 2 semanas antes de escalar la alianza.</span>
       </div>
-      <motion.a 
-        whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(59, 130, 246, 0.3)" }}
-        whileTap={{ scale: 0.95 }}
-        href="https://wa.me/51904060670" 
-        target="_blank" 
-        rel="noopener noreferrer"
-        className="bg-accent text-white px-8 py-4 rounded-[8px] font-bold text-[14px] transition-all w-full md:w-auto text-center"
-      >
-        Agendar Llamada de Inicio
-      </motion.a>
+      
+      <div className="flex flex-col md:flex-row items-center gap-6 md:gap-10">
+        <div className="text-[12px] text-muted italic text-center md:text-right leading-relaxed">
+          <span className="text-fg font-bold not-italic">México × Perú</span> <br />
+          Por Yosward Ríos - Chamba Digital
+        </div>
+        <motion.a 
+          whileHover={{ scale: 1.05, y: -2, boxShadow: "0 10px 20px rgba(59, 130, 246, 0.2)" }}
+          whileTap={{ scale: 0.95 }}
+          href="https://wa.me/51904060670" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="bg-accent text-white px-8 py-4 rounded-[10px] font-bold text-[14px] transition-all shadow-[0_5px_15px_rgba(59,130,246,0.1)]"
+        >
+          Agendar Llamada de Inicio
+        </motion.a>
+      </div>
     </div>
   </footer>
 );
@@ -632,6 +739,14 @@ const ChambaNavbar = () => (
       </a>
       <a href="#portafolio" className="hover:text-fg transition-colors relative group">
         Clientes
+        <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-accent transition-all group-hover:w-full" />
+      </a>
+      <a href="#metodologia" className="hover:text-fg transition-colors relative group">
+        Metodología
+        <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-accent transition-all group-hover:w-full" />
+      </a>
+      <a href="#faq" className="hover:text-fg transition-colors relative group">
+        FAQ
         <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-accent transition-all group-hover:w-full" />
       </a>
     </div>
@@ -733,7 +848,7 @@ const PainPoints = () => (
 );
 
 const Methodology = () => (
-  <section className="py-20 px-6 md:px-10 bg-accent/[0.02] border-y border-white/5">
+  <section id="metodologia" className="py-20 px-6 md:px-10 bg-accent/[0.02] border-y border-white/5">
     <div className="max-w-[1024px] mx-auto">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
         <div>
@@ -777,7 +892,7 @@ const FAQ = () => {
   ];
 
   return (
-    <section className="py-20 px-6 md:px-10 max-w-[800px] mx-auto">
+    <section id="faq" className="py-20 px-6 md:px-10 max-w-[800px] mx-auto">
       <div className="text-center mb-12">
         <h2 className="text-[24px] md:text-[32px] font-bold tracking-tight">Preguntas Frecuentes</h2>
       </div>
@@ -812,6 +927,7 @@ const FAQ = () => {
 
 const ContactForm = () => {
   const [status, setStatus] = useState<'idle' | 'sending' | 'success'>('idle');
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -819,6 +935,7 @@ const ContactForm = () => {
     // Simulate API call
     setTimeout(() => {
       setStatus('success');
+      setFormData({ name: '', email: '', message: '' });
     }, 1500);
   };
 
@@ -895,6 +1012,8 @@ const ContactForm = () => {
                   <input 
                     required
                     type="text" 
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     placeholder="Ej: Juan Pérez"
                     className="w-full bg-white/5 border border-white/10 rounded-[12px] py-3 pl-12 pr-4 text-[14px] focus:outline-none focus:border-accent/50 transition-colors"
                   />
@@ -908,6 +1027,8 @@ const ContactForm = () => {
                   <input 
                     required
                     type="email" 
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     placeholder="juan@empresa.com"
                     className="w-full bg-white/5 border border-white/10 rounded-[12px] py-3 pl-12 pr-4 text-[14px] focus:outline-none focus:border-accent/50 transition-colors"
                   />
@@ -919,6 +1040,8 @@ const ContactForm = () => {
                 <textarea 
                   required
                   rows={4}
+                  value={formData.message}
+                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   placeholder="Cuéntanos brevemente sobre tu negocio y objetivos..."
                   className="w-full bg-white/5 border border-white/10 rounded-[12px] p-4 text-[14px] focus:outline-none focus:border-accent/50 transition-colors resize-none"
                 />
@@ -959,31 +1082,96 @@ const ChambaContent = ({ onOpenModal }: any) => (
       <FAQ />
       <ContactForm />
     </main>
-    <footer className="min-h-[100px] py-16 px-6 md:px-10 border-t border-glass-border bg-white/[0.02]">
-      <div className="max-w-[1024px] mx-auto flex flex-col md:flex-row items-start justify-between gap-12">
-        <div className="flex flex-col gap-6 max-w-[400px]">
-          <Logo />
-          <span className="text-[14px] text-muted leading-relaxed">Ingeniería Digital desde Perú para el mundo.</span>
-          <div className="flex items-start gap-3 text-muted">
-            <MapPin className="w-4 h-4 text-accent shrink-0 mt-1" />
-            <p className="text-[12px] leading-relaxed">
-              Alameda del premio Real 736, La Encantada de Villa, Chorrillos, Lima, Perú
+    <footer className="py-20 px-6 md:px-10 border-t border-glass-border bg-black/40 backdrop-blur-md">
+      <div className="max-w-[1024px] mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+          {/* Brand Column */}
+          <div className="flex flex-col gap-6">
+            <Logo />
+            <p className="text-[14px] text-muted leading-relaxed">
+              Ingeniería Digital de alto nivel. Transformamos negocios con tecnología, datos y diseño de performance.
             </p>
+            <div className="flex gap-4">
+              <motion.a 
+                whileHover={{ y: -3, color: "#3B82F6" }}
+                href="https://instagram.com" 
+                target="_blank" 
+                className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-muted transition-colors"
+              >
+                <Instagram className="w-5 h-5" />
+              </motion.a>
+              <motion.a 
+                whileHover={{ y: -3, color: "#3B82F6" }}
+                href="https://linkedin.com" 
+                target="_blank" 
+                className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-muted transition-colors"
+              >
+                <Linkedin className="w-5 h-5" />
+              </motion.a>
+            </div>
+          </div>
+
+          {/* Quick Links */}
+          <div>
+            <h4 className="text-[14px] font-black uppercase tracking-widest mb-6 text-fg">Explorar</h4>
+            <ul className="space-y-4">
+              {[
+                { name: 'Servicios', id: 'servicios' },
+                { name: 'Portafolio', id: 'portafolio' },
+                { name: 'Metodología', id: 'metodologia' },
+                { name: 'FAQ', id: 'faq' }
+              ].map((item) => (
+                <li key={item.id}>
+                  <a href={`#${item.id}`} className="text-[14px] text-muted hover:text-accent transition-colors">
+                    {item.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact Info */}
+          <div>
+            <h4 className="text-[14px] font-black uppercase tracking-widest mb-6 text-fg">Contacto</h4>
+            <div className="space-y-4">
+              <div className="flex items-start gap-3 text-muted">
+                <MapPin className="w-4 h-4 text-accent shrink-0 mt-1" />
+                <p className="text-[13px] leading-relaxed">
+                  Alameda del premio Real 736, La Encantada de Villa, Chorrillos, Lima, Perú
+                </p>
+              </div>
+              <div className="flex items-center gap-3 text-muted">
+                <Mail className="w-4 h-4 text-accent shrink-0" />
+                <p className="text-[13px]">hola@chamba.digital</p>
+              </div>
+            </div>
+          </div>
+
+          {/* CTA Column */}
+          <div className="flex flex-col items-start gap-6">
+            <h4 className="text-[14px] font-black uppercase tracking-widest mb-6 text-fg">¿Listo para empezar?</h4>
+            <motion.a 
+              whileHover={{ scale: 1.05, y: -5, boxShadow: "0 20px 40px rgba(59, 130, 246, 0.3)" }}
+              whileTap={{ scale: 0.95 }}
+              href="https://wa.me/51904060670" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="bg-accent text-white px-8 py-4 rounded-[12px] font-bold text-[14px] transition-all w-full text-center shadow-[0_10px_30px_rgba(59,130,246,0.2)]"
+            >
+              Solicitar Auditoría
+            </motion.a>
           </div>
         </div>
-        <motion.a 
-          whileHover={{ scale: 1.05, y: -5, boxShadow: "0 20px 40px rgba(59, 130, 246, 0.3)" }}
-          whileTap={{ scale: 0.95 }}
-          href="https://wa.me/51904060670" 
-          target="_blank" 
-          rel="noopener noreferrer"
-          className="bg-accent text-white px-10 py-5 rounded-[12px] font-bold text-[15px] transition-all w-full md:w-auto text-center shadow-[0_10px_30px_rgba(59,130,246,0.2)]"
-        >
-          Solicitar Auditoría Gratuita
-        </motion.a>
-      </div>
-      <div className="mt-12 text-center text-[11px] text-muted italic">
-        © {new Date().getFullYear()} Chamba Digital. Todos los derechos reservados.
+
+        <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4">
+          <p className="text-[12px] text-muted">
+            © {new Date().getFullYear()} Chamba Digital. Todos los derechos reservados.
+          </p>
+          <div className="flex gap-6">
+            <a href="#" className="text-[11px] text-muted hover:text-fg transition-colors uppercase tracking-widest">Privacidad</a>
+            <a href="#" className="text-[11px] text-muted hover:text-fg transition-colors uppercase tracking-widest">Términos</a>
+          </div>
+        </div>
       </div>
     </footer>
   </div>
