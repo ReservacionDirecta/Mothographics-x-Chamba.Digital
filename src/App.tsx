@@ -4,7 +4,7 @@
  */
 
 import { useState, useEffect, FormEvent } from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, Link } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
 import { 
   ArrowRight, 
@@ -27,22 +27,24 @@ import {
 } from "lucide-react";
 
 const Logo = ({ className = "" }: { className?: string }) => (
-  <motion.div 
-    whileHover={{ scale: 1.02 }}
-    className={`flex items-center gap-2 sm:gap-3 cursor-pointer ${className}`}
-  >
-    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-accent rounded-[10px] flex items-center justify-center shadow-[0_0_20px_rgba(59,130,246,0.4)] shrink-0">
-      <Zap className="w-5 h-5 sm:w-6 sm:h-6 text-white fill-white" />
-    </div>
-    <div className="flex flex-col sm:flex-row sm:items-center leading-[0.9] sm:leading-none">
-      <span className="text-[16px] sm:text-[22px] font-black tracking-tighter">
-        Chamba
-      </span>
-      <span className="text-[14px] sm:text-[22px] font-bold sm:font-black tracking-tighter text-accent">
-        .Digital
-      </span>
-    </div>
-  </motion.div>
+  <Link to="/">
+    <motion.div 
+      whileHover={{ scale: 1.02 }}
+      className={`flex items-center gap-2 sm:gap-3 cursor-pointer ${className}`}
+    >
+      <div className="w-8 h-8 sm:w-10 sm:h-10 bg-accent rounded-[10px] flex items-center justify-center shadow-[0_0_20px_rgba(59,130,246,0.4)] shrink-0">
+        <Zap className="w-5 h-5 sm:w-6 sm:h-6 text-white fill-white" />
+      </div>
+      <div className="flex flex-col sm:flex-row sm:items-center leading-[0.9] sm:leading-none">
+        <span className="text-[16px] sm:text-[22px] font-black tracking-tighter">
+          Chamba
+        </span>
+        <span className="text-[14px] sm:text-[22px] font-bold sm:font-black tracking-tighter text-accent">
+          .Digital
+        </span>
+      </div>
+    </motion.div>
+  </Link>
 );
 
 const SplashScreen = () => (
@@ -416,12 +418,12 @@ const PricingCard = ({ title, description, items, delay = 0, onOpenDetails }: an
   </motion.div>
 );
 
-const Services = ({ onOpenModal }: any) => (
+const Services = ({ onOpenModal, title = "Nuestros Servicios", subtitle = "Sistemas de alto impacto diseñados para escalar resultados de forma inmediata.", label = "Servicios" }: any) => (
   <section id="servicios" className="py-20 px-6 md:px-10 max-w-[1024px] mx-auto">
     <div className="text-center mb-16">
-      <span className="label-editorial mx-auto">Menú de Servicios</span>
-      <h2 className="text-[32px] md:text-[40px] font-bold tracking-tight mb-4">Upsells para tus clientes</h2>
-      <p className="text-muted max-w-xl mx-auto text-[14px]">Sistemas de alto impacto diseñados para escalar resultados de forma inmediata.</p>
+      <span className="label-editorial mx-auto">{label}</span>
+      <h2 className="text-[32px] md:text-[40px] font-bold tracking-tight mb-4">{title}</h2>
+      <p className="text-muted max-w-xl mx-auto text-[14px]">{subtitle}</p>
     </div>
     
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -1077,7 +1079,11 @@ const ChambaContent = ({ onOpenModal }: any) => (
       <ChambaHero />
       <PainPoints />
       <Methodology />
-      <Services onOpenModal={onOpenModal} />
+      <Services 
+        onOpenModal={onOpenModal} 
+        title="Ingeniería de Performance" 
+        label="Nuestros Servicios"
+      />
       <Portfolio />
       <FAQ />
       <ContactForm />
@@ -1177,6 +1183,24 @@ const ChambaContent = ({ onOpenModal }: any) => (
   </div>
 );
 
+const AllianceContent = ({ onOpenModal }: any) => (
+  <div className="selection:bg-accent selection:text-white">
+    <Navbar />
+    <main className="pt-[70px]">
+      <Hero />
+      <Opportunity />
+      <Services 
+        onOpenModal={onOpenModal} 
+        title="Upsells para tus clientes" 
+        label="Menú de Servicios"
+      />
+      <Portfolio />
+      <BusinessModel />
+    </main>
+    <Footer />
+  </div>
+);
+
 export default function App() {
   const [modalData, setModalData] = useState({ isOpen: false, title: '', content: '' });
   const [isLoading, setIsLoading] = useState(true);
@@ -1195,20 +1219,6 @@ export default function App() {
     setModalData({ ...modalData, isOpen: false });
   };
 
-  const AllianceContent = () => (
-    <div className="selection:bg-accent selection:text-white">
-      <Navbar />
-      <main className="pt-[70px]">
-        <Hero />
-        <Opportunity />
-        <Services onOpenModal={openModal} />
-        <Portfolio />
-        <BusinessModel />
-      </main>
-      <Footer />
-    </div>
-  );
-
   return (
     <BrowserRouter>
       <AnimatePresence mode="wait">
@@ -1217,7 +1227,7 @@ export default function App() {
       
       <Routes>
         <Route path="/" element={<ChambaContent onOpenModal={openModal} />} />
-        <Route path="/Mothographics×ChambaDigital" element={<AllianceContent />} />
+        <Route path="/mothographicsxchambadigital" element={<AllianceContent onOpenModal={openModal} />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       <Modal 
