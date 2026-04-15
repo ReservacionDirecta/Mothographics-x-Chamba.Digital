@@ -27,14 +27,19 @@ import {
 const Logo = ({ className = "" }: { className?: string }) => (
   <motion.div 
     whileHover={{ scale: 1.02 }}
-    className={`flex items-center gap-2 cursor-pointer ${className}`}
+    className={`flex items-center gap-2 sm:gap-3 cursor-pointer ${className}`}
   >
-    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-accent rounded-[10px] flex items-center justify-center shadow-[0_0_20px_rgba(59,130,246,0.4)]">
+    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-accent rounded-[10px] flex items-center justify-center shadow-[0_0_20px_rgba(59,130,246,0.4)] shrink-0">
       <Zap className="w-5 h-5 sm:w-6 sm:h-6 text-white fill-white" />
     </div>
-    <span className="text-[18px] sm:text-[22px] font-black tracking-tighter">
-      Chamba<span className="text-accent">.Digital</span>
-    </span>
+    <div className="flex flex-col sm:flex-row sm:items-center leading-[0.9] sm:leading-none">
+      <span className="text-[16px] sm:text-[22px] font-black tracking-tighter">
+        Chamba
+      </span>
+      <span className="text-[14px] sm:text-[22px] font-bold sm:font-black tracking-tighter text-accent">
+        .Digital
+      </span>
+    </div>
   </motion.div>
 );
 
