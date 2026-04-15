@@ -751,6 +751,10 @@ const ChambaNavbar = () => (
         FAQ
         <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-accent transition-all group-hover:w-full" />
       </a>
+      <Link to="/mothographicsxchambadigital" className="hover:text-fg transition-colors relative group">
+        Alianza
+        <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-accent transition-all group-hover:w-full" />
+      </Link>
     </div>
     <motion.a 
       whileHover={{ scale: 1.05 }}
@@ -1125,12 +1129,19 @@ const ChambaContent = ({ onOpenModal }: any) => (
                 { name: 'Servicios', id: 'servicios' },
                 { name: 'Portafolio', id: 'portafolio' },
                 { name: 'Metodología', id: 'metodologia' },
-                { name: 'FAQ', id: 'faq' }
+                { name: 'FAQ', id: 'faq' },
+                { name: 'Alianza Mothographics', id: 'mothographicsxchambadigital', isRoute: true }
               ].map((item) => (
                 <li key={item.id}>
-                  <a href={`#${item.id}`} className="text-[14px] text-muted hover:text-accent transition-colors">
-                    {item.name}
-                  </a>
+                  {item.isRoute ? (
+                    <Link to={`/${item.id}`} className="text-[14px] text-muted hover:text-accent transition-colors">
+                      {item.name}
+                    </Link>
+                  ) : (
+                    <a href={`#${item.id}`} className="text-[14px] text-muted hover:text-accent transition-colors">
+                      {item.name}
+                    </a>
+                  )}
                 </li>
               ))}
             </ul>
@@ -1183,23 +1194,29 @@ const ChambaContent = ({ onOpenModal }: any) => (
   </div>
 );
 
-const AllianceContent = ({ onOpenModal }: any) => (
-  <div className="selection:bg-accent selection:text-white">
-    <Navbar />
-    <main className="pt-[70px]">
-      <Hero />
-      <Opportunity />
-      <Services 
-        onOpenModal={onOpenModal} 
-        title="Upsells para tus clientes" 
-        label="Menú de Servicios"
-      />
-      <Portfolio />
-      <BusinessModel />
-    </main>
-    <Footer />
-  </div>
-);
+const AllianceContent = ({ onOpenModal }: any) => {
+  useEffect(() => {
+    console.log("AllianceContent mounted");
+  }, []);
+
+  return (
+    <div className="selection:bg-accent selection:text-white">
+      <Navbar />
+      <main className="pt-[70px]">
+        <Hero />
+        <Opportunity />
+        <Services 
+          onOpenModal={onOpenModal} 
+          title="Upsells para tus clientes" 
+          label="Menú de Servicios"
+        />
+        <Portfolio />
+        <BusinessModel />
+      </main>
+      <Footer />
+    </div>
+  );
+};
 
 export default function App() {
   const [modalData, setModalData] = useState({ isOpen: false, title: '', content: '' });
@@ -1207,6 +1224,7 @@ export default function App() {
 
   // Simulate initial load
   useEffect(() => {
+    console.log("App loaded. Path:", window.location.pathname);
     const timer = setTimeout(() => setIsLoading(false), 2000);
     return () => clearTimeout(timer);
   }, []);
@@ -1228,6 +1246,9 @@ export default function App() {
       <Routes>
         <Route path="/" element={<ChambaContent onOpenModal={openModal} />} />
         <Route path="/mothographicsxchambadigital" element={<AllianceContent onOpenModal={openModal} />} />
+        <Route path="/MothographicsxChambaDigital" element={<AllianceContent onOpenModal={openModal} />} />
+        <Route path="/mothographics-chamba-digital" element={<AllianceContent onOpenModal={openModal} />} />
+        <Route path="/alianza" element={<AllianceContent onOpenModal={openModal} />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       <Modal 
