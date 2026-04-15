@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState, FormEvent } from "react";
+import { useState, useEffect, FormEvent } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
 import { 
@@ -20,8 +20,50 @@ import {
   Info,
   User,
   Mail,
-  Send
+  Send,
+  MapPin
 } from "lucide-react";
+
+const Logo = ({ className = "" }: { className?: string }) => (
+  <motion.div 
+    whileHover={{ scale: 1.02 }}
+    className={`flex items-center gap-2 cursor-pointer ${className}`}
+  >
+    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-accent rounded-[10px] flex items-center justify-center shadow-[0_0_20px_rgba(59,130,246,0.4)]">
+      <Zap className="w-5 h-5 sm:w-6 sm:h-6 text-white fill-white" />
+    </div>
+    <span className="text-[18px] sm:text-[22px] font-black tracking-tighter">
+      Chamba<span className="text-accent">.Digital</span>
+    </span>
+  </motion.div>
+);
+
+const SplashScreen = () => (
+  <motion.div 
+    initial={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+    transition={{ duration: 0.8, ease: "easeInOut" }}
+    className="fixed inset-0 z-[200] bg-bg flex flex-col items-center justify-center"
+  >
+    <motion.div
+      initial={{ scale: 0.8, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      transition={{ 
+        duration: 0.5,
+        repeat: Infinity,
+        repeatType: "reverse"
+      }}
+    >
+      <Logo className="scale-150" />
+    </motion.div>
+    <motion.div 
+      initial={{ width: 0 }}
+      animate={{ width: 200 }}
+      transition={{ duration: 1.5, ease: "easeInOut" }}
+      className="h-[2px] bg-accent mt-12 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.5)]"
+    />
+  </motion.div>
+);
 
 const Modal = ({ isOpen, onClose, title, content }: any) => (
   <AnimatePresence>
@@ -76,12 +118,13 @@ const Modal = ({ isOpen, onClose, title, content }: any) => (
 
 const Navbar = () => (
   <nav className="fixed top-0 left-0 right-0 z-50 h-[70px] px-6 md:px-10 flex items-center justify-between border-b border-glass-border bg-black/80 backdrop-blur-[10px]">
-    <motion.div 
-      whileHover={{ scale: 1.02 }}
-      className="flex items-center gap-2 font-extrabold text-[16px] md:text-[18px] tracking-[-1px] cursor-default"
-    >
-      Mothographics <span className="text-accent">×</span> Chamba Digital
-    </motion.div>
+    <div className="flex items-center gap-4">
+      <Logo className="scale-90 origin-left" />
+      <div className="h-6 w-[1px] bg-white/10 hidden sm:block" />
+      <div className="hidden sm:flex items-center gap-2 font-bold text-[14px] text-muted">
+        Mothographics <span className="text-accent">×</span>
+      </div>
+    </div>
     <div className="hidden lg:flex items-center gap-8 text-[12px] font-medium text-muted uppercase tracking-[1px]">
       <a href="#oportunidad" className="hover:text-fg transition-colors relative group">
         La Oportunidad
@@ -576,12 +619,7 @@ const Footer = () => (
 
 const ChambaNavbar = () => (
   <nav className="fixed top-0 left-0 right-0 z-50 h-[70px] px-6 md:px-10 flex items-center justify-between border-b border-glass-border bg-black/80 backdrop-blur-[10px]">
-    <motion.div 
-      whileHover={{ scale: 1.02 }}
-      className="flex items-center gap-2 font-extrabold text-[16px] md:text-[18px] tracking-[-1px] cursor-default"
-    >
-      Chamba <span className="text-accent">Digital</span>
-    </motion.div>
+    <Logo />
     <div className="hidden lg:flex items-center gap-8 text-[12px] font-medium text-muted uppercase tracking-[1px]">
       <a href="#servicios" className="hover:text-fg transition-colors relative group">
         Servicios
@@ -598,9 +636,9 @@ const ChambaNavbar = () => (
       href="https://wa.me/51904060670" 
       target="_blank" 
       rel="noopener noreferrer"
-      className="bg-accent text-white px-4 md:px-5 py-2 md:py-2.5 rounded-[4px] text-[10px] md:text-[12px] font-bold uppercase cursor-pointer transition-colors hover:bg-accent/90"
+      className="bg-accent text-white px-5 md:px-6 py-2.5 md:py-3 rounded-[8px] text-[11px] md:text-[13px] font-bold uppercase cursor-pointer transition-all hover:bg-accent/90 shadow-[0_0_20px_rgba(59,130,246,0.2)] hover:shadow-[0_0_30px_rgba(59,130,246,0.4)]"
     >
-      Contactar
+      Empezar Proyecto
     </motion.a>
   </nav>
 );
@@ -618,28 +656,28 @@ const ChambaHero = () => (
       <span className="label-editorial mx-auto">
         🚀 Ingeniería de Performance
       </span>
-      <h1 className="text-[40px] md:text-[64px] max-w-[800px] leading-tight md:leading-[1] mb-6">
+      <h1 className="text-[36px] sm:text-[48px] md:text-[64px] max-w-[800px] leading-[1.1] md:leading-[1] mb-6 font-black tracking-tight">
         Transformamos tu negocio con <span className="text-accent">Tecnología de Alto Nivel</span>.
       </h1>
-      <p className="text-[16px] md:text-[18px] text-muted font-normal leading-[1.5] max-w-[600px] mb-8 mx-auto">
+      <p className="text-[15px] md:text-[18px] text-muted font-normal leading-[1.6] max-w-[600px] mb-10 mx-auto px-4">
         Desarrollo web, Meta Ads y Automatización con IA. Operamos desde Perú para el mundo, entregando resultados medibles y escalables.
       </p>
-      <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+      <div className="flex flex-col sm:flex-row items-center justify-center gap-4 px-6">
         <motion.a 
-          whileHover={{ scale: 1.05 }}
+          whileHover={{ scale: 1.05, y: -2 }}
           whileTap={{ scale: 0.95 }}
           href="#servicios" 
-          className="bg-accent text-white px-8 py-4 rounded-[8px] font-bold text-[14px] w-full sm:w-auto"
+          className="bg-accent text-white px-10 py-5 rounded-[12px] font-bold text-[15px] w-full sm:w-auto shadow-[0_10px_30px_rgba(59,130,246,0.3)] hover:shadow-[0_15px_40px_rgba(59,130,246,0.4)] transition-all"
         >
-          Ver Servicios
+          Impulsar mi Negocio
         </motion.a>
         <motion.a 
           whileHover={{ x: 5 }}
           href="#portafolio" 
-          className="group inline-flex items-center gap-2 text-[14px] font-bold text-fg hover:text-accent transition-colors"
+          className="group inline-flex items-center gap-2 text-[15px] font-bold text-fg hover:text-accent transition-colors py-3"
         >
-          Nuestros Clientes
-          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          Ver Casos de Éxito
+          <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
         </motion.a>
       </div>
     </motion.div>
@@ -802,12 +840,23 @@ const ContactForm = () => {
               </div>
             </div>
             <div className="flex items-center gap-4">
-              <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center shrink-0">
                 <MessageSquare className="w-5 h-5 text-accent" />
               </div>
               <div>
                 <p className="text-[12px] text-muted uppercase tracking-wider font-bold">WhatsApp</p>
                 <p className="text-[14px] font-medium">+51 904 060 670</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-4">
+              <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center shrink-0">
+                <MapPin className="w-5 h-5 text-accent" />
+              </div>
+              <div>
+                <p className="text-[12px] text-muted uppercase tracking-wider font-bold">Ubicación</p>
+                <p className="text-[14px] font-medium leading-relaxed">
+                  Alameda del premio Real 736, La Encantada de Villa, Chorrillos, Lima, Perú
+                </p>
               </div>
             </div>
           </div>
@@ -905,21 +954,27 @@ const ChambaContent = ({ onOpenModal }: any) => (
       <FAQ />
       <ContactForm />
     </main>
-    <footer className="min-h-[100px] py-12 px-6 md:px-10 border-t border-glass-border bg-white/[0.02]">
-      <div className="max-w-[1024px] mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
-        <div className="flex flex-col gap-2 text-center md:text-left">
-          <p className="text-[18px] font-bold">Chamba Digital</p>
-          <span className="text-[14px] text-muted">Ingeniería Digital desde Perú para el mundo.</span>
+    <footer className="min-h-[100px] py-16 px-6 md:px-10 border-t border-glass-border bg-white/[0.02]">
+      <div className="max-w-[1024px] mx-auto flex flex-col md:flex-row items-start justify-between gap-12">
+        <div className="flex flex-col gap-6 max-w-[400px]">
+          <Logo />
+          <span className="text-[14px] text-muted leading-relaxed">Ingeniería Digital desde Perú para el mundo.</span>
+          <div className="flex items-start gap-3 text-muted">
+            <MapPin className="w-4 h-4 text-accent shrink-0 mt-1" />
+            <p className="text-[12px] leading-relaxed">
+              Alameda del premio Real 736, La Encantada de Villa, Chorrillos, Lima, Perú
+            </p>
+          </div>
         </div>
         <motion.a 
-          whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(59, 130, 246, 0.3)" }}
+          whileHover={{ scale: 1.05, y: -5, boxShadow: "0 20px 40px rgba(59, 130, 246, 0.3)" }}
           whileTap={{ scale: 0.95 }}
           href="https://wa.me/51904060670" 
           target="_blank" 
           rel="noopener noreferrer"
-          className="bg-accent text-white px-10 py-4 rounded-[8px] font-bold text-[14px] transition-all"
+          className="bg-accent text-white px-10 py-5 rounded-[12px] font-bold text-[15px] transition-all w-full md:w-auto text-center shadow-[0_10px_30px_rgba(59,130,246,0.2)]"
         >
-          Hablemos de tu proyecto
+          Solicitar Auditoría Gratuita
         </motion.a>
       </div>
       <div className="mt-12 text-center text-[11px] text-muted italic">
@@ -931,6 +986,13 @@ const ChambaContent = ({ onOpenModal }: any) => (
 
 export default function App() {
   const [modalData, setModalData] = useState({ isOpen: false, title: '', content: '' });
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Simulate initial load
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 2000);
+    return () => clearTimeout(timer);
+  }, []);
 
   const openModal = (title: string, content: string) => {
     setModalData({ isOpen: true, title, content });
@@ -951,18 +1013,15 @@ export default function App() {
         <BusinessModel />
       </main>
       <Footer />
-      
-      <Modal 
-        isOpen={modalData.isOpen} 
-        onClose={closeModal} 
-        title={modalData.title} 
-        content={modalData.content} 
-      />
     </div>
   );
 
   return (
     <BrowserRouter>
+      <AnimatePresence mode="wait">
+        {isLoading && <SplashScreen key="splash" />}
+      </AnimatePresence>
+      
       <Routes>
         <Route path="/" element={<ChambaContent onOpenModal={openModal} />} />
         <Route path="/Mothographics×ChambaDigital" element={<AllianceContent />} />
