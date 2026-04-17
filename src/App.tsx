@@ -29,34 +29,39 @@ import {
   Linkedin,
   Download,
   Gift,
+  Phone,
+  MessageCircle,
 } from "lucide-react";
 
 // --- Components for Conversion & Lead Flow (Phase 3) ---
 
 const ExitIntentModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
-  const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const [formData, setFormData] = useState({
+    email: "",
+    whatsapp: "",
+  });
+  const [status, setStatus] = useState<"idle" | "success">("idle");
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setStatus("sending");
+    
+    // Track the intent before redirecting
+    trackEvent('lead_magnet_whatsapp_intent', { 
+      email: formData.email,
+      whatsapp: formData.whatsapp 
+    });
 
-    try {
-      const response = await fetch("/api/send-checklist", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
+    const message = encodeURIComponent(
+      `¡Hola Chamba Digital! 👋 Acabo de ver el Checklist 2026. \n\n` +
+      `Mis datos son:\n` +
+      `📧 Email: ${formData.email}\n` +
+      `📱 WhatsApp: ${formData.whatsapp}\n\n` +
+      `¿Me podrían enviar la guía y contarme más sobre sus sistemas de adquisición?`
+    );
 
-      if (response.ok) {
-        setStatus("success");
-      } else {
-        setStatus("error");
-      }
-    } catch (error) {
-      console.error("Error sending checklist:", error);
-      setStatus("error");
-    }
+    // Opening WhatsApp in a new tab
+    window.open(`https://wa.me/51904060670?text=${message}`, '_blank');
+    setStatus("success");
   };
 
   return (
@@ -68,86 +73,105 @@ const ExitIntentModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="absolute inset-0 bg-black/90 backdrop-blur-xl"
+            className="absolute inset-0 bg-black/95 backdrop-blur-2xl"
           />
           <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            initial={{ opacity: 0, scale: 0.9, y: 30 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            className="relative w-full max-w-[500px] glass p-8 md:p-12 rounded-[32px] border-accent/30 text-center overflow-hidden"
+            exit={{ opacity: 0, scale: 0.9, y: 30 }}
+            className="relative w-full max-w-[500px] glass p-8 md:p-12 rounded-[40px] border-accent/30 text-center overflow-hidden shadow-[0_30px_100px_rgba(0,0,0,0.5)]"
           >
-            <div className="absolute -top-24 -right-24 w-48 h-48 bg-accent/20 blur-[60px] rounded-full" />
-            <div className="w-20 h-20 bg-accent/10 rounded-2xl flex items-center justify-center mx-auto mb-8 shadow-[0_0_30px_rgba(59,130,246,0.2)]">
+            <div className="absolute -top-24 -right-24 w-64 h-64 bg-accent/20 blur-[80px] rounded-full" />
+            
+            <div className="w-20 h-20 bg-accent/10 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-[0_20px_40px_rgba(59,130,246,0.2)]">
               <Gift className="w-10 h-10 text-accent" />
             </div>
 
-            {status !== "success" ? (
+            {status === "idle" ? (
               <>
-                <h3 className="text-[28px] md:text-[34px] font-black tracking-tight leading-none mb-4">
-                  ¡No te vayas con las manos vacías!
+                <h3 className="text-[32px] md:text-[38px] font-black tracking-tighter leading-none mb-4">
+                  Acceso <span className="text-accent underline decoration-accent/30 underline-offset-8">Exclusivo</span>
                 </h3>
-                <p className="text-muted text-[15px] mb-10 leading-relaxed">
-                  Descarga nuestro <span className="text-fg font-bold">Checklist de Transformación Digital 2026</span> y descubre los 5 puntos donde tu competencia te está ganando.
+                <p className="text-muted text-[16px] mb-10 leading-relaxed px-4">
+                  Recibe el <span className="text-fg font-bold">Checklist 2026</span> al instante vía WhatsApp y asegura tu ventaja competitiva.
                 </p>
                 <form 
                   onSubmit={handleSubmit}
-                  className="space-y-4"
+                  className="space-y-4 text-left"
                 >
-                  <div className="relative">
-                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted" />
-                    <input
-                      required
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder="Tu mejor email corporativo"
-                      className="w-full bg-white/5 border border-white/10 rounded-[14px] py-4 pl-12 pr-4 text-[14px] focus:outline-none focus:border-accent/50 transition-all uppercase font-medium tracking-wider"
-                    />
+                  <div className="space-y-1.5 px-1">
+                    <label className="text-[11px] font-black uppercase tracking-[0.2em] text-muted/60 ml-1">Email Corporativo</label>
+                    <div className="relative">
+                      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted/50" />
+                      <input
+                        required
+                        type="email"
+                        value={formData.email}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        placeholder="juan@empresa.com"
+                        className="w-full bg-white/5 border border-white/10 rounded-[18px] py-4 pl-12 pr-4 text-[14px] focus:outline-none focus:border-accent/50 transition-all font-medium"
+                      />
+                    </div>
                   </div>
+
+                  <div className="space-y-1.5 px-1">
+                    <label className="text-[11px] font-black uppercase tracking-[0.2em] text-muted/60 ml-1">Número WhatsApp</label>
+                    <div className="relative">
+                      <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted/50" />
+                      <input
+                        required
+                        type="tel"
+                        value={formData.whatsapp}
+                        onChange={(e) => setFormData({ ...formData, whatsapp: e.target.value })}
+                        placeholder="+51 900 000 000"
+                        className="w-full bg-white/5 border border-white/10 rounded-[18px] py-4 pl-12 pr-4 text-[14px] focus:outline-none focus:border-accent/50 transition-all font-medium"
+                      />
+                    </div>
+                  </div>
+
                   <motion.button
-                    disabled={status === "sending"}
-                    whileHover={{ scale: 1.02 }}
+                    whileHover={{ scale: 1.02, y: -2 }}
                     whileTap={{ scale: 0.98 }}
-                    className="w-full bg-accent text-white py-4 rounded-[14px] font-bold text-[14px] flex items-center justify-center gap-3 shadow-[0_10px_30px_rgba(59,130,246,0.3)] transition-all disabled:opacity-50"
+                    className="w-full bg-accent text-white py-5 rounded-[20px] font-black text-[15px] flex items-center justify-center gap-3 shadow-[0_20px_40px_rgba(59,130,246,0.3)] transition-all mt-6 uppercase tracking-widest"
                   >
-                    {status === "sending" ? "Enviando..." : "Recibir Guía Gratuita"}
-                    <Download className="w-4 h-4" />
+                    Obtener Guía por WhatsApp
+                    <MessageCircle className="w-5 h-5 fill-white/20" />
                   </motion.button>
                 </form>
-                {status === "error" && (
-                  <p className="mt-4 text-red-400 text-[12px]">Hubo un problema. Inténtalo de nuevo.</p>
-                )}
+                
                 <button 
                   onClick={onClose}
-                  className="mt-6 text-[12px] text-muted hover:text-fg transition-colors uppercase font-bold tracking-widest"
+                  className="mt-8 text-[11px] text-muted/40 hover:text-muted transition-colors uppercase font-black tracking-[0.3em]"
                 >
-                  No me interesa mejorar hoy
+                  Cerrar Ventana
                 </button>
               </>
             ) : (
               <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="py-10"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="py-12"
               >
-                <CheckCircle2 className="w-16 h-16 text-green-500 mx-auto mb-6" />
-                <h3 className="text-[24px] font-black mb-4">¡Enviado a tu Inbox!</h3>
-                <p className="text-muted text-[14px] mb-8">
-                  Ya hemos enviado la guía a <span className="text-fg font-bold">{email}</span>. Revisa tu carpeta de spam si no la ves.
+                <div className="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-8">
+                  <CheckCircle2 className="w-10 h-10 text-green-500" />
+                </div>
+                <h3 className="text-[30px] font-black tracking-tighter mb-4 leading-none">¡Felicidades!</h3>
+                <p className="text-muted text-[15px] mb-10 leading-relaxed">
+                  Hemos generado tu enlace de acceso. Si el chat no se abrió automáticamente, usa el botón de abajo:
                 </p>
                 <div className="flex flex-col gap-4">
                   <a
-                    href="/assets/docs/Guia_Transformacion_Digital_2026.pdf"
-                    download
-                    className="bg-white/10 text-white py-3 px-6 rounded-xl font-bold text-[13px] hover:bg-white/20 transition-all"
+                    href={`https://wa.me/51904060670?text=${encodeURIComponent(`Hola Chamba Digital! Solicito el Checklist 2026. Email: ${formData.email}`)}`}
+                    target="_blank"
+                    className="bg-accent text-white py-4 px-8 rounded-2xl font-black text-[14px] shadow-lg flex items-center justify-center gap-2 uppercase tracking-widest"
                   >
-                    Descarga Directa Alternativa
+                    Abrir WhatsApp <MessageCircle className="w-4 h-4" />
                   </a>
                   <button
                     onClick={onClose}
-                    className="text-accent font-bold uppercase tracking-widest text-[12px]"
+                    className="text-[12px] font-bold text-muted/60 py-2 hover:text-fg transition-colors"
                   >
-                    Cerrar ventana
+                    Ya lo recibí, cerrar
                   </button>
                 </div>
               </motion.div>
