@@ -31,6 +31,7 @@ import {
   Gift,
   Phone,
   MessageCircle,
+  Menu,
 } from "lucide-react";
 
 // --- Components for Conversion & Lead Flow (Phase 3) ---
@@ -1086,62 +1087,127 @@ const Footer = () => (
   </footer>
 );
 
-export const ChambaNavbar = () => (
-  <nav className="fixed top-0 left-0 right-0 z-50 h-[70px] px-6 md:px-10 flex items-center justify-between border-b border-glass-border bg-black/80 backdrop-blur-[10px]">
-    <Logo />
-    <div className="hidden lg:flex items-center gap-8 text-[12px] font-medium text-muted uppercase tracking-[1px]">
-      <Link
-        to="/ecommerce"
-        className="hover:text-fg transition-colors relative group"
-      >
-        E-commerce
-        <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-accent transition-all group-hover:w-full" />
-      </Link>
-      <Link
-        to="/hotels"
-        className="hover:text-fg transition-colors relative group"
-      >
-        Hoteles
-        <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-accent transition-all group-hover:w-full" />
-      </Link>
-      <Link
-        to="/servicebusinesses"
-        className="hover:text-fg transition-colors relative group"
-      >
-        Servicios B2B
-        <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-accent transition-all group-hover:w-full" />
-      </Link>
-      <a
-        href="/#metodologia"
-        className="hover:text-fg transition-colors relative group"
-      >
-        Metodología
-        <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-accent transition-all group-hover:w-full" />
-      </a>
-      <a href="/#faq" className="hover:text-fg transition-colors relative group">
-        FAQ
-        <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-accent transition-all group-hover:w-full" />
-      </a>
-      <Link
-        to="/mothographicsxchambadigital"
-        className="hover:text-fg transition-colors relative group"
-      >
-        Alianza
-        <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-accent transition-all group-hover:w-full" />
-      </Link>
-    </div>
-    <motion.a
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
-      href="https://wa.me/51904060670"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="bg-accent text-white px-5 md:px-6 py-2.5 md:py-3 rounded-[8px] text-[11px] md:text-[13px] font-bold uppercase cursor-pointer transition-all hover:bg-accent/90 shadow-[0_0_20px_rgba(59,130,246,0.2)] hover:shadow-[0_0_30px_rgba(59,130,246,0.4)]"
+export const ChambaNavbar = () => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const navLinks = [
+    { name: "E-commerce", path: "/ecommerce" },
+    { name: "Hoteles", path: "/hotels" },
+    { name: "Servicios B2B", path: "/servicebusinesses" },
+    { name: "Metodología", path: "/#metodologia" },
+    { name: "Alianza", path: "/mothographicsxchambadigital" },
+  ];
+
+  return (
+    <nav 
+      className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 px-6 md:px-10 flex items-center justify-between ${
+        scrolled 
+          ? "h-[70px] bg-black/60 backdrop-blur-xl border-b border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.3)]" 
+          : "h-[90px] bg-transparent"
+      }`}
     >
-      Empezar Proyecto
-    </motion.a>
-  </nav>
-);
+      <div className="flex items-center gap-12">
+        <Logo />
+        
+        {/* Desktop Nav */}
+        <div className="hidden lg:flex items-center gap-8">
+          {navLinks.map((link) => (
+            <Link
+              key={link.path}
+              to={link.path.startsWith("/") ? link.path : link.path}
+              className="text-[12px] font-black uppercase tracking-[0.2em] text-muted hover:text-accent transition-all relative group py-2"
+            >
+              {link.name}
+              <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-accent transition-all duration-300 group-hover:w-full" />
+            </Link>
+          ))}
+        </div>
+      </div>
+
+      <div className="flex items-center gap-4">
+        <motion.a
+          whileHover={{ scale: 1.05, y: -2 }}
+          whileTap={{ scale: 0.95 }}
+          href="https://wa.me/51904060670"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hidden sm:flex bg-accent text-white px-8 py-3.5 rounded-[14px] text-[12px] font-black uppercase tracking-widest transition-all shadow-[0_10px_25px_rgba(59,130,246,0.3)] hover:shadow-[0_15px_35px_rgba(59,130,246,0.5)] border border-white/10"
+        >
+          Iniciar Proyecto
+        </motion.a>
+
+        {/* Mobile Toggle */}
+        <button 
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          className="lg:hidden p-3 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-colors"
+        >
+          {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        </button>
+      </div>
+
+      {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, x: "100%" }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: "100%" }}
+            transition={{ type: "spring", damping: 25, stiffness: 200 }}
+            className="fixed inset-0 z-[110] bg-black/95 backdrop-blur-2xl flex flex-col p-8 pt-24 lg:hidden"
+          >
+            <button 
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="absolute top-8 right-8 p-3 bg-white/5 rounded-xl border border-white/10"
+            >
+              <X className="w-6 h-6" />
+            </button>
+
+            <div className="flex flex-col gap-6 mb-12">
+              <span className="text-[11px] font-black uppercase tracking-[0.4em] text-accent mb-4">Menú de Navegación</span>
+              {navLinks.map((link, i) => (
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.1 }}
+                  key={link.path}
+                >
+                  <Link
+                    to={link.path}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="text-[32px] font-black tracking-tight hover:text-accent transition-colors block"
+                  >
+                    {link.name}
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+
+            <div className="mt-auto space-y-6">
+              <div className="h-[1px] w-full bg-white/10" />
+              <div className="flex flex-col gap-4">
+                <span className="text-[13px] text-muted italic">¿Listo para escalar tus operaciones?</span>
+                <a
+                  href="https://wa.me/51904060670"
+                  target="_blank"
+                  className="bg-accent text-white py-5 rounded-2xl text-center font-black uppercase tracking-widest text-[14px]"
+                >
+                  Agendar Auditoría Gratuita
+                </a>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </nav>
+  );
+};
 
 const ChambaHero = () => (
   <section className="relative min-h-[80vh] flex flex-col items-center text-center justify-center pt-[70px] px-6 md:px-10 overflow-hidden max-w-[1024px] mx-auto">
