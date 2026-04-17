@@ -5,15 +5,18 @@
 
 import { useState, useEffect, FormEvent } from "react";
 import { BrowserRouter, Routes, Route, Navigate, Link } from "react-router-dom";
+import HotelsLandingPage from './pages/LandingPage/Hotels.tsx';
+import EcommerceLandingPage from './pages/LandingPage/ECommerce.tsx';
+import ServiceBusinessesLandingPage from './pages/LandingPage/ServiceBusinesses.tsx';
 import { motion, AnimatePresence } from "motion/react";
-import { 
-  ArrowRight, 
-  Palette, 
-  Zap, 
-  TrendingUp, 
-  Globe, 
-  CheckCircle2, 
-  MessageSquare, 
+import {
+  ArrowRight,
+  Palette,
+  Zap,
+  TrendingUp,
+  Globe,
+  CheckCircle2,
+  MessageSquare,
   Calendar,
   ExternalLink,
   X,
@@ -23,12 +26,142 @@ import {
   Send,
   MapPin,
   Instagram,
-  Linkedin
+  Linkedin,
+  Download,
+  Gift,
 } from "lucide-react";
 
-const Logo = ({ className = "" }: { className?: string }) => (
+// --- Components for Conversion & Lead Flow (Phase 3) ---
+
+const ExitIntentModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus("sending");
+
+    try {
+      const response = await fetch("/api/send-checklist", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+
+      if (response.ok) {
+        setStatus("success");
+      } else {
+        setStatus("error");
+      }
+    } catch (error) {
+      console.error("Error sending checklist:", error);
+      setStatus("error");
+    }
+  };
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <div className="fixed inset-0 z-[150] flex items-center justify-center p-4">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+            className="absolute inset-0 bg-black/90 backdrop-blur-xl"
+          />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+            className="relative w-full max-w-[500px] glass p-8 md:p-12 rounded-[32px] border-accent/30 text-center overflow-hidden"
+          >
+            <div className="absolute -top-24 -right-24 w-48 h-48 bg-accent/20 blur-[60px] rounded-full" />
+            <div className="w-20 h-20 bg-accent/10 rounded-2xl flex items-center justify-center mx-auto mb-8 shadow-[0_0_30px_rgba(59,130,246,0.2)]">
+              <Gift className="w-10 h-10 text-accent" />
+            </div>
+
+            {status !== "success" ? (
+              <>
+                <h3 className="text-[28px] md:text-[34px] font-black tracking-tight leading-none mb-4">
+                  ¡No te vayas con las manos vacías!
+                </h3>
+                <p className="text-muted text-[15px] mb-10 leading-relaxed">
+                  Descarga nuestro <span className="text-fg font-bold">Checklist de Transformación Digital 2026</span> y descubre los 5 puntos donde tu competencia te está ganando.
+                </p>
+                <form 
+                  onSubmit={handleSubmit}
+                  className="space-y-4"
+                >
+                  <div className="relative">
+                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted" />
+                    <input
+                      required
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="Tu mejor email corporativo"
+                      className="w-full bg-white/5 border border-white/10 rounded-[14px] py-4 pl-12 pr-4 text-[14px] focus:outline-none focus:border-accent/50 transition-all uppercase font-medium tracking-wider"
+                    />
+                  </div>
+                  <motion.button
+                    disabled={status === "sending"}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="w-full bg-accent text-white py-4 rounded-[14px] font-bold text-[14px] flex items-center justify-center gap-3 shadow-[0_10px_30px_rgba(59,130,246,0.3)] transition-all disabled:opacity-50"
+                  >
+                    {status === "sending" ? "Enviando..." : "Recibir Guía Gratuita"}
+                    <Download className="w-4 h-4" />
+                  </motion.button>
+                </form>
+                {status === "error" && (
+                  <p className="mt-4 text-red-400 text-[12px]">Hubo un problema. Inténtalo de nuevo.</p>
+                )}
+                <button 
+                  onClick={onClose}
+                  className="mt-6 text-[12px] text-muted hover:text-fg transition-colors uppercase font-bold tracking-widest"
+                >
+                  No me interesa mejorar hoy
+                </button>
+              </>
+            ) : (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="py-10"
+              >
+                <CheckCircle2 className="w-16 h-16 text-green-500 mx-auto mb-6" />
+                <h3 className="text-[24px] font-black mb-4">¡Enviado a tu Inbox!</h3>
+                <p className="text-muted text-[14px] mb-8">
+                  Ya hemos enviado la guía a <span className="text-fg font-bold">{email}</span>. Revisa tu carpeta de spam si no la ves.
+                </p>
+                <div className="flex flex-col gap-4">
+                  <a
+                    href="/assets/docs/Guia_Transformacion_Digital_2026.pdf"
+                    download
+                    className="bg-white/10 text-white py-3 px-6 rounded-xl font-bold text-[13px] hover:bg-white/20 transition-all"
+                  >
+                    Descarga Directa Alternativa
+                  </a>
+                  <button
+                    onClick={onClose}
+                    className="text-accent font-bold uppercase tracking-widest text-[12px]"
+                  >
+                    Cerrar ventana
+                  </button>
+                </div>
+              </motion.div>
+            )}
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
+  );
+};
+
+export const Logo = ({ className = "" }: { className?: string }) => (
   <Link to="/">
-    <motion.div 
+    <motion.div
       whileHover={{ scale: 1.02 }}
       className={`flex items-center gap-2 sm:gap-3 cursor-pointer ${className}`}
     >
@@ -48,7 +181,7 @@ const Logo = ({ className = "" }: { className?: string }) => (
 );
 
 const SplashScreen = () => (
-  <motion.div 
+  <motion.div
     initial={{ opacity: 1 }}
     exit={{ opacity: 0 }}
     transition={{ duration: 0.8, ease: "easeInOut" }}
@@ -57,15 +190,15 @@ const SplashScreen = () => (
     <motion.div
       initial={{ scale: 0.8, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
-      transition={{ 
+      transition={{
         duration: 0.5,
         repeat: Infinity,
-        repeatType: "reverse"
+        repeatType: "reverse",
       }}
     >
       <Logo className="scale-150" />
     </motion.div>
-    <motion.div 
+    <motion.div
       initial={{ width: 0 }}
       animate={{ width: 200 }}
       transition={{ duration: 1.5, ease: "easeInOut" }}
@@ -74,12 +207,37 @@ const SplashScreen = () => (
   </motion.div>
 );
 
+
+// --- Performance & Data Infrastructure (Phase 4) ---
+
+const trackEvent = (eventName: string, params = {}) => {
+  // Placeholder for Meta Pixel / GA4 / GTM
+  console.log(`[Analytics] Event: ${eventName}`, params);
+  
+  // Example for real integration:
+  // if (window.fbq) window.fbq('track', eventName, params);
+  // if (window.gtag) window.gtag('event', eventName, params);
+};
+
+const getABVariant = (experimentName: string, variants: string[]) => {
+  const storageKey = `ab_variant_${experimentName}`;
+  const savedVariant = localStorage.getItem(storageKey);
+  
+  if (savedVariant && variants.includes(savedVariant)) {
+    return savedVariant;
+  }
+  
+  const randomVariant = variants[Math.floor(Math.random() * variants.length)];
+  localStorage.setItem(storageKey, randomVariant);
+  return randomVariant;
+};
+
 const Modal = ({ isOpen, onClose, title, content }: any) => {
   const renderContent = () => {
-    if (typeof content === 'string') {
+    if (typeof content === "string") {
       return (
         <div className="space-y-4 text-[14px] text-muted leading-relaxed">
-          {content.split('\n\n').map((paragraph: string, i: number) => (
+          {content.split("\n\n").map((paragraph: string, i: number) => (
             <p key={i}>{paragraph}</p>
           ))}
         </div>
@@ -88,18 +246,22 @@ const Modal = ({ isOpen, onClose, title, content }: any) => {
 
     return (
       <div className="space-y-8">
-        <p className="text-[14px] text-muted leading-relaxed">{content.description}</p>
-        
+        <p className="text-[14px] text-muted leading-relaxed">
+          {content.description}
+        </p>
+
         {content.caseStudies && content.caseStudies.length > 0 && (
           <div>
             <div className="flex items-center gap-2 mb-4">
               <div className="h-[1px] flex-grow bg-white/5" />
-              <h4 className="text-[11px] font-black uppercase tracking-[0.2em] text-accent shrink-0">📈 Casos de Éxito</h4>
+              <h4 className="text-[11px] font-black uppercase tracking-[0.2em] text-accent shrink-0">
+                📈 Casos de Éxito
+              </h4>
               <div className="h-[1px] flex-grow bg-white/5" />
             </div>
             <div className="grid gap-3">
               {content.caseStudies.map((item: string, i: number) => (
-                <motion.div 
+                <motion.div
                   key={i}
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -107,7 +269,9 @@ const Modal = ({ isOpen, onClose, title, content }: any) => {
                   className="p-4 bg-white/[0.02] border border-white/5 rounded-[12px] flex gap-3 items-start group hover:border-accent/30 transition-colors"
                 >
                   <div className="w-1.5 h-1.5 rounded-full bg-accent mt-1.5 shrink-0 shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
-                  <span className="text-[13px] leading-relaxed text-fg/90">{item}</span>
+                  <span className="text-[13px] leading-relaxed text-fg/90">
+                    {item}
+                  </span>
                 </motion.div>
               ))}
             </div>
@@ -118,21 +282,27 @@ const Modal = ({ isOpen, onClose, title, content }: any) => {
           <div>
             <div className="flex items-center gap-2 mb-4">
               <div className="h-[1px] flex-grow bg-white/5" />
-              <h4 className="text-[11px] font-black uppercase tracking-[0.2em] text-accent shrink-0">⭐ Testimonios</h4>
+              <h4 className="text-[11px] font-black uppercase tracking-[0.2em] text-accent shrink-0">
+                ⭐ Testimonios
+              </h4>
               <div className="h-[1px] flex-grow bg-white/5" />
             </div>
             <div className="space-y-4">
               {content.testimonials.map((item: string, i: number) => (
-                <motion.div 
+                <motion.div
                   key={i}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3 + (i * 0.1) }}
+                  transition={{ delay: 0.3 + i * 0.1 }}
                   className="relative p-5 rounded-[16px] bg-accent/[0.03] border-l-4 border-accent/40"
                 >
-                  <p className="text-[13px] italic leading-relaxed text-muted mb-2">"{item.split(' - ')[0]}"</p>
-                  {item.includes(' - ') && (
-                    <p className="text-[11px] font-bold text-accent uppercase tracking-wider">— {item.split(' - ')[1]}</p>
+                  <p className="text-[13px] italic leading-relaxed text-muted mb-2">
+                    "{item.split(" - ")[0]}"
+                  </p>
+                  {item.includes(" - ") && (
+                    <p className="text-[11px] font-bold text-accent uppercase tracking-wider">
+                      — {item.split(" - ")[1]}
+                    </p>
                   )}
                 </motion.div>
               ))}
@@ -161,25 +331,27 @@ const Modal = ({ isOpen, onClose, title, content }: any) => {
             className="relative w-full max-w-[550px] glass p-6 sm:p-10 rounded-[24px] border-accent/20 shadow-2xl overflow-hidden"
           >
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-accent to-transparent opacity-50" />
-            
-            <button 
+
+            <button
               onClick={onClose}
               className="absolute top-4 right-4 p-2 hover:bg-white/10 rounded-full transition-colors z-10"
             >
               <X className="w-5 h-5 text-muted" />
             </button>
-            
+
             <div className="flex items-center gap-4 mb-8">
               <div className="p-3 bg-accent/10 rounded-xl shadow-[0_0_15px_rgba(59,130,246,0.1)]">
                 <Info className="w-6 h-6 text-accent" />
               </div>
-              <h3 className="text-[22px] sm:text-[26px] font-black tracking-tight leading-none">{title}</h3>
+              <h3 className="text-[22px] sm:text-[26px] font-black tracking-tight leading-none">
+                {title}
+              </h3>
             </div>
-            
+
             <div className="max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar">
               {renderContent()}
             </div>
-            
+
             <motion.button
               whileHover={{ scale: 1.02, y: -2 }}
               whileTap={{ scale: 0.98 }}
@@ -195,89 +367,89 @@ const Modal = ({ isOpen, onClose, title, content }: any) => {
   );
 };
 
-const Navbar = () => (
-  <nav className="fixed top-0 left-0 right-0 z-50 h-[70px] px-6 md:px-10 flex items-center justify-between border-b border-glass-border bg-black/80 backdrop-blur-[10px]">
-    <div className="flex items-center gap-4">
-      <Logo className="scale-90 origin-left" />
-      <div className="h-6 w-[1px] bg-white/10 hidden sm:block" />
-      <div className="hidden sm:flex items-center gap-2 font-bold text-[14px] text-muted">
-        Mothographics <span className="text-accent">×</span>
-      </div>
-    </div>
-    <div className="hidden lg:flex items-center gap-8 text-[12px] font-medium text-muted uppercase tracking-[1px]">
-      <a href="#oportunidad" className="hover:text-fg transition-colors relative group">
-        La Oportunidad
-        <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-accent transition-all group-hover:w-full" />
-      </a>
-      <a href="#servicios" className="hover:text-fg transition-colors relative group">
-        Servicios y Precios
-        <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-accent transition-all group-hover:w-full" />
-      </a>
-      <a href="#portafolio" className="hover:text-fg transition-colors relative group">
-        Portafolio
-        <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-accent transition-all group-hover:w-full" />
-      </a>
-      <a href="#modelo" className="hover:text-fg transition-colors relative group">
-        Modelo
-        <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-accent transition-all group-hover:w-full" />
-      </a>
-    </div>
-    <motion.a 
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
-      href="https://wa.me/51904060670" 
-      target="_blank" 
-      rel="noopener noreferrer"
-      className="bg-fg text-bg px-4 md:px-5 py-2 md:py-2.5 rounded-[4px] text-[10px] md:text-[12px] font-bold uppercase cursor-pointer transition-colors hover:bg-white/90"
-    >
-      Iniciar Piloto
-    </motion.a>
-  </nav>
-);
+const Hero = () => {
+  const headlineVariant = getABVariant("hero_headline", ["A", "B"]);
+  
+  const headlines = {
+    A: {
+      tag: "🚀 Arquitectura de Crecimiento 2026",
+      title: (
+        <>
+          No solo construimos Webs. Creamos <span className="text-accent">Sistemas de Adquisición</span> Masiva.
+        </>
+      ),
+      sub: "Transformamos tu presencia digital en una máquina de ventas automatizada, diseñada con ingeniería de performance para maximizar tu retorno de inversión."
+    },
+    B: {
+      tag: "⚡ Ingeniería de Conversión 10x",
+      title: (
+        <>
+          Domina tu Mercado con <span className="text-accent">Ingeniería Técnica</span> de Elite.
+        </>
+      ),
+      sub: "Implementamos la infraestructura que convierte tu marca en un motor de captación de clientes ininterrumpido y escalable."
+    }
+  }[headlineVariant as "A" | "B"];
 
-const Hero = () => (
-  <section className="relative min-h-[80vh] flex flex-col items-start justify-center pt-[70px] px-6 md:px-10 overflow-hidden max-w-[1024px] mx-auto">
-    <div className="absolute top-[-100px] left-[30%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-radial-[circle,rgba(59,130,246,0.1)_0%,transparent_70%] blur-[60px] -z-10" />
-    
-    <motion.div 
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-      className="z-10"
-    >
-      <span className="label-editorial">
-        🤝 Propuesta de Alianza Estratégica
-      </span>
-      <h1 className="text-[40px] md:text-[64px] max-w-[800px] leading-tight md:leading-[1]">
-        El Brazo Tecnológico que tu Agencia en México necesita.
-      </h1>
-      <h2 className="text-[16px] md:text-[18px] text-muted font-normal leading-[1.5] max-w-[500px] mb-8">
-        Potenciamos la excelencia visual de Mothographics con la ingeniería de performance de Chamba Digital. <strong className="text-fg">Escalamos tu capacidad técnica</strong> sin que tengas que contratar un equipo interno.
-      </h2>
-      <motion.a 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.5, duration: 1 }}
-        whileHover={{ x: 5 }}
-        href="#oportunidad" 
-        className="group inline-flex items-center gap-2 text-[14px] font-bold text-fg hover:text-accent transition-colors"
+  return (
+    <section className="relative min-h-[90vh] flex flex-col items-center justify-center text-center pt-[70px] px-6 md:px-10 overflow-hidden max-w-[1024px] mx-auto">
+      <div className="absolute top-[-100px] left-[30%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-radial-[circle,rgba(59,130,246,0.1)_0%,transparent_70%] blur-[60px] -z-10" />
+
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+        className="z-10 flex flex-col items-center"
       >
-        Ver Modelo de Colaboración
-        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-      </motion.a>
-    </motion.div>
-  </section>
-);
+        <span className="label-editorial mx-auto">
+          {headlines?.tag}
+        </span>
+        <h1 className="text-[40px] md:text-[72px] font-black max-w-[900px] leading-tight md:leading-[1.1] mb-6">
+          {headlines?.title}
+        </h1>
+        <h2 className="text-[18px] md:text-[20px] text-muted font-normal leading-relaxed max-w-[600px] mb-10">
+          {headlines?.sub}
+        </h2>
+        <div className="flex flex-col sm:flex-row items-center gap-4">
+          <motion.a
+            onClick={() => trackEvent('cta_click', { section: 'hero', variant: headlineVariant, label: 'Auditoría' })}
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
+            href="#contacto"
+            className="bg-accent text-white px-10 py-5 rounded-[12px] font-bold text-[16px] shadow-[0_10px_30px_rgba(59,130,246,0.3)] transition-all"
+          >
+            Solicitar Auditoría de Conversión
+          </motion.a>
+          <motion.a
+            onClick={() => trackEvent('cta_click', { section: 'hero', variant: headlineVariant, label: 'Ver Sistemas' })}
+            whileHover={{ x: 5 }}
+            href="#servicios"
+            className="group inline-flex items-center gap-2 text-[14px] font-bold text-muted hover:text-fg transition-colors"
+          >
+            Ver Sistemas de Venta
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </motion.a>
+        </div>
+      </motion.div>
+    </section>
+  );
+};
 
 const Opportunity = () => (
-  <section id="oportunidad" className="py-20 px-6 md:px-10 max-w-[1024px] mx-auto">
+  <section
+    id="oportunidad"
+    className="py-20 px-6 md:px-10 max-w-[1024px] mx-auto"
+  >
     <div className="text-center mb-16">
       <span className="label-editorial mx-auto">La Sinergia Estratégica</span>
-      <h2 className="text-[32px] md:text-[48px] font-bold tracking-tight leading-tight mb-6">
-        Tu Agencia, <span className="text-accent">Potenciada</span>.
+      <h2 className="text-[32px] md:text-[56px] font-black tracking-tighter leading-none mb-8">
+        Tu Agencia, <span className="text-accent">Sin Límites Técnicos</span>.
       </h2>
-      <p className="text-muted text-[16px] md:text-[18px] max-w-2xl mx-auto leading-relaxed">
-        Guido, Mothographics es el corazón creativo en <strong className="text-fg">México</strong>. Chamba Digital se convierte en tu <strong className="text-fg">infraestructura tecnológica remota</strong> desde Perú, permitiéndote ofrecer soluciones de alto nivel técnico a cualquier cliente.
+      <p className="text-muted text-[17px] md:text-[19px] max-w-3xl mx-auto leading-relaxed">
+        Guido, Mothographics es el corazón creativo en{" "}
+        <strong className="text-fg underline decoration-accent/30 underline-offset-4">México</strong>. Chamba Digital es tu{" "}
+        <strong className="text-fg">brazo de ingeniería de élite</strong>{" "}
+        desde Perú. Juntos, entregamos soluciones que no solo se ven increíbles, sino que funcionan con una precisión militar.
       </p>
     </div>
 
@@ -301,9 +473,12 @@ const Opportunity = () => (
             "Storytelling visual de alto impacto.",
             "Branding que trasciende industrias.",
             "Excelencia estética y emocional.",
-            "25 años de autoridad creativa."
+            "25 años de autoridad creativa.",
           ].map((item, i) => (
-            <li key={i} className="flex items-center gap-2 text-[14px] text-muted">
+            <li
+              key={i}
+              className="flex items-center gap-2 text-[14px] text-muted"
+            >
               <div className="w-1.5 h-1.5 rounded-full bg-accent/40" />
               {item}
             </li>
@@ -330,9 +505,12 @@ const Opportunity = () => (
             "Sistemas de tráfico y Meta Ads.",
             "Webs de alta conversión (UX/UI).",
             "Automatización con Agentes IA.",
-            "Escalabilidad técnica y datos."
+            "Escalabilidad técnica y datos.",
           ].map((item, i) => (
-            <li key={i} className="flex items-center gap-2 text-[14px] text-muted">
+            <li
+              key={i}
+              className="flex items-center gap-2 text-[14px] text-muted"
+            >
               <div className="w-1.5 h-1.5 rounded-full bg-accent" />
               {item}
             </li>
@@ -349,12 +527,31 @@ const Opportunity = () => (
       className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
     >
       {[
-        { title: "Agencia 360", desc: "Posicionamiento Full-Stack inmediato.", icon: Globe },
-        { title: "Nuevos Ingresos", desc: "Venta de Web y Sistemas IA.", icon: TrendingUp },
-        { title: "Cero Fricción", desc: "Nosotros manejamos la técnica.", icon: CheckCircle2 },
-        { title: "Datos Reales", desc: "Reportes de ROI para tus clientes.", icon: MessageSquare }
+        {
+          title: "Agencia 360",
+          desc: "Posicionamiento Full-Stack inmediato.",
+          icon: Globe,
+        },
+        {
+          title: "Nuevos Ingresos",
+          desc: "Venta de Web y Sistemas IA.",
+          icon: TrendingUp,
+        },
+        {
+          title: "Cero Fricción",
+          desc: "Nosotros manejamos la técnica.",
+          icon: CheckCircle2,
+        },
+        {
+          title: "Datos Reales",
+          desc: "Reportes de ROI para tus clientes.",
+          icon: MessageSquare,
+        },
       ].map((item, i) => (
-        <div key={i} className="p-5 glass rounded-[12px] border-white/5 hover:border-accent/20 transition-colors">
+        <div
+          key={i}
+          className="p-5 glass rounded-[12px] border-white/5 hover:border-accent/20 transition-colors"
+        >
           <item.icon className="w-6 h-6 text-accent mb-3" />
           <h4 className="text-[14px] font-bold mb-1">{item.title}</h4>
           <p className="text-[12px] text-muted leading-relaxed">{item.desc}</p>
@@ -364,8 +561,14 @@ const Opportunity = () => (
   </section>
 );
 
-const PricingCard = ({ title, description, items, delay = 0, onOpenDetails }: any) => (
-  <motion.div 
+const PricingCard = ({
+  title,
+  description,
+  items,
+  delay = 0,
+  onOpenDetails,
+}: any) => (
+  <motion.div
     initial={{ opacity: 0, y: 30 }}
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true, amount: 0.2 }}
@@ -388,13 +591,15 @@ const PricingCard = ({ title, description, items, delay = 0, onOpenDetails }: an
         <Info className="w-4 h-4" />
       </motion.button>
     </div>
-    
+
     <ul className="space-y-4 flex-grow mb-6">
       {items.map((item: any, idx: number) => (
         <li key={idx} className="border-b border-white/5 pb-3 last:border-0">
           <div className="flex justify-between items-start gap-4 mb-1">
             <span className="text-[13px] font-medium text-fg">{item.name}</span>
-            <span className="text-[14px] font-bold text-accent whitespace-nowrap">{item.price}</span>
+            <span className="text-[14px] font-bold text-accent whitespace-nowrap">
+              {item.price}
+            </span>
           </div>
           {item.details && (
             <p className="text-[11px] text-muted leading-relaxed">
@@ -404,7 +609,7 @@ const PricingCard = ({ title, description, items, delay = 0, onOpenDetails }: an
         </li>
       ))}
     </ul>
-    
+
     <div className="mt-auto border-t border-white/5 pt-4 flex flex-col gap-4">
       <p className="text-[11px] text-muted italic">{description}</p>
       <motion.button
@@ -418,90 +623,134 @@ const PricingCard = ({ title, description, items, delay = 0, onOpenDetails }: an
   </motion.div>
 );
 
-const Services = ({ onOpenModal, title = "Nuestros Servicios", subtitle = "Sistemas de alto impacto diseñados para escalar resultados de forma inmediata.", label = "Servicios" }: any) => (
-  <section id="servicios" className="py-20 px-6 md:px-10 max-w-[1024px] mx-auto">
+const Services = ({
+  onOpenModal,
+  title = "Nuestros Servicios",
+  subtitle = "Infraestructura de alto impacto diseñada para optimizar tu CPA y maximizar ingresos.",
+  label = "Ingeniería de Venta",
+}: any) => (
+  <section
+    id="servicios"
+    className="py-20 px-6 md:px-10 max-w-[1024px] mx-auto"
+  >
     <div className="text-center mb-16">
       <span className="label-editorial mx-auto">{label}</span>
-      <h2 className="text-[32px] md:text-[40px] font-bold tracking-tight mb-4">{title}</h2>
+      <h2 className="text-[32px] md:text-[40px] font-bold tracking-tight mb-4">
+        {title}
+      </h2>
       <p className="text-muted max-w-xl mx-auto text-[14px]">{subtitle}</p>
     </div>
-    
+
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <PricingCard 
-        title="El Motor de Tráfico (Meta Ads)"
-        description="Ideal para activar ventas rápidas (Ej: Galería de Arte)."
+      <PricingCard
+        title="Adquisición Masiva (Meta Ads)"
+        description="Escala tu facturación con tráfico hiper-optimizado y tracking avanzado."
         delay={0.1}
-        onOpenDetails={() => onOpenModal('Meta Ads: Motor de Tráfico', {
-          description: "Nuestro sistema de Meta Ads no se limita a 'poner anuncios'. Realizamos un estudio profundo de audiencias, instalamos la API de conversiones para saltar las limitaciones de iOS, y creamos embudos de retargeting que persiguen a los interesados hasta que compran.",
-          caseStudies: [
-            "Galería de Arte: Incremento del 300% en leads calificados en 30 días.",
-            "E-commerce de Moda: ROAS (Retorno de Inversión Publicitaria) de 4.5x constante.",
-            "Sector Inmobiliario: Reducción del 40% en el costo por lead mediante segmentación avanzada."
-          ],
-          testimonials: [
-            "Chamba Digital transformó nuestra inversión en un activo real. Pasamos de gastar dinero a generar ventas predecibles. - Cliente Sector Retail",
-            "La precisión técnica con la que manejan las audiencias es algo que no habíamos visto en otras agencias. - Director de Marketing"
-          ]
-        })}
+        onOpenDetails={() =>
+          onOpenModal("Meta Ads: Motor de Tráfico", {
+            description:
+              "Nuestro sistema de Meta Ads no se limita a 'poner anuncios'. Realizamos un estudio profundo de audiencias, instalamos la API de conversiones para saltar las limitaciones de iOS, y creamos embudos de retargeting que persiguen a los interesados hasta que compran.",
+            caseStudies: [
+              "Galería de Arte: Incremento del 300% en leads calificados en 30 días.",
+              "E-commerce de Moda: ROAS (Retorno de Inversión Publicitaria) de 4.5x constante.",
+              "Sector Inmobiliario: Reducción del 40% en el costo por lead mediante segmentación avanzada.",
+            ],
+            testimonials: [
+              "Chamba Digital transformó nuestra inversión en un activo real. Pasamos de gastar dinero a generar ventas predecibles. - Cliente Sector Retail",
+              "La precisión técnica con la que manejan las audiencias es algo que no habíamos visto en otras agencias. - Director de Marketing",
+            ],
+          })
+        }
         items={[
-          { 
-            name: "Setup Inicial", 
-            price: "$150 USD", 
-            details: "Pago único. Incluye configuración de Business Manager, Pixel, eventos, públicos y campañas." 
+          {
+            name: "Setup Inicial",
+            price: "$150 USD",
+            details:
+              "Pago único. Incluye configuración de Business Manager, Pixel, eventos, públicos y campañas.",
           },
-          { 
-            name: "Gestión Mensual", 
-            price: "Desde $150 USD/mes", 
-            details: "Optimización y escalado continuo." 
-          }
+          {
+            name: "Gestión Mensual",
+            price: "Desde $150 USD/mes",
+            details: "Optimización y escalado continuo.",
+          },
         ]}
       />
-      <PricingCard 
-        title="Web & Vertical Hotelero"
-        description="Desarrollo general y sistemas para hoteles."
+      <PricingCard
+        title="Arquitectura Web & Verticales"
+        description="Ecosistemas digitales de alta velocidad para conversión y hospitalidad."
         delay={0.2}
-        onOpenDetails={() => onOpenModal('Desarrollo Web & Tech', {
-          description: "Somos tu brazo de desarrollo. Construimos desde webs corporativas de alto impacto hasta sistemas especializados para hoteles. Nos encargamos de toda la complejidad técnica (hosting, seguridad, integraciones API) para que tú te enfoques en la estrategia creativa.",
-          caseStudies: [
-            "Hotel Boutique: Recuperación del 25% de reservas directas eliminando comisiones de OTAs.",
-            "Plataforma E-learning: Escalado de 0 a 5,000 alumnos con infraestructura serverless.",
-            "Inmobiliaria: Sistema de gestión de inventario en tiempo real con sincronización automática."
-          ],
-          testimonials: [
-            "La integración del motor de reservas fue un antes y un después para nuestra rentabilidad. - Gerente de Operaciones Hoteleras",
-            "Entienden el negocio, no solo el código. Eso es lo que los hace diferentes. - CEO Startup Tech"
-          ]
-        })}
+        onOpenDetails={() =>
+          onOpenModal("Desarrollo Web & Tech", {
+            description:
+              "Somos tu brazo de desarrollo. Construimos desde webs corporativas de alto impacto hasta sistemas especializados para hoteles. Nos encargamos de toda la complejidad técnica (hosting, seguridad, integraciones API) para que tú te enfoques en la estrategia creativa.",
+            caseStudies: [
+              "Hotel Boutique: Recuperación del 25% de reservas directas eliminando comisiones de OTAs.",
+              "Plataforma E-learning: Escalado de 0 a 5,000 alumnos con infraestructura serverless.",
+              "Inmobiliaria: Sistema de gestión de inventario en tiempo real con sincronización automática.",
+            ],
+            testimonials: [
+              "La integración del motor de reservas fue un antes y un después para nuestra rentabilidad. - Gerente de Operaciones Hoteleras",
+              "Entienden el negocio, no solo el código. Eso es lo que los hace diferentes. - CEO Startup Tech",
+            ],
+          })
+        }
         items={[
           { name: "Web Corporativa / Landing", price: "Desde $450 USD" },
           { name: "Motor de Reservas Directas", price: "Desde $650 USD" },
-          { name: "Integración PMS / Channel Manager", price: "Desde $800 USD" },
-          { name: "E-commerce / Web App a medida", price: "Personalizado" }
+          {
+            name: "Integración PMS / Channel Manager",
+            price: "Desde $800 USD",
+          },
+          { name: "E-commerce / Web App a medida", price: "Personalizado" },
         ]}
       />
-      <PricingCard 
-        title="La Automatización (Sistemas)"
-        description="Atención y ventas 24/7."
+      <PricingCard
+        title="Optimización de Operaciones"
+        description="Automatización con IA para ventas y atención al cliente 24/7."
         delay={0.3}
-        onOpenDetails={() => onOpenModal('Automatización con IA', {
-          description: "Liberamos a tu equipo de tareas repetitivas. Implementamos agentes de IA que atienden clientes 24/7, califican leads en tiempo real y agendan citas automáticamente en tu calendario.",
-          caseStudies: [
-            "Agencia de Viajes: Automatización del 80% de consultas frecuentes vía WhatsApp.",
-            "Clínica Dental: Reducción del 50% en inasistencias mediante recordatorios inteligentes.",
-            "SaaS B2B: Calificación automática de leads que incrementó la eficiencia del equipo de ventas en un 30%."
-          ],
-          testimonials: [
-            "El agente de IA atiende mejor que muchos humanos. Es impresionante la precisión. - Dueño de Negocio Local",
-            "Ahorramos más de 20 horas semanales en tareas administrativas gracias a sus automatizaciones. - Director Operativo"
-          ]
-        })}
+        onOpenDetails={() =>
+          onOpenModal("Automatización con IA", {
+            description:
+              "Liberamos a tu equipo de tareas repetitivas. Implementamos agentes de IA que atienden clientes 24/7, califican leads en tiempo real y agendan citas automáticamente en tu calendario.",
+            caseStudies: [
+              "Agencia de Viajes: Automatización del 80% de consultas frecuentes vía WhatsApp.",
+              "Clínica Dental: Reducción del 50% en inasistencias mediante recordatorios inteligentes.",
+              "SaaS B2B: Calificación automática de leads que incrementó la eficiencia del equipo de ventas en un 30%.",
+            ],
+            testimonials: [
+              "El agente de IA atiende mejor que muchos humanos. Es impresionante la precisión. - Dueño de Negocio Local",
+              "Ahorramos más de 20 horas semanales en tareas administrativas gracias a sus automatizaciones. - Director Operativo",
+            ],
+          })
+        }
         items={[
           { name: "Chatbots de Ventas con IA", price: "Desde $300 USD" },
           { name: "Integraciones a medida", price: "Desde $400 USD" },
-          { name: "Plataformas E-learning", price: "Desde $600 USD" }
+          { name: "Plataformas E-learning", price: "Desde $600 USD" },
         ]}
       />
     </div>
+    
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      className="mt-16 p-8 glass rounded-[24px] border-accent/20 bg-accent/5 overflow-hidden relative group text-center"
+    >
+      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-accent to-transparent opacity-50" />
+      <h4 className="text-[20px] font-bold mb-4">¿Listo para activar tu brazo tecnológico?</h4>
+      <p className="text-muted text-[15px] mb-8 max-w-xl mx-auto">
+        Integramos tus ideas creativas con nuestra ejecución técnica para dominar mercados digitales de alta competencia.
+      </p>
+      <motion.a
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        href="#contacto"
+        className="inline-block bg-accent text-white px-8 py-4 rounded-[12px] font-bold text-[14px] shadow-[0_10px_30px_rgba(59,130,246,0.3)] transition-all"
+      >
+        Iniciar Colaboración Ahora
+      </motion.a>
+    </motion.div>
   </section>
 );
 
@@ -512,26 +761,62 @@ const Portfolio = () => {
     { name: "Punta Negritos | Wind & Surf", location: "Talara, Perú" },
     { name: "Hacienda Don Vicente", location: "Tarapoto - Perú" },
     { name: "Sauce Hotel Boutique", location: "Ollantaytambo - Perú" },
-    { name: "Casa QX | Hotel Boutique", location: "Pachacamac - Perú" }
+    { name: "Casa QX | Hotel Boutique", location: "Pachacamac - Perú" },
   ];
 
   const webs = [
-    { url: "www.dupla.work", label: "Dupla Work", thumb: "https://s.wordpress.com/mshots/v1/https://www.dupla.work?w=600" },
-    { url: "kabsa.pe", label: "Kabsa", thumb: "https://s.wordpress.com/mshots/v1/https://kabsa.pe?w=600" },
-    { url: "olivosdelperu.com", label: "Olivos del Perú", thumb: "https://s.wordpress.com/mshots/v1/https://olivosdelperu.com?w=600" },
-    { url: "clasedesurf.com", label: "Clase de Surf", thumb: "https://s.wordpress.com/mshots/v1/https://clasedesurf.com?w=600" },
-    { url: "jahsurfperu.com", label: "Jah Surf Perú", thumb: "https://s.wordpress.com/mshots/v1/https://jahsurfperu.com?w=600" },
-    { url: "penalindamancora.com", label: "Peña Linda", thumb: "https://s.wordpress.com/mshots/v1/https://penalindamancora.com?w=600" },
-    { url: "puntanegritos.com", label: "Punta Negritos", thumb: "https://s.wordpress.com/mshots/v1/https://puntanegritos.com?w=600" }
+    {
+      url: "www.dupla.work",
+      label: "Dupla Work",
+      thumb: "https://s.wordpress.com/mshots/v1/https://www.dupla.work?w=600",
+    },
+    {
+      url: "kabsa.pe",
+      label: "Kabsa",
+      thumb: "https://s.wordpress.com/mshots/v1/https://kabsa.pe?w=600",
+    },
+    {
+      url: "olivosdelperu.com",
+      label: "Olivos del Perú",
+      thumb:
+        "https://s.wordpress.com/mshots/v1/https://olivosdelperu.com?w=600",
+    },
+    {
+      url: "clasedesurf.com",
+      label: "Clase de Surf",
+      thumb: "https://s.wordpress.com/mshots/v1/https://clasedesurf.com?w=600",
+    },
+    {
+      url: "jahsurfperu.com",
+      label: "Jah Surf Perú",
+      thumb: "https://s.wordpress.com/mshots/v1/https://jahsurfperu.com?w=600",
+    },
+    {
+      url: "penalindamancora.com",
+      label: "Peña Linda",
+      thumb:
+        "https://s.wordpress.com/mshots/v1/https://penalindamancora.com?w=600",
+    },
+    {
+      url: "puntanegritos.com",
+      label: "Punta Negritos",
+      thumb:
+        "https://s.wordpress.com/mshots/v1/https://puntanegritos.com?w=600",
+    },
   ];
 
   return (
-    <section id="portafolio" className="py-20 px-6 md:px-10 max-w-[1024px] mx-auto">
+    <section
+      id="portafolio"
+      className="py-20 px-6 md:px-10 max-w-[1024px] mx-auto"
+    >
       <div className="text-center mb-16">
         <span className="label-editorial mx-auto">Experiencia Comprobada</span>
-        <h2 className="text-[32px] md:text-[40px] font-bold tracking-tight mb-4">Casos de Éxito y Clientes</h2>
-        <p className="text-muted max-w-2xl mx-auto text-[14px]">
-          Especialización en <strong className="text-fg">Marketing Hotelero Integral</strong>: Web, PMS, Anuncios, Cobranza y Gestión de Reservas.
+        <h2 className="text-[32px] md:text-[56px] font-black tracking-tighter leading-none mb-4">
+          Resultados <span className="text-accent">Reales</span>.
+        </h2>
+        <p className="text-muted max-w-2xl mx-auto text-[15px] md:text-[17px]">
+          No solo entregamos pixeles. Entregamos <strong className="text-fg italic">rentabilidad</strong> mediante sistemas complejos de reserva, e-commerce de alto tráfico y automatización avanzada.
         </p>
       </div>
 
@@ -550,13 +835,17 @@ const Portfolio = () => {
           </h3>
           <div className="grid grid-cols-1 gap-3">
             {clients.map((client, i) => (
-              <motion.div 
+              <motion.div
                 key={i}
                 whileHover={{ x: 5 }}
                 className="p-4 glass rounded-[10px] border-white/5 flex flex-col gap-1 cursor-default"
               >
-                <span className="text-[14px] font-bold text-fg">{client.name}</span>
-                <span className="text-[11px] text-muted uppercase tracking-wider">{client.location}</span>
+                <span className="text-[14px] font-bold text-fg">
+                  {client.name}
+                </span>
+                <span className="text-[11px] text-muted uppercase tracking-wider">
+                  {client.location}
+                </span>
               </motion.div>
             ))}
           </div>
@@ -588,8 +877,8 @@ const Portfolio = () => {
                   className="group flex flex-col glass rounded-[12px] border-white/5 overflow-hidden transition-all hover:border-accent/30"
                 >
                   <div className="aspect-video w-full overflow-hidden bg-white/5 relative">
-                    <img 
-                      src={web.thumb} 
+                    <img
+                      src={web.thumb}
                       alt={web.label}
                       referrerPolicy="no-referrer"
                       className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
@@ -597,7 +886,9 @@ const Portfolio = () => {
                     <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors" />
                   </div>
                   <div className="p-3 text-center border-t border-white/5">
-                    <span className="text-[11px] font-bold text-muted group-hover:text-accent transition-colors uppercase tracking-wider">{web.label}</span>
+                    <span className="text-[11px] font-bold text-muted group-hover:text-accent transition-colors uppercase tracking-wider">
+                      {web.label}
+                    </span>
                   </div>
                 </motion.a>
               ))}
@@ -619,7 +910,8 @@ const Portfolio = () => {
               Proyecto Personal IA
             </h3>
             <p className="text-[13px] text-muted mb-6 leading-relaxed">
-              Desarrollo de agentes inteligentes especializados en el sector hospitalidad.
+              Desarrollo de agentes inteligentes especializados en el sector
+              hospitalidad.
             </p>
             <motion.a
               href="https://hothelia.com"
@@ -627,15 +919,17 @@ const Portfolio = () => {
               rel="noopener noreferrer"
               className="group/link block relative aspect-video w-full rounded-[8px] overflow-hidden border border-white/5 mb-4"
             >
-              <img 
-                src="https://s.wordpress.com/mshots/v1/https://hothelia.com?w=600" 
+              <img
+                src="https://s.wordpress.com/mshots/v1/https://hothelia.com?w=600"
                 alt="Hothelia"
                 referrerPolicy="no-referrer"
                 className="w-full h-full object-cover grayscale group-hover/link:grayscale-0 transition-all duration-500"
               />
               <div className="absolute inset-0 bg-black/40 group-hover/link:bg-transparent transition-colors flex items-center justify-center">
                 <div className="bg-black/60 backdrop-blur-md px-4 py-2 rounded-full border border-white/10 opacity-0 group-hover/link:opacity-100 transition-opacity flex items-center gap-2">
-                  <span className="text-[12px] font-bold text-white">Visitar hothelia.com</span>
+                  <span className="text-[12px] font-bold text-white">
+                    Visitar hothelia.com
+                  </span>
                   <ArrowRight className="w-3 h-3 text-accent" />
                 </div>
               </div>
@@ -657,46 +951,73 @@ const BusinessModel = () => (
       whileHover={{ scale: 1.01 }}
       className="glass p-6 md:p-10 rounded-[12px] transition-transform border-accent/10"
     >
-      <h2 className="text-[24px] font-bold mb-6 tracking-[-0.5px]">¿Cómo ganamos todos? (Alianza de Valor)</h2>
+      <h2 className="text-[24px] font-bold mb-6 tracking-[-0.5px]">
+        ¿Cómo ganamos todos? (Alianza de Valor)
+      </h2>
       <p className="text-[14px] text-muted leading-[1.6] mb-8 max-w-[700px]">
-        Guido, tú ya tienes la agencia y la confianza de tus clientes. Chamba Digital entra como tu <strong className="text-fg">brazo técnico estratégico</strong> para que puedas escalar resultados sin aumentar tu carga operativa. Nuestro modelo se basa en la <strong className="text-accent">justicia financiera y la equidad:</strong>
+        Guido, tú ya tienes la agencia y la confianza de tus clientes. Chamba
+        Digital entra como tu{" "}
+        <strong className="text-fg">brazo técnico estratégico</strong> para que
+        puedas escalar resultados sin aumentar tu carga operativa. Nuestro
+        modelo se basa en la{" "}
+        <strong className="text-accent">
+          justicia financiera y la equidad:
+        </strong>
       </p>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <motion.div whileHover={{ y: -5 }} className="space-y-3 cursor-default p-4 bg-white/[0.02] rounded-lg border border-white/5">
+        <motion.div
+          whileHover={{ y: -5 }}
+          className="space-y-3 cursor-default p-4 bg-white/[0.02] rounded-lg border border-white/5"
+        >
           <div className="flex items-center gap-2">
             <TrendingUp className="w-4 h-4 text-accent" />
             <h4 className="text-[14px] font-bold">Presencia en México</h4>
           </div>
           <p className="text-[12px] text-muted leading-[1.6]">
-            Mothographics es la cara local en México, gestionando la relación directa y el branding. Chamba Digital es el motor remoto que garantiza que la ejecución técnica sea impecable y escalable.
+            Mothographics es la cara local en México, gestionando la relación
+            directa y el branding. Chamba Digital es el motor remoto que
+            garantiza que la ejecución técnica sea impecable y escalable.
           </p>
         </motion.div>
-        
-        <motion.div whileHover={{ y: -5 }} className="space-y-3 cursor-default p-4 bg-white/[0.02] rounded-lg border border-white/5">
+
+        <motion.div
+          whileHover={{ y: -5 }}
+          className="space-y-3 cursor-default p-4 bg-white/[0.02] rounded-lg border border-white/5"
+        >
           <div className="flex items-center gap-2">
             <Globe className="w-4 h-4 text-accent" />
             <h4 className="text-[14px] font-bold">Repartición Equitativa</h4>
           </div>
           <p className="text-[12px] text-muted leading-[1.6]">
-            Si un proyecto requiere que nuestra labor sea el mayor porcentaje del producto entregable, la estructura de ingresos se ajustará proporcionalmente al nivel de esfuerzo y complejidad técnica invertida.
+            Si un proyecto requiere que nuestra labor sea el mayor porcentaje
+            del producto entregable, la estructura de ingresos se ajustará
+            proporcionalmente al nivel de esfuerzo y complejidad técnica
+            invertida.
           </p>
         </motion.div>
 
-        <motion.div whileHover={{ y: -5 }} className="space-y-3 cursor-default p-4 bg-white/[0.02] rounded-lg border border-white/5">
+        <motion.div
+          whileHover={{ y: -5 }}
+          className="space-y-3 cursor-default p-4 bg-white/[0.02] rounded-lg border border-white/5"
+        >
           <div className="flex items-center gap-2">
             <CheckCircle2 className="w-4 h-4 text-accent" />
             <h4 className="text-[14px] font-bold">Sin Injusticias</h4>
           </div>
           <p className="text-[12px] text-muted leading-[1.6]">
-            Cada cliente representa un reto distinto. No creemos en "tarifas únicas" que castiguen a una de las partes. Evaluamos cada caso para que la alianza sea siempre rentable, transparente y motivadora.
+            Cada cliente representa un reto distinto. No creemos en "tarifas
+            únicas" que castiguen a una de las partes. Evaluamos cada caso para
+            que la alianza sea siempre rentable, transparente y motivadora.
           </p>
         </motion.div>
       </div>
 
       <div className="mt-8 p-4 bg-accent/5 rounded-lg border border-accent/10">
         <p className="text-[12px] text-accent font-medium text-center italic">
-          "El objetivo es que Mothographics crezca en facturación y servicios, mientras Chamba Digital garantiza la excelencia técnica detrás de cada entrega."
+          "El objetivo es que Mothographics crezca en facturación y servicios,
+          mientras Chamba Digital garantiza la excelencia técnica detrás de cada
+          entrega."
         </p>
       </div>
     </motion.div>
@@ -707,20 +1028,30 @@ const Footer = () => (
   <footer className="py-12 px-6 md:px-10 border-t border-glass-border bg-black/40 backdrop-blur-md">
     <div className="max-w-[1024px] mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
       <div className="flex flex-col gap-2 text-center md:text-left">
-        <p className="text-[16px] font-black tracking-tight">Próximo Paso: <span className="text-accent">Piloto Galería Arte Urbano</span></p>
-        <span className="text-[13px] text-muted">Validemos la maquinaria en 2 semanas antes de escalar la alianza.</span>
+        <p className="text-[16px] font-black tracking-tight">
+          Próximo Paso:{" "}
+          <span className="text-accent">Piloto Galería Arte Urbano</span>
+        </p>
+        <span className="text-[13px] text-muted">
+          Validemos la maquinaria en 2 semanas antes de escalar la alianza.
+        </span>
       </div>
-      
+
       <div className="flex flex-col md:flex-row items-center gap-6 md:gap-10">
         <div className="text-[12px] text-muted italic text-center md:text-right leading-relaxed">
-          <span className="text-fg font-bold not-italic">México × Perú</span> <br />
+          <span className="text-fg font-bold not-italic">México × Perú</span>{" "}
+          <br />
           Por Yosward Ríos - Chamba Digital
         </div>
-        <motion.a 
-          whileHover={{ scale: 1.05, y: -2, boxShadow: "0 10px 20px rgba(59, 130, 246, 0.2)" }}
+        <motion.a
+          whileHover={{
+            scale: 1.05,
+            y: -2,
+            boxShadow: "0 10px 20px rgba(59, 130, 246, 0.2)",
+          }}
           whileTap={{ scale: 0.95 }}
-          href="https://wa.me/51904060670" 
-          target="_blank" 
+          href="https://wa.me/51904060670"
+          target="_blank"
           rel="noopener noreferrer"
           className="bg-accent text-white px-8 py-4 rounded-[10px] font-bold text-[14px] transition-all shadow-[0_5px_15px_rgba(59,130,246,0.1)]"
         >
@@ -731,36 +1062,55 @@ const Footer = () => (
   </footer>
 );
 
-const ChambaNavbar = () => (
+export const ChambaNavbar = () => (
   <nav className="fixed top-0 left-0 right-0 z-50 h-[70px] px-6 md:px-10 flex items-center justify-between border-b border-glass-border bg-black/80 backdrop-blur-[10px]">
     <Logo />
     <div className="hidden lg:flex items-center gap-8 text-[12px] font-medium text-muted uppercase tracking-[1px]">
-      <a href="#servicios" className="hover:text-fg transition-colors relative group">
-        Servicios
+      <Link
+        to="/ecommerce"
+        className="hover:text-fg transition-colors relative group"
+      >
+        E-commerce
         <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-accent transition-all group-hover:w-full" />
-      </a>
-      <a href="#portafolio" className="hover:text-fg transition-colors relative group">
-        Clientes
+      </Link>
+      <Link
+        to="/hotels"
+        className="hover:text-fg transition-colors relative group"
+      >
+        Hoteles
         <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-accent transition-all group-hover:w-full" />
-      </a>
-      <a href="#metodologia" className="hover:text-fg transition-colors relative group">
+      </Link>
+      <Link
+        to="/servicebusinesses"
+        className="hover:text-fg transition-colors relative group"
+      >
+        Servicios B2B
+        <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-accent transition-all group-hover:w-full" />
+      </Link>
+      <a
+        href="/#metodologia"
+        className="hover:text-fg transition-colors relative group"
+      >
         Metodología
         <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-accent transition-all group-hover:w-full" />
       </a>
-      <a href="#faq" className="hover:text-fg transition-colors relative group">
+      <a href="/#faq" className="hover:text-fg transition-colors relative group">
         FAQ
         <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-accent transition-all group-hover:w-full" />
       </a>
-      <Link to="/mothographicsxchambadigital" className="hover:text-fg transition-colors relative group">
+      <Link
+        to="/mothographicsxchambadigital"
+        className="hover:text-fg transition-colors relative group"
+      >
         Alianza
         <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-accent transition-all group-hover:w-full" />
       </Link>
     </div>
-    <motion.a 
+    <motion.a
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
-      href="https://wa.me/51904060670" 
-      target="_blank" 
+      href="https://wa.me/51904060670"
+      target="_blank"
       rel="noopener noreferrer"
       className="bg-accent text-white px-5 md:px-6 py-2.5 md:py-3 rounded-[8px] text-[11px] md:text-[13px] font-bold uppercase cursor-pointer transition-all hover:bg-accent/90 shadow-[0_0_20px_rgba(59,130,246,0.2)] hover:shadow-[0_0_30px_rgba(59,130,246,0.4)]"
     >
@@ -772,8 +1122,8 @@ const ChambaNavbar = () => (
 const ChambaHero = () => (
   <section className="relative min-h-[80vh] flex flex-col items-center text-center justify-center pt-[70px] px-6 md:px-10 overflow-hidden max-w-[1024px] mx-auto">
     <div className="absolute top-[-100px] left-[30%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-radial-[circle,rgba(59,130,246,0.1)_0%,transparent_70%] blur-[60px] -z-10" />
-    
-    <motion.div 
+
+    <motion.div
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
@@ -783,23 +1133,25 @@ const ChambaHero = () => (
         🚀 Ingeniería de Performance
       </span>
       <h1 className="text-[36px] sm:text-[48px] md:text-[64px] max-w-[800px] leading-[1.1] md:leading-[1] mb-6 font-black tracking-tight">
-        Transformamos tu negocio con <span className="text-accent">Tecnología de Alto Nivel</span>.
+        Transformamos tu negocio con{" "}
+        <span className="text-accent">Tecnología de Alto Nivel</span>.
       </h1>
       <p className="text-[15px] md:text-[18px] text-muted font-normal leading-[1.6] max-w-[600px] mb-10 mx-auto px-4">
-        Desarrollo web, Meta Ads y Automatización con IA. Operamos desde Perú para el mundo, entregando resultados medibles y escalables.
+        Desarrollo web, Meta Ads y Automatización con IA. Operamos desde Perú
+        para el mundo, entregando resultados medibles y escalables.
       </p>
       <div className="flex flex-col sm:flex-row items-center justify-center gap-4 px-6">
-        <motion.a 
+        <motion.a
           whileHover={{ scale: 1.05, y: -2 }}
           whileTap={{ scale: 0.95 }}
-          href="#servicios" 
+          href="#servicios"
           className="bg-accent text-white px-10 py-5 rounded-[12px] font-bold text-[15px] w-full sm:w-auto shadow-[0_10px_30px_rgba(59,130,246,0.3)] hover:shadow-[0_15px_40px_rgba(59,130,246,0.4)] transition-all"
         >
           Impulsar mi Negocio
         </motion.a>
-        <motion.a 
+        <motion.a
           whileHover={{ x: 5 }}
-          href="#portafolio" 
+          href="#portafolio"
           className="group inline-flex items-center gap-2 text-[15px] font-bold text-fg hover:text-accent transition-colors py-3"
         >
           Ver Casos de Éxito
@@ -814,27 +1166,29 @@ const PainPoints = () => (
   <section className="py-20 px-6 md:px-10 max-w-[1024px] mx-auto border-t border-white/5">
     <div className="text-center mb-16">
       <span className="label-editorial mx-auto">¿Te suena familiar?</span>
-      <h2 className="text-[32px] md:text-[40px] font-bold tracking-tight mb-4">El problema de la mayoría de negocios digitales</h2>
+      <h2 className="text-[32px] md:text-[40px] font-bold tracking-tight mb-4">
+        El problema de la mayoría de negocios digitales
+      </h2>
     </div>
     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
       {[
-        { 
-          title: "Inversión sin Retorno", 
+        {
+          title: "Inversión sin Retorno",
           desc: "Gastas en anuncios pero no ves ventas reales. El tráfico llega, pero no convierte.",
-          icon: TrendingUp 
+          icon: TrendingUp,
         },
-        { 
-          title: "Webs 'Fantasma'", 
+        {
+          title: "Webs 'Fantasma'",
           desc: "Tienes una web bonita que nadie visita o que es tan lenta que espanta a los clientes.",
-          icon: Globe 
+          icon: Globe,
         },
-        { 
-          title: "Procesos Manuales", 
+        {
+          title: "Procesos Manuales",
           desc: "Pierdes tiempo respondiendo lo mismo una y otra vez en lugar de cerrar ventas.",
-          icon: MessageSquare 
-        }
+          icon: MessageSquare,
+        },
       ].map((item, i) => (
-        <motion.div 
+        <motion.div
           key={i}
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -854,25 +1208,45 @@ const PainPoints = () => (
 );
 
 const Methodology = () => (
-  <section id="metodologia" className="py-20 px-6 md:px-10 bg-accent/[0.02] border-y border-white/5">
+  <section
+    id="metodologia"
+    className="py-20 px-6 md:px-10 bg-accent/[0.02] border-y border-white/5"
+  >
     <div className="max-w-[1024px] mx-auto">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
         <div>
           <span className="label-editorial">Nuestro Método</span>
           <h2 className="text-[32px] md:text-[48px] font-bold tracking-tight leading-tight mb-6">
-            No vendemos humo, <br /> vendemos <span className="text-accent">Ingeniería</span>.
+            No vendemos humo, <br /> vendemos{" "}
+            <span className="text-accent">Ingeniería</span>.
           </h2>
           <div className="space-y-8">
             {[
-              { step: "01", title: "Auditoría & Estrategia", desc: "Analizamos tus datos actuales para encontrar las fugas de dinero." },
-              { step: "02", title: "Implementación Técnica", desc: "Construimos la infraestructura (Web, Ads, IA) optimizada para conversión." },
-              { step: "03", title: "Escalado Basado en Datos", desc: "No adivinamos. Optimizamos cada dólar invertido según el ROI real." }
+              {
+                step: "01",
+                title: "Auditoría & Estrategia",
+                desc: "Analizamos tus datos actuales para encontrar las fugas de dinero.",
+              },
+              {
+                step: "02",
+                title: "Implementación Técnica",
+                desc: "Construimos la infraestructura (Web, Ads, IA) optimizada para conversión.",
+              },
+              {
+                step: "03",
+                title: "Escalado Basado en Datos",
+                desc: "No adivinamos. Optimizamos cada dólar invertido según el ROI real.",
+              },
             ].map((item, i) => (
               <div key={i} className="flex gap-6">
-                <span className="text-[24px] font-black text-accent/20">{item.step}</span>
+                <span className="text-[24px] font-black text-accent/20">
+                  {item.step}
+                </span>
                 <div>
                   <h4 className="text-[18px] font-bold mb-2">{item.title}</h4>
-                  <p className="text-[14px] text-muted leading-relaxed">{item.desc}</p>
+                  <p className="text-[14px] text-muted leading-relaxed">
+                    {item.desc}
+                  </p>
                 </div>
               </div>
             ))}
@@ -892,31 +1266,47 @@ const Methodology = () => (
 const FAQ = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const faqs = [
-    { q: "¿En cuánto tiempo veré resultados?", a: "Las campañas de Meta Ads pueden generar leads en las primeras 48-72 horas. Proyectos web y de IA suelen tomar entre 2 a 4 semanas según complejidad." },
-    { q: "¿Trabajan con clientes fuera de Perú?", a: "Sí, operamos de forma remota para clientes en México, España, Estados Unidos y toda Latinoamérica." },
-    { q: "¿Necesito una inversión mínima en publicidad?", a: "Recomendamos iniciar con al menos $10-$15 USD diarios para que el algoritmo de Meta tenga datos suficientes para optimizar." }
+    {
+      q: "¿En cuánto tiempo veré resultados?",
+      a: "Las campañas de Meta Ads pueden generar leads en las primeras 48-72 horas. Proyectos web y de IA suelen tomar entre 2 a 4 semanas según complejidad.",
+    },
+    {
+      q: "¿Trabajan con clientes fuera de Perú?",
+      a: "Sí, operamos de forma remota para clientes en México, España, Estados Unidos y toda Latinoamérica.",
+    },
+    {
+      q: "¿Necesito una inversión mínima en publicidad?",
+      a: "Recomendamos iniciar con al menos $10-$15 USD diarios para que el algoritmo de Meta tenga datos suficientes para optimizar.",
+    },
   ];
 
   return (
     <section id="faq" className="py-20 px-6 md:px-10 max-w-[800px] mx-auto">
       <div className="text-center mb-12">
-        <h2 className="text-[24px] md:text-[32px] font-bold tracking-tight">Preguntas Frecuentes</h2>
+        <h2 className="text-[24px] md:text-[32px] font-bold tracking-tight">
+          Preguntas Frecuentes
+        </h2>
       </div>
       <div className="space-y-4">
         {faqs.map((faq, i) => (
-          <div key={i} className="glass rounded-[12px] border-white/5 overflow-hidden">
-            <button 
+          <div
+            key={i}
+            className="glass rounded-[12px] border-white/5 overflow-hidden"
+          >
+            <button
               onClick={() => setOpenIndex(openIndex === i ? null : i)}
               className="w-full p-5 text-left flex justify-between items-center hover:bg-white/[0.02] transition-colors"
             >
               <span className="text-[14px] font-bold">{faq.q}</span>
-              <ArrowRight className={`w-4 h-4 text-accent transition-transform ${openIndex === i ? 'rotate-90' : ''}`} />
+              <ArrowRight
+                className={`w-4 h-4 text-accent transition-transform ${openIndex === i ? "rotate-90" : ""}`}
+              />
             </button>
             <AnimatePresence>
               {openIndex === i && (
-                <motion.div 
+                <motion.div
                   initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: 'auto', opacity: 1 }}
+                  animate={{ height: "auto", opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
                   className="px-5 pb-5 text-[13px] text-muted leading-relaxed"
                 >
@@ -932,21 +1322,33 @@ const FAQ = () => {
 };
 
 const ContactForm = () => {
-  const [status, setStatus] = useState<'idle' | 'sending' | 'success'>('idle');
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [status, setStatus] = useState<"idle" | "sending" | "success">("idle");
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    objective: "Escalar Ventas",
+    message: "",
+  });
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    setStatus('sending');
+    setStatus("sending");
     // Simulate API call
     setTimeout(() => {
-      setStatus('success');
-      setFormData({ name: '', email: '', message: '' });
+      setStatus("success");
+      trackEvent('lead_form_success', { 
+        objective: formData.objective,
+        email: formData.email 
+      });
+      setFormData({ name: "", email: "", objective: "Escalar Ventas", message: "" });
     }, 1500);
   };
 
   return (
-    <section id="contacto" className="py-20 px-6 md:px-10 max-w-[1024px] mx-auto">
+    <section
+      id="contacto"
+      className="py-20 px-6 md:px-10 max-w-[1024px] mx-auto"
+    >
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
         <div>
           <span className="label-editorial">Contacto</span>
@@ -954,25 +1356,37 @@ const ContactForm = () => {
             ¿Listo para <span className="text-accent">escalar</span>?
           </h2>
           <p className="text-muted text-[16px] mb-8 leading-relaxed">
-            Cuéntanos sobre tu proyecto. Analizaremos tu situación actual y te propondremos una estrategia técnica a medida.
+            Cuéntanos sobre tu proyecto. Analizaremos tu situación actual y te
+            propondremos una estrategia técnica a medida.
           </p>
-          
+
           <div className="space-y-6">
             <div className="flex items-center gap-4">
               <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center">
                 <Mail className="w-5 h-5 text-accent" />
               </div>
               <div>
-                <p className="text-[12px] text-muted uppercase tracking-wider font-bold">Email</p>
-                <p className="text-[14px] font-medium">contacto@chamba.digital</p>
+                <p className="text-[12px] text-muted uppercase tracking-wider font-bold">
+                  Email
+                </p>
+                <p className="text-[14px] font-medium">
+                  contacto@chamba.digital
+                </p>
               </div>
             </div>
             <div className="flex items-center gap-4">
-              <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center shrink-0">
+              <motion.a
+                whileHover={{ scale: 1.05 }}
+                href="https://wa.me/51904060670?text=Hola,%20busco%20asesoría%20para%20un%20proyecto%20con%20Chamba%20Digital."
+                target="_blank"
+                className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center shrink-0 hover:bg-accent/20 transition-colors"
+              >
                 <MessageSquare className="w-5 h-5 text-accent" />
-              </div>
+              </motion.a>
               <div>
-                <p className="text-[12px] text-muted uppercase tracking-wider font-bold">WhatsApp</p>
+                <p className="text-[12px] text-muted uppercase tracking-wider font-bold">
+                  WhatsApp Directo
+                </p>
                 <p className="text-[14px] font-medium">+51 904 060 670</p>
               </div>
             </div>
@@ -981,9 +1395,12 @@ const ContactForm = () => {
                 <MapPin className="w-5 h-5 text-accent" />
               </div>
               <div>
-                <p className="text-[12px] text-muted uppercase tracking-wider font-bold">Ubicación</p>
+                <p className="text-[12px] text-muted uppercase tracking-wider font-bold">
+                  Ubicación
+                </p>
                 <p className="text-[14px] font-medium leading-relaxed">
-                  Alameda del premio Real 736, La Encantada de Villa, Chorrillos, Lima, Perú
+                  Alameda del premio Real 736, La Encantada de Villa,
+                  Chorrillos, Lima, Perú
                 </p>
               </div>
             </div>
@@ -991,8 +1408,8 @@ const ContactForm = () => {
         </div>
 
         <div className="glass p-8 rounded-[24px] border-white/5 relative overflow-hidden">
-          {status === 'success' ? (
-            <motion.div 
+          {status === "success" ? (
+            <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               className="text-center py-12"
@@ -1001,9 +1418,11 @@ const ContactForm = () => {
                 <CheckCircle2 className="w-8 h-8 text-green-500" />
               </div>
               <h3 className="text-[20px] font-bold mb-2">¡Mensaje Enviado!</h3>
-              <p className="text-muted text-[14px]">Nos pondremos en contacto contigo en menos de 24 horas.</p>
-              <button 
-                onClick={() => setStatus('idle')}
+              <p className="text-muted text-[14px]">
+                Nos pondremos en contacto contigo en menos de 24 horas.
+              </p>
+              <button
+                onClick={() => setStatus("idle")}
                 className="mt-8 text-accent text-[14px] font-bold hover:underline"
               >
                 Enviar otro mensaje
@@ -1012,14 +1431,18 @@ const ContactForm = () => {
           ) : (
             <form onSubmit={handleSubmit} className="space-y-5">
               <div className="space-y-2">
-                <label className="text-[12px] font-bold text-muted uppercase tracking-wider">Nombre Completo</label>
+                <label className="text-[12px] font-bold text-muted uppercase tracking-wider">
+                  Nombre Completo
+                </label>
                 <div className="relative">
                   <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted" />
-                  <input 
+                  <input
                     required
-                    type="text" 
+                    type="text"
                     value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, name: e.target.value })
+                    }
                     placeholder="Ej: Juan Pérez"
                     className="w-full bg-white/5 border border-white/10 rounded-[12px] py-3 pl-12 pr-4 text-[14px] focus:outline-none focus:border-accent/50 transition-colors"
                   />
@@ -1027,14 +1450,18 @@ const ContactForm = () => {
               </div>
 
               <div className="space-y-2">
-                <label className="text-[12px] font-bold text-muted uppercase tracking-wider">Email Corporativo</label>
+                <label className="text-[12px] font-bold text-muted uppercase tracking-wider">
+                  Email Corporativo
+                </label>
                 <div className="relative">
                   <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted" />
-                  <input 
+                  <input
                     required
-                    type="email" 
+                    type="email"
                     value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, email: e.target.value })
+                    }
                     placeholder="juan@empresa.com"
                     className="w-full bg-white/5 border border-white/10 rounded-[12px] py-3 pl-12 pr-4 text-[14px] focus:outline-none focus:border-accent/50 transition-colors"
                   />
@@ -1042,12 +1469,43 @@ const ContactForm = () => {
               </div>
 
               <div className="space-y-2">
-                <label className="text-[12px] font-bold text-muted uppercase tracking-wider">¿En qué podemos ayudarte?</label>
-                <textarea 
+                <label className="text-[12px] font-bold text-muted uppercase tracking-wider">
+                  Objetivo Principal
+                </label>
+                <div className="grid grid-cols-2 gap-2">
+                  {[
+                    "Escalar Ventas",
+                    "Automatizar Operaciones",
+                    "Nueva Web / App",
+                    "Auditoría Ads",
+                  ].map((obj) => (
+                    <button
+                      key={obj}
+                      type="button"
+                      onClick={() => setFormData({ ...formData, objective: obj })}
+                      className={`py-2 px-3 rounded-[8px] text-[11px] font-bold border transition-all ${
+                        formData.objective === obj
+                          ? "bg-accent border-accent text-white shadow-[0_5px_15px_rgba(59,130,246,0.3)]"
+                          : "bg-white/5 border-white/10 text-muted hover:border-white/20"
+                      }`}
+                    >
+                      {obj}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-[12px] font-bold text-muted uppercase tracking-wider">
+                  ¿En qué podemos ayudarte?
+                </label>
+                <textarea
                   required
                   rows={4}
                   value={formData.message}
-                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, message: e.target.value })
+                  }
                   placeholder="Cuéntanos brevemente sobre tu negocio y objetivos..."
                   className="w-full bg-white/5 border border-white/10 rounded-[12px] p-4 text-[14px] focus:outline-none focus:border-accent/50 transition-colors resize-none"
                 />
@@ -1056,10 +1514,10 @@ const ContactForm = () => {
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                disabled={status === 'sending'}
+                disabled={status === "sending"}
                 className="w-full bg-accent text-white py-4 rounded-[12px] font-bold text-[14px] flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {status === 'sending' ? (
+                {status === "sending" ? (
                   <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                 ) : (
                   <>
@@ -1083,9 +1541,9 @@ const ChambaContent = ({ onOpenModal }: any) => (
       <ChambaHero />
       <PainPoints />
       <Methodology />
-      <Services 
-        onOpenModal={onOpenModal} 
-        title="Ingeniería de Performance" 
+      <Services
+        onOpenModal={onOpenModal}
+        title="Ingeniería de Performance"
         label="Nuestros Servicios"
       />
       <Portfolio />
@@ -1099,21 +1557,22 @@ const ChambaContent = ({ onOpenModal }: any) => (
           <div className="flex flex-col gap-6">
             <Logo />
             <p className="text-[14px] text-muted leading-relaxed">
-              Ingeniería Digital de alto nivel. Transformamos negocios con tecnología, datos y diseño de performance.
+              Ingeniería Digital de alto nivel. Transformamos negocios con
+              tecnología, datos y diseño de performance.
             </p>
             <div className="flex gap-4">
-              <motion.a 
+              <motion.a
                 whileHover={{ y: -3, color: "#3B82F6" }}
-                href="https://instagram.com" 
-                target="_blank" 
+                href="https://instagram.com"
+                target="_blank"
                 className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-muted transition-colors"
               >
                 <Instagram className="w-5 h-5" />
               </motion.a>
-              <motion.a 
+              <motion.a
                 whileHover={{ y: -3, color: "#3B82F6" }}
-                href="https://linkedin.com" 
-                target="_blank" 
+                href="https://linkedin.com"
+                target="_blank"
                 className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-muted transition-colors"
               >
                 <Linkedin className="w-5 h-5" />
@@ -1123,22 +1582,34 @@ const ChambaContent = ({ onOpenModal }: any) => (
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-[14px] font-black uppercase tracking-widest mb-6 text-fg">Explorar</h4>
+            <h4 className="text-[14px] font-black uppercase tracking-widest mb-6 text-fg">
+              Explorar
+            </h4>
             <ul className="space-y-4">
               {[
-                { name: 'Servicios', id: 'servicios' },
-                { name: 'Portafolio', id: 'portafolio' },
-                { name: 'Metodología', id: 'metodologia' },
-                { name: 'FAQ', id: 'faq' },
-                { name: 'Alianza Mothographics', id: 'mothographicsxchambadigital', isRoute: true }
+                { name: "Servicios", id: "servicios" },
+                { name: "Portafolio", id: "portafolio" },
+                { name: "Metodología", id: "metodologia" },
+                { name: "FAQ", id: "faq" },
+                {
+                  name: "Alianza Mothographics",
+                  id: "mothographicsxchambadigital",
+                  isRoute: true,
+                },
               ].map((item) => (
                 <li key={item.id}>
                   {item.isRoute ? (
-                    <Link to={`/${item.id}`} className="text-[14px] text-muted hover:text-accent transition-colors">
+                    <Link
+                      to={`/${item.id}`}
+                      className="text-[14px] text-muted hover:text-accent transition-colors"
+                    >
                       {item.name}
                     </Link>
                   ) : (
-                    <a href={`#${item.id}`} className="text-[14px] text-muted hover:text-accent transition-colors">
+                    <a
+                      href={`#${item.id}`}
+                      className="text-[14px] text-muted hover:text-accent transition-colors"
+                    >
                       {item.name}
                     </a>
                   )}
@@ -1149,12 +1620,15 @@ const ChambaContent = ({ onOpenModal }: any) => (
 
           {/* Contact Info */}
           <div>
-            <h4 className="text-[14px] font-black uppercase tracking-widest mb-6 text-fg">Contacto</h4>
+            <h4 className="text-[14px] font-black uppercase tracking-widest mb-6 text-fg">
+              Contacto
+            </h4>
             <div className="space-y-4">
               <div className="flex items-start gap-3 text-muted">
                 <MapPin className="w-4 h-4 text-accent shrink-0 mt-1" />
                 <p className="text-[13px] leading-relaxed">
-                  Alameda del premio Real 736, La Encantada de Villa, Chorrillos, Lima, Perú
+                  Alameda del premio Real 736, La Encantada de Villa,
+                  Chorrillos, Lima, Perú
                 </p>
               </div>
               <div className="flex items-center gap-3 text-muted">
@@ -1166,12 +1640,18 @@ const ChambaContent = ({ onOpenModal }: any) => (
 
           {/* CTA Column */}
           <div className="flex flex-col items-start gap-6">
-            <h4 className="text-[14px] font-black uppercase tracking-widest mb-6 text-fg">¿Listo para empezar?</h4>
-            <motion.a 
-              whileHover={{ scale: 1.05, y: -5, boxShadow: "0 20px 40px rgba(59, 130, 246, 0.3)" }}
+            <h4 className="text-[14px] font-black uppercase tracking-widest mb-6 text-fg">
+              ¿Listo para empezar?
+            </h4>
+            <motion.a
+              whileHover={{
+                scale: 1.05,
+                y: -5,
+                boxShadow: "0 20px 40px rgba(59, 130, 246, 0.3)",
+              }}
               whileTap={{ scale: 0.95 }}
-              href="https://wa.me/51904060670" 
-              target="_blank" 
+              href="https://wa.me/51904060670"
+              target="_blank"
               rel="noopener noreferrer"
               className="bg-accent text-white px-8 py-4 rounded-[12px] font-bold text-[14px] transition-all w-full text-center shadow-[0_10px_30px_rgba(59,130,246,0.2)]"
             >
@@ -1182,11 +1662,22 @@ const ChambaContent = ({ onOpenModal }: any) => (
 
         <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-[12px] text-muted">
-            © {new Date().getFullYear()} Chamba Digital. Todos los derechos reservados.
+            © {new Date().getFullYear()} Chamba Digital. Todos los derechos
+            reservados.
           </p>
           <div className="flex gap-6">
-            <a href="#" className="text-[11px] text-muted hover:text-fg transition-colors uppercase tracking-widest">Privacidad</a>
-            <a href="#" className="text-[11px] text-muted hover:text-fg transition-colors uppercase tracking-widest">Términos</a>
+            <a
+              href="#"
+              className="text-[11px] text-muted hover:text-fg transition-colors uppercase tracking-widest"
+            >
+              Privacidad
+            </a>
+            <a
+              href="#"
+              className="text-[11px] text-muted hover:text-fg transition-colors uppercase tracking-widest"
+            >
+              Términos
+            </a>
           </div>
         </div>
       </div>
@@ -1201,13 +1692,13 @@ const AllianceContent = ({ onOpenModal }: any) => {
 
   return (
     <div className="selection:bg-accent selection:text-white">
-      <Navbar />
+      <ChambaNavbar />
       <main className="pt-[70px]">
         <Hero />
         <Opportunity />
-        <Services 
-          onOpenModal={onOpenModal} 
-          title="Upsells para tus clientes" 
+        <Services
+          onOpenModal={onOpenModal}
+          title="Upsells para tus clientes"
           label="Menú de Servicios"
         />
         <Portfolio />
@@ -1219,8 +1710,26 @@ const AllianceContent = ({ onOpenModal }: any) => {
 };
 
 export default function App() {
-  const [modalData, setModalData] = useState({ isOpen: false, title: '', content: '' });
+  const [modalData, setModalData] = useState({
+    isOpen: false,
+    title: "",
+    content: "",
+  });
   const [isLoading, setIsLoading] = useState(true);
+
+  const [exitIntentOpen, setExitIntentOpen] = useState(false);
+  const [hasShownExit, setHasShownExit] = useState(false);
+
+  useEffect(() => {
+    const handleMouseLeave = (e: MouseEvent) => {
+      if (e.clientY <= 0 && !hasShownExit) {
+        setExitIntentOpen(true);
+        setHasShownExit(true);
+      }
+    };
+    document.addEventListener("mouseleave", handleMouseLeave);
+    return () => document.removeEventListener("mouseleave", handleMouseLeave);
+  }, [hasShownExit]);
 
   // Simulate initial load
   useEffect(() => {
@@ -1229,33 +1738,52 @@ export default function App() {
     return () => clearTimeout(timer);
   }, []);
 
-  const openModal = (title: string, content: string) => {
+  const openModal = (title: string, content: any) => { // Changed type to 'any' to match usage in the component structure
     setModalData({ isOpen: true, title, content });
   };
 
   const closeModal = () => {
-    setModalData({ ...modalData, isOpen: false });
+    setModalData({ isOpen: false, title: "", content: "" }); // Resetting state on close for clean slate
   };
 
   return (
     <BrowserRouter>
-      <AnimatePresence mode="wait">
+      <AnimatePresence> {/* Removed 'mode="wait"' as it might conflict with other lifecycle hooks */}
         {isLoading && <SplashScreen key="splash" />}
       </AnimatePresence>
-      
+
       <Routes>
         <Route path="/" element={<ChambaContent onOpenModal={openModal} />} />
-        <Route path="/mothographicsxchambadigital" element={<AllianceContent onOpenModal={openModal} />} />
-        <Route path="/MothographicsxChambaDigital" element={<AllianceContent onOpenModal={openModal} />} />
-        <Route path="/mothographics-chamba-digital" element={<AllianceContent onOpenModal={openModal} />} />
-        <Route path="/alianza" element={<AllianceContent onOpenModal={openModal} />} />
+        <Route
+          path="/mothographicsxchambadigital"
+          element={<AllianceContent onOpenModal={openModal} />}
+        />
+        <Route
+          path="/MothographicsxChambaDigital"
+          element={<AllianceContent onOpenModal={openModal} />}
+        />
+        <Route
+          path="/mothographics-chamba-digital"
+          element={<AllianceContent onOpenModal={openModal} />}
+        />
+        <Route path="/ecommerce" element={<EcommerceLandingPage />} />
+        <Route path="/hotels" element={<HotelsLandingPage />} />
+        <Route path="/servicebusinesses" element={<ServiceBusinessesLandingPage />} />
+        <Route
+          path="/alianza"
+          element={<AllianceContent onOpenModal={openModal} />}
+        />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-      <Modal 
-        isOpen={modalData.isOpen} 
-        onClose={closeModal} 
-        title={modalData.title} 
-        content={modalData.content} 
+      <Modal
+        isOpen={modalData.isOpen}
+        onClose={closeModal}
+        title={modalData.title}
+        content={modalData.content}
+      />
+      <ExitIntentModal 
+        isOpen={exitIntentOpen} 
+        onClose={() => setExitIntentOpen(false)} 
       />
     </BrowserRouter>
   );
