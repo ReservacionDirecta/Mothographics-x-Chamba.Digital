@@ -212,7 +212,7 @@ const proposals: Record<string, ProposalConfig> = {
     ],
 
     urgency: {
-      deadline: "April 21",
+      deadline: "72 horas",
       reason: [
         "Solo tomo 2 proyectos por quincena para darle atención completa.",
         "I only take 2 projects per cycle to give each one my full attention.",
@@ -230,7 +230,7 @@ const proposals: Record<string, ProposalConfig> = {
         "Hi, I have questions about the InglesLegal.com proposal",
       ],
     },
-    validity: "May 2, 2026",
+    validity: "72 horas",
   },
 };
 
@@ -707,13 +707,13 @@ const ProposalPage: React.FC = () => {
             </div>
 
             <p className="text-[16px] mb-10" style={{ color: C.mt }}>
-              {Tb(lang, p.urgency.reason)} {T(lang, 'Disponible hasta el', 'Available until')} <strong style={{ color: C.fg }}>{p.urgency.deadline}</strong>.
+              {Tb(lang, p.urgency.reason)} {T(lang, 'Esta oferta expira en', 'This offer expires in')} <strong style={{ color: C.fg }}>{p.urgency.deadline}</strong>.
             </p>
 
             {/* Neuro-marketing: Trust Anchor before CTA */}
             <div className="flex items-center justify-center gap-2 mb-8 text-[14px] font-bold" style={{ color: C.ac }}>
               <ShieldCheck className="w-5 h-5" />
-              {T(lang, 'Riesgo cero. Transacción garantizada.', 'Zero risk. Guaranteed transaction.')}
+              {T(lang, 'Riesgo cero. Transacción garantizada. · Sin cláusula de permanencia.', 'Zero risk. Guaranteed transaction. · No lock-in contract.')}
             </div>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-5">
@@ -741,10 +741,10 @@ const ProposalPage: React.FC = () => {
               </motion.a>
             </div>
 
-            <p className="text-[13px] mt-10" style={{ color: C.faded }}>
+            <p className="text-[13px] mt-10 font-bold" style={{ color: C.red }}>
               {T(lang,
-                `Propuesta válida hasta el ${p.validity} · ${p.offer.priceMxn} al tipo de cambio del día`,
-                `Proposal valid until ${p.validity} · ${p.offer.priceMxn} at current exchange rate`
+                `⚠️ Esta oferta expira en ${p.validity} · ${p.offer.priceMxn} al tipo de cambio del día`,
+                `⚠️ This offer expires in ${p.validity} · ${p.offer.priceMxn} at current exchange rate`
               )}
             </p>
           </div>
