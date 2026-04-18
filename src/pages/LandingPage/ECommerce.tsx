@@ -98,11 +98,17 @@ const EcommerceLandingPage: React.FC = () => {
         {/* ROI/Growth Section */}
         <section className="py-24 px-6 md:px-10 bg-accent/[0.02] border-y border-white/5">
           <div className="max-w-[1024px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-             <div className="relative order-2 lg:order-1">
-              <div className="aspect-square glass rounded-[32px] border-accent/20 flex items-center justify-center p-12 overflow-hidden">
-                <div className="absolute inset-0 bg-radial-[circle,rgba(59,130,246,0.1)_0%,transparent_70%]" />
+            <div className="relative order-2 lg:order-1">
+              <div className="aspect-square glass rounded-[32px] border-accent/30 flex items-center justify-center p-12 overflow-hidden bg-accent/[0.03]">
+                <div 
+                  className="absolute inset-0 opacity-60" 
+                  style={{
+                    background: 'radial-gradient(circle, rgba(59, 130, 246, 0.4) 0%, transparent 75%)',
+                    filter: 'blur(40px)'
+                  }}
+                />
                 <div className="relative z-10 text-center">
-                  <span className="text-[64px] font-black text-accent block mb-2">4.5x</span>
+                  <span className="text-[64px] md:text-[84px] font-black text-accent block mb-2 leading-none">4.5x</span>
                   <span className="text-[14px] font-bold uppercase tracking-widest text-muted">ROAS Promedio de Clientes</span>
                 </div>
               </div>

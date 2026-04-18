@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion } from 'motion/react';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { ChambaNavbar } from '../../App';
 import { 
   Building2, 
@@ -14,11 +14,100 @@ import {
   Linkedin,
   MapPin,
   Zap,
+  X,
+  Info
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Logo } from '../../App';
 
 const HotelsLandingPage: React.FC = () => {
+  const [selectedClient, setSelectedClient] = useState<any>(null);
+
+  const clients = [
+    {
+      emoji: "🏝️",
+      name: "Peña Linda Bungalows",
+      location: "Máncora – Perú",
+      tasks: [
+        "Implementación y gestión integral del PMS.",
+        "Desarrollo y optimización continua de la web oficial.",
+        "Integración de motor de reservas para ventas directas.",
+        "Administración completa del flujo de reservas.",
+        "Gestión de cobranza y atención vía WhatsApp.",
+        "Ejecución de estrategias de marketing digital y IA.",
+        "+10 años consolidando resultados."
+      ],
+      focus: "Operación integral del negocio: marketing + ventas + tecnología + automatización."
+    },
+    {
+      emoji: "🌿",
+      name: "Fundo Achamaqui",
+      location: "Chachapoyas – Perú",
+      tasks: [
+        "Implementación del PMS y estructura de reservas.",
+        "Desarrollo de oferta comercial premium (paquetes).",
+        "Diseño de experiencias completas (hospedaje + tours).",
+        "Estrategias de pricing y rentabilidad.",
+        "Contenido emocional y narrativo (misticismo).",
+        "Automatización de atención y conversión."
+      ],
+      focus: "Transformación de alojamiento en producto turístico premium estructurado y escalable."
+    },
+    {
+      emoji: "🌊",
+      name: "Punta Negritos | Wind & Surf",
+      location: "Talara – Perú",
+      tasks: [
+        "Implementación completa del PMS.",
+        "Desarrollo y publicación de la web oficial.",
+        "Integración del motor de reservas.",
+        "Configuración en OTAs (Booking, Airbnb).",
+        "Registro y optimización en Google Business Profile.",
+        "Construcción de presencia digital desde cero."
+      ],
+      focus: "Implementación total desde cero: infraestructura digital + canales de venta + posicionamiento inicial."
+    },
+    {
+      emoji: "🌴",
+      name: "Hacienda Don Vicente",
+      location: "Tarapoto – Perú",
+      tasks: [
+        "Creación de copys estratégicos para redes sociales.",
+        "Desarrollo de promociones estacionales.",
+        "Diseño de ofertas con valor agregado.",
+        "Optimización de mensajes de venta y conversión.",
+        "Apoyo en estrategia de contenido visual."
+      ],
+      focus: "Incremento de reservas mediante comunicación efectiva y ofertas atractivas."
+    },
+    {
+      emoji: "🏔️",
+      name: "Sauce Hotel Boutique",
+      location: "Ollantaytambo – Perú",
+      tasks: [
+        "Implementación y optimización del PMS.",
+        "Configuración de tarifas, disponibilidad y restricciones.",
+        "Sincronización con OTAs.",
+        "Mejora continua de la operación de reservas.",
+        "Soporte técnico y ajustes estratégicos."
+      ],
+      focus: "Optimización operativa para lograr eficiencia y control en la gestión."
+    },
+    {
+      emoji: "🏡",
+      name: "Casa QX | Hotel Boutique",
+      location: "Pachacamac – Perú",
+      tasks: [
+        "Desarrollo de concepto de marca boutique.",
+        "Creación de comunicación aspiracional y premium.",
+        "Estrategia de posicionamiento digital.",
+        "Generación de contenido para redes sociales.",
+        "Apoyo en narrativa de marca."
+      ],
+      focus: "Construcción de una marca enfocada en exclusividad, diseño y experiencia privada."
+    }
+  ];
+
   return (
     <div className="bg-bg text-fg selection:bg-accent selection:text-white">
       <ChambaNavbar />
@@ -95,38 +184,68 @@ const HotelsLandingPage: React.FC = () => {
           </div>
         </section>
 
-        {/* Benefits Section */}
-        <section className="py-24 px-6 md:px-10 bg-accent/[0.02] border-y border-white/5">
-          <div className="max-w-[1024px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div>
-              <span className="label-editorial">Resultados Tangibles</span>
-              <h2 className="text-[32px] md:text-[48px] font-bold tracking-tight mb-8">
-                ¿Por qué los hoteles eligen nuestra <span className="text-accent">Ingeniería</span>?
-              </h2>
-              <div className="space-y-6">
+        {/* Portfolio Section */}
+        <section id="clientes" className="py-24 px-6 md:px-10 max-w-[1024px] mx-auto border-t border-white/5">
+          <div className="text-center mb-16">
+            <span className="label-editorial mx-auto">Nuestros Casos de Éxito</span>
+            <h2 className="text-[32px] md:text-[56px] font-black tracking-tighter leading-none mb-4">
+              Clientes que ya <span className="text-accent">Escalan</span>.
+            </h2>
+            <p className="text-muted max-w-2xl mx-auto text-[15px] md:text-[17px]">
+              Toca cada proyecto para ver el detalle de la implementación estratégica.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {clients.map((client, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                whileHover={{ y: -10, borderColor: "rgba(59, 130, 246, 0.4)" }}
+                onClick={() => setSelectedClient(client)}
+                className="p-6 glass rounded-[24px] border-white/5 flex flex-col items-center text-center cursor-pointer group transition-all smooth-gpu"
+              >
+                <span className="text-5xl mb-6 group-hover:scale-110 transition-transform">{client.emoji}</span>
+                <h3 className="text-[18px] font-black leading-tight mb-1 group-hover:text-accent transition-colors">{client.name}</h3>
+                <p className="text-[12px] text-muted font-bold uppercase tracking-[0.2em] mb-6">{client.location}</p>
+                <button className="mt-auto flex items-center gap-2 text-[11px] font-black uppercase tracking-widest text-accent opacity-0 group-hover:opacity-100 transition-all">
+                  Ver Estrategia <Info className="w-3 h-3" />
+                </button>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Conclusion Global */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mt-16 p-10 glass rounded-[32px] border-accent/30 bg-accent/5 relative overflow-hidden smooth-gpu"
+          >
+            <div className="absolute top-0 right-0 p-8 opacity-10">
+              <BarChart3 className="w-24 h-24 text-accent" />
+            </div>
+            <div className="relative z-10 max-w-[800px]">
+              <h3 className="text-[24px] font-black mb-6 flex items-center gap-3">
+                <span className="text-2xl">📊</span> Conclusión Global
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 {[
-                  "Ahorro de hasta 20% en comisiones de Booking/Expedia.",
-                  "Control total de la base de datos de tus huéspedes.",
-                  "Automatización de procesos de check-in y cobros.",
-                  "Soporte técnico especializado 24/7."
-                ].map((text, i) => (
-                  <div key={i} className="flex items-start gap-4">
-                    <CheckCircle2 className="w-5 h-5 text-accent shrink-0 mt-1" />
-                    <p className="text-[15px] font-medium">{text}</p>
+                  { level: "1. Implementación", clients: "(Punta Negritos)", desc: "Infraestructura digital + canales de venta" },
+                  { level: "2. Operación", clients: "(Peña Linda)", desc: "Marketing + ventas + automatización + gestión completa" },
+                  { level: "3. Escalada", clients: "(F. Achamaqui, Sauce, etc.)", desc: "Estrategia, conversión y rentabilidad" }
+                ].map((item, i) => (
+                  <div key={i} className="space-y-2">
+                    <p className="text-[14px] font-black text-accent uppercase tracking-tighter">{item.level}</p>
+                    <p className="text-[11px] font-bold text-fg">{item.clients}</p>
+                    <p className="text-[13px] text-muted italic">→ {item.desc}</p>
                   </div>
                 ))}
               </div>
             </div>
-            <div className="relative">
-              <div className="aspect-square glass rounded-[32px] border-accent/20 flex items-center justify-center p-12 overflow-hidden">
-                <div className="absolute inset-0 bg-radial-[circle,rgba(59,130,246,0.1)_0%,transparent_70%]" />
-                <div className="relative z-10 text-center">
-                  <span className="text-[64px] font-black text-accent block mb-2">+35%</span>
-                  <span className="text-[14px] font-bold uppercase tracking-widest text-muted">Aumento en reserva directa</span>
-                </div>
-              </div>
-            </div>
-          </div>
+          </motion.div>
         </section>
 
         {/* Final CTA */}
@@ -198,6 +317,91 @@ const HotelsLandingPage: React.FC = () => {
           </div>
         </div>
       </footer>
+
+      {/* Hotel Detail Modal */}
+      <AnimatePresence>
+        {selectedClient && (
+          <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSelectedClient(null)}
+              className="absolute inset-0 bg-black/90 backdrop-blur-xl"
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              className="relative w-full max-w-[600px] glass rounded-[32px] border-accent/20 p-8 md:p-12 shadow-2xl overflow-y-auto max-h-[90vh] custom-scrollbar"
+            >
+              <button
+                onClick={() => setSelectedClient(null)}
+                className="absolute top-6 right-6 p-2 text-muted hover:text-accent transition-colors"
+                title="Cerrar detalles"
+              >
+                <X className="w-6 h-6" />
+              </button>
+
+              <div className="flex items-center gap-4 mb-8">
+                <span className="text-5xl">{selectedClient.emoji}</span>
+                <div>
+                  <h3 className="text-[24px] font-black tracking-tighter leading-none mb-1">{selectedClient.name}</h3>
+                  <p className="text-[14px] text-accent font-bold uppercase tracking-widest">{selectedClient.location}</p>
+                </div>
+              </div>
+
+              <div className="space-y-8">
+                <div>
+                  <div className="flex items-center gap-2 mb-6">
+                    <div className="h-[1px] flex-grow bg-white/5" />
+                    <span className="text-[11px] font-black uppercase tracking-[0.3em] text-accent">Implementación Estratégica</span>
+                    <div className="h-[1px] flex-grow bg-white/5" />
+                  </div>
+                  <ul className="space-y-4">
+                    {selectedClient.tasks.map((task: string, idx: number) => (
+                      <motion.li
+                        key={idx}
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: idx * 0.05 }}
+                        className="flex gap-4 text-[14px] leading-relaxed text-muted"
+                      >
+                        <CheckCircle2 className="w-4 h-4 text-accent shrink-0 mt-1" />
+                        {task}
+                      </motion.li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="p-6 bg-accent/10 rounded-[20px] border border-accent/20 relative overflow-hidden group">
+                  <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                    <Zap className="w-12 h-12 text-accent" />
+                  </div>
+                  <span className="text-[10px] font-black uppercase text-accent tracking-[0.4em] block mb-2">🔑 Enfoque Estratégico</span>
+                  <p className="text-[15px] font-bold italic leading-tight text-fg">{selectedClient.focus}</p>
+                </div>
+
+                <div className="flex flex-col gap-4">
+                   <a
+                    href="https://wa.me/51904060670"
+                    target="_blank"
+                    className="bg-accent text-white py-5 rounded-2xl flex items-center justify-center gap-2 font-black uppercase tracking-[0.2em] text-[12px] shadow-lg hover:shadow-accent/40 transition-all"
+                  >
+                    Consultar Proyecto Similar <ArrowRight className="w-4 h-4" />
+                  </a>
+                  <button
+                    onClick={() => setSelectedClient(null)}
+                    className="text-[11px] font-bold text-muted/50 uppercase tracking-widest hover:text-fg transition-colors"
+                  >
+                    Volver al portafolio
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

@@ -421,10 +421,10 @@ const Hero = () => {
       <div className="absolute top-[-100px] left-[30%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-radial-[circle,rgba(59,130,246,0.1)_0%,transparent_70%] blur-[60px] -z-10" />
 
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-        className="z-10 flex flex-col items-center"
+        initial={{ opacity: 0, scale: 0.95, y: 30 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+        className="z-10 flex flex-col items-center smooth-gpu"
       >
         <span className="label-editorial mx-auto">
           {headlines?.tag}
@@ -780,13 +780,85 @@ const Services = ({
 );
 
 const Portfolio = () => {
+  const [selectedHotel, setSelectedHotel] = useState<any>(null);
+
   const clients = [
-    { name: "Peña Linda Bungalows", location: "Máncora - Perú" },
-    { name: "Fundo Achamaqui", location: "Chachapoyas - Perú" },
-    { name: "Punta Negritos | Wind & Surf", location: "Talara, Perú" },
-    { name: "Hacienda Don Vicente", location: "Tarapoto - Perú" },
-    { name: "Sauce Hotel Boutique", location: "Ollantaytambo - Perú" },
-    { name: "Casa QX | Hotel Boutique", location: "Pachacamac - Perú" },
+    {
+      emoji: "🏝️",
+      name: "Peña Linda Bungalows",
+      location: "Máncora – Perú",
+      tasks: [
+        "Implementación y gestión integral del PMS.",
+        "Desarrollo y optimización continua de la web oficial.",
+        "Integración de motor de reservas para ventas directas.",
+        "Administración completa del flujo de reservas.",
+        "Atención vía WhatsApp y Automatización con IA.",
+        "+10 años consolidando resultados."
+      ],
+      focus: "Operación integral: marketing + ventas + tecnología + automatización."
+    },
+    {
+      emoji: "🌿",
+      name: "Fundo Achamaqui",
+      location: "Chachapoyas – Perú",
+      tasks: [
+        "Implementación del PMS y estructura de reservas.",
+        "Desarrollo de paquetes turísticos premium.",
+        "Diseño de experiencias completas y pricing.",
+        "Contenido emocional y narrativo.",
+        "Automatización de atención y conversión."
+      ],
+      focus: "Transformación de alojamiento en producto turístico premium escalable."
+    },
+    {
+      emoji: "🌊",
+      name: "Punta Negritos | Wind & Surf",
+      location: "Talara – Perú",
+      tasks: [
+        "Implementación completa del PMS.",
+        "Desarrollo y publicación de la web oficial.",
+        "Integración del motor de reservas.",
+        "Configuración en OTAs (Booking, Airbnb).",
+        "Construcción de presencia digital desde cero."
+      ],
+      focus: "Implementación total desde cero: infraestructura digital + canales de venta."
+    },
+    {
+      emoji: "🌴",
+      name: "Hacienda Don Vicente",
+      location: "Tarapoto – Perú",
+      tasks: [
+        "Creación de copys estratégicos para redes sociales.",
+        "Desarrollo de promociones estacionales.",
+        "Diseño de ofertas con valor agregado.",
+        "Optimización de mensajes de venta y conversión."
+      ],
+      focus: "Incremento de reservas mediante comunicación efectiva y ofertas atractivas."
+    },
+    {
+      emoji: "🏔️",
+      name: "Sauce Hotel Boutique",
+      location: "Ollantaytambo – Perú",
+      tasks: [
+        "Implementación y optimización del PMS.",
+        "Configuración de tarifas, disponibilidad y restricciones.",
+        "Sincronización con OTAs.",
+        "Mejora continua de la operación de reservas."
+      ],
+      focus: "Optimización operativa para lograr eficiencia y control en la gestión."
+    },
+    {
+      emoji: "🏡",
+      name: "Casa QX | Hotel Boutique",
+      location: "Pachacamac – Perú",
+      tasks: [
+        "Desarrollo de concepto de marca boutique.",
+        "Creación de comunicación aspiracional y premium.",
+        "Estrategia de posicionamiento digital.",
+        "Apoyo en narrativa de marca."
+      ],
+      focus: "Construcción de una marca enfocada en exclusividad y diseño."
+    }
   ];
 
   const webs = [
@@ -862,12 +934,16 @@ const Portfolio = () => {
             {clients.map((client, i) => (
               <motion.div
                 key={i}
-                whileHover={{ x: 5 }}
-                className="p-4 glass rounded-[10px] border-white/5 flex flex-col gap-1 cursor-default"
+                whileHover={{ x: 5, borderColor: "rgba(59, 130, 246, 0.4)" }}
+                onClick={() => setSelectedHotel(client)}
+                className="p-4 glass rounded-[10px] border-white/5 flex flex-col gap-1 cursor-pointer group transition-all"
               >
-                <span className="text-[14px] font-bold text-fg">
-                  {client.name}
-                </span>
+                <div className="flex justify-between items-center">
+                  <span className="text-[14px] font-bold text-fg group-hover:text-accent transition-colors">
+                    {client.name}
+                  </span>
+                  <Info className="w-3 h-3 text-accent opacity-0 group-hover:opacity-100 transition-all" />
+                </div>
                 <span className="text-[11px] text-muted uppercase tracking-wider">
                   {client.location}
                 </span>
@@ -961,7 +1037,117 @@ const Portfolio = () => {
             </motion.a>
           </motion.div>
         </div>
+
+        {/* Global Conclusion Summary */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="mt-16 p-8 glass rounded-[24px] border-white/5 bg-white/[0.01]"
+        >
+          <h4 className="text-[18px] font-black mb-6 flex items-center gap-3">
+            <span className="text-xl">📊</span> Resumen Estratégico
+          </h4>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="space-y-2">
+              <p className="text-[13px] font-black text-accent uppercase tracking-tighter">1. Implementación</p>
+              <p className="text-[12px] text-muted italic">Punta Negritos → Infraestructura digital + canales de venta</p>
+            </div>
+            <div className="space-y-2">
+              <p className="text-[13px] font-black text-accent uppercase tracking-tighter">2. Operación Integral</p>
+              <p className="text-[12px] text-muted italic">Peña Linda → Marketing + ventas + gestión completa</p>
+            </div>
+            <div className="space-y-2">
+              <p className="text-[13px] font-black text-accent uppercase tracking-tighter">3. Optimización</p>
+              <p className="text-[12px] text-muted italic">Sauce, Casa QX, etc. → Estrategia y rentabilidad</p>
+            </div>
+          </div>
+        </motion.div>
       </div>
+
+      {/* Hotel Home Modal Detail */}
+      <AnimatePresence>
+        {selectedHotel && (
+          <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSelectedHotel(null)}
+              className="absolute inset-0 bg-black/95 backdrop-blur-xl"
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              className="relative w-full max-w-[550px] glass rounded-[32px] border-accent/20 p-8 md:p-12 shadow-2xl overflow-y-auto max-h-[90vh] custom-scrollbar"
+            >
+              <button
+                onClick={() => setSelectedHotel(null)}
+                className="absolute top-6 right-6 p-2 text-muted hover:text-accent transition-colors"
+              >
+                <X className="w-6 h-6" />
+              </button>
+
+              <div className="flex items-center gap-4 mb-8">
+                <span className="text-5xl">{selectedHotel.emoji}</span>
+                <div>
+                  <h3 className="text-[24px] font-black tracking-tighter leading-none mb-1">{selectedHotel.name}</h3>
+                  <p className="text-[14px] text-accent font-bold uppercase tracking-widest">{selectedHotel.location}</p>
+                </div>
+              </div>
+
+              <div className="space-y-8">
+                <div>
+                  <div className="flex items-center gap-2 mb-6">
+                    <div className="h-[1px] flex-grow bg-white/5" />
+                    <span className="text-[11px] font-black uppercase tracking-[0.3em] text-accent">Implementación Estratégica</span>
+                    <div className="h-[1px] flex-grow bg-white/5" />
+                  </div>
+                  <ul className="space-y-4">
+                    {selectedHotel.tasks.map((task: string, idx: number) => (
+                      <motion.li
+                        key={idx}
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: idx * 0.05 }}
+                        className="flex gap-4 text-[13px] leading-relaxed text-muted"
+                      >
+                        <CheckCircle2 className="w-4 h-4 text-accent shrink-0 mt-1" />
+                        {task}
+                      </motion.li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="p-6 bg-accent/10 rounded-[20px] border border-accent/20 relative overflow-hidden group">
+                  <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                    <Zap className="w-12 h-12 text-accent" />
+                  </div>
+                  <span className="text-[10px] font-black uppercase text-accent tracking-[0.4em] block mb-2">🔑 Enfoque Estratégico</span>
+                  <p className="text-[14px] font-bold italic leading-tight text-fg">{selectedHotel.focus}</p>
+                </div>
+
+                <div className="flex flex-col gap-4">
+                   <Link
+                    to="/hotels"
+                    className="bg-accent text-white py-5 rounded-2xl flex items-center justify-center gap-2 font-black uppercase tracking-[0.2em] text-[12px] shadow-lg hover:shadow-accent/40 transition-all"
+                  >
+                    Ver Sector Completo <ArrowRight className="w-4 h-4" />
+                  </Link>
+                  <button
+                    onClick={() => setSelectedHotel(null)}
+                    className="text-[11px] font-bold text-muted/50 uppercase tracking-widest"
+                  >
+                    Volver al portafolio
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </section>
   );
 };
@@ -1107,7 +1293,7 @@ export const ChambaNavbar = () => {
 
   return (
     <nav 
-      className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 px-6 md:px-10 flex items-center justify-between ${
+      className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 px-6 md:px-10 flex items-center justify-between smooth-gpu ${
         scrolled 
           ? "h-[70px] bg-black/60 backdrop-blur-xl border-b border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.3)]" 
           : "h-[90px] bg-transparent"
@@ -1138,7 +1324,7 @@ export const ChambaNavbar = () => {
           href="https://wa.me/51904060670"
           target="_blank"
           rel="noopener noreferrer"
-          className="hidden sm:flex bg-accent text-white px-8 py-3.5 rounded-[14px] text-[12px] font-black uppercase tracking-widest transition-all shadow-[0_10px_25px_rgba(59,130,246,0.3)] hover:shadow-[0_15px_35px_rgba(59,130,246,0.5)] border border-white/10"
+          className="hidden sm:flex bg-accent text-white px-8 py-3.5 rounded-[14px] text-[12px] font-black uppercase tracking-widest transition-all shadow-[0_10px_25px_rgba(59,130,246,0.3)] hover:shadow-[0_15px_35px_rgba(59,130,246,0.5)] border border-white/10 smooth-gpu"
         >
           Iniciar Proyecto
         </motion.a>
@@ -1160,11 +1346,15 @@ export const ChambaNavbar = () => {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "100%" }}
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="fixed inset-0 z-[110] bg-black/95 backdrop-blur-2xl flex flex-col p-8 pt-24 lg:hidden"
+            className="fixed inset-0 z-[110] bg-black/98 backdrop-blur-[30px] flex flex-col p-8 pt-24 lg:hidden h-[100dvh] w-screen overflow-y-auto"
           >
+            {/* Background Decorations */}
+            <div className="absolute top-[-10%] right-[-10%] w-[80vw] h-[80vw] bg-accent/10 blur-[120px] rounded-full -z-10" />
+            <div className="absolute bottom-[-5%] left-[-10%] w-[60vw] h-[60vw] bg-accent/5 blur-[100px] rounded-full -z-10" />
+
             <button 
               onClick={() => setIsMobileMenuOpen(false)}
-              className="absolute top-8 right-8 p-3 bg-white/5 rounded-xl border border-white/10"
+              className="absolute top-8 right-8 p-3 bg-white/5 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors"
             >
               <X className="w-6 h-6" />
             </button>
@@ -1214,10 +1404,10 @@ const ChambaHero = () => (
     <div className="absolute top-[-100px] left-[30%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-radial-[circle,rgba(59,130,246,0.1)_0%,transparent_70%] blur-[60px] -z-10" />
 
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-      className="z-10"
+      initial={{ opacity: 0, y: 30, scale: 0.98 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+      className="z-10 smooth-gpu"
     >
       <span className="label-editorial mx-auto">
         🚀 Ingeniería de Performance
@@ -1284,7 +1474,7 @@ const PainPoints = () => (
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: i * 0.1 }}
-          className="p-8 glass rounded-[16px] border-white/5 hover:border-red-500/20 transition-colors group"
+          className="p-8 glass rounded-[16px] border-white/5 hover:border-red-500/20 transition-colors group smooth-gpu"
         >
           <div className="w-12 h-12 bg-red-500/10 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
             <item.icon className="w-6 h-6 text-red-500" />
@@ -1343,8 +1533,14 @@ const Methodology = () => (
           </div>
         </div>
         <div className="relative">
-          <div className="aspect-square glass rounded-[24px] border-accent/20 flex items-center justify-center p-12 overflow-hidden">
-            <div className="absolute inset-0 bg-radial-[circle,rgba(59,130,246,0.1)_0%,transparent_70%]" />
+          <div className="aspect-square glass rounded-[24px] border-accent/20 flex items-center justify-center p-12 overflow-hidden smooth-gpu">
+            <div 
+              className="absolute inset-0 opacity-40" 
+              style={{
+                background: 'radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, transparent 70%)',
+                filter: 'blur(30px)'
+              }}
+            />
             <Zap className="w-32 h-32 text-accent animate-pulse" />
           </div>
         </div>
@@ -1381,7 +1577,7 @@ const FAQ = () => {
         {faqs.map((faq, i) => (
           <div
             key={i}
-            className="glass rounded-[12px] border-white/5 overflow-hidden"
+            className="glass rounded-[12px] border-white/5 overflow-hidden smooth-gpu"
           >
             <button
               onClick={() => setOpenIndex(openIndex === i ? null : i)}
