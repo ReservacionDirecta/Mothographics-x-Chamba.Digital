@@ -8,6 +8,7 @@ import { BrowserRouter, Routes, Route, Navigate, Link } from "react-router-dom";
 import HotelsLandingPage from './pages/LandingPage/Hotels.tsx';
 import EcommerceLandingPage from './pages/LandingPage/ECommerce.tsx';
 import ServiceBusinessesLandingPage from './pages/LandingPage/ServiceBusinesses.tsx';
+import ProposalPage from './pages/LandingPage/Proposal.tsx';
 import { motion, AnimatePresence } from "motion/react";
 import {
   ArrowRight,
@@ -32,6 +33,13 @@ import {
   Phone,
   MessageCircle,
   Menu,
+  Shield,
+  Clock,
+  Code2,
+  Headphones,
+  Repeat,
+  BarChart3,
+  Target,
 } from "lucide-react";
 
 // --- Components for Conversion & Lead Flow (Phase 3) ---
@@ -1804,6 +1812,108 @@ const ContactForm = () => {
   );
 };
 
+const ProcessTimeline = () => (
+  <section className="py-20 px-6 md:px-10 bg-accent/[0.02] border-y border-white/5">
+    <div className="max-w-[1024px] mx-auto">
+      <div className="text-center mb-16">
+        <span className="label-editorial mx-auto">Cómo Trabajamos</span>
+        <h2 className="text-[32px] md:text-[48px] font-bold tracking-tight mb-4">
+          De la idea al <span className="text-accent">lanzamiento</span> en semanas.
+        </h2>
+        <p className="text-muted text-[15px] max-w-[600px] mx-auto">Proceso transparente. Siempre sabes en qué etapa estamos.</p>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {[
+          { step: "01", title: "Briefing & Estrategia", desc: "Analizamos tu negocio, definimos objetivos y trazamos el plan de acción con entregables claros.", icon: Target },
+          { step: "02", title: "Diseño UX/UI", desc: "Prototipamos la experiencia visual en modo Liquid Glass para que apruebes antes de programar.", icon: Palette },
+          { step: "03", title: "Desarrollo & Integración", desc: "Código propio optimizado. Integramos PMS, pasarelas de pago, Pixel, Analytics y tu CRM.", icon: Code2 },
+          { step: "04", title: "Revisión & QA", desc: "2 rondas de ajustes incluidas. Verificamos en móvil, tablet y desktop. Nada sale sin tu OK.", icon: CheckCircle2 },
+          { step: "05", title: "Lanzamiento", desc: "Desplegamos en producción, configuramos SEO, activamos campañas y encendemos el tracking.", icon: Zap },
+          { step: "06", title: "Soporte 30 días", desc: "Post-lanzamiento incluido. Cualquier ajuste técnico se resuelve sin costo adicional.", icon: Headphones },
+        ].map((item, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: i * 0.05 }}
+            className="glass rounded-[20px] p-8 border-white/5 hover:border-accent/20 transition-colors group relative overflow-hidden"
+          >
+            <span className="absolute top-4 right-6 text-[48px] font-black text-accent/5 select-none">{item.step}</span>
+            <div className="w-12 h-12 bg-accent/10 rounded-full flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+              <item.icon className="w-6 h-6 text-accent" />
+            </div>
+            <h4 className="text-[16px] font-bold mb-2">{item.title}</h4>
+            <p className="text-[13px] text-muted leading-relaxed">{item.desc}</p>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  </section>
+);
+
+const Guarantees = () => (
+  <section className="py-20 px-6 md:px-10 max-w-[1024px] mx-auto">
+    <div className="text-center mb-16">
+      <span className="label-editorial mx-auto">Compromisos Reales</span>
+      <h2 className="text-[32px] md:text-[48px] font-bold tracking-tight mb-4">
+        Garantías que <span className="text-accent">respaldan</span> nuestra palabra.
+      </h2>
+    </div>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {[
+        { icon: Clock, title: "Entrega en plazo o devolvemos", desc: "Si no cumplimos el deadline acordado, devolvemos el 20% del pago final. Sin letras chicas." },
+        { icon: Repeat, title: "2 rondas de revisiones", desc: "No es 'lo que venga quedó'. Tienes dos oportunidades formales para cambios sin costo adicional." },
+        { icon: Code2, title: "Código propio, no plantillas", desc: "Tu proyecto se desarrolla a mano. Carga más rápido, rankea mejor en Google y no depende de suscripciones." },
+        { icon: Shield, title: "Transparencia total", desc: "Sabes exactamente qué incluye y qué NO incluye cada proyecto. Sin costos ocultos ni sorpresas." },
+        { icon: Headphones, title: "Soporte post-lanzamiento", desc: "30 días de soporte técnico incluido después de la entrega para resolver cualquier detalle." },
+        { icon: BarChart3, title: "Resultados medibles desde el día 1", desc: "Analytics, Pixel y tracking configurados desde el lanzamiento. Cada centavo se mide." },
+      ].map((item, i) => (
+        <motion.div
+          key={i}
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: i * 0.05 }}
+          className="glass rounded-[20px] p-6 border-white/5 hover:border-accent/20 transition-colors group"
+        >
+          <div className="w-12 h-12 bg-accent/10 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+            <item.icon className="w-6 h-6 text-accent" />
+          </div>
+          <h4 className="text-[15px] font-bold mb-2">{item.title}</h4>
+          <p className="text-[13px] text-muted leading-relaxed">{item.desc}</p>
+        </motion.div>
+      ))}
+    </div>
+
+    {/* Dual CTA */}
+    <div className="mt-16 text-center">
+      <h3 className="text-[24px] md:text-[32px] font-black mb-4">¿Listo para empezar?</h3>
+      <p className="text-muted text-[15px] mb-8">Hablemos sobre tu proyecto. Sin compromiso.</p>
+      <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <motion.a
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          href="https://wa.me/51904060670?text=Hola%2C%20quiero%20iniciar%20un%20proyecto%20con%20Chamba%20Digital."
+          target="_blank"
+          className="w-full sm:w-auto bg-accent text-white px-10 py-5 rounded-[12px] font-bold text-[15px] shadow-[0_10px_30px_rgba(59,130,246,0.3)]"
+        >
+          Empezar Proyecto →
+        </motion.a>
+        <motion.a
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          href="https://wa.me/51904060670?text=Hola%2C%20tengo%20preguntas%20sobre%20los%20servicios%20de%20Chamba%20Digital."
+          target="_blank"
+          className="w-full sm:w-auto bg-white/5 border border-white/10 hover:border-accent/30 text-fg px-10 py-5 rounded-[12px] font-bold text-[15px] transition-colors"
+        >
+          Tengo Preguntas
+        </motion.a>
+      </div>
+    </div>
+  </section>
+);
+
 const ChambaContent = ({ onOpenModal }: any) => (
   <div className="selection:bg-accent selection:text-white">
     <ChambaNavbar />
@@ -1817,6 +1927,8 @@ const ChambaContent = ({ onOpenModal }: any) => (
         label="Nuestros Servicios"
       />
       <Portfolio />
+      <ProcessTimeline />
+      <Guarantees />
       <FAQ />
       <ContactForm />
     </main>
@@ -2039,6 +2151,7 @@ export default function App() {
         <Route path="/ecommerce" element={<EcommerceLandingPage />} />
         <Route path="/hotels" element={<HotelsLandingPage />} />
         <Route path="/servicebusinesses" element={<ServiceBusinessesLandingPage />} />
+        <Route path="/propuesta/:slug" element={<ProposalPage />} />
         <Route
           path="/alianza"
           element={<AllianceContent onOpenModal={openModal} />}

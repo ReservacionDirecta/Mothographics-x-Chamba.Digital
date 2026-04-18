@@ -14,6 +14,11 @@ import {
   Linkedin,
   MapPin,
   Zap,
+  Clock,
+  Code2,
+  Headphones,
+  Target,
+  Palette,
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Logo } from '../../App';
@@ -135,18 +140,65 @@ const EcommerceLandingPage: React.FC = () => {
           </div>
         </section>
 
-        {/* Final CTA */}
+        {/* Process */}
+        <section className="py-20 px-6 md:px-10 bg-accent/[0.02] border-y border-white/5">
+          <div className="max-w-[1024px] mx-auto">
+            <div className="text-center mb-16">
+              <span className="label-editorial mx-auto">Cómo Trabajamos</span>
+              <h2 className="text-[28px] md:text-[40px] font-bold tracking-tight">De la idea al <span className="text-accent">primer pedido</span>.</h2>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-5">
+              {[
+                { s: "01", t: "Análisis CRO", d: "Auditamos tu tienda y encontramos las fugas de conversión.", icon: Target },
+                { s: "02", t: "Diseño UX", d: "Checkout optimizado para venta inmediata.", icon: Palette },
+                { s: "03", t: "Desarrollo", d: "Integraciones de pago, inventario y tracking.", icon: Code2 },
+                { s: "04", t: "Revisión", d: "2 rondas de ajustes incluidas.", icon: CheckCircle2 },
+                { s: "05", t: "Lanzamiento", d: "Pixel, Analytics y campañas activados.", icon: Zap },
+                { s: "06", t: "Soporte 30 días", d: "Post-lanzamiento sin costo extra.", icon: Headphones },
+              ].map((item, i) => (
+                <motion.div key={i} initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }} className="glass rounded-[16px] p-6 border-white/5 hover:border-accent/20 transition-colors group relative overflow-hidden">
+                  <span className="absolute top-3 right-4 text-[36px] font-black text-accent/5">{item.s}</span>
+                  <div className="w-10 h-10 bg-accent/10 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform"><item.icon className="w-5 h-5 text-accent" /></div>
+                  <h4 className="text-[14px] font-bold mb-1">{item.t}</h4>
+                  <p className="text-[12px] text-muted leading-relaxed">{item.d}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Guarantees */}
+        <section className="py-20 px-6 md:px-10 max-w-[1024px] mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-[24px] md:text-[32px] font-bold tracking-tight">Garantías que <span className="text-accent">respaldan</span> nuestro trabajo.</h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            {[
+              { icon: Clock, t: "Entrega en plazo", d: "Si no cumplimos, devolvemos el 20% del pago final." },
+              { icon: Code2, t: "Código propio", d: "Sin plantillas. Carga rápido y rankea mejor." },
+              { icon: Headphones, t: "Soporte 30 días", d: "Ajustes técnicos post-lanzamiento incluidos." },
+            ].map((item, i) => (
+              <motion.div key={i} initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }} className="glass rounded-[16px] p-6 border-white/5 group">
+                <div className="w-10 h-10 bg-accent/10 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform"><item.icon className="w-5 h-5 text-accent" /></div>
+                <h4 className="text-[14px] font-bold mb-1">{item.t}</h4>
+                <p className="text-[12px] text-muted leading-relaxed">{item.d}</p>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+
+        {/* Dual CTA */}
         <section className="py-24 px-6 md:px-10 text-center max-w-[800px] mx-auto">
-          <h2 className="text-[32px] md:text-[48px] font-black mb-6">Tu tienda lista para escalar y dominar tu mercado</h2>
-          <p className="text-muted mb-10 text-[16px]">Implementamos un motor de conversión real: generamos más clientes y maximizamos el retorno por cada visita.</p>
-          <motion.a
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            href="https://wa.me/51904060670"
-            className="inline-block bg-accent text-white px-12 py-5 rounded-[12px] font-bold text-[16px] shadow-[0_10px_40px_rgba(59,130,246,0.4)]"
-          >
-            Empezar mi Transformación E-com
-          </motion.a>
+          <h2 className="text-[32px] md:text-[48px] font-black mb-6">Tu tienda lista para escalar</h2>
+          <p className="text-muted mb-10 text-[16px]">Motor de conversión real. Más clientes, mejor retorno.</p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <motion.a whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} href="https://wa.me/51904060670?text=Hola%2C%20quiero%20una%20auditor%C3%ADa%20de%20mi%20tienda%20online." target="_blank" className="w-full sm:w-auto bg-accent text-white px-10 py-5 rounded-[12px] font-bold text-[15px] shadow-[0_10px_30px_rgba(59,130,246,0.3)]">
+              Auditar mi Tienda →
+            </motion.a>
+            <motion.a whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} href="https://wa.me/51904060670?text=Hola%2C%20tengo%20preguntas%20sobre%20e-commerce." target="_blank" className="w-full sm:w-auto bg-white/5 border border-white/10 hover:border-accent/30 text-fg px-10 py-5 rounded-[12px] font-bold text-[15px] transition-colors">
+              Tengo Preguntas
+            </motion.a>
+          </div>
         </section>
       </main>
 
