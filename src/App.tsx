@@ -49,28 +49,41 @@ const ExitIntentModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
     email: "",
     whatsapp: "",
   });
-  const [status, setStatus] = useState<"idle" | "success">("idle");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Track the intent before redirecting
-    trackEvent('lead_magnet_whatsapp_intent', { 
-      email: formData.email,
-      whatsapp: formData.whatsapp 
-    });
+    // Track the intent before fetching
+    if (typeof trackEvent === 'function') {
+      trackEvent('lead_magnet_email_intent', { 
+        email: formData.email,
+        whatsapp: formData.whatsapp 
+      });
+    }
 
-    const message = encodeURIComponent(
-      `¡Hola Chamba Digital! 👋 Acabo de ver el Checklist 2026. \n\n` +
-      `Mis datos son:\n` +
-      `📧 Email: ${formData.email}\n` +
-      `📱 WhatsApp: ${formData.whatsapp}\n\n` +
-      `¿Me podrían enviar la guía y contarme más sobre sus sistemas de adquisición?`
-    );
+    setStatus("loading");
 
-    // Opening WhatsApp in a new tab
-    window.open(`https://wa.me/51904060670?text=${message}`, '_blank');
-    setStatus("success");
+    try {
+      const response = await fetch('/api/send-checklist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: formData.email })
+      });
+      
+      const data = await response.json();
+      
+      if (response.ok && data.success) {
+        setStatus("success");
+      } else {
+        setErrorMessage(data.error || "Ocurrió un error al enviar el correo.");
+        setStatus("error");
+      }
+    } catch (err) {
+      setErrorMessage("Error de conexión. Intenta nuevamente.");
+      setStatus("error");
+    }
   };
 
   return (
@@ -139,13 +152,18 @@ const ExitIntentModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
                   </div>
 
                   <motion.button
-                    whileHover={{ scale: 1.02, y: -2 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="w-full bg-accent text-white py-5 rounded-[20px] font-black text-[15px] flex items-center justify-center gap-3 shadow-[0_20px_40px_rgba(59,130,246,0.3)] transition-all mt-6 uppercase tracking-widest"
+                    disabled={status === "loading"}
+                    whileHover={{ scale: status === "loading" ? 1 : 1.02, y: status === "loading" ? 0 : -2 }}
+                    whileTap={{ scale: status === "loading" ? 1 : 0.98 }}
+                    className={`w-full text-white py-5 rounded-[20px] font-black text-[15px] flex items-center justify-center gap-3 shadow-[0_20px_40px_rgba(59,130,246,0.3)] transition-all mt-6 uppercase tracking-widest ${status === "loading" ? "bg-accent/50 cursor-not-allowed" : "bg-accent"}`}
                   >
-                    Obtener Guía por WhatsApp
-                    <MessageCircle className="w-5 h-5 fill-white/20" />
+                    {status === "loading" ? "Procesando..." : "Enviar a mi Correo"}
+                    {status !== "loading" && <Send className="w-5 h-5 fill-white/20" />}
                   </motion.button>
+                  
+                  {status === "error" && (
+                    <p className="text-red-400 text-[12px] text-center mt-2 font-bold">{errorMessage}</p>
+                  )}
                 </form>
                 
                 <button 
@@ -164,23 +182,23 @@ const ExitIntentModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
                 <div className="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-8">
                   <CheckCircle2 className="w-10 h-10 text-green-500" />
                 </div>
-                <h3 className="text-[30px] font-black tracking-tighter mb-4 leading-none">¡Felicidades!</h3>
+                <h3 className="text-[30px] font-black tracking-tighter mb-4 leading-none">¡Enviado con Éxito!</h3>
                 <p className="text-muted text-[15px] mb-10 leading-relaxed">
-                  Hemos generado tu enlace de acceso. Si el chat no se abrió automáticamente, usa el botón de abajo:
+                  Revisa la bandeja de <strong>{formData.email}</strong>. Si no lo ves en 2 minutos, busca en tu carpeta de Spam.
                 </p>
                 <div className="flex flex-col gap-4">
                   <a
-                    href={`https://wa.me/51904060670?text=${encodeURIComponent(`Hola Chamba Digital! Solicito el Checklist 2026. Email: ${formData.email}`)}`}
-                    target="_blank"
+                    href="/assets/docs/Guia_Transformacion_Digital_2026.pdf"
+                    download
                     className="bg-accent text-white py-4 px-8 rounded-2xl font-black text-[14px] shadow-lg flex items-center justify-center gap-2 uppercase tracking-widest"
                   >
-                    Abrir WhatsApp <MessageCircle className="w-4 h-4" />
+                    Descarga Directa <Download className="w-4 h-4" />
                   </a>
                   <button
                     onClick={onClose}
-                    className="text-[12px] font-bold text-muted/60 py-2 hover:text-fg transition-colors"
+                    className="text-[12px] font-bold text-muted/60 py-2 hover:text-fg transition-colors mt-2"
                   >
-                    Ya lo recibí, cerrar
+                    Cerrar ventana
                   </button>
                 </div>
               </motion.div>

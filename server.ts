@@ -4,6 +4,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
+import MailerLite from '@mailerlite/mailerlite-nodejs';
 
 dotenv.config();
 
@@ -25,41 +26,32 @@ async function startServer() {
     }
 
     try {
-      // Configuration for SMTP (Using placeholders for .env)
-      // If no credentials, we log it and simulate success for dev
-      const transporter = nodemailer.createTransport({
-        host: process.env.SMTP_HOST || "smtp.ethereal.email",
-        port: Number(process.env.SMTP_PORT) || 587,
-        secure: false,
-        auth: {
-          user: process.env.SMTP_USER,
-          pass: process.env.SMTP_PASS,
-        },
-      });
+      if (process.env.MAILERLITE_API_KEY) {
+        // MailerLite Integration
+        const mailerlite = new MailerLite({
+          api_key: process.env.MAILERLITE_API_KEY
+        });
 
-      const info = await transporter.sendMail({
-        from: '"Chamba Digital" <noreply@chamba.digital>',
-        to: email,
-        subject: "🎁 Tu Checklist de Transformación Digital 2026",
-        text: `Hola! Gracias por tu interés en Chamba Digital. Adjunto encontrarás el checklist prometido.`,
-        html: `
-          <div style="font-family: sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
-            <h2 style="color: #3B82F6;">¡Hola!</h2>
-            <p>Gracias por tu interés en <strong>Chamba Digital</strong>.</p>
-            <p>Tal como prometimos, aquí tienes tu recurso para dominar el mercado digital en 2026.</p>
-            <div style="margin: 30px 0; text-align: center;">
-              <a href="https://chamba.digital/assets/docs/Guia_Transformacion_Digital_2026.pdf" 
-                 style="background: #3B82F6; color: white; padding: 15px 25px; text-decoration: none; border-radius: 8px; font-weight: bold;">
-                DESCARGAR CHECKLIST PDF
-              </a>
-            </div>
-            <p style="font-size: 12px; color: #666;">Si tienes alguna duda, responde a este correo o escríbenos por WhatsApp.</p>
-          </div>
-        `,
-      });
+        const params = {
+          email: email,
+          fields: {
+            source: "Chamba Digital - Checklist 2026"
+          },
+          groups: process.env.MAILERLITE_GROUP_ID ? [process.env.MAILERLITE_GROUP_ID] : []
+        };
 
-      console.log(`[Email] Success: ${email}. ID: ${info.messageId}`);
-      res.json({ success: true, messageId: info.messageId });
+        const response = await mailerlite.subscribers.createOrUpdate(params);
+        console.log(`[MailerLite] Subscriber added: ${email}. ID: ${response.data.id}`);
+        return res.json({ success: true, provider: "mailerlite", messageId: response.data.id });
+      } else {
+        // Mock fallback if .env is missing
+        console.log(`[Email Mock] Simulated sending to: ${email}`);
+        return res.json({ 
+          success: true, 
+          provider: "mock", 
+          warning: "No MAILERLITE_API_KEY found, simulating success for dev." 
+        });
+      }
     } catch (error) {
       console.error("[Email] Error:", error);
       // Even if email fails, we send success to the user to avoid friction in DEV
