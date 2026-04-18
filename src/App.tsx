@@ -400,19 +400,19 @@ const Hero = () => {
       tag: "🚀 Arquitectura de Crecimiento 2026",
       title: (
         <>
-          No solo construimos Webs. Creamos <span className="text-accent">Sistemas de Adquisición</span> Masiva.
+          Sistema Integral de <span className="text-accent">Adquisición y Performance</span>.
         </>
       ),
-      sub: "Transformamos tu presencia digital en una máquina de ventas automatizada, diseñada con ingeniería de performance para maximizar tu retorno de inversión."
+      sub: "Captar, convertir y escalar. Construimos la infraestructura tecnológica que transforma tu presencia digital en una máquina de ventas ininterrumpida."
     },
     B: {
       tag: "⚡ Ingeniería de Conversión 10x",
       title: (
         <>
-          Domina tu Mercado con <span className="text-accent">Ingeniería Técnica</span> de Elite.
+          Captar, Convertir y <span className="text-accent">Escalar Ventas</span>.
         </>
       ),
-      sub: "Implementamos la infraestructura que convierte tu marca en un motor de captación de clientes ininterrumpido y escalable."
+      sub: "Diseño Liquid Glass y arquitectura optimizada para un solo objetivo: maximizar el retorno por cada visita y generar clientes recurrentes."
     }
   }[headlineVariant as "A" | "B"];
 
@@ -917,43 +917,48 @@ const Portfolio = () => {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_1.2fr] gap-12 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
         {/* Hoteles */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="space-y-6"
+          className="space-y-8"
         >
-          <h3 className="text-[18px] font-bold flex items-center gap-2 mb-6">
-            <Globe className="w-5 h-5 text-accent" />
-            Sector Hotelero
-          </h3>
-          <div className="grid grid-cols-1 gap-3">
+          <div className="flex items-center justify-between mb-8 pb-4 border-b border-white/5">
+            <h3 className="text-[20px] font-bold flex items-center gap-3">
+              <Globe className="w-6 h-6 text-accent" />
+              Vertical Hotelero
+            </h3>
+            <span className="text-[12px] font-bold text-accent uppercase tracking-[0.2em] bg-accent/10 px-3 py-1 rounded-full">Casos de Éxito</span>
+          </div>
+          <div className="grid grid-cols-1 gap-4">
             {clients.map((client, i) => (
               <motion.div
                 key={i}
-                whileHover={{ x: 5, borderColor: "rgba(59, 130, 246, 0.4)" }}
+                whileHover={{ y: -2, backgroundColor: "rgba(255,255,255,0.03)" }}
                 onClick={() => setSelectedHotel(client)}
-                className="p-4 glass rounded-[10px] border-white/5 flex flex-col gap-1 cursor-pointer group transition-all"
+                className="p-5 glass rounded-[16px] border-white/5 flex flex-col gap-2 cursor-pointer group transition-all"
               >
                 <div className="flex justify-between items-center">
-                  <span className="text-[14px] font-bold text-fg group-hover:text-accent transition-colors">
+                  <span className="text-[15px] font-bold text-fg group-hover:text-accent transition-colors">
                     {client.name}
                   </span>
-                  <Info className="w-3 h-3 text-accent opacity-0 group-hover:opacity-100 transition-all" />
+                  <div className="w-8 h-8 rounded-full bg-white/5 group-hover:bg-accent/10 flex items-center justify-center transition-colors">
+                    <ArrowRight className="w-4 h-4 text-muted group-hover:text-accent transition-colors" />
+                  </div>
                 </div>
-                <span className="text-[11px] text-muted uppercase tracking-wider">
-                  {client.location}
-                </span>
+                <div className="flex items-center gap-2">
+                  <MapPin className="w-3 h-3 text-muted" />
+                  <span className="text-[12px] text-muted uppercase tracking-wider">
+                    {client.location}
+                  </span>
+                </div>
               </motion.div>
             ))}
           </div>
         </motion.div>
-
-        {/* Divider */}
-        <div className="hidden lg:block w-[1px] h-full bg-white/5" />
 
         {/* Webs & AI */}
         <div className="space-y-12">
@@ -963,31 +968,34 @@ const Portfolio = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <h3 className="text-[18px] font-bold flex items-center gap-2 mb-6">
-              <ExternalLink className="w-5 h-5 text-accent" />
-              Desarrollo Web
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="flex items-center justify-between mb-8 pb-4 border-b border-white/5">
+              <h3 className="text-[20px] font-bold flex items-center gap-3">
+                <ExternalLink className="w-6 h-6 text-accent" />
+                Desarrollo Software & Web
+              </h3>
+            </div>
+            
+            <div className="grid grid-cols-2 gap-5">
               {webs.map((web, i) => (
                 <motion.a
                   key={i}
                   href={`https://${web.url}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  whileHover={{ y: -5 }}
-                  className="group flex flex-col glass rounded-[12px] border-white/5 overflow-hidden transition-all hover:border-accent/30"
+                  whileHover={{ y: -5, borderColor: "rgba(59, 130, 246, 0.4)" }}
+                  className="group flex flex-col glass rounded-[16px] border-white/5 overflow-hidden transition-all"
                 >
-                  <div className="aspect-video w-full overflow-hidden bg-white/5 relative">
+                  <div className="aspect-[4/3] w-full overflow-hidden bg-white/5 relative">
                     <img
                       src={web.thumb}
                       alt={web.label}
                       referrerPolicy="no-referrer"
-                      className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+                      className="w-full h-full object-cover grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700"
                     />
-                    <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent group-hover:opacity-0 transition-opacity" />
                   </div>
-                  <div className="p-3 text-center border-t border-white/5">
-                    <span className="text-[11px] font-bold text-muted group-hover:text-accent transition-colors uppercase tracking-wider">
+                  <div className="p-4 text-center border-t border-white/5 relative">
+                    <span className="text-[12px] font-bold text-muted group-hover:text-accent transition-colors uppercase tracking-wider block">
                       {web.label}
                     </span>
                   </div>
@@ -996,75 +1004,51 @@ const Portfolio = () => {
             </div>
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="p-6 glass rounded-[12px] border-accent/20 bg-accent/5 relative overflow-hidden group"
-          >
-            <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-              <Zap className="w-12 h-12 text-accent" />
-            </div>
-            <h3 className="text-[18px] font-bold flex items-center gap-2 mb-4">
-              <MessageSquare className="w-5 h-5 text-accent" />
-              Proyecto Personal IA
-            </h3>
-            <p className="text-[13px] text-muted mb-6 leading-relaxed">
-              Desarrollo de agentes inteligentes especializados en el sector
-              hospitalidad.
-            </p>
-            <motion.a
-              href="https://hothelia.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group/link block relative aspect-video w-full rounded-[8px] overflow-hidden border border-white/5 mb-4"
-            >
-              <img
-                src="https://s.wordpress.com/mshots/v1/https://hothelia.com?w=600"
-                alt="Hothelia"
-                referrerPolicy="no-referrer"
-                className="w-full h-full object-cover grayscale group-hover/link:grayscale-0 transition-all duration-500"
-              />
-              <div className="absolute inset-0 bg-black/40 group-hover/link:bg-transparent transition-colors flex items-center justify-center">
-                <div className="bg-black/60 backdrop-blur-md px-4 py-2 rounded-full border border-white/10 opacity-0 group-hover/link:opacity-100 transition-opacity flex items-center gap-2">
-                  <span className="text-[12px] font-bold text-white">
-                    Visitar hothelia.com
-                  </span>
-                  <ArrowRight className="w-3 h-3 text-accent" />
-                </div>
-              </div>
-            </motion.a>
-          </motion.div>
         </div>
-
-        {/* Global Conclusion Summary */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="mt-16 p-8 glass rounded-[24px] border-white/5 bg-white/[0.01]"
-        >
-          <h4 className="text-[18px] font-black mb-6 flex items-center gap-3">
-            <span className="text-xl">📊</span> Resumen Estratégico
-          </h4>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="space-y-2">
-              <p className="text-[13px] font-black text-accent uppercase tracking-tighter">1. Implementación</p>
-              <p className="text-[12px] text-muted italic">Punta Negritos → Infraestructura digital + canales de venta</p>
-            </div>
-            <div className="space-y-2">
-              <p className="text-[13px] font-black text-accent uppercase tracking-tighter">2. Operación Integral</p>
-              <p className="text-[12px] text-muted italic">Peña Linda → Marketing + ventas + gestión completa</p>
-            </div>
-            <div className="space-y-2">
-              <p className="text-[13px] font-black text-accent uppercase tracking-tighter">3. Optimización</p>
-              <p className="text-[12px] text-muted italic">Sauce, Casa QX, etc. → Estrategia y rentabilidad</p>
-            </div>
-          </div>
-        </motion.div>
       </div>
+
+      {/* Hothelia Full Width Banner */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+        className="mt-20 w-full glass rounded-[32px] border-accent/20 bg-accent/[0.02] overflow-hidden group shadow-[0_10px_30px_rgba(59,130,246,0.05)]"
+      >
+        <div className="grid grid-cols-1 lg:grid-cols-2 items-center">
+          <div className="p-8 lg:p-16 relative z-10">
+            <span className="text-[11px] font-black uppercase tracking-[0.4em] text-accent mb-4 block">
+              Software Corporativo in-house
+            </span>
+            <h3 className="text-[28px] md:text-[36px] font-black tracking-tight mb-6 flex items-center gap-3">
+              <Zap className="w-8 h-8 text-accent" />
+              Ingeniería Propia: Hothelia SaaS
+            </h3>
+            <p className="text-[15px] md:text-[17px] text-muted leading-relaxed mb-8">
+              Una demostración palpable de nuestra capacidad técnica. Desarrollamos y operamos nuestra propia plataforma. Hothelia resuelve problemas operativos reales en el sector hospitalidad mediante automatización nativa y arquitectura cloud, validando nuestra tecnología en escenarios de alta exigencia comercial.
+            </p>
+            
+            <motion.a
+                href="https://hothelia.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-3 bg-white/5 border border-white/10 hover:border-accent/40 px-6 py-4 rounded-[12px] font-bold text-fg text-[14px] transition-all hover:bg-white/10 group/btn"
+              >
+                <span>Explorar Plataforma SaaS</span>
+                <ArrowRight className="w-4 h-4 text-accent transform group-hover/btn:translate-x-1 transition-transform" />
+            </motion.a>
+          </div>
+          <div className="relative h-[300px] lg:h-full lg:min-h-[450px] w-full bg-black/20 border-t lg:border-t-0 lg:border-l border-white/5 overflow-hidden">
+             <img
+                src="https://s.wordpress.com/mshots/v1/https://hothelia.com?w=1000"
+                alt="Hothelia Dashboard"
+                referrerPolicy="no-referrer"
+                className="absolute inset-0 w-full h-full object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-80 transition-all duration-1000 group-hover:scale-105"
+             />
+             <div className="absolute inset-0 bg-gradient-to-t from-bg via-black/40 to-transparent lg:bg-gradient-to-l lg:from-transparent lg:via-black/20 lg:to-bg" />
+          </div>
+        </div>
+      </motion.div>
 
       {/* Hotel Home Modal Detail */}
       <AnimatePresence>
@@ -1504,18 +1488,18 @@ const Methodology = () => (
             {[
               {
                 step: "01",
-                title: "Auditoría & Estrategia",
-                desc: "Analizamos tus datos actuales para encontrar las fugas de dinero.",
+                title: "Captación Estratégica",
+                desc: "Tráfico calificado (Meta Ads) enviado directo a landing pages de alta conversión.",
               },
               {
                 step: "02",
-                title: "Implementación Técnica",
-                desc: "Construimos la infraestructura (Web, Ads, IA) optimizada para conversión.",
+                title: "Conversión Optimizada",
+                desc: "UX premium (Liquid Glass), modales activos y triggers diseñados para cerrar ventas.",
               },
               {
                 step: "03",
-                title: "Escalado Basado en Datos",
-                desc: "No adivinamos. Optimizamos cada dólar invertido según el ROI real.",
+                title: "Automatización Continua",
+                desc: "Agentes de IA y flujos de remarketing que venden y atienden clientes 24/7.",
               },
             ].map((item, i) => (
               <div key={i} className="flex gap-6">

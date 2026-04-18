@@ -33,12 +33,12 @@ const ServiceBusinessesLandingPage: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           >
-            <span className="label-editorial mx-auto">Sistemas para Negocios B2B</span>
+            <span className="label-editorial mx-auto">Lead Generation & Conversión B2B</span>
             <h1 className="text-[36px] md:text-[64px] font-black tracking-tight leading-[1.1] mb-6">
-              Tu Máquina de <span className="text-accent">Generación de Leads</span> Calificados.
+              Tu Máquina de <span className="text-accent">Generación de Leads</span> y Cierres.
             </h1>
             <p className="text-[16px] md:text-[18px] text-muted max-w-[700px] mx-auto mb-10 leading-relaxed">
-              Deja de perseguir prospectos. Implementamos embudos de venta y automatización con IA que traen clientes interesados directamente a tu agenda.
+              Transformamos tráfico en leads cualificados, leads en reuniones y reuniones en clientes mediante embudos de captación y automatización de agendas.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <motion.a
@@ -131,8 +131,8 @@ const ServiceBusinessesLandingPage: React.FC = () => {
 
         {/* Final CTA */}
         <section className="py-24 px-6 md:px-10 text-center max-w-[800px] mx-auto">
-          <h2 className="text-[32px] md:text-[48px] font-black mb-6">Empecemos a llenar tu pipeline hoy mismo</h2>
-          <p className="text-muted mb-10 text-[16px]">Diseñamos sistemas de adquisición de clientes que funcionan mientras duermes.</p>
+          <h2 className="text-[32px] md:text-[48px] font-black mb-6">Empecemos a transformar tráfico en reuniones hoy mismo</h2>
+          <p className="text-muted mb-10 text-[16px]">Automatizamos el embudo completo: desde el clic en el anuncio hasta la cita agendada.</p>
           <motion.a
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}

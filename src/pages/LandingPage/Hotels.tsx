@@ -122,12 +122,12 @@ const HotelsLandingPage: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           >
-            <span className="label-editorial mx-auto">Sector Hospitality & Hotels</span>
+            <span className="label-editorial mx-auto">Hospitality Performance</span>
             <h1 className="text-[36px] md:text-[64px] font-black tracking-tight leading-[1.1] mb-6">
               Recupera tus <span className="text-accent">Reservas Directas</span> y elimina comisiones.
             </h1>
             <p className="text-[16px] md:text-[18px] text-muted max-w-[700px] mx-auto mb-10 leading-relaxed">
-              Software a medida, integración de PMS y estrategias de Meta Ads diseñadas específicamente para maximizar la ocupación de tu hotel sin depender de las OTAs.
+              Sistema integral diseñado específicamente para hoteles: captación de huéspedes, reducción de dependencia de OTAs y automatización operativa 24/7.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <motion.a

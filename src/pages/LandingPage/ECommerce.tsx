@@ -33,12 +33,12 @@ const EcommerceLandingPage: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           >
-            <span className="label-editorial mx-auto">E-commerce & Digital Growth</span>
+            <span className="label-editorial mx-auto">E-commerce & Performance Marketing</span>
             <h1 className="text-[36px] md:text-[64px] font-black tracking-tight leading-[1.1] mb-6">
-              Escala tu facturación con <span className="text-accent">E-commerce de Ingeniería</span>.
+              Maximiza tu ROAS con <span className="text-accent">E-commerce de Ingeniería</span>.
             </h1>
             <p className="text-[16px] md:text-[18px] text-muted max-w-[700px] mx-auto mb-10 leading-relaxed">
-              No hacemos solo tiendas bonitas. Construimos infraestructuras de venta masiva con optimización de pixel, tracking avanzado y automatización de marketing.
+              Sistema orientado a performance marketing, optimización de conversión (CRO) y escalamiento rentable para tiendas digitales.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <motion.a
@@ -62,8 +62,8 @@ const EcommerceLandingPage: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               {
-                title: "Alta Conversión",
-                desc: "Checkouts optimizados de un solo paso y diseño UX orientado a la venta inmediata.",
+                title: "Alta Conversión (CRO)",
+                desc: "Checkouts de un solo paso y diseño Liquid Glass orientado a la venta inmediata.",
                 icon: ShoppingCart
               },
               {
@@ -137,8 +137,8 @@ const EcommerceLandingPage: React.FC = () => {
 
         {/* Final CTA */}
         <section className="py-24 px-6 md:px-10 text-center max-w-[800px] mx-auto">
-          <h2 className="text-[32px] md:text-[48px] font-black mb-6">Tu tienda lista para el mercado global</h2>
-          <p className="text-muted mb-10 text-[16px]">Deja de jugar con plantillas. Construyamos juntos un motor de comercio electrónico profesional.</p>
+          <h2 className="text-[32px] md:text-[48px] font-black mb-6">Tu tienda lista para escalar y dominar tu mercado</h2>
+          <p className="text-muted mb-10 text-[16px]">Implementamos un motor de conversión real: generamos más clientes y maximizamos el retorno por cada visita.</p>
           <motion.a
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
