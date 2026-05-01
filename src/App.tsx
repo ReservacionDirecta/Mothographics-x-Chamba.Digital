@@ -10,6 +10,7 @@ import EcommerceLandingPage from './pages/LandingPage/ECommerce.tsx';
 import ServiceBusinessesLandingPage from './pages/LandingPage/ServiceBusinesses.tsx';
 import ProposalPage from './pages/LandingPage/Proposal.tsx';
 import { motion, AnimatePresence } from "motion/react";
+import RafflePage from './pages/RaffleLandingPage/RafflePage';
 import {
   ArrowRight,
   Palette,
@@ -2175,6 +2176,8 @@ export default function App() {
           element={<AllianceContent onOpenModal={openModal} />}
         />
         <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="/sorteo" element={<RafflePage />} />
+        <Route path="/raffle" element={<RafflePage />} />
       </Routes>
       <Modal
         isOpen={modalData.isOpen}
