@@ -5,12 +5,12 @@
 
 import { useState, useEffect, FormEvent } from "react";
 import { BrowserRouter, Routes, Route, Navigate, Link } from "react-router-dom";
-import HotelsLandingPage from './pages/LandingPage/Hotels.tsx';
-import EcommerceLandingPage from './pages/LandingPage/ECommerce.tsx';
-import ServiceBusinessesLandingPage from './pages/LandingPage/ServiceBusinesses.tsx';
-import ProposalPage from './pages/LandingPage/Proposal.tsx';
+import HotelsLandingPage from "./pages/LandingPage/Hotels.tsx";
+import EcommerceLandingPage from "./pages/LandingPage/ECommerce.tsx";
+import ServiceBusinessesLandingPage from "./pages/LandingPage/ServiceBusinesses.tsx";
+import ProposalPage from "./pages/LandingPage/Proposal.tsx";
 import { motion, AnimatePresence } from "motion/react";
-import RafflePage from './pages/RaffleLandingPage/RafflePage';
+import RafflePage from "./pages/RaffleLandingPage/RafflePage";
 import {
   ArrowRight,
   Palette,
@@ -45,36 +45,44 @@ import {
 
 // --- Components for Conversion & Lead Flow (Phase 3) ---
 
-const ExitIntentModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
+const ExitIntentModal = ({
+  isOpen,
+  onClose,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+}) => {
   const [formData, setFormData] = useState({
     email: "",
     whatsapp: "",
   });
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [status, setStatus] = useState<
+    "idle" | "loading" | "success" | "error"
+  >("idle");
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Track the intent before fetching
-    if (typeof trackEvent === 'function') {
-      trackEvent('lead_magnet_email_intent', { 
+    if (typeof trackEvent === "function") {
+      trackEvent("lead_magnet_email_intent", {
         email: formData.email,
-        whatsapp: formData.whatsapp 
+        whatsapp: formData.whatsapp,
       });
     }
 
     setStatus("loading");
 
     try {
-      const response = await fetch('/api/send-checklist', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: formData.email })
+      const response = await fetch("/api/send-checklist", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: formData.email }),
       });
-      
+
       const data = await response.json();
-      
+
       if (response.ok && data.success) {
         setStatus("success");
       } else {
@@ -105,7 +113,7 @@ const ExitIntentModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
             className="relative w-full max-w-[500px] glass p-8 md:p-12 rounded-[40px] border-accent/30 text-center overflow-hidden shadow-[0_30px_100px_rgba(0,0,0,0.5)]"
           >
             <div className="absolute -top-24 -right-24 w-64 h-64 bg-accent/20 blur-[80px] rounded-full" />
-            
+
             <div className="w-20 h-20 bg-accent/10 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-[0_20px_40px_rgba(59,130,246,0.2)]">
               <Gift className="w-10 h-10 text-accent" />
             </div>
@@ -113,24 +121,30 @@ const ExitIntentModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
             {status === "idle" ? (
               <>
                 <h3 className="text-[32px] md:text-[38px] font-black tracking-tighter leading-none mb-4">
-                  Acceso <span className="text-accent underline decoration-accent/30 underline-offset-8">Exclusivo</span>
+                  Acceso{" "}
+                  <span className="text-accent underline decoration-accent/30 underline-offset-8">
+                    Exclusivo
+                  </span>
                 </h3>
                 <p className="text-muted text-[16px] mb-10 leading-relaxed px-4">
-                  Recibe el <span className="text-fg font-bold">Checklist 2026</span> al instante vía WhatsApp y asegura tu ventaja competitiva.
+                  Recibe el{" "}
+                  <span className="text-fg font-bold">Checklist 2026</span> al
+                  instante vía WhatsApp y asegura tu ventaja competitiva.
                 </p>
-                <form 
-                  onSubmit={handleSubmit}
-                  className="space-y-4 text-left"
-                >
+                <form onSubmit={handleSubmit} className="space-y-4 text-left">
                   <div className="space-y-1.5 px-1">
-                    <label className="text-[11px] font-black uppercase tracking-[0.2em] text-muted/60 ml-1">Email Corporativo</label>
+                    <label className="text-[11px] font-black uppercase tracking-[0.2em] text-muted/60 ml-1">
+                      Email Corporativo
+                    </label>
                     <div className="relative">
                       <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted/50" />
                       <input
                         required
                         type="email"
                         value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        onChange={(e) =>
+                          setFormData({ ...formData, email: e.target.value })
+                        }
                         placeholder="juan@empresa.com"
                         className="w-full bg-white/5 border border-white/10 rounded-[18px] py-4 pl-12 pr-4 text-[14px] focus:outline-none focus:border-accent/50 transition-all font-medium"
                       />
@@ -138,14 +152,18 @@ const ExitIntentModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
                   </div>
 
                   <div className="space-y-1.5 px-1">
-                    <label className="text-[11px] font-black uppercase tracking-[0.2em] text-muted/60 ml-1">Número WhatsApp</label>
+                    <label className="text-[11px] font-black uppercase tracking-[0.2em] text-muted/60 ml-1">
+                      Número WhatsApp
+                    </label>
                     <div className="relative">
                       <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted/50" />
                       <input
                         required
                         type="tel"
                         value={formData.whatsapp}
-                        onChange={(e) => setFormData({ ...formData, whatsapp: e.target.value })}
+                        onChange={(e) =>
+                          setFormData({ ...formData, whatsapp: e.target.value })
+                        }
                         placeholder="+51 900 000 000"
                         className="w-full bg-white/5 border border-white/10 rounded-[18px] py-4 pl-12 pr-4 text-[14px] focus:outline-none focus:border-accent/50 transition-all font-medium"
                       />
@@ -154,20 +172,29 @@ const ExitIntentModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
 
                   <motion.button
                     disabled={status === "loading"}
-                    whileHover={{ scale: status === "loading" ? 1 : 1.02, y: status === "loading" ? 0 : -2 }}
+                    whileHover={{
+                      scale: status === "loading" ? 1 : 1.02,
+                      y: status === "loading" ? 0 : -2,
+                    }}
                     whileTap={{ scale: status === "loading" ? 1 : 0.98 }}
                     className={`w-full text-white py-5 rounded-[20px] font-black text-[15px] flex items-center justify-center gap-3 shadow-[0_20px_40px_rgba(59,130,246,0.3)] transition-all mt-6 uppercase tracking-widest ${status === "loading" ? "bg-accent/50 cursor-not-allowed" : "bg-accent"}`}
                   >
-                    {status === "loading" ? "Procesando..." : "Enviar a mi Correo"}
-                    {status !== "loading" && <Send className="w-5 h-5 fill-white/20" />}
+                    {status === "loading"
+                      ? "Procesando..."
+                      : "Enviar a mi Correo"}
+                    {status !== "loading" && (
+                      <Send className="w-5 h-5 fill-white/20" />
+                    )}
                   </motion.button>
-                  
+
                   {status === "error" && (
-                    <p className="text-red-400 text-[12px] text-center mt-2 font-bold">{errorMessage}</p>
+                    <p className="text-red-400 text-[12px] text-center mt-2 font-bold">
+                      {errorMessage}
+                    </p>
                   )}
                 </form>
-                
-                <button 
+
+                <button
                   onClick={onClose}
                   className="mt-8 text-[11px] text-muted/40 hover:text-muted transition-colors uppercase font-black tracking-[0.3em]"
                 >
@@ -183,9 +210,12 @@ const ExitIntentModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
                 <div className="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-8">
                   <CheckCircle2 className="w-10 h-10 text-green-500" />
                 </div>
-                <h3 className="text-[30px] font-black tracking-tighter mb-4 leading-none">¡Enviado con Éxito!</h3>
+                <h3 className="text-[30px] font-black tracking-tighter mb-4 leading-none">
+                  ¡Enviado con Éxito!
+                </h3>
                 <p className="text-muted text-[15px] mb-10 leading-relaxed">
-                  Revisa la bandeja de <strong>{formData.email}</strong>. Si no lo ves en 2 minutos, busca en tu carpeta de Spam.
+                  Revisa la bandeja de <strong>{formData.email}</strong>. Si no
+                  lo ves en 2 minutos, busca en tu carpeta de Spam.
                 </p>
                 <div className="flex flex-col gap-4">
                   <a
@@ -259,13 +289,12 @@ const SplashScreen = () => (
   </motion.div>
 );
 
-
 // --- Performance & Data Infrastructure (Phase 4) ---
 
 const trackEvent = (eventName: string, params = {}) => {
   // Placeholder for Meta Pixel / GA4 / GTM
   console.log(`[Analytics] Event: ${eventName}`, params);
-  
+
   // Example for real integration:
   // if (window.fbq) window.fbq('track', eventName, params);
   // if (window.gtag) window.gtag('event', eventName, params);
@@ -274,11 +303,11 @@ const trackEvent = (eventName: string, params = {}) => {
 const getABVariant = (experimentName: string, variants: string[]) => {
   const storageKey = `ab_variant_${experimentName}`;
   const savedVariant = localStorage.getItem(storageKey);
-  
+
   if (savedVariant && variants.includes(savedVariant)) {
     return savedVariant;
   }
-  
+
   const randomVariant = variants[Math.floor(Math.random() * variants.length)];
   localStorage.setItem(storageKey, randomVariant);
   return randomVariant;
@@ -421,26 +450,28 @@ const Modal = ({ isOpen, onClose, title, content }: any) => {
 
 const Hero = () => {
   const headlineVariant = getABVariant("hero_headline", ["A", "B"]);
-  
+
   const headlines = {
     A: {
       tag: "🚀 Arquitectura de Crecimiento 2026",
       title: (
         <>
-          Sistema Integral de <span className="text-accent">Adquisición y Performance</span>.
+          Sistema Integral de{" "}
+          <span className="text-accent">Adquisición y Performance</span>.
         </>
       ),
-      sub: "Captar, convertir y escalar. Construimos la infraestructura tecnológica que transforma tu presencia digital en una máquina de ventas ininterrumpida."
+      sub: "Detenemos las pérdidas digitales y construimos tu motor de ingresos. Transformamos cada clic en un cliente rentable a través de ingeniería precisa.",
     },
     B: {
       tag: "⚡ Ingeniería de Conversión 10x",
       title: (
         <>
-          Captar, Convertir y <span className="text-accent">Escalar Ventas</span>.
+          Captar, Convertir y{" "}
+          <span className="text-accent">Escalar Ventas</span>.
         </>
       ),
-      sub: "Diseño Liquid Glass y arquitectura optimizada para un solo objetivo: maximizar el retorno por cada visita y generar clientes recurrentes."
-    }
+      sub: "No es solo diseño, es una máquina de ventas diseñada para escalar. Maximizamos tu ROI garantizando que cada inversión digital genere un retorno exponencial.",
+    },
   }[headlineVariant as "A" | "B"];
 
   return (
@@ -453,9 +484,7 @@ const Hero = () => {
         transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
         className="z-10 flex flex-col items-center smooth-gpu"
       >
-        <span className="label-editorial mx-auto">
-          {headlines?.tag}
-        </span>
+        <span className="label-editorial mx-auto">{headlines?.tag}</span>
         <h1 className="text-[40px] md:text-[72px] font-black max-w-[900px] leading-tight md:leading-[1.1] mb-6">
           {headlines?.title}
         </h1>
@@ -464,7 +493,13 @@ const Hero = () => {
         </h2>
         <div className="flex flex-col sm:flex-row items-center gap-4">
           <motion.a
-            onClick={() => trackEvent('cta_click', { section: 'hero', variant: headlineVariant, label: 'Auditoría' })}
+            onClick={() =>
+              trackEvent("cta_click", {
+                section: "hero",
+                variant: headlineVariant,
+                label: "Auditoría",
+              })
+            }
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
             href="#contacto"
@@ -473,7 +508,13 @@ const Hero = () => {
             Solicitar Auditoría de Conversión
           </motion.a>
           <motion.a
-            onClick={() => trackEvent('cta_click', { section: 'hero', variant: headlineVariant, label: 'Ver Sistemas' })}
+            onClick={() =>
+              trackEvent("cta_click", {
+                section: "hero",
+                variant: headlineVariant,
+                label: "Ver Sistemas",
+              })
+            }
             whileHover={{ x: 5 }}
             href="#servicios"
             className="group inline-flex items-center gap-2 text-[14px] font-bold text-muted hover:text-fg transition-colors"
@@ -499,9 +540,13 @@ const Opportunity = () => (
       </h2>
       <p className="text-muted text-[17px] md:text-[19px] max-w-3xl mx-auto leading-relaxed">
         Guido, Mothographics es el corazón creativo en{" "}
-        <strong className="text-fg underline decoration-accent/30 underline-offset-4">México</strong>. Chamba Digital es tu{" "}
-        <strong className="text-fg">brazo de ingeniería de élite</strong>{" "}
-        desde Perú. Juntos, entregamos soluciones que no solo se ven increíbles, sino que funcionan con una precisión militar.
+        <strong className="text-fg underline decoration-accent/30 underline-offset-4">
+          México
+        </strong>
+        . Chamba Digital es tu{" "}
+        <strong className="text-fg">brazo de ingeniería de élite</strong> desde
+        Perú. Juntos, entregamos soluciones que no solo se ven increíbles, sino
+        que funcionan con una precisión militar.
       </p>
     </div>
 
@@ -782,7 +827,7 @@ const Services = ({
         ]}
       />
     </div>
-    
+
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -790,9 +835,12 @@ const Services = ({
       className="mt-16 p-8 glass rounded-[24px] border-accent/20 bg-accent/5 overflow-hidden relative group text-center"
     >
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-accent to-transparent opacity-50" />
-      <h4 className="text-[20px] font-bold mb-4">¿Listo para activar tu brazo tecnológico?</h4>
+      <h4 className="text-[20px] font-bold mb-4">
+        ¿Listo para activar tu brazo tecnológico?
+      </h4>
       <p className="text-muted text-[15px] mb-8 max-w-xl mx-auto">
-        Integramos tus ideas creativas con nuestra ejecución técnica para dominar mercados digitales de alta competencia.
+        Integramos tus ideas creativas con nuestra ejecución técnica para
+        dominar mercados digitales de alta competencia.
       </p>
       <motion.a
         whileHover={{ scale: 1.05 }}
@@ -820,9 +868,10 @@ const Portfolio = () => {
         "Integración de motor de reservas para ventas directas.",
         "Administración completa del flujo de reservas.",
         "Atención vía WhatsApp y Automatización con IA.",
-        "+10 años consolidando resultados."
+        "+10 años consolidando resultados.",
       ],
-      focus: "Operación integral: marketing + ventas + tecnología + automatización."
+      focus:
+        "Operación integral: marketing + ventas + tecnología + automatización.",
     },
     {
       emoji: "🌿",
@@ -833,9 +882,10 @@ const Portfolio = () => {
         "Desarrollo de paquetes turísticos premium.",
         "Diseño de experiencias completas y pricing.",
         "Contenido emocional y narrativo.",
-        "Automatización de atención y conversión."
+        "Automatización de atención y conversión.",
       ],
-      focus: "Transformación de alojamiento en producto turístico premium escalable."
+      focus:
+        "Transformación de alojamiento en producto turístico premium escalable.",
     },
     {
       emoji: "🌊",
@@ -846,9 +896,10 @@ const Portfolio = () => {
         "Desarrollo y publicación de la web oficial.",
         "Integración del motor de reservas.",
         "Configuración en OTAs (Booking, Airbnb).",
-        "Construcción de presencia digital desde cero."
+        "Construcción de presencia digital desde cero.",
       ],
-      focus: "Implementación total desde cero: infraestructura digital + canales de venta."
+      focus:
+        "Implementación total desde cero: infraestructura digital + canales de venta.",
     },
     {
       emoji: "🌴",
@@ -858,9 +909,10 @@ const Portfolio = () => {
         "Creación de copys estratégicos para redes sociales.",
         "Desarrollo de promociones estacionales.",
         "Diseño de ofertas con valor agregado.",
-        "Optimización de mensajes de venta y conversión."
+        "Optimización de mensajes de venta y conversión.",
       ],
-      focus: "Incremento de reservas mediante comunicación efectiva y ofertas atractivas."
+      focus:
+        "Incremento de reservas mediante comunicación efectiva y ofertas atractivas.",
     },
     {
       emoji: "🏔️",
@@ -870,9 +922,10 @@ const Portfolio = () => {
         "Implementación y optimización del PMS.",
         "Configuración de tarifas, disponibilidad y restricciones.",
         "Sincronización con OTAs.",
-        "Mejora continua de la operación de reservas."
+        "Mejora continua de la operación de reservas.",
       ],
-      focus: "Optimización operativa para lograr eficiencia y control en la gestión."
+      focus:
+        "Optimización operativa para lograr eficiencia y control en la gestión.",
     },
     {
       emoji: "🏡",
@@ -882,10 +935,10 @@ const Portfolio = () => {
         "Desarrollo de concepto de marca boutique.",
         "Creación de comunicación aspiracional y premium.",
         "Estrategia de posicionamiento digital.",
-        "Apoyo en narrativa de marca."
+        "Apoyo en narrativa de marca.",
       ],
-      focus: "Construcción de una marca enfocada en exclusividad y diseño."
-    }
+      focus: "Construcción de una marca enfocada en exclusividad y diseño.",
+    },
   ];
 
   const webs = [
@@ -940,7 +993,10 @@ const Portfolio = () => {
           Resultados <span className="text-accent">Reales</span>.
         </h2>
         <p className="text-muted max-w-2xl mx-auto text-[15px] md:text-[17px]">
-          No solo entregamos pixeles. Entregamos <strong className="text-fg italic">rentabilidad</strong> mediante sistemas complejos de reserva, e-commerce de alto tráfico y automatización avanzada.
+          No solo entregamos pixeles. Entregamos{" "}
+          <strong className="text-fg italic">rentabilidad</strong> mediante
+          sistemas complejos de reserva, e-commerce de alto tráfico y
+          automatización avanzada.
         </p>
       </div>
 
@@ -958,13 +1014,18 @@ const Portfolio = () => {
               <Globe className="w-6 h-6 text-accent" />
               Vertical Hotelero
             </h3>
-            <span className="text-[12px] font-bold text-accent uppercase tracking-[0.2em] bg-accent/10 px-3 py-1 rounded-full">Casos de Éxito</span>
+            <span className="text-[12px] font-bold text-accent uppercase tracking-[0.2em] bg-accent/10 px-3 py-1 rounded-full">
+              Casos de Éxito
+            </span>
           </div>
           <div className="grid grid-cols-1 gap-4">
             {clients.map((client, i) => (
               <motion.div
                 key={i}
-                whileHover={{ y: -2, backgroundColor: "rgba(255,255,255,0.03)" }}
+                whileHover={{
+                  y: -2,
+                  backgroundColor: "rgba(255,255,255,0.03)",
+                }}
                 onClick={() => setSelectedHotel(client)}
                 className="p-5 glass rounded-[16px] border-white/5 flex flex-col gap-2 cursor-pointer group transition-all"
               >
@@ -1001,7 +1062,7 @@ const Portfolio = () => {
                 Desarrollo Software & Web
               </h3>
             </div>
-            
+
             <div className="grid grid-cols-2 gap-5">
               {webs.map((web, i) => (
                 <motion.a
@@ -1030,7 +1091,6 @@ const Portfolio = () => {
               ))}
             </div>
           </motion.div>
-
         </div>
       </div>
 
@@ -1052,27 +1112,31 @@ const Portfolio = () => {
               Ingeniería Propia: Hothelia SaaS
             </h3>
             <p className="text-[15px] md:text-[17px] text-muted leading-relaxed mb-8">
-              Una demostración palpable de nuestra capacidad técnica. Desarrollamos y operamos nuestra propia plataforma. Hothelia resuelve problemas operativos reales en el sector hospitalidad mediante automatización nativa y arquitectura cloud, validando nuestra tecnología en escenarios de alta exigencia comercial.
+              Una demostración palpable de nuestra capacidad técnica.
+              Desarrollamos y operamos nuestra propia plataforma. Hothelia
+              resuelve problemas operativos reales en el sector hospitalidad
+              mediante automatización nativa y arquitectura cloud, validando
+              nuestra tecnología en escenarios de alta exigencia comercial.
             </p>
-            
+
             <motion.a
-                href="https://hothelia.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-3 bg-white/5 border border-white/10 hover:border-accent/40 px-6 py-4 rounded-[12px] font-bold text-fg text-[14px] transition-all hover:bg-white/10 group/btn"
-              >
-                <span>Explorar Plataforma SaaS</span>
-                <ArrowRight className="w-4 h-4 text-accent transform group-hover/btn:translate-x-1 transition-transform" />
+              href="https://hothelia.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-3 bg-white/5 border border-white/10 hover:border-accent/40 px-6 py-4 rounded-[12px] font-bold text-fg text-[14px] transition-all hover:bg-white/10 group/btn"
+            >
+              <span>Explorar Plataforma SaaS</span>
+              <ArrowRight className="w-4 h-4 text-accent transform group-hover/btn:translate-x-1 transition-transform" />
             </motion.a>
           </div>
           <div className="relative h-[300px] lg:h-full lg:min-h-[450px] w-full bg-black/20 border-t lg:border-t-0 lg:border-l border-white/5 overflow-hidden">
-             <img
-                src="https://s.wordpress.com/mshots/v1/https://hothelia.com?w=1000"
-                alt="Hothelia Dashboard"
-                referrerPolicy="no-referrer"
-                className="absolute inset-0 w-full h-full object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-80 transition-all duration-1000 group-hover:scale-105"
-             />
-             <div className="absolute inset-0 bg-gradient-to-t from-bg via-black/40 to-transparent lg:bg-gradient-to-l lg:from-transparent lg:via-black/20 lg:to-bg" />
+            <img
+              src="https://s.wordpress.com/mshots/v1/https://hothelia.com?w=1000"
+              alt="Hothelia Dashboard"
+              referrerPolicy="no-referrer"
+              className="absolute inset-0 w-full h-full object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-80 transition-all duration-1000 group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-bg via-black/40 to-transparent lg:bg-gradient-to-l lg:from-transparent lg:via-black/20 lg:to-bg" />
           </div>
         </div>
       </motion.div>
@@ -1104,8 +1168,12 @@ const Portfolio = () => {
               <div className="flex items-center gap-4 mb-8">
                 <span className="text-5xl">{selectedHotel.emoji}</span>
                 <div>
-                  <h3 className="text-[24px] font-black tracking-tighter leading-none mb-1">{selectedHotel.name}</h3>
-                  <p className="text-[14px] text-accent font-bold uppercase tracking-widest">{selectedHotel.location}</p>
+                  <h3 className="text-[24px] font-black tracking-tighter leading-none mb-1">
+                    {selectedHotel.name}
+                  </h3>
+                  <p className="text-[14px] text-accent font-bold uppercase tracking-widest">
+                    {selectedHotel.location}
+                  </p>
                 </div>
               </div>
 
@@ -1113,7 +1181,9 @@ const Portfolio = () => {
                 <div>
                   <div className="flex items-center gap-2 mb-6">
                     <div className="h-[1px] flex-grow bg-white/5" />
-                    <span className="text-[11px] font-black uppercase tracking-[0.3em] text-accent">Implementación Estratégica</span>
+                    <span className="text-[11px] font-black uppercase tracking-[0.3em] text-accent">
+                      Implementación Estratégica
+                    </span>
                     <div className="h-[1px] flex-grow bg-white/5" />
                   </div>
                   <ul className="space-y-4">
@@ -1136,12 +1206,16 @@ const Portfolio = () => {
                   <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                     <Zap className="w-12 h-12 text-accent" />
                   </div>
-                  <span className="text-[10px] font-black uppercase text-accent tracking-[0.4em] block mb-2">🔑 Enfoque Estratégico</span>
-                  <p className="text-[14px] font-bold italic leading-tight text-fg">{selectedHotel.focus}</p>
+                  <span className="text-[10px] font-black uppercase text-accent tracking-[0.4em] block mb-2">
+                    🔑 Enfoque Estratégico
+                  </span>
+                  <p className="text-[14px] font-bold italic leading-tight text-fg">
+                    {selectedHotel.focus}
+                  </p>
                 </div>
 
                 <div className="flex flex-col gap-4">
-                   <Link
+                  <Link
                     to="/hotels"
                     className="bg-accent text-white py-5 rounded-2xl flex items-center justify-center gap-2 font-black uppercase tracking-[0.2em] text-[12px] shadow-lg hover:shadow-accent/40 transition-all"
                   >
@@ -1303,16 +1377,16 @@ export const ChambaNavbar = () => {
   ];
 
   return (
-    <nav 
+    <nav
       className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 px-6 md:px-10 flex items-center justify-between smooth-gpu ${
-        scrolled 
-          ? "h-[70px] bg-black/60 backdrop-blur-xl border-b border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.3)]" 
+        scrolled
+          ? "h-[70px] bg-black/60 backdrop-blur-xl border-b border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.3)]"
           : "h-[90px] bg-transparent"
       }`}
     >
       <div className="flex items-center gap-12">
         <Logo />
-        
+
         {/* Desktop Nav */}
         <div className="hidden lg:flex items-center gap-8">
           {navLinks.map((link) => (
@@ -1341,11 +1415,15 @@ export const ChambaNavbar = () => {
         </motion.a>
 
         {/* Mobile Toggle */}
-        <button 
+        <button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           className="lg:hidden p-3 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-colors"
         >
-          {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          {isMobileMenuOpen ? (
+            <X className="w-6 h-6" />
+          ) : (
+            <Menu className="w-6 h-6" />
+          )}
         </button>
       </div>
 
@@ -1363,7 +1441,7 @@ export const ChambaNavbar = () => {
             <div className="absolute top-[-10%] right-[-10%] w-[80vw] h-[80vw] bg-accent/10 blur-[120px] rounded-full -z-10" />
             <div className="absolute bottom-[-5%] left-[-10%] w-[60vw] h-[60vw] bg-accent/5 blur-[100px] rounded-full -z-10" />
 
-            <button 
+            <button
               onClick={() => setIsMobileMenuOpen(false)}
               className="absolute top-8 right-8 p-3 bg-white/5 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors"
             >
@@ -1371,7 +1449,9 @@ export const ChambaNavbar = () => {
             </button>
 
             <div className="flex flex-col gap-6 mb-12">
-              <span className="text-[11px] font-black uppercase tracking-[0.4em] text-accent mb-4">Menú de Navegación</span>
+              <span className="text-[11px] font-black uppercase tracking-[0.4em] text-accent mb-4">
+                Menú de Navegación
+              </span>
               {navLinks.map((link, i) => (
                 <motion.div
                   initial={{ opacity: 0, x: 20 }}
@@ -1393,7 +1473,9 @@ export const ChambaNavbar = () => {
             <div className="mt-auto space-y-6">
               <div className="h-[1px] w-full bg-white/10" />
               <div className="flex flex-col gap-4">
-                <span className="text-[13px] text-muted italic">¿Listo para escalar tus operaciones?</span>
+                <span className="text-[13px] text-muted italic">
+                  ¿Listo para escalar tus operaciones?
+                </span>
                 <a
                   href="https://wa.me/51904060670"
                   target="_blank"
@@ -1545,11 +1627,12 @@ const Methodology = () => (
         </div>
         <div className="relative">
           <div className="aspect-square glass rounded-[24px] border-accent/20 flex items-center justify-center p-12 overflow-hidden smooth-gpu">
-            <div 
-              className="absolute inset-0 opacity-40" 
+            <div
+              className="absolute inset-0 opacity-40"
               style={{
-                background: 'radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, transparent 70%)',
-                filter: 'blur(30px)'
+                background:
+                  "radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, transparent 70%)",
+                filter: "blur(30px)",
               }}
             />
             <Zap className="w-32 h-32 text-accent animate-pulse" />
@@ -1633,11 +1716,16 @@ const ContactForm = () => {
     // Simulate API call
     setTimeout(() => {
       setStatus("success");
-      trackEvent('lead_form_success', { 
+      trackEvent("lead_form_success", {
         objective: formData.objective,
-        email: formData.email 
+        email: formData.email,
       });
-      setFormData({ name: "", email: "", objective: "Escalar Ventas", message: "" });
+      setFormData({
+        name: "",
+        email: "",
+        objective: "Escalar Ventas",
+        message: "",
+      });
     }, 1500);
   };
 
@@ -1779,7 +1867,9 @@ const ContactForm = () => {
                     <button
                       key={obj}
                       type="button"
-                      onClick={() => setFormData({ ...formData, objective: obj })}
+                      onClick={() =>
+                        setFormData({ ...formData, objective: obj })
+                      }
                       className={`py-2 px-3 rounded-[8px] text-[11px] font-bold border transition-all ${
                         formData.objective === obj
                           ? "bg-accent border-accent text-white shadow-[0_5px_15px_rgba(59,130,246,0.3)]"
@@ -1837,18 +1927,51 @@ const ProcessTimeline = () => (
       <div className="text-center mb-16">
         <span className="label-editorial mx-auto">Cómo Trabajamos</span>
         <h2 className="text-[32px] md:text-[48px] font-bold tracking-tight mb-4">
-          De la idea al <span className="text-accent">lanzamiento</span> en semanas.
+          De la idea al <span className="text-accent">lanzamiento</span> en
+          semanas.
         </h2>
-        <p className="text-muted text-[15px] max-w-[600px] mx-auto">Proceso transparente. Siempre sabes en qué etapa estamos.</p>
+        <p className="text-muted text-[15px] max-w-[600px] mx-auto">
+          Proceso transparente. Siempre sabes en qué etapa estamos.
+        </p>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {[
-          { step: "01", title: "Briefing & Estrategia", desc: "Analizamos tu negocio, definimos objetivos y trazamos el plan de acción con entregables claros.", icon: Target },
-          { step: "02", title: "Diseño UX/UI", desc: "Prototipamos la experiencia visual en modo Liquid Glass para que apruebes antes de programar.", icon: Palette },
-          { step: "03", title: "Desarrollo & Integración", desc: "Código propio optimizado. Integramos PMS, pasarelas de pago, Pixel, Analytics y tu CRM.", icon: Code2 },
-          { step: "04", title: "Revisión & QA", desc: "2 rondas de ajustes incluidas. Verificamos en móvil, tablet y desktop. Nada sale sin tu OK.", icon: CheckCircle2 },
-          { step: "05", title: "Lanzamiento", desc: "Desplegamos en producción, configuramos SEO, activamos campañas y encendemos el tracking.", icon: Zap },
-          { step: "06", title: "Soporte 30 días", desc: "Post-lanzamiento incluido. Cualquier ajuste técnico se resuelve sin costo adicional.", icon: Headphones },
+          {
+            step: "01",
+            title: "Briefing & Estrategia",
+            desc: "Analizamos tu negocio, definimos objetivos y trazamos el plan de acción con entregables claros.",
+            icon: Target,
+          },
+          {
+            step: "02",
+            title: "Diseño UX/UI",
+            desc: "Prototipamos la experiencia visual en modo Liquid Glass para que apruebes antes de programar.",
+            icon: Palette,
+          },
+          {
+            step: "03",
+            title: "Desarrollo & Integración",
+            desc: "Código propio optimizado. Integramos PMS, pasarelas de pago, Pixel, Analytics y tu CRM.",
+            icon: Code2,
+          },
+          {
+            step: "04",
+            title: "Revisión & QA",
+            desc: "2 rondas de ajustes incluidas. Verificamos en móvil, tablet y desktop. Nada sale sin tu OK.",
+            icon: CheckCircle2,
+          },
+          {
+            step: "05",
+            title: "Lanzamiento",
+            desc: "Desplegamos en producción, configuramos SEO, activamos campañas y encendemos el tracking.",
+            icon: Zap,
+          },
+          {
+            step: "06",
+            title: "Soporte 30 días",
+            desc: "Post-lanzamiento incluido. Cualquier ajuste técnico se resuelve sin costo adicional.",
+            icon: Headphones,
+          },
         ].map((item, i) => (
           <motion.div
             key={i}
@@ -1858,12 +1981,16 @@ const ProcessTimeline = () => (
             transition={{ delay: i * 0.05 }}
             className="glass rounded-[20px] p-8 border-white/5 hover:border-accent/20 transition-colors group relative overflow-hidden"
           >
-            <span className="absolute top-4 right-6 text-[48px] font-black text-accent/5 select-none">{item.step}</span>
+            <span className="absolute top-4 right-6 text-[48px] font-black text-accent/5 select-none">
+              {item.step}
+            </span>
             <div className="w-12 h-12 bg-accent/10 rounded-full flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
               <item.icon className="w-6 h-6 text-accent" />
             </div>
             <h4 className="text-[16px] font-bold mb-2">{item.title}</h4>
-            <p className="text-[13px] text-muted leading-relaxed">{item.desc}</p>
+            <p className="text-[13px] text-muted leading-relaxed">
+              {item.desc}
+            </p>
           </motion.div>
         ))}
       </div>
@@ -1876,17 +2003,42 @@ const Guarantees = () => (
     <div className="text-center mb-16">
       <span className="label-editorial mx-auto">Compromisos Reales</span>
       <h2 className="text-[32px] md:text-[48px] font-bold tracking-tight mb-4">
-        Garantías que <span className="text-accent">respaldan</span> nuestra palabra.
+        Garantías que <span className="text-accent">respaldan</span> nuestra
+        palabra.
       </h2>
     </div>
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {[
-        { icon: Clock, title: "Entrega en plazo o devolvemos", desc: "Si no cumplimos el deadline acordado, devolvemos el 20% del pago final. Sin letras chicas." },
-        { icon: Repeat, title: "2 rondas de revisiones", desc: "No es 'lo que venga quedó'. Tienes dos oportunidades formales para cambios sin costo adicional." },
-        { icon: Code2, title: "Código propio, no plantillas", desc: "Tu proyecto se desarrolla a mano. Carga más rápido, rankea mejor en Google y no depende de suscripciones." },
-        { icon: Shield, title: "Transparencia total", desc: "Sabes exactamente qué incluye y qué NO incluye cada proyecto. Sin costos ocultos ni sorpresas." },
-        { icon: Headphones, title: "Soporte post-lanzamiento", desc: "30 días de soporte técnico incluido después de la entrega para resolver cualquier detalle." },
-        { icon: BarChart3, title: "Resultados medibles desde el día 1", desc: "Analytics, Pixel y tracking configurados desde el lanzamiento. Cada centavo se mide." },
+        {
+          icon: Clock,
+          title: "Entrega en plazo o devolvemos",
+          desc: "Si no cumplimos el deadline acordado, devolvemos el 20% del pago final. Sin letras chicas.",
+        },
+        {
+          icon: Repeat,
+          title: "2 rondas de revisiones",
+          desc: "No es 'lo que venga quedó'. Tienes dos oportunidades formales para cambios sin costo adicional.",
+        },
+        {
+          icon: Code2,
+          title: "Código propio, no plantillas",
+          desc: "Tu proyecto se desarrolla a mano. Carga más rápido, rankea mejor en Google y no depende de suscripciones.",
+        },
+        {
+          icon: Shield,
+          title: "Transparencia total",
+          desc: "Sabes exactamente qué incluye y qué NO incluye cada proyecto. Sin costos ocultos ni sorpresas.",
+        },
+        {
+          icon: Headphones,
+          title: "Soporte post-lanzamiento",
+          desc: "30 días de soporte técnico incluido después de la entrega para resolver cualquier detalle.",
+        },
+        {
+          icon: BarChart3,
+          title: "Resultados medibles desde el día 1",
+          desc: "Analytics, Pixel y tracking configurados desde el lanzamiento. Cada centavo se mide.",
+        },
       ].map((item, i) => (
         <motion.div
           key={i}
@@ -1907,8 +2059,12 @@ const Guarantees = () => (
 
     {/* Dual CTA */}
     <div className="mt-16 text-center">
-      <h3 className="text-[24px] md:text-[32px] font-black mb-4">¿Listo para empezar?</h3>
-      <p className="text-muted text-[15px] mb-8">Hablemos sobre tu proyecto. Sin compromiso.</p>
+      <h3 className="text-[24px] md:text-[32px] font-black mb-4">
+        ¿Listo para empezar?
+      </h3>
+      <p className="text-muted text-[15px] mb-8">
+        Hablemos sobre tu proyecto. Sin compromiso.
+      </p>
       <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
         <motion.a
           whileHover={{ scale: 1.05 }}
@@ -2139,7 +2295,8 @@ export default function App() {
     return () => clearTimeout(timer);
   }, []);
 
-  const openModal = (title: string, content: any) => { // Changed type to 'any' to match usage in the component structure
+  const openModal = (title: string, content: any) => {
+    // Changed type to 'any' to match usage in the component structure
     setModalData({ isOpen: true, title, content });
   };
 
@@ -2149,7 +2306,9 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <AnimatePresence> {/* Removed 'mode="wait"' as it might conflict with other lifecycle hooks */}
+      <AnimatePresence>
+        {" "}
+        {/* Removed 'mode="wait"' as it might conflict with other lifecycle hooks */}
         {isLoading && <SplashScreen key="splash" />}
       </AnimatePresence>
 
@@ -2169,7 +2328,10 @@ export default function App() {
         />
         <Route path="/ecommerce" element={<EcommerceLandingPage />} />
         <Route path="/hotels" element={<HotelsLandingPage />} />
-        <Route path="/servicebusinesses" element={<ServiceBusinessesLandingPage />} />
+        <Route
+          path="/servicebusinesses"
+          element={<ServiceBusinessesLandingPage />}
+        />
         <Route path="/propuesta/:slug" element={<ProposalPage />} />
         <Route
           path="/alianza"
@@ -2185,9 +2347,9 @@ export default function App() {
         title={modalData.title}
         content={modalData.content}
       />
-      <ExitIntentModal 
-        isOpen={exitIntentOpen} 
-        onClose={() => setExitIntentOpen(false)} 
+      <ExitIntentModal
+        isOpen={exitIntentOpen}
+        onClose={() => setExitIntentOpen(false)}
       />
     </BrowserRouter>
   );
