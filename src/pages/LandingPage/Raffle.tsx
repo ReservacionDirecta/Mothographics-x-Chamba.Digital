@@ -46,7 +46,7 @@ const RaffleLandingPage: React.FC = () => {
 
       <main className="pt-[70px]">
         {/* Hero Section */}
-        <section className="relative min-h-[70vh] flex flex-col items-center text-center justify-center px-6 md:px-10 overflow-hidden max-w-[1024px] mx-auto">
+        <section className="relative min-h-[50vh] py-12 md:py-20 flex flex-col items-center text-center justify-center px-6 md:px-10 overflow-hidden max-w-[1024px] mx-auto">
           <div className="absolute top-[-100px] left-[30%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-radial-[circle,rgba(59,130,246,0.1)_0%,transparent_70%] blur-[60px] -z-10" />
 
           <motion.div
@@ -54,11 +54,11 @@ const RaffleLandingPage: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           >
-            <span className="label-editorial mx-auto">Gran Sorteo</span>
-            <h1 className="text-[36px] md:text-[64px] font-black tracking-tight leading-[1.1] mb-6">
+            <span className="label-editorial mx-auto mb-2 md:mb-4">Gran Sorteo</span>
+            <h1 className="text-[32px] md:text-[64px] font-black tracking-tight leading-[1.1] mb-4 md:mb-6">
               Participa y gana <br className="hidden md:block"/> <span className="text-accent">Ingeniería Digital</span> para tu negocio.
             </h1>
-            <p className="text-[16px] md:text-[18px] text-muted max-w-[700px] mx-auto mb-10 leading-relaxed">
+            <p className="text-[15px] md:text-[18px] text-muted max-w-[700px] mx-auto mb-8 md:mb-10 leading-relaxed">
               Impulsa tu presencia online con premios diseñados para escalar tus ventas y optimizar tu operación digital.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -67,11 +67,11 @@ const RaffleLandingPage: React.FC = () => {
                 whileTap={{ scale: 0.95 }}
                 href="https://wa.me/51904060670"
                 target="_blank"
-                className="bg-accent text-white px-10 py-5 rounded-[12px] font-bold text-[15px] shadow-[0_10px_30px_rgba(59,130,246,0.3)] transition-all"
+                className="bg-accent text-white px-10 py-5 rounded-[12px] font-bold text-[15px] shadow-[0_10px_30px_rgba(59,130,246,0.3)] transition-all w-full sm:w-auto"
               >
                 Inscribirme al Sorteo
               </motion.a>
-              <a href="#premios" className="text-[14px] font-bold hover:text-accent transition-colors">
+              <a href="#premios" className="text-[14px] font-bold hover:text-accent transition-colors py-3 sm:py-0">
                 Ver Premios
               </a>
             </div>
@@ -79,8 +79,8 @@ const RaffleLandingPage: React.FC = () => {
         </section>
 
         {/* Prizes Section */}
-        <section id="premios" className="py-24 px-6 md:px-10 max-w-[1024px] mx-auto border-t border-white/5">
-          <div className="text-center mb-16">
+        <section id="premios" className="py-12 md:py-20 px-6 md:px-10 max-w-[1024px] mx-auto border-t border-white/5">
+          <div className="text-center mb-10 md:mb-16">
             <span className="label-editorial mx-auto">Premios del Sorteo</span>
             <h2 className="text-[32px] md:text-[48px] font-bold tracking-tight">
               Lo que puedes <span className="text-accent">ganar</span>
