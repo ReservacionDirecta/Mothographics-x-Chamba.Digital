@@ -3,12 +3,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState, useEffect, FormEvent } from "react";
+import React, { useState, useEffect, FormEvent } from "react";
 import { BrowserRouter, Routes, Route, Navigate, Link } from "react-router-dom";
 import HotelsLandingPage from './pages/LandingPage/Hotels.tsx';
 import EcommerceLandingPage from './pages/LandingPage/ECommerce.tsx';
 import ServiceBusinessesLandingPage from './pages/LandingPage/ServiceBusinesses.tsx';
 import ProposalPage from './pages/LandingPage/Proposal.tsx';
+import RaffleLandingPage from './pages/LandingPage/Raffle.tsx';
 import { motion, AnimatePresence } from "motion/react";
 import {
   ArrowRight,
@@ -2174,6 +2175,7 @@ export default function App() {
           path="/alianza"
           element={<AllianceContent onOpenModal={openModal} />}
         />
+        <Route path="/sorteo" element={<RaffleLandingPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       <Modal
