@@ -1,12 +1,142 @@
-import React, { useState } from "react";
-import { motion } from "motion/react";
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "motion/react";
 import {
   Phone,
   Gift,
   Users,
   Trophy,
   CheckCircle2,
+  Zap,
+  Mail,
+  User,
+  MapPin,
+  X,
+  Menu,
 } from "lucide-react";
+import { Link } from "react-router-dom";
+
+// Note: Re-implementing Logo and Navbar here to avoid circular dependencies 
+// without major refactoring, ensuring consistent styling.
+
+const Logo = ({ className = "" }: { className?: string }) => (
+  <Link to="/">
+    <motion.div
+      whileHover={{ scale: 1.02 }}
+      className={`flex items-center gap-2 sm:gap-3 cursor-pointer ${className}`}
+    >
+      <div className="w-8 h-8 sm:w-10 sm:h-10 bg-accent rounded-[10px] flex items-center justify-center shadow-[0_0_20px_rgba(59,130,246,0.4)] shrink-0">
+        <Zap className="w-5 h-5 sm:w-6 sm:h-6 text-white fill-white" />
+      </div>
+      <div className="flex flex-col sm:flex-row sm:items-center leading-[0.9] sm:leading-none">
+        <span className="text-[16px] sm:text-[22px] font-black tracking-tighter text-fg">
+          Chamba
+        </span>
+        <span className="text-[14px] sm:text-[22px] font-bold sm:font-black tracking-tighter text-accent">
+          .Digital
+        </span>
+      </div>
+    </motion.div>
+  </Link>
+);
+
+const WhatsAppIcon = ({ className = "" }: { className?: string }) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    className={className}
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+  </svg>
+);
+
+const ChambaNavbar = () => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const navLinks = [
+    { name: "Inicio", path: "/" },
+    { name: "Servicios", path: "/#servicios" },
+    { name: "Portafolio", path: "/#portafolio" },
+    { name: "Metodología", path: "/#metodologia" },
+    { name: "Sorteo", path: "/raffle" },
+  ];
+
+  return (
+    <nav
+      className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 px-6 md:px-10 flex items-center justify-between smooth-gpu ${
+        scrolled
+          ? "h-[70px] bg-black/60 backdrop-blur-xl border-b border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.3)]"
+          : "h-[90px] bg-transparent"
+      }`}
+    >
+      <div className="flex items-center gap-12">
+        <Logo />
+        <div className="hidden lg:flex items-center gap-8">
+          {navLinks.map((link) => (
+            <Link
+              key={link.path}
+              to={link.path}
+              className="text-[12px] font-black uppercase tracking-[0.2em] text-muted hover:text-accent transition-all relative group py-2"
+            >
+              {link.name}
+              <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-accent transition-all duration-300 group-hover:w-full" />
+            </Link>
+          ))}
+        </div>
+      </div>
+
+      <div className="flex items-center gap-4">
+        <motion.a
+          whileHover={{ scale: 1.05, y: -2 }}
+          whileTap={{ scale: 0.95 }}
+          href="https://wa.me/51904060670"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hidden sm:flex bg-accent text-white px-8 py-3.5 rounded-[14px] text-[12px] font-black uppercase tracking-widest transition-all shadow-[0_10px_25px_rgba(59,130,246,0.3)] hover:shadow-[0_15px_35px_rgba(59,130,246,0.5)] border border-white/10"
+        >
+          Iniciar Proyecto
+        </motion.a>
+        <button
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          className="lg:hidden p-3 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-colors"
+        >
+          {isMobileMenuOpen ? <X className="w-6 h-6 text-fg" /> : <Menu className="w-6 h-6 text-fg" />}
+        </button>
+      </div>
+
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, x: "100%" }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: "100%" }}
+            className="fixed inset-0 z-[110] bg-black/98 backdrop-blur-[30px] flex flex-col p-8 pt-24 lg:hidden"
+          >
+            <div className="flex flex-col gap-6">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="text-[32px] font-black tracking-tight text-fg hover:text-accent transition-colors"
+                >
+                  {link.name}
+                </Link>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </nav>
+  );
+};
 
 interface FormData {
   nombre: string;
@@ -27,17 +157,7 @@ const RafflePage: React.FC = () => {
     mensaje: "",
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const trackEvent = (name: string, payload: any = {}) => {
-    try {
-      const dl = (window && (window as any).dataLayer) || [];
-      if (Array.isArray(dl)) dl.push({ event: name, ...payload });
-    } catch {
-      // ignore
-    }
-  };
-  const handleParticipateClick = () => {
-    trackEvent('participate_click', { section: 'hero' });
-  };
+  const [selectedPrize, setSelectedPrize] = useState<any>(null);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -48,215 +168,339 @@ const RafflePage: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
-    const mensajeWhatsApp = `🎯 *NUEVO PARTICIPANTE SORTEO* 🎯
-
-📋 *Datos del Participante:*
-• Nombre: ${formData.nombre}
-• Email: ${formData.email}
-• Teléfono: ${formData.telefono}
-• DNI: ${formData.dni}
-• Ciudad: ${formData.ciudad}
-• Mensaje: ${formData.mensaje}
-
-🎉 Verificando participación...`;
-
+    const mensajeWhatsApp = `🎯 *NUEVO PARTICIPANTE SORTEO* 🎯\n\n📋 *Datos:* \n• Nombre: ${formData.nombre}\n• Email: ${formData.email}\n• WhatsApp: ${formData.telefono}\n• DNI: ${formData.dni}\n• Ciudad: ${formData.ciudad}\n• Mensaje: ${formData.mensaje}`;
     const url = `https://wa.me/51904060670?text=${encodeURIComponent(mensajeWhatsApp)}`;
     window.open(url, "_blank");
-
     setIsSubmitted(true);
   };
 
-  const raffleJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Offer",
-    name: "Gran Sorteo Especial 2026",
-    description:
-      "Participa para ganar premios: Landing Page personalizada, descuento del 50% en servicio web y asesoría de 1 hora.",
-    url: typeof window !== 'undefined' ? (window as any).location?.origin + (window as any).location?.pathname : "https://localhost:3000/sorteo",
-    priceCurrency: "USD",
-    availability: "https://schema.org/InStock",
-    provider: {
-      "@type": "Organization",
-      name: "Chamba.Digital / Mothographics",
-    },
-  };
-
   const prizeItems = [
-    { icon: Trophy, title: "1er Premio", desc: "Landing Page personalizada para tu negocio (diseño + implementación)", color: "text-yellow-500" },
-    { icon: Gift, title: "2do Premio", desc: "Descuento del 50% en el servicio web de tu elección", color: "text-purple-500" },
-    { icon: Users, title: "3er Premio", desc: "Asesoría de 1 hora para proyecto web, apps, automatización, marketing", color: "text-blue-500" },
-  ];
-
-  const steps = [
-    { step: "1", title: "Completa el Formulario", desc: "Llena todos tus datos" },
-    { step: "2", title: "Envíalo por WhatsApp", desc: "Clic para enviarnos tu info" },
-    { step: "3", title: "Espera el Sorteo", desc: "Te notificaremos si ganas" },
-  ];
-
-  const terms = [
-    "Sorteo válido solo para residentes en Perú",
-    "Un participante por DNI válido",
-    "Sorteo del 1 al 7 de mayo 2026 - resultado el 7 de mayo",
-    "Los ganadores serán notificados via WhatsApp",
-    "Premios se entregan en máximo 7 días hábiles",
+    { 
+      icon: Trophy, 
+      title: "1er Premio", 
+      desc: "Landing Page Profesional", 
+      color: "text-yellow-500",
+      details: {
+        features: [
+          "Diseño de 5 secciones estratégicas",
+          "3 rondas de revisiones incluidas",
+          "Despliegue rápido en 7 días",
+          "Optimización SEO y Performance",
+          "Tracking (GA4/Pixel) configurado"
+        ],
+        note: "No incluye costo de hosting ni dominio."
+      }
+    },
+    { 
+      icon: Gift, 
+      title: "2do Premio", 
+      desc: "50% de Descuento Especial", 
+      color: "text-blue-500",
+      details: {
+        features: [
+          "50% OFF en Desarrollo Web a medida",
+          "50% OFF en Servicios de Marketing",
+          "50% OFF en Implementación de PMS",
+          "50% OFF en Automatización de Procesos",
+          "50% OFF en Agente de IA para Ventas"
+        ]
+      }
+    },
+    { 
+      icon: Users, 
+      title: "3er Premio", 
+      desc: "Asesoría Especializada", 
+      color: "text-accent",
+      details: {
+        features: [
+          "1 hora de consultoría 1-a-1",
+          "Análisis de arquitectura digital",
+          "Estrategia de escalado de ventas",
+          "Optimización de procesos con IA",
+          "Resolución de dudas técnicas"
+        ]
+      }
+    },
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-50">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{__html: JSON.stringify(raffleJsonLd)}} />
-
-      {/* Hero */}
-      <section className="relative py-12 flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 opacity-90" />
-        <div className="relative z-10 text-center text-white px-4">
-          <Trophy className="w-14 h-14 mx-auto mb-2 text-yellow-300" />
-          <h1 className="text-3xl md:text-5xl font-bold mb-1">🎉 Gran Sorteo Especial</h1>
-          <p className="text-base md:text-lg mb-3 opacity-90">Participa y gana premios increíbles</p>
-          <div className="flex flex-col items-center">
-            <button
-              className="bg-yellow-400 text-purple-900 px-6 py-2 rounded-full font-bold text-base hover:bg-yellow-300 transition-colors"
-              onClick={() => {
-                handleParticipateClick();
-                document.getElementById("seccion-formulario")?.scrollIntoView({ behavior: "smooth" });
-              }}
+    <div className="min-h-screen bg-bg text-fg selection:bg-accent selection:text-white overflow-x-hidden">
+      <ChambaNavbar />
+      
+      <main className="pt-[70px]">
+        {/* Hero */}
+        <section className="relative py-16 px-4 overflow-hidden">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[250px] md:w-[500px] h-[250px] md:h-[500px] bg-accent/10 blur-[80px] md:blur-[100px] rounded-full -z-10" />
+          
+          <div className="max-w-4xl mx-auto text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
             >
-              ¡Quiero Participar!
-            </button>
+              <span className="label-editorial mx-auto">Evento Exclusivo 2026</span>
+              <h1 className="text-[36px] md:text-[64px] font-black leading-[1.1] mb-4">
+                Gran Sorteo <span className="text-accent">Especial</span>
+              </h1>
+              <p className="text-muted text-[16px] md:text-[18px] max-w-xl mx-auto mb-8 leading-relaxed">
+                Potencia tu presencia digital. Participa hoy y gana herramientas de ingeniería de performance para tu negocio.
+              </p>
+              
+              <motion.button
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => document.getElementById("seccion-formulario")?.scrollIntoView({ behavior: "smooth" })}
+                className="bg-accent text-white px-8 py-4 rounded-[12px] font-bold text-[14px] shadow-[0_10px_25px_rgba(59,130,246,0.3)] transition-all uppercase tracking-widest"
+              >
+                ¡Participar Ahora!
+              </motion.button>
+            </motion.div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Hosting */}
-      <p className="text-center text-xs text-gray-500 py-1">Hosting desde $5/mes</p>
-
-      {/* Premios */}
-      <section className="py-6 px-4 max-w-5xl mx-auto">
-        <div className="text-center mb-4">
-          <h2 className="text-2xl font-bold text-gray-800">🎁 Premios</h2>
-        </div>
-        <div className="grid md:grid-cols-3 gap-4">
-          {prizeItems.map((premio, index) => (
-            <div key={index} className="bg-white rounded-xl shadow p-5 text-center">
-              <premio.icon className={`w-10 h-10 mx-auto mb-2 ${premio.color}`} />
-              <h3 className="text-lg font-bold text-gray-800 mb-1">{premio.title}</h3>
-              <p className="text-sm text-gray-600">{premio.desc}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Cómo Participar */}
-      <section className="py-6 bg-white px-4">
-        <div className="text-center max-w-4xl mx-auto">
-          <h2 className="text-2xl font-bold text-gray-800 mb-3">📱 Cómo Participar</h2>
-          <div className="grid md:grid-cols-3 gap-4">
-            {steps.map((item, index) => (
-              <div key={index} className="text-center">
-                <div className="w-12 h-12 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full flex items-center justify-center font-bold mx-auto mb-2 text-lg">
-                  {item.step}
+        {/* Premios */}
+        <section className="py-12 px-4 max-w-[1024px] mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {prizeItems.map((premio, index) => (
+              <motion.div 
+                key={index}
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                onClick={() => setSelectedPrize(premio)}
+                className="liquid-glass p-6 group hover:border-accent/40 transition-all text-center cursor-pointer relative"
+              >
+                <div className="absolute top-3 right-3 opacity-20 group-hover:opacity-100 transition-opacity">
+                  <Zap className="w-3 h-3 text-accent" />
                 </div>
-                <h3 className="text-base font-bold text-gray-800">{item.title}</h3>
-                <p className="text-sm text-gray-600">{item.desc}</p>
-              </div>
+                <premio.icon className={`w-10 h-10 mx-auto mb-4 ${premio.color} group-hover:scale-110 transition-transform`} />
+                <h3 className="text-[18px] font-black mb-2">{premio.title}</h3>
+                <p className="text-muted text-[13px] leading-relaxed mb-4">{premio.desc}</p>
+                <span className="text-[10px] font-black text-accent uppercase tracking-widest border border-accent/20 px-3 py-1 rounded-full group-hover:bg-accent group-hover:text-white transition-all">Ver Detalles</span>
+              </motion.div>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Términos y Condiciones */}
-      <section className="py-6 bg-gray-50 px-4">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-xl font-bold text-gray-800 mb-3 text-center">📋 Términos y Condiciones</h2>
-          <div className="bg-white rounded-xl shadow p-5 space-y-2">
-            <ul className="space-y-2 text-sm text-gray-600">
-              {terms.map((term, i) => (
-                <li key={i} className="flex items-start">
-                  <CheckCircle2 className="w-4 h-4 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                  <span>{term}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      {/* Formulario */}
-      <section id="seccion-formulario" className="py-6 px-4 bg-gradient-to-br from-purple-50 to-pink-50">
-        <div className="max-w-xl mx-auto">
-          <h2 className="text-2xl font-bold text-center text-gray-800 mb-2">🎯 Formulario de Inscripción</h2>
-          <p className="text-center text-gray-600 text-sm mb-4">Completa tus datos para participar</p>
-
-          {!isSubmitted ? (
-            <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow p-6 space-y-3">
-              <div>
-                <label className="block text-gray-700 font-semibold text-sm mb-1">Nombre completo *</label>
-                <input type="text" name="nombre" value={formData.nombre} onChange={handleInputChange} required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 text-sm"
-                  placeholder="Juan Pérez García" />
-              </div>
-              <div>
-                <label className="block text-gray-700 font-semibold text-sm mb-1">Email *</label>
-                <input type="email" name="email" value={formData.email} onChange={handleInputChange} required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 text-sm"
-                  placeholder="juan@ejemplo.com" />
-              </div>
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-gray-700 font-semibold text-sm mb-1">WhatsApp *</label>
-                  <input type="tel" name="telefono" value={formData.telefono} onChange={handleInputChange} required pattern="[0-9]{9}"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 text-sm"
-                    placeholder="987654321" />
+        {/* Detail Modal */}
+        <AnimatePresence>
+          {selectedPrize && (
+            <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setSelectedPrize(null)}
+                className="absolute inset-0 bg-black/90 backdrop-blur-md"
+              />
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                className="relative w-full max-w-[450px] liquid-glass p-8 md:p-10 shadow-2xl"
+              >
+                <button onClick={() => setSelectedPrize(null)} className="absolute top-6 right-6 text-muted hover:text-accent transition-colors">
+                  <X className="w-5 h-5" />
+                </button>
+                
+                <selectedPrize.icon className={`w-12 h-12 mb-6 ${selectedPrize.color}`} />
+                <h3 className="text-[24px] font-black mb-2">{selectedPrize.title}</h3>
+                <p className="text-accent text-[14px] font-bold mb-6 uppercase tracking-widest">{selectedPrize.desc}</p>
+                
+                <div className="space-y-4 mb-8">
+                  {selectedPrize.details.features.map((feature: string, idx: number) => (
+                    <div key={idx} className="flex gap-3 text-[14px] text-muted leading-relaxed">
+                      <CheckCircle2 className="w-4 h-4 text-accent shrink-0 mt-1" />
+                      <span>{feature}</span>
+                    </div>
+                  ))}
                 </div>
-                <div>
-                  <label className="block text-gray-700 font-semibold text-sm mb-1">DNI *</label>
-                  <input type="text" name="dni" value={formData.dni} onChange={handleInputChange} required pattern="[0-9]{8}"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 text-sm"
-                    placeholder="12345678" />
-                </div>
-              </div>
-              <div>
-                <label className="block text-gray-700 font-semibold text-sm mb-1">Ciudad</label>
-                <input type="text" name="ciudad" value={formData.ciudad} onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 text-sm"
-                  placeholder="Lima" />
-              </div>
-              <div>
-                <label className="block text-gray-700 font-semibold text-sm mb-1">¿Por qué quieres ganar? (opcional)</label>
-                <textarea name="mensaje" value={formData.mensaje} onChange={handleInputChange} rows={2}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 text-sm"
-                  placeholder="Cuéntanos..." />
-              </div>
-              <button type="submit"
-                className="w-full bg-gradient-to-r from-green-500 to-green-600 text-white py-3 rounded-lg font-bold text-base hover:from-green-600 hover:to-green-700 transition-all flex items-center justify-center gap-2">
-                <Phone className="w-4 h-4" />
-                <span>Enviar por WhatsApp y Participar</span>
-              </button>
-              <div className="w-full h-36 md:h-44 mx-auto">
-                <iframe title="Ubicación"
-                  src="https://maps.google.com/maps?q=Chamba%20Digital%20HQ&t=&z=13&ie=UTF8&iwloc=&output=embed"
-                  width="100%" height="100%" style={{ border: 0 }} loading="lazy" allowFullScreen />
-              </div>
-              <p className="text-xs text-gray-500 text-center">Al enviar, aceptas los términos y condiciones</p>
-            </form>
-          ) : (
-            <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}
-              className="bg-white rounded-xl shadow p-6 text-center">
-              <CheckCircle2 className="w-12 h-12 text-green-500 mx-auto mb-3" />
-              <h3 className="text-xl font-bold text-gray-800 mb-1">🎉 ¡Listo!</h3>
-              <p className="text-gray-600 text-sm mb-4">Se ha abierto WhatsApp. Por favor, envía el mensaje para completar tu inscripción.</p>
-              <button onClick={() => setIsSubmitted(false)} className="text-purple-600 hover:text-purple-800 font-semibold text-sm">
-                Registrar a otra persona
-              </button>
-            </motion.div>
+
+                {selectedPrize.details.note && (
+                  <div className="p-4 bg-white/5 rounded-xl border border-white/10 mb-8">
+                    <p className="text-[12px] text-muted italic">⚠️ {selectedPrize.details.note}</p>
+                  </div>
+                )}
+
+                <button 
+                  onClick={() => {
+                    setSelectedPrize(null);
+                    document.getElementById("seccion-formulario")?.scrollIntoView({ behavior: "smooth" });
+                  }}
+                  className="w-full bg-accent text-white py-4 rounded-xl font-bold text-[14px] uppercase tracking-widest"
+                >
+                  ¡Me interesa este premio!
+                </button>
+              </motion.div>
+            </div>
           )}
-        </div>
-      </section>
+        </AnimatePresence>
 
-      {/* Footer */}
-      <footer className="bg-gray-800 text-white text-center py-4">
-        <p className="text-xs text-gray-300">© 2024 - Sorteo Especial. Todos los derechos reservados.</p>
-        <p className="text-xs text-gray-400 mt-1">Contáctanos: +51 904 060 670</p>
+        {/* Formulario */}
+        <section id="seccion-formulario" className="py-16 px-4 bg-accent/[0.01] border-y border-white/5">
+          <div className="max-w-2xl mx-auto">
+            <div className="text-center mb-10">
+              <span className="label-editorial mx-auto">Inscripción Directa</span>
+              <h2 className="text-[28px] md:text-[40px] font-black mb-3">Asegura tu <span className="text-accent">Cupo</span></h2>
+              <p className="text-muted text-[14px]">Completa tus datos y envíalos vía WhatsApp para validar tu entrada.</p>
+            </div>
+
+            {!isSubmitted ? (
+              <form onSubmit={handleSubmit} className="liquid-glass p-6 md:p-10 space-y-5">
+                <div className="grid md:grid-cols-2 gap-5">
+                  <div className="space-y-1.5">
+                    <label className="text-[11px] font-bold text-muted uppercase tracking-wider">Nombre Completo</label>
+                    <div className="relative">
+                      <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted/30" />
+                      <input type="text" name="nombre" value={formData.nombre} onChange={handleInputChange} required
+                        className="w-full bg-white/5 border border-white/10 rounded-[10px] py-3.5 pl-11 pr-4 text-[13px] focus:outline-none focus:border-accent/50 transition-all"
+                        placeholder="Juan Pérez" />
+                    </div>
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-[11px] font-bold text-muted uppercase tracking-wider">Email Corporativo</label>
+                    <div className="relative">
+                      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted/30" />
+                      <input type="email" name="email" value={formData.email} onChange={handleInputChange} required
+                        className="w-full bg-white/5 border border-white/10 rounded-[10px] py-3.5 pl-11 pr-4 text-[13px] focus:outline-none focus:border-accent/50 transition-all"
+                        placeholder="juan@empresa.com" />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-5">
+                  <div className="space-y-1.5">
+                    <label className="text-[11px] font-bold text-muted uppercase tracking-wider">WhatsApp (9 dígitos)</label>
+                    <div className="relative">
+                      <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted/30" />
+                      <input type="tel" name="telefono" value={formData.telefono} onChange={handleInputChange} required pattern="[0-9]{9}"
+                        className="w-full bg-white/5 border border-white/10 rounded-[10px] py-3.5 pl-11 pr-4 text-[13px] focus:outline-none focus:border-accent/50 transition-all"
+                        placeholder="987654321" />
+                    </div>
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-[11px] font-bold text-muted uppercase tracking-wider">DNI / Documento</label>
+                    <div className="relative">
+                      <CheckCircle2 className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted/30" />
+                      <input type="text" name="dni" value={formData.dni} onChange={handleInputChange} required pattern="[0-9]{8}"
+                        className="w-full bg-white/5 border border-white/10 rounded-[10px] py-3.5 pl-11 pr-4 text-[13px] focus:outline-none focus:border-accent/50 transition-all"
+                        placeholder="12345678" />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-[11px] font-bold text-muted uppercase tracking-wider">Ciudad</label>
+                  <input type="text" name="ciudad" value={formData.ciudad} onChange={handleInputChange}
+                    className="w-full bg-white/5 border border-white/10 rounded-[10px] py-3.5 px-4 text-[13px] focus:outline-none focus:border-accent/50 transition-all"
+                    placeholder="Lima, Perú" />
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-[11px] font-bold text-muted uppercase tracking-wider">¿Por qué quieres ganar?</label>
+                  <textarea name="mensaje" value={formData.mensaje} onChange={handleInputChange} rows={2}
+                    className="w-full bg-white/5 border border-white/10 rounded-[10px] p-4 text-[13px] focus:outline-none focus:border-accent/50 transition-all resize-none"
+                    placeholder="Cuéntanos sobre tu negocio..." />
+                </div>
+
+                  <motion.button 
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    type="submit"
+                    className="w-full bg-accent text-white py-4 rounded-[10px] font-black text-[14px] shadow-[0_10px_25px_rgba(59,130,246,0.2)] transition-all uppercase tracking-widest flex items-center justify-center gap-3"
+                  >
+                    <WhatsAppIcon className="w-5 h-5" />
+                    Enviar y Participar
+                  </motion.button>
+              </form>
+            ) : (
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.9 }} 
+                animate={{ opacity: 1, scale: 1 }}
+                className="liquid-glass p-10 text-center"
+              >
+                <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <CheckCircle2 className="w-8 h-8 text-green-500" />
+                </div>
+                <h3 className="text-[24px] font-black mb-3">¡Registro Iniciado!</h3>
+                <p className="text-muted text-[14px] mb-8">Se ha abierto WhatsApp para completar tu inscripción. No olvides enviar el mensaje generado.</p>
+                <button onClick={() => setIsSubmitted(false)} className="text-accent font-bold hover:underline text-[14px]">
+                  Registrar otro participante
+                </button>
+              </motion.div>
+            )}
+          </div>
+        </section>
+
+        {/* Hosting & Tech Highlight */}
+        <section className="py-16 px-4">
+          <div className="max-w-[1024px] mx-auto">
+            <div className="liquid-glass p-8 md:p-12 relative overflow-hidden group">
+              <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-accent/5 blur-[80px] rounded-full -z-10 group-hover:bg-accent/10 transition-all duration-700" />
+              
+              <div className="grid md:grid-cols-2 gap-10 items-center">
+                <div>
+                  <span className="label-editorial">Infraestructura de Élite</span>
+                  <h2 className="text-[28px] md:text-[36px] font-black mb-4 leading-tight">
+                    Hosting Profesional desde <span className="text-accent">$5/mes</span>
+                  </h2>
+                  <p className="text-muted text-[15px] mb-6 leading-relaxed">
+                    No es solo alojamiento, es ingeniería de performance. Nuestras infraestructuras están optimizadas nativamente para:
+                  </p>
+                  <div className="grid grid-cols-2 gap-3 mb-8">
+                    {[
+                      "SEO Avanzado", "Google Analytics", "Meta Ads / Pixel", 
+                      "Google Tags", "Agentes de IA", "Carga < 1s"
+                    ].map((item) => (
+                      <div key={item} className="flex items-center gap-2 text-[13px] font-bold text-fg/80">
+                        <Zap className="w-3 h-3 text-accent" />
+                        {item}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-4">
+                  <div className="p-6 bg-white/5 rounded-2xl border border-white/10">
+                    <p className="text-[14px] text-muted italic mb-4">
+                      "Llevamos tu presencia digital al siguiente nivel con tecnología que no solo carga, sino que convierte."
+                    </p>
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center font-black text-accent text-[12px]">CD</div>
+                      <div>
+                        <p className="text-[12px] font-black">Equipo Técnico</p>
+                        <p className="text-[10px] text-muted uppercase tracking-widest">Chamba Digital</p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <motion.a
+                    whileHover={{ scale: 1.02, y: -2 }}
+                    whileTap={{ scale: 0.98 }}
+                    href="https://wa.me/51904060670?text=Hola,%20me%20interesa%20el%20hosting%20optimizado%20de%20$5/mes."
+                    target="_blank"
+                    className="w-full bg-[#25D366] text-white py-4 rounded-xl font-black text-[14px] uppercase tracking-widest flex items-center justify-center gap-3 shadow-[0_10px_25px_rgba(37,211,102,0.2)] p-4"
+                  >
+                    <WhatsAppIcon className="w-5 h-5" />
+                    Consultar por WhatsApp
+                  </motion.a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+
+      <footer className="py-12 px-4 border-t border-white/5 text-center">
+        <Logo className="mx-auto mb-6 scale-90" />
+        <p className="text-muted text-[12px] mb-1">© {new Date().getFullYear()} Chamba Digital. Todos los derechos reservados.</p>
+        <div className="flex justify-center gap-4 text-[10px] font-black text-muted/30 uppercase tracking-widest mt-4">
+          <Link to="/" className="hover:text-accent transition-colors">Inicio</Link>
+          <a href="#seccion-formulario" className="hover:text-accent transition-colors">Participar</a>
+          <a href="https://wa.me/51904060670" className="hover:text-accent transition-colors">Soporte</a>
+        </div>
       </footer>
     </div>
   );
