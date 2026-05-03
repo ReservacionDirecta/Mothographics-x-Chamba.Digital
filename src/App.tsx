@@ -749,7 +749,7 @@ const Services = ({
       <p className="text-muted max-w-xl mx-auto text-[14px]">{subtitle}</p>
     </div>
 
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
       <PricingCard
         title="Despliegue Cloud & Infraestructura"
         description="Servidores VPS seguros y orquestación de datos de alto rendimiento."
@@ -835,6 +835,29 @@ const Services = ({
           { name: "Agentes LLM (OpenAI/Claude)", price: "Desde $400 USD" },
           { name: "Deploy Ollama / Modelos Locales", price: "Desde $500 USD" },
           { name: "Generación Imagen/Video IA", price: "Desde $300 USD" },
+        ]}
+      />
+      <PricingCard
+        title="Ecosistema Todo Incluido"
+        description="Automatización + Ads + SEO + Web en una solución integral."
+        delay={0.4}
+        onOpenDetails={() =>
+          onOpenModal("Ecosistema Integral", {
+            description:
+              "El paquete definitivo para dominar tu mercado. Integramos nuestra arquitectura de tráfico (Ads), automatización con inteligencia artificial, optimización técnica (SEO) y despliegue web de alto rendimiento en un solo servicio unificado.",
+            caseStudies: [
+              "Escalabilidad Total: De 0 a facturación predecible en 90 días.",
+              "Infraestructura Centralizada: Un solo proveedor para tecnología, tráfico y ventas.",
+            ],
+            testimonials: [
+              "Delegar todo el ecosistema digital a un solo equipo fue la mejor decisión operativa del año. - CEO SaaS",
+            ],
+          })
+        }
+        items={[
+          { name: "Plan Inicial (Fase 1)", price: "$650 USD" },
+          { name: "Plan Growth (Fase 2)", price: "$1000 USD" },
+          { name: "Plan Escala (Fase 3)", price: "$1500 USD" },
         ]}
       />
     </div>
