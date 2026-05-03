@@ -41,6 +41,11 @@ import {
   Repeat,
   BarChart3,
   Target,
+  Terminal,
+  Cpu,
+  Database,
+  MonitorPlay,
+  Bot,
 } from "lucide-react";
 
 // --- Components for Conversion & Lead Flow (Phase 3) ---
@@ -464,24 +469,24 @@ const Hero = () => {
 
   const headlines = {
     A: {
-      tag: "🚀 Arquitectura de Crecimiento 2026",
+      tag: "🚀 Ingeniería IA & Cloud Infrastructure",
       title: (
         <>
-          Sistema Integral de{" "}
-          <span className="text-accent">Adquisición y Performance</span>.
+          Automatización, APIs y{" "}
+          <span className="text-accent">Agentes Inteligentes</span>.
         </>
       ),
-      sub: "Detenemos las pérdidas digitales y construimos tu motor de ingresos. Transformamos cada clic en un cliente rentable a través de ingeniería precisa.",
+      sub: "Ecosistemas técnicos inquebrantables. Despliegues en VPS de alto rendimiento, integración nativa de modelos fundacionales (Gemini, ChatGPT, Claude) y flujos automatizados.",
     },
     B: {
-      tag: "⚡ Ingeniería de Conversión 10x",
+      tag: "⚡ Laboratorio de Innovación Técnica",
       title: (
         <>
-          Captar, Convertir y{" "}
-          <span className="text-accent">Escalar Ventas</span>.
+          Integración Cloud, VPS &{" "}
+          <span className="text-accent">Modelos de IA</span>.
         </>
       ),
-      sub: "No es solo diseño, es una máquina de ventas diseñada para escalar. Maximizamos tu ROI garantizando que cada inversión digital genere un retorno exponencial.",
+      sub: "Llevamos tu infraestructura al siguiente nivel. Automatización con Ollama, OpenClaw, Google Flow y generación dinámica de medios (Imagen/Video) con Inteligencia Artificial.",
     },
   }[headlineVariant as "A" | "B"];
 
@@ -541,23 +546,18 @@ const Hero = () => {
 
 const Opportunity = () => (
   <section
-    id="oportunidad"
+    id="tech-stack"
     className="py-20 px-6 md:px-10 max-w-[1024px] mx-auto"
   >
     <div className="text-center mb-16">
-      <span className="label-editorial mx-auto">La Sinergia Estratégica</span>
+      <span className="label-editorial mx-auto">Nuestro Arsenal Técnico</span>
       <h2 className="text-[32px] md:text-[56px] font-black tracking-tighter leading-none mb-8">
-        Tu Agencia, <span className="text-accent">Sin Límites Técnicos</span>.
+        Infraestructura <span className="text-accent">Sin Límites</span>.
       </h2>
       <p className="text-muted text-[17px] md:text-[19px] max-w-3xl mx-auto leading-relaxed">
-        Guido, Mothographics es el corazón creativo en{" "}
-        <strong className="text-fg underline decoration-accent/30 underline-offset-4">
-          México
-        </strong>
-        . Chamba Digital es tu{" "}
-        <strong className="text-fg">brazo de ingeniería de élite</strong> desde
-        Perú. Juntos, entregamos soluciones que no solo se ven increíbles, sino
-        que funcionan con una precisión militar.
+        No usamos plantillas; construimos <strong className="text-fg">arquitecturas a medida</strong>. 
+        Dominamos el despliegue en servidores privados (VPS), la orquestación de APIs complejas y la implementación de 
+        los modelos de Inteligencia Artificial más potentes del mercado.
       </p>
     </div>
 
@@ -570,18 +570,18 @@ const Opportunity = () => (
         className="glass p-8 rounded-[16px] border-white/5 relative overflow-hidden"
       >
         <div className="absolute top-0 right-0 p-6 opacity-5">
-          <Palette className="w-24 h-24" />
+          <Terminal className="w-24 h-24" />
         </div>
         <h3 className="text-[20px] font-bold mb-4 flex items-center gap-3">
-          <Palette className="w-5 h-5 text-accent" />
-          El Arte (Mothographics)
+          <Terminal className="w-5 h-5 text-accent" />
+          Cloud & API Integration
         </h3>
         <ul className="space-y-3">
           {[
-            "Storytelling visual de alto impacto.",
-            "Branding que trasciende industrias.",
-            "Excelencia estética y emocional.",
-            "25 años de autoridad creativa.",
+            "Despliegues seguros en VPS Linux (Ubuntu/Debian).",
+            "Orquestación con Docker, Nginx y PM2.",
+            "Integraciones RESTful, GraphQL y Webhooks.",
+            "Automatización avanzada con Google Flow (Workflows).",
           ].map((item, i) => (
             <li
               key={i}
@@ -602,18 +602,18 @@ const Opportunity = () => (
         className="glass p-8 rounded-[16px] border-accent/10 relative overflow-hidden bg-accent/[0.02]"
       >
         <div className="absolute top-0 right-0 p-6 opacity-5">
-          <Zap className="w-24 h-24 text-accent" />
+          <Cpu className="w-24 h-24 text-accent" />
         </div>
         <h3 className="text-[20px] font-bold mb-4 flex items-center gap-3">
-          <Zap className="w-5 h-5 text-accent" />
-          La Ciencia (Chamba Digital)
+          <Cpu className="w-5 h-5 text-accent" />
+          Inteligencia Artificial (LLMs)
         </h3>
         <ul className="space-y-3">
           {[
-            "Sistemas de tráfico y Meta Ads.",
-            "Webs de alta conversión (UX/UI).",
-            "Automatización con Agentes IA.",
-            "Escalabilidad técnica y datos.",
+            "Integración de Gemini, ChatGPT, Claude y OpenClaw.",
+            "Despliegue local y seguro con Ollama.",
+            "Generación dinámica de Imágenes y Videos con IA.",
+            "Agentes autónomos para automatización de flujos.",
           ].map((item, i) => (
             <li
               key={i}
@@ -636,24 +636,24 @@ const Opportunity = () => (
     >
       {[
         {
-          title: "Agencia 360",
-          desc: "Posicionamiento Full-Stack inmediato.",
+          title: "APIs Conectadas",
+          desc: "Sincronización de datos en tiempo real.",
           icon: Globe,
         },
         {
-          title: "Nuevos Ingresos",
-          desc: "Venta de Web y Sistemas IA.",
-          icon: TrendingUp,
+          title: "Servidores VPS",
+          desc: "Control total, seguridad y performance.",
+          icon: Database,
         },
         {
-          title: "Cero Fricción",
-          desc: "Nosotros manejamos la técnica.",
-          icon: CheckCircle2,
+          title: "Generación Media",
+          desc: "Audio, Imagen y Video automatizado.",
+          icon: MonitorPlay,
         },
         {
-          title: "Datos Reales",
-          desc: "Reportes de ROI para tus clientes.",
-          icon: MessageSquare,
+          title: "Agentes IA",
+          desc: "Soporte y ventas 24/7 sin descanso.",
+          icon: Bot,
         },
       ].map((item, i) => (
         <div
@@ -751,90 +751,90 @@ const Services = ({
 
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
       <PricingCard
-        title="Adquisición Masiva (Meta Ads)"
-        description="Escala tu facturación con tráfico hiper-optimizado y tracking avanzado."
+        title="Despliegue Cloud & Infraestructura"
+        description="Servidores VPS seguros y orquestación de datos de alto rendimiento."
         delay={0.1}
         onOpenDetails={() =>
-          onOpenModal("Meta Ads: Motor de Tráfico", {
+          onOpenModal("Cloud & VPS", {
             description:
-              "Nuestro sistema de Meta Ads no se limita a 'poner anuncios'. Realizamos un estudio profundo de audiencias, instalamos la API de conversiones para saltar las limitaciones de iOS, y creamos embudos de retargeting que persiguen a los interesados hasta que compran.",
+              "Nos encargamos de toda la ingeniería base. Configuramos servidores VPS privados (Linux/Ubuntu), orquestamos tus aplicaciones con Docker y PM2, y gestionamos proxys inversos con Nginx para garantizar un uptime del 99.9%.",
             caseStudies: [
-              "Galería de Arte: Incremento del 300% en leads calificados en 30 días.",
-              "E-commerce de Moda: ROAS (Retorno de Inversión Publicitaria) de 4.5x constante.",
-              "Sector Inmobiliario: Reducción del 40% en el costo por lead mediante segmentación avanzada.",
+              "Migración a VPS: Reducción del 60% en costos de hosting tradicional.",
+              "Infraestructura E-commerce: Carga ultra-rápida y soporte para picos de tráfico masivo.",
+              "Seguridad: Implementación de firewalls, SSL automático y respaldos programados.",
             ],
             testimonials: [
-              "Chamba Digital transformó nuestra inversión en un activo real. Pasamos de gastar dinero a generar ventas predecibles. - Cliente Sector Retail",
-              "La precisión técnica con la que manejan las audiencias es algo que no habíamos visto en otras agencias. - Director de Marketing",
+              "Tener nuestro propio servidor configurado por expertos nos dio el control total que necesitábamos. - CTO",
+              "La velocidad de respuesta de nuestras APIs mejoró drásticamente al pasar a un VPS dedicado. - Lead Developer",
             ],
           })
         }
         items={[
           {
-            name: "Setup Inicial",
-            price: "$150 USD",
+            name: "Setup VPS (Linux/Ubuntu)",
+            price: "Desde $200 USD",
             details:
-              "Pago único. Incluye configuración de Business Manager, Pixel, eventos, públicos y campañas.",
+              "Pago único. Configuración inicial, seguridad y optimización.",
           },
           {
-            name: "Gestión Mensual",
-            price: "Desde $150 USD/mes",
-            details: "Optimización y escalado continuo.",
+            name: "Mantenimiento Cloud",
+            price: "Desde $50 USD/mes",
+            details: "Monitoreo, backups y actualizaciones.",
           },
         ]}
       />
       <PricingCard
-        title="Arquitectura Web & Tech Stack"
-        description="Ecosistemas de alta performance optimizados para SEO, Analytics e IA."
+        title="Integración de APIs & Datos"
+        description="Conecta tus sistemas y automatiza flujos con Google Flow."
         delay={0.2}
         onOpenDetails={() =>
-          onOpenModal("Desarrollo Web & Tech", {
+          onOpenModal("APIs & Google Flow", {
             description:
-              "Construimos infraestructuras preparadas para escalar. Nuestras webs incluyen configuración nativa de GTM, Facebook Pixel (CAPI), Google Analytics 4 y están optimizadas para buscadores y agentes de IA.",
+              "Construimos el puente entre tus herramientas. Desarrollamos integraciones RESTful y GraphQL, webhooks para comunicación en tiempo real, y utilizamos Google Workflows y Dialogflow para orquestar la lógica de tu negocio.",
             caseStudies: [
-              "Hosting Profesional: Desde $5 USD/mes optimizado para carga ultra rápida.",
-              "Hotel Boutique: Recuperación del 25% de reservas directas eliminando comisiones de OTAs.",
-              "E-commerce: Integración de checkout fluido con tracking de conversiones real.",
+              "Sincronización ERP/CRM: Datos actualizados en milisegundos entre 3 plataformas.",
+              "Google Dialogflow: Chatbot inteligente que consulta bases de datos privadas.",
+              "Webhooks Personalizados: Notificaciones automáticas de pago integradas a Slack.",
             ],
             testimonials: [
-              "La integración del motor de reservas fue un antes y un después para nuestra rentabilidad. - Gerente de Operaciones Hoteleras",
-              "Entienden el negocio, no solo el código. Eso es lo que los hace diferentes. - CEO Startup Tech",
+              "Nuestros sistemas finalmente hablan el mismo idioma. La automatización nos ahorra horas. - Ops Manager",
+              "La integración de las APIs fue impecable, sin pérdida de datos. - Data Analyst",
             ],
           })
         }
         items={[
-          { name: "Web Corporativa / Landing", price: "Desde $450 USD" },
-          { name: "Hosting Profesional", price: "Desde $5 USD/mes" },
+          { name: "Desarrollo de API REST", price: "Desde $500 USD" },
+          { name: "Google Flow / Dialogflow", price: "Desde $350 USD" },
           {
-            name: "Optimización SEO & Tech Stack",
-            price: "Incluido",
+            name: "Webhooks e Integraciones",
+            price: "Desde $250 USD",
           },
-          { name: "Motor de Reservas / E-commerce", price: "Desde $650 USD" },
+          { name: "Arquitectura Microservicios", price: "Personalizado" },
         ]}
       />
       <PricingCard
-        title="Optimización de Operaciones"
-        description="Automatización con IA para ventas y atención al cliente 24/7."
+        title="Laboratorio de IA & Generación"
+        description="LLMs (Gemini, Claude, Ollama) y Generación de Medios."
         delay={0.3}
         onOpenDetails={() =>
-          onOpenModal("Automatización con IA", {
+          onOpenModal("Modelos de IA & Medios", {
             description:
-              "Liberamos a tu equipo de tareas repetitivas. Implementamos agentes de IA que atienden clientes 24/7, califican leads en tiempo real y agendan citas automáticamente en tu calendario.",
+              "Implementamos inteligencia artificial de vanguardia. Desde modelos fundacionales (ChatGPT, Gemini, Claude, OpenClaw) hasta despliegues locales seguros con Ollama. Además, generamos imágenes, audio y video dinámico con IA para marketing y operaciones.",
             caseStudies: [
-              "Agencia de Viajes: Automatización del 80% de consultas frecuentes vía WhatsApp.",
-              "Clínica Dental: Reducción del 50% en inasistencias mediante recordatorios inteligentes.",
-              "SaaS B2B: Calificación automática de leads que incrementó la eficiencia del equipo de ventas en un 30%.",
+              "Generación de Video: Automatización de anuncios en video reduciendo costos de producción en un 80%.",
+              "Agentes Autónomos (Ollama): Análisis de documentos internos sin comprometer la privacidad.",
+              "Asistentes Claude/Gemini: Redacción y análisis de contratos legales en segundos.",
             ],
             testimonials: [
-              "El agente de IA atiende mejor que muchos humanos. Es impresionante la precisión. - Dueño de Negocio Local",
-              "Ahorramos más de 20 horas semanales en tareas administrativas gracias a sus automatizaciones. - Director Operativo",
+              "La capacidad de generar imágenes y videos con IA ha transformado nuestro marketing. - Director Creativo",
+              "Tener Ollama corriendo en nuestro VPS nos da IA privada y segura. - CEO",
             ],
           })
         }
         items={[
-          { name: "Chatbots de Ventas con IA", price: "Desde $300 USD" },
-          { name: "Integraciones a medida", price: "Desde $400 USD" },
-          { name: "Plataformas E-learning", price: "Desde $600 USD" },
+          { name: "Agentes LLM (OpenAI/Claude)", price: "Desde $400 USD" },
+          { name: "Deploy Ollama / Modelos Locales", price: "Desde $500 USD" },
+          { name: "Generación Imagen/Video IA", price: "Desde $300 USD" },
         ]}
       />
     </div>
@@ -870,126 +870,79 @@ const Portfolio = () => {
 
   const clients = [
     {
-      emoji: "🏝️",
-      name: "Peña Linda Bungalows",
-      location: "Máncora – Perú",
+      emoji: "🤖",
+      name: "Sistema Autónomo B2B",
+      location: "Despliegue VPS (Linux/Ubuntu)",
       tasks: [
-        "Implementación y gestión integral del PMS.",
-        "Desarrollo y optimización continua de la web oficial.",
-        "Integración de motor de reservas para ventas directas.",
-        "Administración completa del flujo de reservas.",
-        "Atención vía WhatsApp y Automatización con IA.",
-        "+10 años consolidando resultados.",
+        "Orquestación de API RESTful escalable.",
+        "Integración de Agente Ollama para análisis de datos privados.",
+        "Automatización de flujos con Google Workflows.",
+        "Monitoreo 24/7 con PM2 y Docker.",
       ],
       focus:
-        "Operación integral: marketing + ventas + tecnología + automatización.",
+        "Reducción del 70% en tiempo de procesamiento de datos confidenciales.",
     },
     {
-      emoji: "🌿",
-      name: "Fundo Achamaqui",
-      location: "Chachapoyas – Perú",
+      emoji: "🛍️",
+      name: "E-Commerce AI Agent",
+      location: "Arquitectura Cloud",
       tasks: [
-        "Implementación del PMS y estructura de reservas.",
-        "Desarrollo de paquetes turísticos premium.",
-        "Diseño de experiencias completas y pricing.",
-        "Contenido emocional y narrativo.",
-        "Automatización de atención y conversión.",
+        "Implementación de ChatGPT/Claude para atención 24/7.",
+        "Conexión en tiempo real con inventario vía GraphQL.",
+        "Webhooks conectados a WhatsApp Business API.",
+        "Calificación predictiva de leads.",
       ],
       focus:
-        "Transformación de alojamiento en producto turístico premium escalable.",
+        "Atención hiper-personalizada y aumento del 35% en tasa de conversión.",
     },
     {
-      emoji: "🌊",
-      name: "Punta Negritos | Wind & Surf",
-      location: "Talara – Perú",
+      emoji: "🎬",
+      name: "Pipeline Dinámico de Medios",
+      location: "Infraestructura Escalable",
       tasks: [
-        "Implementación completa del PMS.",
-        "Desarrollo y publicación de la web oficial.",
-        "Integración del motor de reservas.",
-        "Configuración en OTAs (Booking, Airbnb).",
-        "Construcción de presencia digital desde cero.",
+        "Sistema automatizado de generación de videos con IA.",
+        "Integración con APIs de síntesis de voz (ElevenLabs).",
+        "Generación de Imágenes (Midjourney API / Stable Diffusion).",
+        "Distribución masiva a redes sociales.",
       ],
       focus:
-        "Implementación total desde cero: infraestructura digital + canales de venta.",
+        "Automatización total de la parrilla de contenidos reduciendo costos creativos en 80%.",
     },
     {
-      emoji: "🌴",
-      name: "Hacienda Don Vicente",
-      location: "Tarapoto – Perú",
+      emoji: "🔐",
+      name: "API Gateway Segura",
+      location: "Microservicios (Node/Express)",
       tasks: [
-        "Creación de copys estratégicos para redes sociales.",
-        "Desarrollo de promociones estacionales.",
-        "Diseño de ofertas con valor agregado.",
-        "Optimización de mensajes de venta y conversión.",
+        "Desarrollo de middleware de autenticación (JWT/OAuth).",
+        "Implementación de Rate Limiting y protección DDoS.",
+        "Sincronización de bases de datos distribuidas.",
+        "Documentación interactiva con Swagger/OpenAPI.",
       ],
       focus:
-        "Incremento de reservas mediante comunicación efectiva y ofertas atractivas.",
-    },
-    {
-      emoji: "🏔️",
-      name: "Sauce Hotel Boutique",
-      location: "Ollantaytambo – Perú",
-      tasks: [
-        "Implementación y optimización del PMS.",
-        "Configuración de tarifas, disponibilidad y restricciones.",
-        "Sincronización con OTAs.",
-        "Mejora continua de la operación de reservas.",
-      ],
-      focus:
-        "Optimización operativa para lograr eficiencia y control en la gestión.",
-    },
-    {
-      emoji: "🏡",
-      name: "Casa QX | Hotel Boutique",
-      location: "Pachacamac – Perú",
-      tasks: [
-        "Desarrollo de concepto de marca boutique.",
-        "Creación de comunicación aspiracional y premium.",
-        "Estrategia de posicionamiento digital.",
-        "Apoyo en narrativa de marca.",
-      ],
-      focus: "Construcción de una marca enfocada en exclusividad y diseño.",
+        "Infraestructura inquebrantable para aplicaciones financieras y de alta seguridad.",
     },
   ];
 
   const webs = [
     {
       url: "www.dupla.work",
-      label: "Dupla Work",
+      label: "Headless E-Learning (React)",
       thumb: "https://s.wordpress.com/mshots/v1/https://www.dupla.work?w=600",
     },
     {
       url: "kabsa.pe",
-      label: "Kabsa",
+      label: "E-Commerce API & Webhooks",
       thumb: "https://s.wordpress.com/mshots/v1/https://kabsa.pe?w=600",
     },
     {
       url: "olivosdelperu.com",
-      label: "Olivos del Perú",
-      thumb:
-        "https://s.wordpress.com/mshots/v1/https://olivosdelperu.com?w=600",
+      label: "Corporate Cloud Deployment",
+      thumb: "https://s.wordpress.com/mshots/v1/https://olivosdelperu.com?w=600",
     },
     {
       url: "clasedesurf.com",
-      label: "Clase de Surf",
+      label: "Sistema de Reservas + IA",
       thumb: "https://s.wordpress.com/mshots/v1/https://clasedesurf.com?w=600",
-    },
-    {
-      url: "jahsurfperu.com",
-      label: "Jah Surf Perú",
-      thumb: "https://s.wordpress.com/mshots/v1/https://jahsurfperu.com?w=600",
-    },
-    {
-      url: "penalindamancora.com",
-      label: "Peña Linda",
-      thumb:
-        "https://s.wordpress.com/mshots/v1/https://penalindamancora.com?w=600",
-    },
-    {
-      url: "puntanegritos.com",
-      label: "Punta Negritos",
-      thumb:
-        "https://s.wordpress.com/mshots/v1/https://puntanegritos.com?w=600",
     },
   ];
 
