@@ -24,9 +24,7 @@ const Logo = ({ className = "" }: { className?: string }) => (
       whileHover={{ scale: 1.02 }}
       className={`flex items-center gap-2 sm:gap-3 cursor-pointer ${className}`}
     >
-      <div className="w-8 h-8 sm:w-10 sm:h-10 bg-accent rounded-[10px] flex items-center justify-center shadow-[0_0_20px_rgba(59,130,246,0.4)] shrink-0">
-        <Zap className="w-5 h-5 sm:w-6 sm:h-6 text-white fill-white" />
-      </div>
+      
       <div className="flex flex-col sm:flex-row sm:items-center leading-[0.9] sm:leading-none">
         <span className="text-[16px] sm:text-[22px] font-black tracking-tighter text-fg">
           Chamba
@@ -443,9 +441,9 @@ const RafflePage: React.FC = () => {
                     <label className="text-[11px] font-bold text-muted uppercase tracking-wider">DNI / Documento</label>
                     <div className="relative">
                       <CheckCircle2 className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted/30" />
-                      <input type="text" name="dni" value={formData.dni} onChange={handleInputChange} required pattern="[0-9]{8}"
+                      <input type="text" name="dni" value={formData.dni} onChange={handleInputChange} required
                         className="w-full bg-white/5 border border-white/10 rounded-[10px] py-3.5 pl-11 pr-4 text-[13px] focus:outline-none focus:border-accent/50 transition-all"
-                        placeholder="12345678" />
+                        placeholder="Número de documento" />
                     </div>
                   </div>
                 </div>
@@ -493,58 +491,66 @@ const RafflePage: React.FC = () => {
           </div>
         </section>
 
-        {/* Hosting & Tech Highlight */}
+        {/* New Sales Section: AI & Automation ROI */}
         <section className="py-16 px-4">
           <div className="max-w-[1024px] mx-auto">
-            <div className="liquid-glass p-8 md:p-12 relative overflow-hidden group">
-              <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-accent/5 blur-[80px] rounded-full -z-10 group-hover:bg-accent/10 transition-all duration-700" />
+            <div className="liquid-glass p-8 md:p-12 relative overflow-hidden group border-accent/20">
+              <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-accent/10 blur-[100px] rounded-full -z-10 animate-pulse" />
               
-              <div className="grid md:grid-cols-2 gap-10 items-center">
+              <div className="grid md:grid-cols-2 gap-12 items-center">
                 <div>
-                  <span className="label-editorial">Infraestructura de Élite</span>
-                  <h2 className="text-[28px] md:text-[36px] font-black mb-4 leading-tight">
-                    Hosting Profesional desde <span className="text-accent">$5/mes</span>
+                  <span className="label-editorial">Oportunidad de Escalamiento</span>
+                  <h2 className="text-[32px] md:text-[42px] font-black mb-6 leading-[1.1]">
+                    ¿Tu infraestructura está lista para el <span className="text-accent">2026</span>?
                   </h2>
-                  <p className="text-muted text-[15px] mb-6 leading-relaxed">
-                    No es solo alojamiento, es ingeniería de performance. Nuestras infraestructuras están optimizadas nativamente para:
+                  <p className="text-muted text-[16px] mb-8 leading-relaxed">
+                    No pierdas tiempo con soluciones genéricas. Implementamos 
+                    <strong className="text-fg"> orquestación de APIs, agentes de IA autónomos y despliegues en VPS</strong> 
+                     diseñados para traccionar ventas mientras duermes.
                   </p>
-                  <div className="grid grid-cols-2 gap-3 mb-8">
+                  
+                  <div className="space-y-4 mb-8">
                     {[
-                      "SEO Avanzado", "Google Analytics", "Meta Ads / Pixel", 
-                      "Google Tags", "Agentes de IA", "Carga < 1s"
-                    ].map((item) => (
-                      <div key={item} className="flex items-center gap-2 text-[13px] font-bold text-fg/80">
-                        <Zap className="w-3 h-3 text-accent" />
-                        {item}
+                      { title: "Automatización de Ventas", desc: "Agentes que cierran leads 24/7." },
+                      { title: "Arquitectura Cloud Pro", desc: "Velocidad extrema y seguridad militar." },
+                      { title: "Data-Driven Marketing", desc: "Tracking avanzado para máximo ROI." }
+                    ].map((item, i) => (
+                      <div key={i} className="flex gap-4 items-start">
+                        <div className="w-6 h-6 rounded-full bg-accent/20 flex items-center justify-center shrink-0 mt-1">
+                          <Zap className="w-3 h-3 text-accent" />
+                        </div>
+                        <div>
+                          <p className="text-[14px] font-black text-fg">{item.title}</p>
+                          <p className="text-[12px] text-muted">{item.desc}</p>
+                        </div>
                       </div>
                     ))}
                   </div>
                 </div>
 
-                <div className="flex flex-col gap-4">
-                  <div className="p-6 bg-white/5 rounded-2xl border border-white/10">
-                    <p className="text-[14px] text-muted italic mb-4">
-                      "Llevamos tu presencia digital al siguiente nivel con tecnología que no solo carga, sino que convierte."
+                <div className="flex flex-col gap-6">
+                  <div className="p-8 bg-white/5 rounded-[24px] border border-white/10 relative group-hover:border-accent/30 transition-all">
+                    <h3 className="text-[18px] font-black mb-4">Agenda un Diagnóstico de Ingeniería</h3>
+                    <p className="text-[14px] text-muted mb-6">
+                      Analizamos tu stack actual y detectamos fugas de dinero en tu proceso de ventas. 
+                      <strong> Sin costo, solo valor técnico.</strong>
                     </p>
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center font-black text-accent text-[12px]">CD</div>
-                      <div>
-                        <p className="text-[12px] font-black">Equipo Técnico</p>
-                        <p className="text-[10px] text-muted uppercase tracking-widest">Chamba Digital</p>
-                      </div>
-                    </div>
+                    
+                    <motion.a
+                      whileHover={{ scale: 1.02, y: -2 }}
+                      whileTap={{ scale: 0.98 }}
+                      href="https://wa.me/51904060670?text=Hola,%20quiero%20agendar%20mi%20Diagnóstico%20de%20Ingeniería%20IA."
+                      target="_blank"
+                      className="w-full bg-accent text-white py-4 rounded-xl font-black text-[14px] uppercase tracking-widest flex items-center justify-center gap-3 shadow-[0_15px_35px_rgba(59,130,246,0.3)]"
+                    >
+                      <WhatsAppIcon className="w-5 h-5" />
+                      Agendar Consultoría Gratis
+                    </motion.a>
                   </div>
                   
-                  <motion.a
-                    whileHover={{ scale: 1.02, y: -2 }}
-                    whileTap={{ scale: 0.98 }}
-                    href="https://wa.me/51904060670?text=Hola,%20me%20interesa%20el%20hosting%20optimizado%20de%20$5/mes."
-                    target="_blank"
-                    className="w-full bg-[#25D366] text-white py-4 rounded-xl font-black text-[14px] uppercase tracking-widest flex items-center justify-center gap-3 shadow-[0_10px_25px_rgba(37,211,102,0.2)] p-4"
-                  >
-                    <WhatsAppIcon className="w-5 h-5" />
-                    Consultar por WhatsApp
-                  </motion.a>
+                  <p className="text-center text-[11px] text-muted/50 font-bold uppercase tracking-[0.2em]">
+                    Cupos Limitados por Semana
+                  </p>
                 </div>
               </div>
             </div>
