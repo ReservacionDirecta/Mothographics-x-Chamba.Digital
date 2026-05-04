@@ -893,6 +893,19 @@ const Portfolio = () => {
 
   const clients = [
     {
+      emoji: "⚖️",
+      name: "Latam Abogados",
+      location: "Headless Web App (React)",
+      tasks: [
+        "Migración pixel-perfect de WordPress a React/Vite.",
+        "Integración nativa de API MailerLite / Mailchimp.",
+        "Automatización de sistema de reservas B2B.",
+        "Optimización de assets para SEO internacional.",
+      ],
+      focus:
+        "Modernización de arquitectura para escalabilidad global y automatización de captación de leads legales.",
+    },
+    {
       emoji: "🤖",
       name: "Sistema Autónomo B2B",
       location: "Despliegue VPS (Linux/Ubuntu)",
@@ -948,6 +961,11 @@ const Portfolio = () => {
 
   const webs = [
     {
+      url: "latamabogados.com",
+      label: "Migración React + APIs",
+      thumb: "https://s.wordpress.com/mshots/v1/https://latamabogados.com?w=600",
+    },
+    {
       url: "www.dupla.work",
       label: "Headless E-Learning (React)",
       thumb: "https://s.wordpress.com/mshots/v1/https://www.dupla.work?w=600",
@@ -988,7 +1006,7 @@ const Portfolio = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
-        {/* Hoteles */}
+        {/* Proyectos de Ingeniería */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           whileInView={{ opacity: 1, x: 0 }}
