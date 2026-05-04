@@ -11,6 +11,7 @@ import ServiceBusinessesLandingPage from "./pages/LandingPage/ServiceBusinesses.
 import ProposalPage from "./pages/LandingPage/Proposal.tsx";
 import { motion, AnimatePresence } from "motion/react";
 import RafflePage from "./pages/RaffleLandingPage/RafflePage";
+import { HeroAnimation } from "./components/animations/HeroAnimation";
 import {
   ArrowRight,
   Palette,
@@ -305,7 +306,7 @@ const SplashScreen = () => (
 
 // --- Performance & Data Infrastructure (Phase 4) ---
 
-const trackEvent = (eventName: string, params = {}) => {
+export const trackEvent = (eventName: string, params: any) => {
   // Placeholder for Meta Pixel / GA4 / GTM
   console.log(`[Analytics] Event: ${eventName}`, params);
 
@@ -535,6 +536,15 @@ const Hero = () => {
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </motion.a>
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.5 }}
+          className="w-full"
+        >
+          <HeroAnimation />
+        </motion.div>
       </motion.div>
     </section>
   );

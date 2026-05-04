@@ -14,6 +14,7 @@ import {
   Menu,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { HeroAnimation } from "../../components/animations/HeroAnimation";
 
 // Note: Re-implementing Logo and Navbar here to avoid circular dependencies 
 // without major refactoring, ensuring consistent styling.
@@ -312,6 +313,15 @@ const RafflePage: React.FC = () => {
               >
                 ¡Participar Ahora!
               </motion.button>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.5 }}
+              className="w-full mt-10"
+            >
+              <HeroAnimation />
             </motion.div>
           </div>
         </section>
