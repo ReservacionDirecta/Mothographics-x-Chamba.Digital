@@ -891,7 +891,62 @@ const Services = ({
 const Portfolio = () => {
   const [selectedHotel, setSelectedHotel] = useState<any>(null);
 
-  const clients = [
+  const hotelClients = [
+    {
+      emoji: "🏝️",
+      name: "Peña Linda Bungalows",
+      location: "Máncora – Perú",
+      tasks: [
+        "Implementación y gestión integral del PMS.",
+        "Desarrollo y optimización continua de la web oficial.",
+        "Integración de motor de reservas para ventas directas.",
+        "Administración completa del flujo de reservas.",
+        "Atención vía WhatsApp y Automatización con IA.",
+        "+10 años consolidando resultados.",
+      ],
+      focus: "Operación integral: marketing + ventas + tecnología + automatización.",
+    },
+    {
+      emoji: "🌿",
+      name: "Fundo Achamaqui",
+      location: "Chachapoyas – Perú",
+      tasks: [
+        "Implementación del PMS y estructura de reservas.",
+        "Desarrollo de paquetes turísticos premium.",
+        "Diseño de experiencias completas y pricing.",
+        "Contenido emocional y narrativo.",
+        "Automatización de atención y conversión.",
+      ],
+      focus: "Transformación de alojamiento en producto turístico premium escalable.",
+    },
+    {
+      emoji: "🌊",
+      name: "Punta Negritos | Wind & Surf",
+      location: "Talara – Perú",
+      tasks: [
+        "Implementación completa del PMS.",
+        "Desarrollo y publicación de la web oficial.",
+        "Integración del motor de reservas.",
+        "Configuración en OTAs (Booking, Airbnb).",
+        "Construcción de presencia digital desde cero.",
+      ],
+      focus: "Implementación total desde cero: infraestructura digital + canales de venta.",
+    },
+    {
+      emoji: "🌴",
+      name: "Hacienda Don Vicente",
+      location: "Tarapoto – Perú",
+      tasks: [
+        "Creación de copys estratégicos para redes sociales.",
+        "Desarrollo de promociones estacionales.",
+        "Diseño de ofertas con valor agregado.",
+        "Optimización de mensajes de venta y conversión.",
+      ],
+      focus: "Incremento de reservas mediante comunicación efectiva y ofertas atractivas.",
+    },
+  ];
+
+  const techClients = [
     {
       emoji: "⚖️",
       name: "Latam Abogados",
@@ -902,8 +957,7 @@ const Portfolio = () => {
         "Automatización de sistema de reservas B2B.",
         "Optimización de assets para SEO internacional.",
       ],
-      focus:
-        "Modernización de arquitectura para escalabilidad global y automatización de captación de leads legales.",
+      focus: "Modernización de arquitectura para escalabilidad global y automatización de captación de leads legales.",
     },
     {
       emoji: "🤖",
@@ -915,8 +969,7 @@ const Portfolio = () => {
         "Automatización de flujos con Google Workflows.",
         "Monitoreo 24/7 con PM2 y Docker.",
       ],
-      focus:
-        "Reducción del 70% en tiempo de procesamiento de datos confidenciales.",
+      focus: "Reducción del 70% en tiempo de procesamiento de datos confidenciales.",
     },
     {
       emoji: "🛍️",
@@ -928,62 +981,30 @@ const Portfolio = () => {
         "Webhooks conectados a WhatsApp Business API.",
         "Calificación predictiva de leads.",
       ],
-      focus:
-        "Atención hiper-personalizada y aumento del 35% en tasa de conversión.",
-    },
-    {
-      emoji: "🎬",
-      name: "Pipeline Dinámico de Medios",
-      location: "Infraestructura Escalable",
-      tasks: [
-        "Sistema automatizado de generación de videos con IA.",
-        "Integración con APIs de síntesis de voz (ElevenLabs).",
-        "Generación de Imágenes (Midjourney API / Stable Diffusion).",
-        "Distribución masiva a redes sociales.",
-      ],
-      focus:
-        "Automatización total de la parrilla de contenidos reduciendo costos creativos en 80%.",
-    },
-    {
-      emoji: "🔐",
-      name: "API Gateway Segura",
-      location: "Microservicios (Node/Express)",
-      tasks: [
-        "Desarrollo de middleware de autenticación (JWT/OAuth).",
-        "Implementación de Rate Limiting y protección DDoS.",
-        "Sincronización de bases de datos distribuidas.",
-        "Documentación interactiva con Swagger/OpenAPI.",
-      ],
-      focus:
-        "Infraestructura inquebrantable para aplicaciones financieras y de alta seguridad.",
+      focus: "Atención hiper-personalizada y aumento del 35% en tasa de conversión.",
     },
   ];
 
   const webs = [
     {
       url: "latamabogados.com",
-      label: "Migración React + APIs",
+      label: "Legal Tech + APIs",
       thumb: "https://s.wordpress.com/mshots/v1/https://latamabogados.com?w=600",
     },
     {
+      url: "penalindamancora.com",
+      label: "Reserva Directa Hotelera",
+      thumb: "https://s.wordpress.com/mshots/v1/https://penalindamancora.com?w=600",
+    },
+    {
       url: "www.dupla.work",
-      label: "Headless E-Learning (React)",
+      label: "Headless E-Learning",
       thumb: "https://s.wordpress.com/mshots/v1/https://www.dupla.work?w=600",
     },
     {
       url: "kabsa.pe",
-      label: "E-Commerce API & Webhooks",
+      label: "E-Commerce + Webhooks",
       thumb: "https://s.wordpress.com/mshots/v1/https://kabsa.pe?w=600",
-    },
-    {
-      url: "olivosdelperu.com",
-      label: "Corporate Cloud Deployment",
-      thumb: "https://s.wordpress.com/mshots/v1/https://olivosdelperu.com?w=600",
-    },
-    {
-      url: "clasedesurf.com",
-      label: "Sistema de Reservas + IA",
-      thumb: "https://s.wordpress.com/mshots/v1/https://clasedesurf.com?w=600",
     },
   ];
 
@@ -995,18 +1016,16 @@ const Portfolio = () => {
       <div className="text-center mb-16">
         <span className="label-editorial mx-auto">Experiencia Comprobada</span>
         <h2 className="text-[32px] md:text-[56px] font-black tracking-tighter leading-none mb-4">
-          Resultados <span className="text-accent">Reales</span>.
+          Nuestra <span className="text-accent">Trayectoria</span>.
         </h2>
         <p className="text-muted max-w-2xl mx-auto text-[15px] md:text-[17px]">
-          No solo entregamos pixeles. Entregamos{" "}
-          <strong className="text-fg italic">rentabilidad</strong> mediante
-          sistemas complejos de reserva, e-commerce de alto tráfico y
-          automatización avanzada.
+          Desde la consolidación de la industria hotelera hasta la vanguardia en
+          infraestructura de <strong className="text-fg">IA & Cloud</strong>.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
-        {/* Proyectos de Ingeniería */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start mb-20">
+        {/* Vertical Hotelero */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -1020,11 +1039,11 @@ const Portfolio = () => {
               Vertical Hotelero
             </h3>
             <span className="text-[12px] font-bold text-accent uppercase tracking-[0.2em] bg-accent/10 px-3 py-1 rounded-full">
-              Casos de Éxito
+              Core Expertise
             </span>
           </div>
           <div className="grid grid-cols-1 gap-4">
-            {clients.map((client, i) => (
+            {hotelClients.map((client, i) => (
               <motion.div
                 key={i}
                 whileHover={{
@@ -1035,9 +1054,12 @@ const Portfolio = () => {
                 className="p-5 glass rounded-[16px] border-white/5 flex flex-col gap-2 cursor-pointer group transition-all"
               >
                 <div className="flex justify-between items-center">
-                  <span className="text-[15px] font-bold text-fg group-hover:text-accent transition-colors">
-                    {client.name}
-                  </span>
+                  <div className="flex items-center gap-3">
+                    <span className="text-xl">{client.emoji}</span>
+                    <span className="text-[15px] font-bold text-fg group-hover:text-accent transition-colors">
+                      {client.name}
+                    </span>
+                  </div>
                   <div className="w-8 h-8 rounded-full bg-white/5 group-hover:bg-accent/10 flex items-center justify-center transition-colors">
                     <ArrowRight className="w-4 h-4 text-muted group-hover:text-accent transition-colors" />
                   </div>
@@ -1053,49 +1075,93 @@ const Portfolio = () => {
           </div>
         </motion.div>
 
-        {/* Webs & AI */}
-        <div className="space-y-12">
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-          >
-            <div className="flex items-center justify-between mb-8 pb-4 border-b border-white/5">
-              <h3 className="text-[20px] font-bold flex items-center gap-3">
-                <ExternalLink className="w-6 h-6 text-accent" />
-                Desarrollo Software & Web
-              </h3>
-            </div>
-
-            <div className="grid grid-cols-2 gap-5">
-              {webs.map((web, i) => (
-                <motion.a
-                  key={i}
-                  href={`https://${web.url}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  whileHover={{ y: -5, borderColor: "rgba(59, 130, 246, 0.4)" }}
-                  className="group flex flex-col glass rounded-[16px] border-white/5 overflow-hidden transition-all"
-                >
-                  <div className="aspect-[4/3] w-full overflow-hidden bg-white/5 relative">
-                    <img
-                      src={web.thumb}
-                      alt={web.label}
-                      referrerPolicy="no-referrer"
-                      className="w-full h-full object-cover grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent group-hover:opacity-0 transition-opacity" />
-                  </div>
-                  <div className="p-4 text-center border-t border-white/5 relative">
-                    <span className="text-[12px] font-bold text-muted group-hover:text-accent transition-colors uppercase tracking-wider block">
-                      {web.label}
+        {/* Vertical IA & Cloud */}
+        <motion.div
+          initial={{ opacity: 0, x: 20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="space-y-8"
+        >
+          <div className="flex items-center justify-between mb-8 pb-4 border-b border-white/5">
+            <h3 className="text-[20px] font-bold flex items-center gap-3">
+              <Zap className="w-6 h-6 text-accent" />
+              Ingeniería IA & Cloud
+            </h3>
+            <span className="text-[12px] font-bold text-accent uppercase tracking-[0.2em] bg-accent/10 px-3 py-1 rounded-full">
+              Innovación
+            </span>
+          </div>
+          <div className="grid grid-cols-1 gap-4">
+            {techClients.map((client, i) => (
+              <motion.div
+                key={i}
+                whileHover={{
+                  y: -2,
+                  backgroundColor: "rgba(255,255,255,0.03)",
+                }}
+                onClick={() => setSelectedHotel(client)}
+                className="p-5 glass rounded-[16px] border-white/5 flex flex-col gap-2 cursor-pointer group transition-all"
+              >
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center gap-3">
+                    <span className="text-xl">{client.emoji}</span>
+                    <span className="text-[15px] font-bold text-fg group-hover:text-accent transition-colors">
+                      {client.name}
                     </span>
                   </div>
-                </motion.a>
-              ))}
-            </div>
-          </motion.div>
+                  <div className="w-8 h-8 rounded-full bg-white/5 group-hover:bg-accent/10 flex items-center justify-center transition-colors">
+                    <ArrowRight className="w-4 h-4 text-muted group-hover:text-accent transition-colors" />
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Terminal className="w-3 h-3 text-muted" />
+                  <span className="text-[12px] text-muted uppercase tracking-wider">
+                    {client.location}
+                  </span>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Galería de Interfaces */}
+      <div className="mt-20">
+        <div className="flex items-center gap-4 mb-10">
+          <div className="h-[1px] flex-1 bg-white/5" />
+          <h3 className="text-[14px] font-black uppercase tracking-[0.3em] text-muted">
+            Galería de Proyectos
+          </h3>
+          <div className="h-[1px] flex-1 bg-white/5" />
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {webs.map((web, i) => (
+            <motion.a
+              key={i}
+              href={`https://${web.url}`}
+              target="_blank"
+              whileHover={{ y: -5 }}
+              className="group block"
+            >
+              <div className="relative aspect-video rounded-[20px] overflow-hidden border border-white/5 mb-4 shadow-2xl">
+                <img
+                  src={web.thumb}
+                  alt={web.label}
+                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+                />
+                <div className="absolute inset-0 bg-accent/20 opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-center justify-center">
+                  <ExternalLink className="w-6 h-6 text-white" />
+                </div>
+              </div>
+              <h4 className="text-[13px] font-bold text-fg mb-1">
+                {web.label}
+              </h4>
+              <p className="text-[11px] text-muted uppercase tracking-widest">
+                {web.url}
+              </p>
+            </motion.a>
+          ))}
         </div>
       </div>
 
