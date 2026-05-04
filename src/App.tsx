@@ -1038,9 +1038,9 @@ const Portfolio = () => {
       thumb: "https://s.wordpress.com/mshots/v1/https://olivosdelperu.com?w=600",
     },
     {
-      url: "hotelia.com",
+      url: "hothelia.com",
       label: "Software SaaS (In-house)",
-      thumb: "https://s.wordpress.com/mshots/v1/https://hotelia.com?w=600",
+      thumb: "https://s.wordpress.com/mshots/v1/https://hothelia.com?w=600",
     },
   ];
 
