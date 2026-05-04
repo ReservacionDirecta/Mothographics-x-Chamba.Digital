@@ -467,24 +467,22 @@ const Hero = () => {
 
   const headlines = {
     A: {
-      tag: "🚀 Ingeniería IA & Cloud Infrastructure",
+      tag: "🚀 Agencia de Ingeniería e Inteligencia Artificial",
       title: (
         <>
-          Automatización, APIs y{" "}
-          <span className="text-accent">Agentes Inteligentes</span>.
+          Hacemos que tu negocio funcione en <span className="text-accent">Piloto Automático</span>.
         </>
       ),
-      sub: "Ecosistemas técnicos inquebrantables. Despliegues en VPS de alto rendimiento, integración nativa de modelos fundacionales (Gemini, ChatGPT, Claude) y flujos automatizados.",
+      sub: "Implementamos Inteligencia Artificial y sistemas de software a medida para reducir tus costos operativos, automatizar tus ventas y escalar tu empresa sin contratar más personal.",
     },
     B: {
-      tag: "⚡ Laboratorio de Innovación Técnica",
+      tag: "⚡ Tecnología para Escalar Ventas",
       title: (
         <>
-          Integración Cloud, VPS &{" "}
-          <span className="text-accent">Modelos de IA</span>.
+          Multiplica tus resultados con <span className="text-accent">Inteligencia Artificial</span>.
         </>
       ),
-      sub: "Llevamos tu infraestructura al siguiente nivel. Automatización con Ollama, OpenClaw, Google Flow y generación dinámica de medios (Imagen/Video) con Inteligencia Artificial.",
+      sub: "Olvídate de las tareas repetitivas. Creamos asistentes virtuales, automatizamos tus procesos y construimos páginas ultra rápidas que convierten visitantes en clientes las 24 horas del día.",
     },
   }[headlineVariant as "A" | "B"];
 
@@ -548,14 +546,13 @@ const Opportunity = () => (
     className="py-20 px-6 md:px-10 max-w-[1024px] mx-auto"
   >
     <div className="text-center mb-16">
-      <span className="label-editorial mx-auto">Nuestro Arsenal Técnico</span>
+      <span className="label-editorial mx-auto">Nuestro Enfoque</span>
       <h2 className="text-[32px] md:text-[56px] font-black tracking-tighter leading-none mb-8">
-        Infraestructura <span className="text-accent">Sin Límites</span>.
+        Tecnología orientada a <span className="text-accent">Resultados</span>.
       </h2>
       <p className="text-muted text-[17px] md:text-[19px] max-w-3xl mx-auto leading-relaxed">
-        No usamos plantillas; construimos <strong className="text-fg">arquitecturas a medida</strong>. 
-        Dominamos el despliegue en servidores privados (VPS), la orquestación de APIs complejas y la implementación de 
-        los modelos de Inteligencia Artificial más potentes del mercado.
+        No hablamos en código complejo, hablamos de <strong className="text-fg">rentabilidad</strong>. 
+        Implementamos las herramientas exactas que tu empresa necesita para dejar de perder tiempo en procesos manuales y enfocarse en crecer.
       </p>
     </div>
 
@@ -568,18 +565,18 @@ const Opportunity = () => (
         className="glass p-8 rounded-[16px] border-white/5 relative overflow-hidden"
       >
         <div className="absolute top-0 right-0 p-6 opacity-5">
-          <Terminal className="w-24 h-24" />
+          <Globe className="w-24 h-24" />
         </div>
         <h3 className="text-[20px] font-bold mb-4 flex items-center gap-3">
-          <Terminal className="w-5 h-5 text-accent" />
-          Cloud & API Integration
+          <Globe className="w-5 h-5 text-accent" />
+          Automatización de Negocios
         </h3>
         <ul className="space-y-3">
           {[
-            "Despliegues seguros en VPS Linux (Ubuntu/Debian).",
-            "Orquestación con Docker, Nginx y PM2.",
-            "Integraciones RESTful, GraphQL y Webhooks.",
-            "Automatización avanzada con Google Flow (Workflows).",
+            "Conectamos tus sistemas para que hablen entre sí.",
+            "Eliminamos el ingreso manual de datos y errores.",
+            "Webs ultrarrápidas que nunca se caen.",
+            "Notificaciones y alertas de ventas en tiempo real.",
           ].map((item, i) => (
             <li
               key={i}
@@ -600,18 +597,18 @@ const Opportunity = () => (
         className="glass p-8 rounded-[16px] border-accent/10 relative overflow-hidden bg-accent/[0.02]"
       >
         <div className="absolute top-0 right-0 p-6 opacity-5">
-          <Cpu className="w-24 h-24 text-accent" />
+          <Bot className="w-24 h-24 text-accent" />
         </div>
         <h3 className="text-[20px] font-bold mb-4 flex items-center gap-3">
-          <Cpu className="w-5 h-5 text-accent" />
-          Inteligencia Artificial (LLMs)
+          <Bot className="w-5 h-5 text-accent" />
+          Implementación de IA
         </h3>
         <ul className="space-y-3">
           {[
-            "Integración de Gemini, ChatGPT, Claude y OpenClaw.",
-            "Despliegue local y seguro con Ollama.",
-            "Generación dinámica de Imágenes y Videos con IA.",
-            "Agentes autónomos para automatización de flujos.",
+            "Asistentes virtuales que venden por ti 24/7.",
+            "Creación automática de contenido para redes.",
+            "Análisis inteligente de los datos de tus clientes.",
+            "Ahorro drástico en costos de atención al cliente.",
           ].map((item, i) => (
             <li
               key={i}
@@ -634,24 +631,24 @@ const Opportunity = () => (
     >
       {[
         {
-          title: "APIs Conectadas",
-          desc: "Sincronización de datos en tiempo real.",
-          icon: Globe,
+          title: "Más Tiempo Libre",
+          desc: "Delega lo aburrido a los sistemas.",
+          icon: Clock,
         },
         {
-          title: "Servidores VPS",
-          desc: "Control total, seguridad y performance.",
-          icon: Database,
+          title: "Ventas Seguras",
+          desc: "Tu web siempre lista para cobrar.",
+          icon: Target,
         },
         {
-          title: "Generación Media",
-          desc: "Audio, Imagen y Video automatizado.",
-          icon: MonitorPlay,
+          title: "Ahorro Real",
+          desc: "Menos personal para tareas rutinarias.",
+          icon: BarChart3,
         },
         {
-          title: "Agentes IA",
-          desc: "Soporte y ventas 24/7 sin descanso.",
-          icon: Bot,
+          title: "Atención 24/7",
+          desc: "Clientes respondidos al instante.",
+          icon: MessageCircle,
         },
       ].map((item, i) => (
         <div

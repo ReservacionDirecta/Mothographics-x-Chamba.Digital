@@ -491,7 +491,7 @@ const RafflePage: React.FC = () => {
           </div>
         </section>
 
-        {/* New Sales Section: AI & Automation ROI */}
+        {/* New Sales Section: Value & Automation ROI */}
         <section className="py-16 px-4">
           <div className="max-w-[1024px] mx-auto">
             <div className="liquid-glass p-8 md:p-12 relative overflow-hidden group border-accent/20">
@@ -499,21 +499,21 @@ const RafflePage: React.FC = () => {
               
               <div className="grid md:grid-cols-2 gap-12 items-center">
                 <div>
-                  <span className="label-editorial">Oportunidad de Escalamiento</span>
+                  <span className="label-editorial">Escala sin límites</span>
                   <h2 className="text-[32px] md:text-[42px] font-black mb-6 leading-[1.1]">
-                    ¿Tu infraestructura está lista para el <span className="text-accent">2026</span>?
+                    ¿Tu negocio está preparado para <span className="text-accent">crecer rápido</span>?
                   </h2>
                   <p className="text-muted text-[16px] mb-8 leading-relaxed">
-                    No pierdas tiempo con soluciones genéricas. Implementamos 
-                    <strong className="text-fg"> orquestación de APIs, agentes de IA autónomos y despliegues en VPS</strong> 
-                     diseñados para traccionar ventas mientras duermes.
+                    Creamos <strong className="text-fg">sistemas automatizados que trabajan por ti</strong>. 
+                    Nos encargamos de toda la tecnología (webs rápidas y asistentes con inteligencia artificial) 
+                    para que tú solo te enfoques en cerrar ventas.
                   </p>
                   
                   <div className="space-y-4 mb-8">
                     {[
-                      { title: "Automatización de Ventas", desc: "Agentes que cierran leads 24/7." },
-                      { title: "Arquitectura Cloud Pro", desc: "Velocidad extrema y seguridad militar." },
-                      { title: "Data-Driven Marketing", desc: "Tracking avanzado para máximo ROI." }
+                      { title: "Ventas en Automático", desc: "Sistemas que atienden y venden las 24 horas." },
+                      { title: "Webs Ultra Rápidas", desc: "Páginas que cargan al instante y nunca fallan." },
+                      { title: "Ahorro de Tiempo", desc: "Eliminamos el trabajo manual y repetitivo." }
                     ].map((item, i) => (
                       <div key={i} className="flex gap-4 items-start">
                         <div className="w-6 h-6 rounded-full bg-accent/20 flex items-center justify-center shrink-0 mt-1">
@@ -530,21 +530,21 @@ const RafflePage: React.FC = () => {
 
                 <div className="flex flex-col gap-6">
                   <div className="p-8 bg-white/5 rounded-[24px] border border-white/10 relative group-hover:border-accent/30 transition-all">
-                    <h3 className="text-[18px] font-black mb-4">Agenda un Diagnóstico de Ingeniería</h3>
+                    <h3 className="text-[18px] font-black mb-4">Auditoría Gratuita de tu Negocio</h3>
                     <p className="text-[14px] text-muted mb-6">
-                      Analizamos tu stack actual y detectamos fugas de dinero en tu proceso de ventas. 
-                      <strong> Sin costo, solo valor técnico.</strong>
+                      Analizamos cómo vendes actualmente y te mostramos la ruta exacta para automatizarlo. 
+                      <strong> Sin costo, solo valor real para tu empresa.</strong>
                     </p>
                     
                     <motion.a
                       whileHover={{ scale: 1.02, y: -2 }}
                       whileTap={{ scale: 0.98 }}
-                      href="https://wa.me/51904060670?text=Hola,%20quiero%20agendar%20mi%20Diagnóstico%20de%20Ingeniería%20IA."
+                      href="https://wa.me/51904060670?text=Hola,%20quiero%20agendar%20mi%20Auditoría%20Gratuita."
                       target="_blank"
                       className="w-full bg-accent text-white py-4 rounded-xl font-black text-[14px] uppercase tracking-widest flex items-center justify-center gap-3 shadow-[0_15px_35px_rgba(59,130,246,0.3)]"
                     >
                       <WhatsAppIcon className="w-5 h-5" />
-                      Agendar Consultoría Gratis
+                      Agendar Auditoría
                     </motion.a>
                   </div>
                   
