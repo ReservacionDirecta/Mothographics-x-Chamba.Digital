@@ -701,9 +701,11 @@ const PricingCard = ({
     <ul className="space-y-4 flex-grow mb-6">
       {items.map((item: any, idx: number) => (
         <li key={idx} className="border-b border-white/5 pb-3 last:border-0">
-          <div className="flex justify-between items-start gap-4 mb-1">
-            <span className="text-[13px] font-medium text-fg">{item.name}</span>
-            <span className="text-[14px] font-bold text-accent whitespace-nowrap">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-4 mb-1">
+            <span className="text-[13px] font-bold text-fg leading-tight">
+              {item.name}
+            </span>
+            <span className="text-[14px] font-black text-accent whitespace-nowrap bg-accent/5 px-2 py-0.5 rounded-md border border-accent/10">
               {item.price}
             </span>
           </div>
@@ -747,115 +749,116 @@ const Services = ({
       <p className="text-muted max-w-xl mx-auto text-[14px]">{subtitle}</p>
     </div>
 
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
       <PricingCard
-        title="Despliegue Cloud & Infraestructura"
-        description="Servidores VPS seguros y orquestación de datos de alto rendimiento."
+        title="Infraestructura & Velocidad Extrema"
+        description="Servidores de alto rendimiento para que tu web nunca se detenga y cargue al instante."
         delay={0.1}
         onOpenDetails={() =>
-          onOpenModal("Cloud & VPS", {
+          onOpenModal("Potencia & Estabilidad", {
             description:
-              "Nos encargamos de toda la ingeniería base. Configuramos servidores VPS privados (Linux/Ubuntu), orquestamos tus aplicaciones con Docker y PM2, y gestionamos proxys inversos con Nginx para garantizar un uptime del 99.9%.",
+              "Eliminamos los límites de los hostings tradicionales. Configuramos infraestructura privada de alta gama que garantiza que tu negocio esté siempre online, sea invulnerable a ataques y cargue en menos de un segundo.",
             caseStudies: [
-              "Migración a VPS: Reducción del 60% en costos de hosting tradicional.",
-              "Infraestructura E-commerce: Carga ultra-rápida y soporte para picos de tráfico masivo.",
-              "Seguridad: Implementación de firewalls, SSL automático y respaldos programados.",
+              "Ahorro de Costos: Reducción del 60% en facturación de hosting al pasar a infraestructura propia.",
+              "Ventas Masivas: Soporte para picos de tráfico durante campañas sin caídas de sistema.",
+              "Seguridad Blindada: Implementación de protocolos de defensa y respaldos automáticos cada hora.",
             ],
             testimonials: [
-              "Tener nuestro propio servidor configurado por expertos nos dio el control total que necesitábamos. - CTO",
-              "La velocidad de respuesta de nuestras APIs mejoró drásticamente al pasar a un VPS dedicado. - Lead Developer",
+              "Desde que migramos nuestra infraestructura, la velocidad de carga duplicó nuestras conversiones. - Director Comercial",
+              "La estabilidad es absoluta. Ya no nos preocupamos por caídas en días de alto tráfico. - CEO",
             ],
           })
         }
         items={[
           {
-            name: "Setup VPS (Linux/Ubuntu)",
+            name: "Configuración de Servidor Privado",
             price: "Desde $200 USD",
             details:
-              "Pago único. Configuración inicial, seguridad y optimización.",
+              "Setup inicial de alto rendimiento, seguridad y optimización de carga.",
           },
           {
-            name: "Mantenimiento Cloud",
+            name: "Gestión & Monitoreo 24/7",
             price: "Desde $50 USD/mes",
-            details: "Monitoreo, backups y actualizaciones.",
+            details: "Actualizaciones constantes, seguridad y soporte técnico proactivo.",
           },
         ]}
       />
       <PricingCard
-        title="Integración de APIs & Datos"
-        description="Conecta tus sistemas y automatiza flujos con Google Flow."
+        title="Automatización de Ventas & Flujos"
+        description="Conecta tus herramientas y haz que tu negocio trabaje por ti automáticamente."
         delay={0.2}
         onOpenDetails={() =>
-          onOpenModal("APIs & Google Flow", {
+          onOpenModal("Automatización Inteligente", {
             description:
-              "Construimos el puente entre tus herramientas. Desarrollamos integraciones RESTful y GraphQL, webhooks para comunicación en tiempo real, y utilizamos Google Workflows y Dialogflow para orquestar la lógica de tu negocio.",
+              "Convertimos procesos manuales en flujos automáticos de alta eficiencia. Conectamos tus plataformas (CRM, Pagos, Web) para que la información fluya sin errores y tus ventas se procesen solas.",
             caseStudies: [
-              "Sincronización ERP/CRM: Datos actualizados en milisegundos entre 3 plataformas.",
-              "Google Dialogflow: Chatbot inteligente que consulta bases de datos privadas.",
-              "Webhooks Personalizados: Notificaciones automáticas de pago integradas a Slack.",
+              "Eficiencia Operativa: Eliminación de tareas manuales ahorrando 20 horas semanales al equipo.",
+              "Ventas en Tiempo Real: Notificaciones y procesamiento de pedidos instantáneo.",
+              "Chatbots de Venta: Sistemas inteligentes que califican y cierran leads sin intervención humana.",
             ],
             testimonials: [
-              "Nuestros sistemas finalmente hablan el mismo idioma. La automatización nos ahorra horas. - Ops Manager",
-              "La integración de las APIs fue impecable, sin pérdida de datos. - Data Analyst",
+              "La automatización de nuestros leads cambió las reglas del juego. Ahora cerramos ventas mientras dormimos. - Gerente de Ventas",
+              "Ya no hay errores humanos en la transferencia de datos. Todo fluye perfecto. - Ops Manager",
             ],
           })
         }
         items={[
-          { name: "Desarrollo de API REST", price: "Desde $500 USD" },
-          { name: "Google Flow / Dialogflow", price: "Desde $350 USD" },
+          { name: "Conexión de Sistemas (APIs)", price: "Desde $500 USD" },
+          { name: "Flujos de Venta Automáticos", price: "Desde $350 USD" },
           {
-            name: "Webhooks e Integraciones",
+            name: "Integración de Notificaciones",
             price: "Desde $250 USD",
           },
-          { name: "Arquitectura Microservicios", price: "Personalizado" },
+          { name: "Arquitectura de Negocio Escala", price: "Personalizado" },
         ]}
       />
       <PricingCard
-        title="Laboratorio de IA & Generación"
-        description="LLMs (Gemini, Claude, Ollama) y Generación de Medios."
+        title="Marketing & Atención con IA"
+        description="Implementa inteligencia artificial para crear contenido y atender clientes 24/7."
         delay={0.3}
         onOpenDetails={() =>
-          onOpenModal("Modelos de IA & Medios", {
+          onOpenModal("Estrategia de IA Avanzada", {
             description:
-              "Implementamos inteligencia artificial de vanguardia. Desde modelos fundacionales (ChatGPT, Gemini, Claude, OpenClaw) hasta despliegues locales seguros con Ollama. Además, generamos imágenes, audio y video dinámico con IA para marketing y operaciones.",
+              "Ponemos la potencia de los últimos modelos de IA (ChatGPT, Gemini, Claude) al servicio de tu marca. Desde asistentes virtuales que conocen todo sobre tu empresa hasta sistemas de creación de contenido visual masivo.",
             caseStudies: [
-              "Generación de Video: Automatización de anuncios en video reduciendo costos de producción en un 80%.",
-              "Agentes Autónomos (Ollama): Análisis de documentos internos sin comprometer la privacidad.",
-              "Asistentes Claude/Gemini: Redacción y análisis de contratos legales en segundos.",
+              "Atención Impecable: Reducción del 90% en tiempos de respuesta mediante agentes de IA.",
+              "Contenido Infinito: Automatización de la producción de anuncios y piezas gráficas.",
+              "IA Privada: Despliegue de modelos locales para manejar datos sensibles con total seguridad.",
             ],
             testimonials: [
-              "La capacidad de generar imágenes y videos con IA ha transformado nuestro marketing. - Director Creativo",
-              "Tener Ollama corriendo en nuestro VPS nos da IA privada y segura. - CEO",
+              "La IA no solo atiende clientes, sino que entiende sus necesidades y ofrece soluciones reales. - Director de CX",
+              "Nuestra capacidad de crear contenido escaló 10 veces sin aumentar el presupuesto. - CMO",
             ],
           })
         }
         items={[
-          { name: "Agentes LLM (OpenAI/Claude)", price: "Desde $400 USD" },
-          { name: "Deploy Ollama / Modelos Locales", price: "Desde $500 USD" },
-          { name: "Generación Imagen/Video IA", price: "Desde $300 USD" },
+          { name: "Agentes Virtuales Inteligentes", price: "Desde $400 USD" },
+          { name: "IA Privada para Empresas", price: "Desde $500 USD" },
+          { name: "Generación de Contenido con IA", price: "Desde $300 USD" },
         ]}
       />
       <PricingCard
-        title="Ecosistema Todo Incluido"
-        description="Automatización + Ads + SEO + Web en una solución integral."
+        title="Estrategia Digital 360°"
+        description="Domina tu mercado con una solución integral de tecnología, tráfico y ventas."
         delay={0.4}
         onOpenDetails={() =>
-          onOpenModal("Ecosistema Integral", {
+          onOpenModal("Dominio Digital Total", {
             description:
-              "El paquete definitivo para dominar tu mercado. Integramos nuestra arquitectura de tráfico (Ads), automatización con inteligencia artificial, optimización técnica (SEO) y despliegue web de alto rendimiento en un solo servicio unificado.",
+              "El paquete definitivo para líderes que buscan resultados, no solo herramientas. Unificamos ingeniería de alto nivel, campañas de tráfico agresivas y automatización con IA para garantizar el crecimiento de tu negocio.",
             caseStudies: [
-              "Escalabilidad Total: De 0 a facturación predecible en 90 días.",
-              "Infraestructura Centralizada: Un solo proveedor para tecnología, tráfico y ventas.",
+              "Crecimiento Exponencial: De 0 a facturación predecible en solo 90 días de implementación.",
+              "Control Total: Un solo equipo gestionando tecnología, publicidad y conversiones.",
+              "Optimización de ROI: Mejora continua del costo por adquisición mediante datos reales.",
             ],
             testimonials: [
-              "Delegar todo el ecosistema digital a un solo equipo fue la mejor decisión operativa del año. - CEO SaaS",
+              "Delegar todo el ecosistema digital a Chamba Digital fue la mejor decisión operativa del año. - Fundador SaaS",
             ],
           })
         }
         items={[
-          { name: "Plan Inicial (Fase 1)", price: "$650 USD" },
-          { name: "Plan Growth (Fase 2)", price: "$1000 USD" },
-          { name: "Plan Escala (Fase 3)", price: "$1500 USD" },
+          { name: "Plan Aceleración (Fase 1)", price: "$650 USD" },
+          { name: "Plan Crecimiento (Fase 2)", price: "$1000 USD" },
+          { name: "Plan Dominio (Fase 3)", price: "$1500 USD" },
         ]}
       />
     </div>
@@ -955,7 +958,7 @@ const Portfolio = () => {
         "Automatización de sistema de reservas B2B.",
         "Optimización de assets para SEO internacional.",
       ],
-      focus: "Modernización de arquitectura para escalabilidad global y automatización de captación de leads legales.",
+      focus: "Plataforma líder en Inglés Jurídico y Consultoría Legal especializada en U.S., con automatización avanzada de leads.",
     },
     {
       emoji: "🤖",
@@ -986,23 +989,58 @@ const Portfolio = () => {
   const webs = [
     {
       url: "latamabogados.com",
-      label: "Legal Tech + APIs",
+      label: "Inglés Legal & Consultoría U.S.",
       thumb: "https://s.wordpress.com/mshots/v1/https://latamabogados.com?w=600",
     },
     {
       url: "penalindamancora.com",
       label: "Reserva Directa Hotelera",
-      thumb: "https://s.wordpress.com/mshots/v1/https://penalindamancora.com?w=600",
+      thumb: "https://penalindamancora.com/images/penalinda0056-2158x1440.jpg",
     },
     {
       url: "www.dupla.work",
-      label: "Headless E-Learning",
+      label: "Producción Visual & Fotografía",
       thumb: "https://s.wordpress.com/mshots/v1/https://www.dupla.work?w=600",
     },
     {
       url: "kabsa.pe",
-      label: "E-Commerce + Webhooks",
+      label: "Constructora Alcance Nacional",
       thumb: "https://s.wordpress.com/mshots/v1/https://kabsa.pe?w=600",
+    },
+    {
+      url: "puntanegritos.com",
+      label: "Wind & Surf Hotel",
+      thumb: "https://s.wordpress.com/mshots/v1/https://puntanegritos.com?w=600",
+    },
+    {
+      url: "haciendadonvicente.com",
+      label: "Hacienda Don Vicente",
+      thumb: "https://s.wordpress.com/mshots/v1/https://haciendadonvicente.com?w=600",
+    },
+    {
+      url: "sauce.pe",
+      label: "Sauce Hotel Boutique",
+      thumb: "https://s.wordpress.com/mshots/v1/https://sauce.pe?w=600",
+    },
+    {
+      url: "jahsurfperu.com",
+      label: "Jah Surf San Bartolo",
+      thumb: "https://s.wordpress.com/mshots/v1/https://jahsurfperu.com?w=600",
+    },
+    {
+      url: "clasedesurf.com",
+      label: "Reserva de Clases Surf",
+      thumb: "https://s.wordpress.com/mshots/v1/https://clasedesurf.com?w=600",
+    },
+    {
+      url: "olivosdelperu.com",
+      label: "Exportación & E-Commerce",
+      thumb: "https://s.wordpress.com/mshots/v1/https://olivosdelperu.com?w=600",
+    },
+    {
+      url: "hotelia.com",
+      label: "Software SaaS (In-house)",
+      thumb: "https://s.wordpress.com/mshots/v1/https://hotelia.com?w=600",
     },
   ];
 
