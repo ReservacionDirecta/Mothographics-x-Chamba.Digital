@@ -147,6 +147,64 @@ interface FormData {
   mensaje: string;
 }
 
+const CountdownTimer = ({ targetDate }: { targetDate: string }) => {
+  const calculateTimeLeft = () => {
+    const difference = +new Date(targetDate) - +new Date();
+    let timeLeft = {
+      days: 0,
+      hours: 0,
+      minutes: 0,
+      seconds: 0,
+    };
+
+    if (difference > 0) {
+      timeLeft = {
+        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((difference / 1000 / 60) % 60),
+        seconds: Math.floor((difference / 1000) % 60),
+      };
+    }
+
+    return timeLeft;
+  };
+
+  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setTimeLeft(calculateTimeLeft());
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  });
+
+  const timerItems = [
+    { label: "Días", value: timeLeft.days },
+    { label: "Horas", value: timeLeft.hours },
+    { label: "Minutos", value: timeLeft.minutes },
+    { label: "Segundos", value: timeLeft.seconds },
+  ];
+
+  return (
+    <div className="flex justify-center gap-3 md:gap-6 mt-10 mb-12">
+      {timerItems.map((item, index) => (
+        <div key={index} className="flex flex-col items-center">
+          <div className="w-16 h-16 md:w-24 md:h-24 bg-white/5 border border-white/10 rounded-[20px] flex items-center justify-center mb-3 backdrop-blur-md shadow-[0_10px_40px_rgba(0,0,0,0.3)] relative overflow-hidden group">
+            <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+            <span className="text-[24px] md:text-[40px] font-black text-accent tabular-nums leading-none group-hover:scale-110 transition-transform duration-500">
+              {item.value.toString().padStart(2, "0")}
+            </span>
+          </div>
+          <span className="text-[10px] md:text-[12px] font-black text-muted uppercase tracking-[0.2em]">
+            {item.label}
+          </span>
+        </div>
+      ))}
+    </div>
+  );
+};
+
 const RafflePage: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
     nombre: "",
@@ -242,9 +300,11 @@ const RafflePage: React.FC = () => {
               <h1 className="text-[36px] md:text-[64px] font-black leading-[1.1] mb-4">
                 Gran Sorteo <span className="text-accent">Especial</span>
               </h1>
-              <p className="text-muted text-[16px] md:text-[18px] max-w-xl mx-auto mb-8 leading-relaxed">
+              <p className="text-muted text-[16px] md:text-[18px] max-w-xl mx-auto mb-4 leading-relaxed">
                 Potencia tu presencia digital. Participa hoy y gana herramientas de ingeniería de performance para tu negocio.
               </p>
+              
+              <CountdownTimer targetDate="2026-05-11T00:00:00" />
               
               <motion.button
                 whileHover={{ scale: 1.05, y: -2 }}
