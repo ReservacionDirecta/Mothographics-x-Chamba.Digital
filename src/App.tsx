@@ -677,7 +677,10 @@ const Opportunity = () => (
 const PricingCard = ({
   title,
   description,
-  items,
+  items = [],
+  price,
+  period,
+  isPopular = false,
   delay = 0,
   onOpenDetails,
 }: any) => (
@@ -687,185 +690,226 @@ const PricingCard = ({
     viewport={{ once: true, amount: 0.2 }}
     transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
     whileHover={{ y: -10, borderColor: "rgba(59, 130, 246, 0.4)" }}
-    className="glass p-6 rounded-[12px] flex flex-col h-full transition-colors group"
+    className={`glass p-8 rounded-[24px] flex flex-col h-full transition-all group relative overflow-hidden ${
+      isPopular ? "border-accent/40 shadow-[0_20px_50px_rgba(59,130,246,0.1)] bg-accent/[0.03]" : ""
+    }`}
   >
-    <div className="flex justify-between items-start mb-3">
-      <h3 className="text-[16px] font-bold flex items-center gap-2 group-hover:text-accent transition-colors">
-        <Zap className="w-4 h-4 text-accent" />
+    {isPopular && (
+      <div className="absolute top-0 right-0">
+        <div className="bg-accent text-white text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-bl-xl shadow-lg">
+          Más Popular
+        </div>
+      </div>
+    )}
+
+    <div className="mb-8">
+      <h3 className="text-[18px] font-black flex items-center gap-2 group-hover:text-accent transition-colors mb-2">
+        <Zap className={`w-5 h-5 ${isPopular ? "text-accent" : "text-accent/50"}`} />
         {title}
       </h3>
-      <motion.button
-        whileHover={{ scale: 1.1, color: "#3B82F6" }}
-        whileTap={{ scale: 0.9 }}
-        onClick={onOpenDetails}
-        className="text-muted hover:text-accent transition-colors"
-        title="Ver detalles"
-      >
-        <Info className="w-4 h-4" />
-      </motion.button>
+      <p className="text-[13px] text-muted leading-relaxed">
+        {description}
+      </p>
     </div>
 
-    <ul className="space-y-4 flex-grow mb-6">
+    <div className="mb-8">
+      <div className="flex items-baseline gap-1">
+        <span className="text-[32px] font-black tracking-tighter">{price}</span>
+        {period && (
+          <span className="text-[14px] text-muted font-medium">{period}</span>
+        )}
+      </div>
+    </div>
+
+    <ul className="space-y-4 flex-grow mb-10">
       {items.map((item: any, idx: number) => (
-        <li key={idx} className="border-b border-white/5 pb-3 last:border-0">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-4 mb-1">
-            <span className="text-[13px] font-bold text-fg leading-tight">
+        <li key={idx} className="flex items-start gap-3">
+          <div className="mt-1 shrink-0">
+            <CheckCircle2 className="w-4 h-4 text-accent" />
+          </div>
+          <div>
+            <span className="text-[13px] font-bold text-fg block leading-tight">
               {item.name}
             </span>
-            <span className="text-[14px] font-black text-accent whitespace-nowrap bg-accent/5 px-2 py-0.5 rounded-md border border-accent/10">
-              {item.price}
-            </span>
+            {item.details && (
+              <p className="text-[11px] text-muted leading-relaxed mt-1">
+                {item.details}
+              </p>
+            )}
           </div>
-          {item.details && (
-            <p className="text-[11px] text-muted leading-relaxed">
-              {item.details}
-            </p>
-          )}
         </li>
       ))}
     </ul>
 
-    <div className="mt-auto border-t border-white/5 pt-4 flex flex-col gap-4">
-      <p className="text-[11px] text-muted italic">{description}</p>
+    <div className="mt-auto pt-6 border-t border-white/5 space-y-4">
       <motion.button
-        whileHover={{ x: 5 }}
-        onClick={onOpenDetails}
-        className="text-[11px] font-bold text-accent uppercase tracking-wider flex items-center gap-2"
+        whileHover={{ scale: 1.02, y: -2 }}
+        whileTap={{ scale: 0.98 }}
+        onClick={() => {
+          if (onOpenDetails) onOpenDetails();
+          else document.getElementById("contacto")?.scrollIntoView({ behavior: "smooth" });
+        }}
+        className={`w-full py-4 rounded-xl font-black text-[13px] uppercase tracking-widest transition-all ${
+          isPopular 
+            ? "bg-accent text-white shadow-[0_10px_25px_rgba(59,130,246,0.3)]" 
+            : "bg-white/5 text-fg hover:bg-white/10 border border-white/10"
+        }`}
       >
-        Saber más <ArrowRight className="w-3 h-3" />
+        Seleccionar Plan
       </motion.button>
+      
+      <button
+        onClick={onOpenDetails}
+        className="w-full text-[11px] font-bold text-muted hover:text-accent transition-colors flex items-center justify-center gap-2"
+      >
+        Ver detalles técnicos <ArrowRight className="w-3 h-3" />
+      </button>
     </div>
   </motion.div>
 );
 
 const Services = ({
   onOpenModal,
-  title = "Nuestros Servicios",
-  subtitle = "Infraestructura de alto impacto diseñada para optimizar tu CPA y maximizar ingresos.",
-  label = "Ingeniería de Venta",
+  title = "Planes y Soluciones",
+  subtitle = "Ingeniería de performance diseñada para escalar tu facturación y optimizar cada dólar invertido.",
+  label = "Inversión Inteligente",
 }: any) => (
   <section
     id="servicios"
-    className="py-20 px-6 md:px-10 max-w-[1024px] mx-auto"
+    className="py-24 px-6 md:px-10 max-w-[1200px] mx-auto"
   >
     <div className="text-center mb-16">
       <span className="label-editorial mx-auto">{label}</span>
-      <h2 className="text-[32px] md:text-[40px] font-bold tracking-tight mb-4">
+      <h2 className="text-[32px] md:text-[56px] font-black tracking-tighter mb-4">
         {title}
       </h2>
-      <p className="text-muted max-w-xl mx-auto text-[14px]">{subtitle}</p>
+      <p className="text-muted max-w-2xl mx-auto text-[15px] md:text-[17px] leading-relaxed">
+        {subtitle}
+      </p>
     </div>
 
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      {/* Plan Starter / OnePage */}
       <PricingCard
-        title="Infraestructura & Velocidad Extrema"
-        description="Servidores de alto rendimiento para que tu web nunca se detenga y cargue al instante."
+        title="Lanzamiento OnePage"
+        description="La forma más rápida y efectiva de tener presencia profesional y empezar a convertir."
+        price="$150 USD"
+        period="/ Pago Único"
         delay={0.1}
         onOpenDetails={() =>
-          onOpenModal("Potencia & Estabilidad", {
+          onOpenModal("Plan Starter: OnePage", {
             description:
-              "Eliminamos los límites de los hostings tradicionales. Configuramos infraestructura privada de alta gama que garantiza que tu negocio esté siempre online, sea invulnerable a ataques y cargue en menos de un segundo.",
+              "Diseñamos una landing page de alto impacto centrada en un solo objetivo: convertir visitantes en clientes. Ideal para servicios específicos, marcas personales o lanzamientos rápidos.",
             caseStudies: [
-              "Ahorro de Costos: Reducción del 60% en facturación de hosting al pasar a infraestructura propia.",
-              "Ventas Masivas: Soporte para picos de tráfico durante campañas sin caídas de sistema.",
-              "Seguridad Blindada: Implementación de protocolos de defensa y respaldos automáticos cada hora.",
+              "Velocidad de Carga: Optimización Core Web Vitals para posicionamiento orgánico.",
+              "Conversión Directa: Estructura probada de Hero + Beneficios + Prueba Social + CTA.",
+              "Gestión de Dominio: Te ayudamos a configurar GoDaddy, Hostinger o el que prefieras.",
             ],
             testimonials: [
-              "Desde que migramos nuestra infraestructura, la velocidad de carga duplicó nuestras conversiones. - Director Comercial",
-              "La estabilidad es absoluta. Ya no nos preocupamos por caídas en días de alto tráfico. - CEO",
+              "En solo 7 días ya tenía mi web vendiendo. La rapidez es increíble. - Emprendedor Digital",
+              "El soporte con el dominio me ahorró muchísimos dolores de cabeza técnicos. - Fundador",
             ],
           })
         }
         items={[
           {
-            name: "Configuración de Servidor Privado",
-            price: "Desde $200 USD",
-            details:
-              "Setup inicial de alto rendimiento, seguridad y optimización de carga.",
+            name: "Diseño UX/UI Profesional",
+            details: "1 Página ultra rápida optimizada para móviles.",
           },
           {
-            name: "Gestión & Monitoreo 24/7",
-            price: "Desde $50 USD/mes",
-            details: "Actualizaciones constantes, seguridad y soporte técnico proactivo.",
+            name: "Hosting de Alto Rendimiento",
+            details: "Desde $6 USD/mes. Estabilidad garantizada.",
+          },
+          {
+            name: "Gestión de Dominio Incluida",
+            details: "Setup en GoDaddy, Hostinger o el de tu elección.",
+          },
+          {
+            name: "Botón de WhatsApp & Formulario",
+            details: "Canales de venta directos configurados.",
           },
         ]}
       />
+
+      {/* Plan Business / Growth */}
       <PricingCard
-        title="Automatización de Ventas & Flujos"
-        description="Conecta tus herramientas y haz que tu negocio trabaje por ti automáticamente."
+        title="Crecimiento Business"
+        description="Estructura robusta para empresas que buscan escalar operaciones y automatizar ventas."
+        price="Desde $500 USD"
+        period="/ Inversión Única"
+        isPopular={true}
         delay={0.2}
         onOpenDetails={() =>
-          onOpenModal("Automatización Inteligente", {
+          onOpenModal("Plan Business: Escalamiento", {
             description:
-              "Convertimos procesos manuales en flujos automáticos de alta eficiencia. Conectamos tus plataformas (CRM, Pagos, Web) para que la información fluya sin errores y tus ventas se procesen solas.",
+              "Construimos un ecosistema digital completo. No solo una web, sino un sistema que captura, califica y procesa leads automáticamente.",
             caseStudies: [
-              "Eficiencia Operativa: Eliminación de tareas manuales ahorrando 20 horas semanales al equipo.",
-              "Ventas en Tiempo Real: Notificaciones y procesamiento de pedidos instantáneo.",
-              "Chatbots de Venta: Sistemas inteligentes que califican y cierran leads sin intervención humana.",
+              "Automatización de Ventas: Flujos de correo y CRM conectados al instante.",
+              "Análisis de Datos: Integración avanzada de Meta Pixel y GA4 para optimizar Ads.",
+              "Multipage Experience: Hasta 5 secciones estratégicas para cubrir todo tu embudo.",
             ],
             testimonials: [
-              "La automatización de nuestros leads cambió las reglas del juego. Ahora cerramos ventas mientras dormimos. - Gerente de Ventas",
-              "Ya no hay errores humanos en la transferencia de datos. Todo fluye perfecto. - Ops Manager",
+              "Pasamos de procesos manuales a un flujo automático que nos ahorra 20 horas a la semana. - Gerente de Operaciones",
             ],
           })
         }
         items={[
-          { name: "Conexión de Sistemas (APIs)", price: "Desde $500 USD" },
-          { name: "Flujos de Venta Automáticos", price: "Desde $350 USD" },
           {
-            name: "Integración de Notificaciones",
-            price: "Desde $250 USD",
+            name: "Hasta 5 Páginas / Secciones",
+            details: "Inicio, Servicios, Nosotros, Blog, Contacto.",
           },
-          { name: "Arquitectura de Negocio Escala", price: "Personalizado" },
+          {
+            name: "Automatización de Leads",
+            details: "Conexión con Email Marketing y CRM (Hubspot/Zapier).",
+          },
+          {
+            name: "Tracking Avanzado (Analytics)",
+            details: "Configuración de Pixel, GA4 y conversión personalizada.",
+          },
+          {
+            name: "Estrategia de Copywriting",
+            details: "Textos persuasivos diseñados para cerrar ventas.",
+          },
         ]}
       />
+
+      {/* Plan Elite / Enterprise */}
       <PricingCard
-        title="Marketing & Atención con IA"
-        description="Implementa inteligencia artificial para crear contenido y atender clientes 24/7."
+        title="Dominio Elite & IA"
+        description="Tecnología de vanguardia con agentes inteligentes y estrategia digital integral."
+        price="Personalizado"
         delay={0.3}
         onOpenDetails={() =>
-          onOpenModal("Estrategia de IA Avanzada", {
+          onOpenModal("Plan Elite: Inteligencia & Dominio", {
             description:
-              "Ponemos la potencia de los últimos modelos de IA (ChatGPT, Gemini, Claude) al servicio de tu marca. Desde asistentes virtuales que conocen todo sobre tu empresa hasta sistemas de creación de contenido visual masivo.",
+              "El brazo tecnológico definitivo. Implementamos los últimos avances en IA y desarrollo de software para dominar mercados competitivos.",
             caseStudies: [
-              "Atención Impecable: Reducción del 90% en tiempos de respuesta mediante agentes de IA.",
-              "Contenido Infinito: Automatización de la producción de anuncios y piezas gráficas.",
-              "IA Privada: Despliegue de modelos locales para manejar datos sensibles con total seguridad.",
+              "Agentes de IA 24/7: Asistentes que conocen tu negocio y cierran ventas en WhatsApp.",
+              "Arquitectura Cloud: Infraestructura privada escalable para alto tráfico masivo.",
+              "Estrategia 360°: Gestión completa de tecnología, pauta y optimización de ROI.",
             ],
             testimonials: [
-              "La IA no solo atiende clientes, sino que entiende sus necesidades y ofrece soluciones reales. - Director de CX",
-              "Nuestra capacidad de crear contenido escaló 10 veces sin aumentar el presupuesto. - CMO",
+              "La integración de IA cambió por completo nuestra atención al cliente. Es otro nivel de eficiencia. - CEO",
             ],
           })
         }
         items={[
-          { name: "Agentes Virtuales Inteligentes", price: "Desde $400 USD" },
-          { name: "IA Privada para Empresas", price: "Desde $500 USD" },
-          { name: "Generación de Contenido con IA", price: "Desde $300 USD" },
-        ]}
-      />
-      <PricingCard
-        title="Estrategia Digital 360°"
-        description="Domina tu mercado con una solución integral de tecnología, tráfico y ventas."
-        delay={0.4}
-        onOpenDetails={() =>
-          onOpenModal("Dominio Digital Total", {
-            description:
-              "El paquete definitivo para líderes que buscan resultados, no solo herramientas. Unificamos ingeniería de alto nivel, campañas de tráfico agresivas y automatización con IA para garantizar el crecimiento de tu negocio.",
-            caseStudies: [
-              "Crecimiento Exponencial: De 0 a facturación predecible en solo 90 días de implementación.",
-              "Control Total: Un solo equipo gestionando tecnología, publicidad y conversiones.",
-              "Optimización de ROI: Mejora continua del costo por adquisición mediante datos reales.",
-            ],
-            testimonials: [
-              "Delegar todo el ecosistema digital a Chamba Digital fue la mejor decisión operativa del año. - Fundador SaaS",
-            ],
-          })
-        }
-        items={[
-          { name: "Plan Aceleración (Fase 1)", price: "$650 USD" },
-          { name: "Plan Crecimiento (Fase 2)", price: "$1000 USD" },
-          { name: "Plan Dominio (Fase 3)", price: "$1500 USD" },
+          {
+            name: "Agentes Virtuales Inteligentes",
+            details: "Atención y ventas 24/7 con IA personalizada.",
+          },
+          {
+            name: "Web Apps a Medida (React)",
+            details: "Sistemas complejos, dashboards o plataformas SaaS.",
+          },
+          {
+            name: "Automatización de Flujos API",
+            details: "Conectamos cualquier herramienta que tu negocio use.",
+          },
+          {
+            name: "Estrategia Digital 360°",
+            details: "Acompañamiento total en tecnología y crecimiento.",
+          },
         ]}
       />
     </div>
@@ -874,24 +918,31 @@ const Services = ({
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className="mt-16 p-8 glass rounded-[24px] border-accent/20 bg-accent/5 overflow-hidden relative group text-center"
+      className="mt-16 p-10 glass rounded-[32px] border-accent/20 bg-accent/[0.03] overflow-hidden relative group text-center"
     >
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-accent to-transparent opacity-50" />
-      <h4 className="text-[20px] font-bold mb-4">
-        ¿Listo para activar tu brazo tecnológico?
+      <h4 className="text-[22px] font-black mb-4">
+        ¿No estás seguro de qué plan elegir?
       </h4>
-      <p className="text-muted text-[15px] mb-8 max-w-xl mx-auto">
-        Integramos tus ideas creativas con nuestra ejecución técnica para
-        dominar mercados digitales de alta competencia.
+      <p className="text-muted text-[15px] mb-8 max-w-2xl mx-auto leading-relaxed">
+        Agenda una <strong className="text-fg">Auditoría Gratuita de 15 minutos</strong>. 
+        Analizaremos tu modelo de negocio y te recomendaremos la estructura exacta que necesitas para escalar.
       </p>
-      <motion.a
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        href="#contacto"
-        className="inline-block bg-accent text-white px-8 py-4 rounded-[12px] font-bold text-[14px] shadow-[0_10px_30px_rgba(59,130,246,0.3)] transition-all"
-      >
-        Iniciar Colaboración Ahora
-      </motion.a>
+      <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <motion.a
+          whileHover={{ scale: 1.05, y: -2 }}
+          whileTap={{ scale: 0.95 }}
+          href="https://wa.me/51904060670?text=Hola,%20quisiera%20agendar%20mi%20auditoría%20gratuita%20para%20saber%20qué%20plan%20me%20conviene."
+          target="_blank"
+          className="bg-accent text-white px-10 py-4 rounded-xl font-black text-[14px] uppercase tracking-widest shadow-[0_15px_35px_rgba(59,130,246,0.3)] transition-all flex items-center gap-3"
+        >
+          <WhatsAppIcon className="w-5 h-5" />
+          Agendar Auditoría Gratis
+        </motion.a>
+        <span className="text-[11px] font-bold text-muted uppercase tracking-widest">
+          Cupos limitados por semana
+        </span>
+      </div>
     </motion.div>
   </section>
 );
