@@ -51,6 +51,224 @@ import {
 
 // --- Components for Conversion & Lead Flow (Phase 3) ---
 
+const Chatbot = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [step, setStep] = useState(0);
+  const [answers, setAnswers] = useState<any>({});
+  const [inputValue, setInputValue] = useState("");
+  const [isTyping, setIsTyping] = useState(false);
+
+  const steps = [
+    {
+      id: "name",
+      question: "¡Hola! Soy el asistente virtual de Chamba Digital. ¿Con quién tengo el gusto de hablar?",
+      placeholder: "Escribe tu nombre...",
+      type: "text",
+    },
+    {
+      id: "business",
+      question: "Mucho gusto, {name}. ¿Cómo se llama tu empresa o proyecto y a qué se dedican?",
+      placeholder: "Ej: Mi Empresa SAC, venta de repuestos...",
+      type: "text",
+    },
+    {
+      id: "objective",
+      question: "¿Cuál es el desafío más grande que quieres resolver ahora?",
+      options: [
+        "Vender más en automático",
+        "Automatizar procesos internos",
+        "Implementar IA en mi atención",
+        "Optimizar mi web actual",
+      ],
+    },
+    {
+      id: "budget",
+      question: "Entiendo. ¿Tienes un presupuesto estimado para esta inversión?",
+      options: [
+        "Menos de $500",
+        "$500 - $1,500",
+        "Más de $1,500",
+        "Por ahora solo consulto",
+      ],
+    },
+    {
+      id: "finish",
+      question: "¡Genial! Ya procesé tu información. Haz clic abajo para enviármela por WhatsApp y agendar una breve llamada.",
+      type: "finish",
+    },
+  ];
+
+  const handleNext = (value: string) => {
+    const currentStep = steps[step];
+    const newAnswers = { ...answers, [currentStep.id]: value };
+    setAnswers(newAnswers);
+    setInputValue("");
+    
+    setIsTyping(true);
+    setTimeout(() => {
+      setStep(step + 1);
+      setIsTyping(false);
+    }, 1000);
+  };
+
+  const getWhatsAppUrl = () => {
+    const text = `Hola Chamba Digital, acabo de completar el formulario del Chatbot:\n\n` +
+      `👤 Nombre: ${answers.name}\n` +
+      `🏢 Empresa: ${answers.business}\n` +
+      `🎯 Objetivo: ${answers.objective}\n` +
+      `💰 Presupuesto: ${answers.budget}\n\n` +
+      `Quisiera agendar una consultoría gratuita.`;
+    return `https://wa.me/51904060670?text=${encodeURIComponent(text)}`;
+  };
+
+  const currentStepData = steps[step];
+  const questionText = currentStepData?.question.replace("{name}", answers.name || "");
+
+  return (
+    <>
+      {/* Botón Flotante (solo si no está abierto) */}
+      {!isOpen && (
+        <motion.button
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          whileHover={{ scale: 1.1, rotate: 5 }}
+          whileTap={{ scale: 0.9 }}
+          onClick={() => setIsOpen(true)}
+          className="fixed bottom-24 right-6 z-[140] w-16 h-16 bg-accent rounded-full flex items-center justify-center shadow-[0_15px_40px_rgba(59,130,246,0.4)] border border-white/20"
+        >
+          <Bot className="w-8 h-8 text-white" />
+          <div className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full border-2 border-bg animate-pulse" />
+        </motion.button>
+      )}
+
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: 100, scale: 0.8 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 100, scale: 0.8 }}
+            className="fixed bottom-6 right-6 z-[200] w-[calc(100vw-48px)] sm:w-[380px] glass rounded-[32px] border-accent/20 overflow-hidden shadow-[0_30px_100px_rgba(0,0,0,0.5)] flex flex-col"
+          >
+            {/* Header */}
+            <div className="bg-accent p-6 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-md">
+                  <Bot className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <h4 className="text-white font-black text-[15px] leading-none">Chamba AI</h4>
+                  <div className="flex items-center gap-1.5 mt-1">
+                    <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
+                    <span className="text-white/60 text-[10px] font-bold uppercase tracking-widest">En Línea</span>
+                  </div>
+                </div>
+              </div>
+              <button 
+                onClick={() => setIsOpen(false)}
+                className="text-white/60 hover:text-white transition-colors"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+
+            {/* Content */}
+            <div className="p-6 min-h-[300px] flex flex-col">
+              <div className="flex-grow">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={step}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    className="space-y-4"
+                  >
+                    <div className="bg-white/5 border border-white/10 rounded-[20px] rounded-tl-none p-4 max-w-[85%]">
+                      <p className="text-[14px] leading-relaxed text-fg font-medium">
+                        {questionText}
+                      </p>
+                    </div>
+
+                    {isTyping && (
+                      <div className="flex gap-1 p-2">
+                        <div className="w-1.5 h-1.5 bg-accent/40 rounded-full animate-bounce" />
+                        <div className="w-1.5 h-1.5 bg-accent/40 rounded-full animate-bounce [animation-delay:0.2s]" />
+                        <div className="w-1.5 h-1.5 bg-accent/40 rounded-full animate-bounce [animation-delay:0.4s]" />
+                      </div>
+                    )}
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+
+              {/* Input Area */}
+              <div className="mt-6">
+                {currentStepData?.type === "text" && !isTyping && (
+                  <form 
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      if (inputValue.trim()) handleNext(inputValue);
+                    }}
+                    className="relative"
+                  >
+                    <input
+                      autoFocus
+                      type="text"
+                      value={inputValue}
+                      onChange={(e) => setInputValue(e.target.value)}
+                      placeholder={currentStepData.placeholder}
+                      className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-4 pr-12 text-[14px] focus:outline-none focus:border-accent/50 transition-all"
+                    />
+                    <button 
+                      type="submit"
+                      className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-accent text-white rounded-xl flex items-center justify-center shadow-lg"
+                    >
+                      <ArrowRight className="w-5 h-5" />
+                    </button>
+                  </form>
+                )}
+
+                {currentStepData?.options && !isTyping && (
+                  <div className="grid gap-2">
+                    {currentStepData.options.map((opt) => (
+                      <motion.button
+                        key={opt}
+                        whileHover={{ scale: 1.02, x: 5 }}
+                        whileTap={{ scale: 0.98 }}
+                        onClick={() => handleNext(opt)}
+                        className="w-full text-left p-4 bg-white/5 border border-white/10 rounded-2xl text-[13px] font-bold hover:bg-accent/10 hover:border-accent/30 transition-all"
+                      >
+                        {opt}
+                      </motion.button>
+                    ))}
+                  </div>
+                )}
+
+                {currentStepData?.type === "finish" && !isTyping && (
+                  <motion.a
+                    initial={{ scale: 0.9, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    href={getWhatsAppUrl()}
+                    target="_blank"
+                    className="w-full bg-accent text-white py-5 rounded-2xl font-black text-[14px] flex items-center justify-center gap-3 shadow-[0_15px_30px_rgba(59,130,246,0.3)] uppercase tracking-widest"
+                  >
+                    <WhatsAppIcon className="w-5 h-5" />
+                    Enviar a WhatsApp
+                  </motion.a>
+                )}
+              </div>
+            </div>
+            
+            <div className="p-4 border-t border-white/5 text-center">
+              <span className="text-[9px] font-black uppercase tracking-[0.3em] text-muted/30">Powered by Chamba Digital AI</span>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  );
+};
+
 const ExitIntentModal = ({
   isOpen,
   onClose,
@@ -448,14 +666,16 @@ const Modal = ({ isOpen, onClose, title, content }: any) => {
               {renderContent()}
             </div>
 
-            <motion.button
+            <motion.a
               whileHover={{ scale: 1.02, y: -2 }}
               whileTap={{ scale: 0.98 }}
-              onClick={onClose}
-              className="w-full mt-10 bg-accent text-white py-4 rounded-[12px] font-bold text-[15px] shadow-[0_10px_20px_rgba(59,130,246,0.2)]"
+              href={`https://wa.me/51904060670?text=Hola,%20quisiera%20más%20información%20sobre%20el%20plan:%20${encodeURIComponent(title)}`}
+              target="_blank"
+              className="w-full mt-10 bg-accent text-white py-4 rounded-[12px] font-bold text-[15px] shadow-[0_10px_20px_rgba(59,130,246,0.2)] flex items-center justify-center gap-2"
             >
-              Cerrar Detalle
-            </motion.button>
+              <WhatsAppIcon className="w-5 h-5" />
+              Hablar con un Asesor
+            </motion.a>
           </motion.div>
         </div>
       )}
@@ -776,172 +996,129 @@ const Services = ({
 }: any) => (
   <section
     id="servicios"
-    className="py-24 px-6 md:px-10 max-w-[1200px] mx-auto"
+    className="py-24 px-6 md:px-10 max-w-[1200px] mx-auto relative overflow-hidden"
   >
-    <div className="text-center mb-16">
+    {/* Fondo decorativo solicitado */}
+    <div 
+      className="absolute inset-0 opacity-40 -z-10" 
+      style={{ 
+        background: "radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, transparent 70%)", 
+        filter: "blur(30px)" 
+      }} 
+    />
+
+    <div className="text-center mb-16 relative">
+      <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-full max-w-[800px] aspect-video -z-10 opacity-20 blur-[100px] bg-accent/30 rounded-full" />
+      
       <span className="label-editorial mx-auto">{label}</span>
-      <h2 className="text-[32px] md:text-[56px] font-black tracking-tighter mb-4">
+      <h2 className="text-[36px] md:text-[64px] font-black tracking-tighter mb-4 leading-[0.9]">
         {title}
       </h2>
-      <p className="text-muted max-w-2xl mx-auto text-[15px] md:text-[17px] leading-relaxed">
+      <p className="text-muted max-w-2xl mx-auto text-[16px] md:text-[18px] leading-relaxed mb-10">
         {subtitle}
       </p>
+
+      {/* Trust & Conversion Signals */}
+      <div className="flex flex-wrap items-center justify-center gap-4 md:gap-8 mb-12">
+        <div className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full border border-white/10">
+          <CheckCircle2 className="w-4 h-4 text-green-500" />
+          <span className="text-[10px] font-black uppercase tracking-[0.2em] text-fg">Sin costos ocultos</span>
+        </div>
+        <div className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full border border-white/10">
+          <Shield className="w-4 h-4 text-blue-500" />
+          <span className="text-[10px] font-black uppercase tracking-[0.2em] text-fg">Garantía de Entrega</span>
+        </div>
+        <div className="flex items-center gap-2 px-4 py-2 bg-accent/10 rounded-full border border-accent/20">
+          <Clock className="w-4 h-4 text-accent" />
+          <span className="text-[10px] font-black uppercase tracking-[0.2em] text-accent">Últimos 2 cupos de este mes</span>
+        </div>
+      </div>
     </div>
 
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-      {/* Plan Starter / OnePage */}
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-24">
+      {/* Starter Plan */}
       <PricingCard
         title="Lanzamiento OnePage"
-        description="La forma más rápida y efectiva de tener presencia profesional y empezar a convertir."
+        description="Ideal para validar modelos de negocio o servicios específicos con alta conversión."
         price="$150 USD"
         period="/ Pago Único"
-        delay={0.1}
-        onOpenDetails={() =>
-          onOpenModal("Plan Starter: OnePage", {
-            description:
-              "Diseñamos una landing page de alto impacto centrada en un solo objetivo: convertir visitantes en clientes. Ideal para servicios específicos, marcas personales o lanzamientos rápidos.",
-            caseStudies: [
-              "Velocidad de Carga: Optimización Core Web Vitals para posicionamiento orgánico.",
-              "Conversión Directa: Estructura probada de Hero + Beneficios + Prueba Social + CTA.",
-              "Gestión de Dominio: Te ayudamos a configurar GoDaddy, Hostinger o el que prefieras.",
-            ],
-            testimonials: [
-              "En solo 7 días ya tenía mi web vendiendo. La rapidez es increíble. - Emprendedor Digital",
-              "El soporte con el dominio me ahorró muchísimos dolores de cabeza técnicos. - Fundador",
-            ],
-          })
-        }
         items={[
-          {
-            name: "Diseño UX/UI Profesional",
-            details: "1 Página ultra rápida optimizada para móviles.",
-          },
-          {
-            name: "Hosting de Alto Rendimiento",
-            details: "Desde $6 USD/mes. Estabilidad garantizada.",
-          },
-          {
-            name: "Gestión de Dominio Incluida",
-            details: "Setup en GoDaddy, Hostinger o el de tu elección.",
-          },
-          {
-            name: "Botón de WhatsApp & Formulario",
-            details: "Canales de venta directos configurados.",
-          },
+          { name: "Landing Page High-Perf", details: "Diseño UX enfocado 100% en ventas." },
+          { name: "Optimización SEO Técnica", details: "Configuración para indexar en Google." },
+          { name: "Gestión de Dominio & SSL", details: "Setup total en GoDaddy o Hostinger." },
+          { name: "Hosting AWS/Cloud", details: "Solo $6/mes. Estabilidad total." },
         ]}
+        onOpenDetails={() => onOpenModal("Plan Lanzamiento", "Diseñamos una landing page de alto impacto centrada en un solo objetivo: convertir visitantes en clientes. Incluye integración con WhatsApp, formularios de contacto y optimización móvil total. La forma más rápida de profesionalizar tu presencia digital.")}
       />
 
-      {/* Plan Business / Growth */}
+      {/* Featured Business Plan */}
       <PricingCard
-        title="Crecimiento Business"
-        description="Estructura robusta para empresas que buscan escalar operaciones y automatizar ventas."
-        price="Desde $500 USD"
-        period="/ Inversión Única"
         isPopular={true}
-        delay={0.2}
-        onOpenDetails={() =>
-          onOpenModal("Plan Business: Escalamiento", {
-            description:
-              "Construimos un ecosistema digital completo. No solo una web, sino un sistema que captura, califica y procesa leads automáticamente.",
-            caseStudies: [
-              "Automatización de Ventas: Flujos de correo y CRM conectados al instante.",
-              "Análisis de Datos: Integración avanzada de Meta Pixel y GA4 para optimizar Ads.",
-              "Multipage Experience: Hasta 5 secciones estratégicas para cubrir todo tu embudo.",
-            ],
-            testimonials: [
-              "Pasamos de procesos manuales a un flujo automático que nos ahorra 20 horas a la semana. - Gerente de Operaciones",
-            ],
-          })
-        }
+        title="Crecimiento Business"
+        description="Ecosistema digital completo para empresas que buscan automatizar su flujo de clientes."
+        price="$500 USD"
+        period="/ Pago Único"
         items={[
-          {
-            name: "Hasta 5 Páginas / Secciones",
-            details: "Inicio, Servicios, Nosotros, Blog, Contacto.",
-          },
-          {
-            name: "Automatización de Leads",
-            details: "Conexión con Email Marketing y CRM (Hubspot/Zapier).",
-          },
-          {
-            name: "Tracking Avanzado (Analytics)",
-            details: "Configuración de Pixel, GA4 y conversión personalizada.",
-          },
-          {
-            name: "Estrategia de Copywriting",
-            details: "Textos persuasivos diseñados para cerrar ventas.",
-          },
+          { name: "Estructura Multipage (5)", details: "Inicio, Servicios, Nosotros, Blog, Contacto." },
+          { name: "Automatización de Leads", details: "Filtros inteligentes y CRM básico." },
+          { name: "Tracking de Conversiones", details: "Meta Pixel y GA4 configurados." },
+          { name: "Soporte VIP Post-Entrega", details: "Acompañamiento técnico por 30 días." },
         ]}
+        onOpenDetails={() => onOpenModal("Plan Business", "Nuestra solución más equilibrada. No solo es una web, es una máquina de captación. Construimos un sistema que captura, califica y procesa leads automáticamente. Incluye análisis de datos avanzado para optimizar cada dólar en publicidad.")}
       />
 
-      {/* Plan Elite / Enterprise */}
+      {/* Elite Plan */}
       <PricingCard
         title="Dominio Elite & IA"
-        description="Tecnología de vanguardia con agentes inteligentes y estrategia digital integral."
-        price="Personalizado"
-        delay={0.3}
-        onOpenDetails={() =>
-          onOpenModal("Plan Elite: Inteligencia & Dominio", {
-            description:
-              "El brazo tecnológico definitivo. Implementamos los últimos avances en IA y desarrollo de software para dominar mercados competitivos.",
-            caseStudies: [
-              "Agentes de IA 24/7: Asistentes que conocen tu negocio y cierran ventas en WhatsApp.",
-              "Arquitectura Cloud: Infraestructura privada escalable para alto tráfico masivo.",
-              "Estrategia 360°: Gestión completa de tecnología, pauta y optimización de ROI.",
-            ],
-            testimonials: [
-              "La integración de IA cambió por completo nuestra atención al cliente. Es otro nivel de eficiencia. - CEO",
-            ],
-          })
-        }
+        description="Desarrollo de software y agentes de IA para dominar nichos altamente competitivos."
+        price="Custom"
+        period="Desde $1,200"
         items={[
-          {
-            name: "Agentes Virtuales Inteligentes",
-            details: "Atención y ventas 24/7 con IA personalizada.",
-          },
-          {
-            name: "Web Apps a Medida (React)",
-            details: "Sistemas complejos, dashboards o plataformas SaaS.",
-          },
-          {
-            name: "Automatización de Flujos API",
-            details: "Conectamos cualquier herramienta que tu negocio use.",
-          },
-          {
-            name: "Estrategia Digital 360°",
-            details: "Acompañamiento total en tecnología y crecimiento.",
-          },
+          { name: "Agentes de IA 24/7", details: "Vendedores inteligentes en tu web o WhatsApp." },
+          { name: "E-Commerce de Escala", details: "Plataformas de venta masiva personalizadas." },
+          { name: "Automatización de Procesos", details: "Software a medida para tu operación." },
+          { name: "Estrategia de Performance", details: "Consultoría de escala de facturación." },
         ]}
+        onOpenDetails={() => onOpenModal("Plan Elite", "Para proyectos de alta complejidad. Implementamos los últimos avances en IA y desarrollo de software para dominar mercados competitivos. Desde CRMs personalizados hasta agentes de IA que cierran ventas por ti.")}
       />
     </div>
 
+    {/* Strategy CTA Row */}
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className="mt-16 p-10 glass rounded-[32px] border-accent/20 bg-accent/[0.03] overflow-hidden relative group text-center"
+      className="relative glass rounded-[40px] border-accent/20 p-8 md:p-16 overflow-hidden"
     >
-      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-accent to-transparent opacity-50" />
-      <h4 className="text-[22px] font-black mb-4">
-        ¿No estás seguro de qué plan elegir?
-      </h4>
-      <p className="text-muted text-[15px] mb-8 max-w-2xl mx-auto leading-relaxed">
-        Agenda una <strong className="text-fg">Auditoría Gratuita de 15 minutos</strong>. 
-        Analizaremos tu modelo de negocio y te recomendaremos la estructura exacta que necesitas para escalar.
-      </p>
-      <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-        <motion.a
-          whileHover={{ scale: 1.05, y: -2 }}
-          whileTap={{ scale: 0.95 }}
-          href="https://wa.me/51904060670?text=Hola,%20quisiera%20agendar%20mi%20auditoría%20gratuita%20para%20saber%20qué%20plan%20me%20conviene."
-          target="_blank"
-          className="bg-accent text-white px-10 py-4 rounded-xl font-black text-[14px] uppercase tracking-widest shadow-[0_15px_35px_rgba(59,130,246,0.3)] transition-all flex items-center gap-3"
-        >
-          <WhatsAppIcon className="w-5 h-5" />
-          Agendar Auditoría Gratis
-        </motion.a>
-        <span className="text-[11px] font-bold text-muted uppercase tracking-widest">
-          Cupos limitados por semana
-        </span>
+      <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-transparent" />
+      <div className="absolute -right-20 -bottom-20 w-80 h-80 bg-accent/10 blur-[100px] rounded-full" />
+      
+      <div className="relative z-10 flex flex-col lg:flex-row items-center gap-12 text-center lg:text-left">
+        <div className="flex-1">
+          <div className="w-16 h-16 bg-accent/10 rounded-2xl flex items-center justify-center mb-6 mx-auto lg:mx-0">
+            <Zap className="w-8 h-8 text-accent" />
+          </div>
+          <h3 className="text-[28px] md:text-[36px] font-black tracking-tighter mb-4">
+            ¿No sabes cuál elegir?
+          </h3>
+          <p className="text-muted text-[16px] md:text-[18px] max-w-xl leading-relaxed">
+            Hablemos por 15 minutos. Analizaremos tu negocio y te diremos exactamente qué estructura necesitas para dejar de perder clientes. <strong>Sin compromiso.</strong>
+          </p>
+        </div>
+        
+        <div className="flex flex-col gap-4 min-w-[280px]">
+          <motion.a
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            href="https://wa.me/51904060670?text=Hola,%20quisiera%20agendar%20una%20auditoría%20gratuita."
+            target="_blank"
+            className="bg-accent text-white py-5 px-10 rounded-2xl font-black text-[15px] uppercase tracking-widest shadow-[0_20px_40px_rgba(59,130,246,0.3)] flex items-center justify-center gap-3"
+          >
+            <WhatsAppIcon className="w-5 h-5" />
+            Agendar Auditoría Gratis
+          </motion.a>
+          <span className="text-[11px] font-bold text-muted/60 uppercase tracking-[0.3em] text-center">Cupos limitados por semana</span>
+        </div>
       </div>
     </motion.div>
   </section>
@@ -1791,7 +1968,7 @@ const Methodology = () => (
           </div>
         </div>
         <div className="relative">
-          <div className="aspect-square glass rounded-[24px] border-accent/20 flex items-center justify-center p-12 overflow-hidden smooth-gpu">
+          <div className="aspect-square glass rounded-[24px] border-accent/20 flex items-center justify-center overflow-hidden smooth-gpu">
             <div
               className="absolute inset-0 opacity-40"
               style={{
@@ -1800,7 +1977,16 @@ const Methodology = () => (
                 filter: "blur(30px)",
               }}
             />
-            <Zap className="w-32 h-32 text-accent animate-pulse" />
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="auto"
+              className="w-full h-full object-cover relative z-10"
+            >
+              <source src="/assets/methodology.mp4" type="video/mp4" />
+            </video>
           </div>
         </div>
       </div>
@@ -2508,6 +2694,8 @@ export default function App() {
         title={modalData.title}
         content={modalData.content}
       />
+      <Chatbot />
+      
       <ExitIntentModal
         isOpen={exitIntentOpen}
         onClose={() => setExitIntentOpen(false)}
