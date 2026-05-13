@@ -3,7 +3,9 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "packageManager": "pnpm@11.1.1",
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "dev": "tsx server.ts",
     "build": "vite build",
     "preview": "vite preview",

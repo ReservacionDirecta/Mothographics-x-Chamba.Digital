@@ -96,8 +96,8 @@ const techClients = [
   },
   {
     emoji: "🤖", name: "Sistema Autónomo B2B", location: "VPS Linux/Ubuntu",
-    category: "tech", url: "",
-    thumb: "",
+    category: "tech", url: "hothelia.com",
+    thumb: "https://s.wordpress.com/mshots/v1/https://hothelia.com?w=600",
     highlight: "-70% tiempo de procesamiento",
     tasks: [
       "Orquestación de API RESTful escalable.",
@@ -109,8 +109,8 @@ const techClients = [
   },
   {
     emoji: "🛍️", name: "E-Commerce AI Agent", location: "Arquitectura Cloud",
-    category: "tech", url: "",
-    thumb: "",
+    category: "tech", url: "olivosdelperu.com",
+    thumb: "https://s.wordpress.com/mshots/v1/https://olivosdelperu.com?w=600",
     highlight: "+35% conversión",
     tasks: [
       "Implementación de ChatGPT/Claude para atención 24/7.",
@@ -131,7 +131,6 @@ const webProjects = [
   { url: "haciendadonvicente.com", label: "Hacienda Don Vicente", category: "hotel" },
   { url: "sauce.pe", label: "Sauce Hotel Boutique", category: "hotel" },
   { url: "jahsurfperu.com", label: "Jah Surf San Bartolo", category: "hotel" },
-  { url: "clasedesurf.com", label: "Reserva de Clases Surf", category: "tech" },
   { url: "olivosdelperu.com", label: "Exportación & E-Commerce", category: "ecommerce" },
   { url: "hothelia.com", label: "Software SaaS (In-house)", category: "tech" },
 ];

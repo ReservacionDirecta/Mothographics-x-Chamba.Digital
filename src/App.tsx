@@ -11,6 +11,8 @@ import ServiceBusinessesLandingPage from "./pages/LandingPage/ServiceBusinesses.
 import ProposalPage from "./pages/LandingPage/Proposal.tsx";
 import PortfolioPage from "./pages/PortfolioPage";
 import MethodologyPage from "./pages/MethodologyPage";
+import TermsPage from "./pages/TermsPage";
+import PrivacyPage from "./pages/PrivacyPage";
 import { motion, AnimatePresence } from "motion/react";
 import RafflePage from "./pages/RaffleLandingPage/RafflePage";
 import { HeroAnimation } from "./components/animations/HeroAnimation";
@@ -1106,7 +1108,7 @@ const Services = ({
           { name: "Automatización de Leads con IA", details: "Filtros inteligentes y seguimiento automático." },
           { name: "Meta Pixel + GA4 + Tracking", details: "Mide cada centavo invertido en publicidad." },
           { name: "Soporte VIP 30 días", details: "Acompañamiento técnico post-entrega." },
-          { name: "2 Rondas de Revisión", details: "Ajustes hasta que quede perfecto." },
+          { name: "4 Rondas de Revisión", details: "Ajustes semanales sincronizados con pagos." },
         ]}
         onOpenDetails={() => onOpenModal("Plan Business", "Nuestra solución más equilibrada. No solo es una web, es una máquina de captación. Construimos un sistema que captura, califica y procesa leads automáticamente. Incluye análisis de datos avanzado para optimizar cada dólar en publicidad.")}
       />
@@ -1125,6 +1127,7 @@ const Services = ({
           { name: "E-Commerce de Escala", details: "Plataformas de venta masiva personalizadas." },
           { name: "Automatización Total", details: "Software a medida para tu operación." },
           { name: "Consultoría de Escala", details: "Estrategia de crecimiento de facturación." },
+          { name: "4 Rondas de Revisión", details: "Ajustes semanales sincronizados con pagos." },
         ]}
         onOpenDetails={() => onOpenModal("Plan Elite", "Para proyectos de alta complejidad. Implementamos los últimos avances en IA y desarrollo de software para dominar mercados competitivos. Desde CRMs personalizados hasta agentes de IA que cierran ventas por ti.")}
       />
@@ -1244,8 +1247,8 @@ const Portfolio = () => {
     },
     {
       emoji: "🤖",
-      name: "Sistema Autónomo B2B",
-      location: "Despliegue VPS (Linux/Ubuntu)",
+      name: "Hothelia SaaS",
+      location: "Software Hotelero B2B",
       tasks: [
         "Orquestación de API RESTful escalable.",
         "Integración de Agente Ollama para análisis de datos privados.",
@@ -1256,8 +1259,8 @@ const Portfolio = () => {
     },
     {
       emoji: "🛍️",
-      name: "E-Commerce AI Agent",
-      location: "Arquitectura Cloud",
+      name: "Olivos del Perú",
+      location: "E-Commerce & Exportación",
       tasks: [
         "Implementación de ChatGPT/Claude para atención 24/7.",
         "Conexión en tiempo real con inventario vía GraphQL.",
@@ -1277,7 +1280,7 @@ const Portfolio = () => {
     {
       url: "penalindamancora.com",
       label: "Reserva Directa Hotelera",
-      thumb: "https://penalindamancora.com/images/penalinda0056-2158x1440.jpg",
+      thumb: "https://s.wordpress.com/mshots/v1/https://penalindamancora.com?w=600",
     },
     {
       url: "www.dupla.work",
@@ -1310,11 +1313,6 @@ const Portfolio = () => {
       thumb: "https://s.wordpress.com/mshots/v1/https://jahsurfperu.com?w=600",
     },
     {
-      url: "clasedesurf.com",
-      label: "Reserva de Clases Surf",
-      thumb: "https://s.wordpress.com/mshots/v1/https://clasedesurf.com?w=600",
-    },
-    {
       url: "olivosdelperu.com",
       label: "Exportación & E-Commerce",
       thumb: "https://s.wordpress.com/mshots/v1/https://olivosdelperu.com?w=600",
@@ -1337,8 +1335,7 @@ const Portfolio = () => {
           Nuestra <span className="text-accent">Trayectoria</span>.
         </h2>
         <p className="text-muted max-w-2xl mx-auto text-[15px] md:text-[17px]">
-          Desde la consolidación de la industria hotelera hasta la vanguardia en
-          infraestructura de <strong className="text-fg">IA & Cloud</strong>.
+          Desde la consolidación de la industria hotelera con <strong className="text-fg">Hothelia</strong> hasta el éxito comercial de <strong className="text-fg">Olivos del Perú</strong> e infraestructura de <strong className="text-fg">IA & Cloud</strong>.
         </p>
       </div>
 
@@ -2703,10 +2700,24 @@ const ChambaContent = ({ onOpenModal }: any) => (
         </div>
 
         <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-[12px] text-muted">
+          <p className="text-[12px] text-muted text-center md:text-left">
             © {new Date().getFullYear()} Chamba Digital. Todos los derechos
             reservados.
           </p>
+          <div className="flex gap-6 mt-4 md:mt-0">
+            <Link
+              to="/terminos"
+              className="text-[10px] font-black uppercase tracking-widest text-muted hover:text-accent transition-colors"
+            >
+              Términos
+            </Link>
+            <Link
+              to="/privacidad"
+              className="text-[10px] font-black uppercase tracking-widest text-muted hover:text-accent transition-colors"
+            >
+              Privacidad
+            </Link>
+          </div>
           <div className="flex gap-6">
             <a
               href="#"
@@ -2813,6 +2824,8 @@ export default function App() {
         />
         <Route path="/portafolio" element={<PortfolioPage />} />
         <Route path="/metodologia" element={<MethodologyPage />} />
+        <Route path="/terminos" element={<TermsPage />} />
+        <Route path="/privacidad" element={<PrivacyPage />} />
         <Route path="/ecommerce" element={<EcommerceLandingPage />} />
         <Route path="/hotels" element={<HotelsLandingPage />} />
         <Route
