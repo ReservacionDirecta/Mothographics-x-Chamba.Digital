@@ -2731,10 +2731,10 @@ const ChambaContent = ({ onOpenModal }: any) => (
             </Link>
           </div>
         </div>
-      </footer>
-    </div>
-  );
-};
+      </div>
+    </footer>
+  </div>
+);
 
 const AllianceContent = ({ onOpenModal }: any) => {
   useEffect(() => {
