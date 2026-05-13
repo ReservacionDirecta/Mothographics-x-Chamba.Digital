@@ -9,6 +9,8 @@ import HotelsLandingPage from "./pages/LandingPage/Hotels.tsx";
 import EcommerceLandingPage from "./pages/LandingPage/ECommerce.tsx";
 import ServiceBusinessesLandingPage from "./pages/LandingPage/ServiceBusinesses.tsx";
 import ProposalPage from "./pages/LandingPage/Proposal.tsx";
+import PortfolioPage from "./pages/PortfolioPage";
+import MethodologyPage from "./pages/MethodologyPage";
 import { motion, AnimatePresence } from "motion/react";
 import RafflePage from "./pages/RaffleLandingPage/RafflePage";
 import { HeroAnimation } from "./components/animations/HeroAnimation";
@@ -47,6 +49,10 @@ import {
   Database,
   MonitorPlay,
   Bot,
+  Crown,
+  Flame,
+  Star,
+  Sparkles,
 } from "lucide-react";
 
 // --- Components for Conversion & Lead Flow (Phase 3) ---
@@ -903,90 +909,119 @@ const PricingCard = ({
   isPopular = false,
   delay = 0,
   onOpenDetails,
-}: any) => (
-  <motion.div
-    initial={{ opacity: 0, y: 30 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true, amount: 0.2 }}
-    transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
-    whileHover={{ y: -10, borderColor: "rgba(59, 130, 246, 0.4)" }}
-    className={`glass p-8 rounded-[24px] flex flex-col h-full transition-all group relative overflow-hidden ${
-      isPopular ? "border-accent/40 shadow-[0_20px_50px_rgba(59,130,246,0.1)] bg-accent/[0.03]" : ""
-    }`}
-  >
-    {isPopular && (
-      <div className="absolute top-0 right-0">
-        <div className="bg-accent text-white text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-bl-xl shadow-lg">
-          Más Popular
+  badge,
+  icon: Icon = Zap,
+  whatsappText,
+  savings,
+}: any) => {
+  const waUrl = `https://wa.me/51904060670?text=${encodeURIComponent(whatsappText || `Hola, me interesa el plan: ${title}`)}`;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
+      whileHover={{ y: -8 }}
+      className={`relative p-8 rounded-[28px] flex flex-col h-full transition-all duration-500 group overflow-hidden ${
+        isPopular
+          ? "pricing-popular-glow bg-gradient-to-b from-[#1a1207] via-[#0d0d0d] to-[#0d0d0d] border-2 border-cta/40 scale-[1.03] lg:scale-105 z-10"
+          : "glass border-white/10 hover:border-white/20"
+      }`}
+    >
+      {/* Popular shimmer effect */}
+      {isPopular && (
+        <div className="absolute inset-0 -z-0 overflow-hidden rounded-[28px]">
+          <div
+            className="absolute inset-0 opacity-20"
+            style={{
+              background: "linear-gradient(135deg, rgba(255,107,53,0.15) 0%, transparent 50%, rgba(245,158,11,0.1) 100%)",
+            }}
+          />
+        </div>
+      )}
+
+      {/* Badge */}
+      {badge && (
+        <div className={`absolute top-0 right-0 z-20 ${isPopular ? "bg-gradient-to-r from-cta to-gold" : "bg-white/10"} text-white text-[10px] font-black uppercase tracking-[0.15em] px-5 py-2 rounded-bl-2xl shadow-lg flex items-center gap-1.5`}>
+          {isPopular && <Flame className="w-3 h-3" />}
+          {badge}
+        </div>
+      )}
+
+      <div className="relative z-10 flex flex-col h-full">
+        {/* Header */}
+        <div className="mb-6">
+          <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-4 ${isPopular ? "bg-cta/15" : "bg-accent/10"}`}>
+            <Icon className={`w-6 h-6 ${isPopular ? "text-cta" : "text-accent"}`} />
+          </div>
+          <h3 className={`text-[20px] font-black tracking-tight mb-2 ${isPopular ? "text-cta" : "text-fg"}`}>
+            {title}
+          </h3>
+          <p className="text-[13px] text-muted leading-relaxed">{description}</p>
+        </div>
+
+        {/* Price */}
+        <div className="mb-8 pb-6 border-b border-white/5">
+          <div className="flex items-baseline gap-2">
+            <span className={`text-[42px] font-black tracking-tighter ${isPopular ? "text-fg" : "text-fg"}`}>{price}</span>
+            {period && <span className="text-[13px] text-muted font-medium">{period}</span>}
+          </div>
+          {savings && (
+            <div className="mt-2 inline-flex items-center gap-1.5 bg-emerald/10 text-emerald px-3 py-1 rounded-full">
+              <Sparkles className="w-3 h-3" />
+              <span className="text-[11px] font-bold">{savings}</span>
+            </div>
+          )}
+        </div>
+
+        {/* Features */}
+        <ul className="space-y-4 flex-grow mb-8">
+          {items.map((item: any, idx: number) => (
+            <li key={idx} className="flex items-start gap-3">
+              <div className="mt-0.5 shrink-0">
+                <CheckCircle2 className={`w-[18px] h-[18px] ${isPopular ? "text-cta" : "text-emerald"}`} />
+              </div>
+              <div>
+                <span className="text-[13px] font-bold text-fg block leading-tight">{item.name}</span>
+                {item.details && <p className="text-[11px] text-muted leading-relaxed mt-0.5">{item.details}</p>}
+              </div>
+            </li>
+          ))}
+        </ul>
+
+        {/* CTA */}
+        <div className="mt-auto space-y-3">
+          <motion.a
+            whileHover={{ scale: 1.03, y: -2 }}
+            whileTap={{ scale: 0.97 }}
+            href={waUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`w-full py-4 rounded-2xl font-black text-[14px] uppercase tracking-wider transition-all flex items-center justify-center gap-2.5 ${
+              isPopular
+                ? "bg-gradient-to-r from-cta to-cta-hover text-white shadow-[0_15px_40px_rgba(255,107,53,0.3)] cta-pulse"
+                : "bg-white/5 text-fg hover:bg-white/10 border border-white/10 hover:border-cta/30"
+            }`}
+          >
+            <WhatsAppIcon className="w-5 h-5" />
+            {isPopular ? "Empezar Ahora" : "Consultar Plan"}
+          </motion.a>
+
+          {onOpenDetails && (
+            <button
+              onClick={onOpenDetails}
+              className="w-full text-[11px] font-bold text-muted hover:text-accent transition-colors flex items-center justify-center gap-2 py-2"
+            >
+              Ver detalles técnicos <ArrowRight className="w-3 h-3" />
+            </button>
+          )}
         </div>
       </div>
-    )}
+    </motion.div>
+  );
+};
 
-    <div className="mb-8">
-      <h3 className="text-[18px] font-black flex items-center gap-2 group-hover:text-accent transition-colors mb-2">
-        <Zap className={`w-5 h-5 ${isPopular ? "text-accent" : "text-accent/50"}`} />
-        {title}
-      </h3>
-      <p className="text-[13px] text-muted leading-relaxed">
-        {description}
-      </p>
-    </div>
-
-    <div className="mb-8">
-      <div className="flex items-baseline gap-1">
-        <span className="text-[32px] font-black tracking-tighter">{price}</span>
-        {period && (
-          <span className="text-[14px] text-muted font-medium">{period}</span>
-        )}
-      </div>
-    </div>
-
-    <ul className="space-y-4 flex-grow mb-10">
-      {items.map((item: any, idx: number) => (
-        <li key={idx} className="flex items-start gap-3">
-          <div className="mt-1 shrink-0">
-            <CheckCircle2 className="w-4 h-4 text-accent" />
-          </div>
-          <div>
-            <span className="text-[13px] font-bold text-fg block leading-tight">
-              {item.name}
-            </span>
-            {item.details && (
-              <p className="text-[11px] text-muted leading-relaxed mt-1">
-                {item.details}
-              </p>
-            )}
-          </div>
-        </li>
-      ))}
-    </ul>
-
-    <div className="mt-auto pt-6 border-t border-white/5 space-y-4">
-      <motion.button
-        whileHover={{ scale: 1.02, y: -2 }}
-        whileTap={{ scale: 0.98 }}
-        onClick={() => {
-          if (onOpenDetails) onOpenDetails();
-          else document.getElementById("contacto")?.scrollIntoView({ behavior: "smooth" });
-        }}
-        className={`w-full py-4 rounded-xl font-black text-[13px] uppercase tracking-widest transition-all ${
-          isPopular 
-            ? "bg-accent text-white shadow-[0_10px_25px_rgba(59,130,246,0.3)]" 
-            : "bg-white/5 text-fg hover:bg-white/10 border border-white/10"
-        }`}
-      >
-        Seleccionar Plan
-      </motion.button>
-      
-      <button
-        onClick={onOpenDetails}
-        className="w-full text-[11px] font-bold text-muted hover:text-accent transition-colors flex items-center justify-center gap-2"
-      >
-        Ver detalles técnicos <ArrowRight className="w-3 h-3" />
-      </button>
-    </div>
-  </motion.div>
-);
 
 const Services = ({
   onOpenModal,
@@ -1035,18 +1070,22 @@ const Services = ({
       </div>
     </div>
 
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-24">
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-4 items-stretch mb-24">
       {/* Starter Plan */}
       <PricingCard
         title="Lanzamiento OnePage"
-        description="Ideal para validar modelos de negocio o servicios específicos con alta conversión."
-        price="$150 USD"
-        period="/ Pago Único"
+        icon={Zap}
+        badge="Ideal para empezar"
+        description="Valida tu modelo de negocio con una landing de alta conversión."
+        price="$150"
+        period="USD / Pago Único"
+        savings="Entrega en 7 días"
+        whatsappText="Hola! Me interesa el Plan Lanzamiento OnePage ($150 USD). Quisiera más información."
         items={[
-          { name: "Landing Page High-Perf", details: "Diseño UX enfocado 100% en ventas." },
-          { name: "Optimización SEO Técnica", details: "Configuración para indexar en Google." },
-          { name: "Gestión de Dominio & SSL", details: "Setup total en GoDaddy o Hostinger." },
-          { name: "Hosting AWS/Cloud", details: "Solo $6/mes. Estabilidad total." },
+          { name: "Landing Page Ultra Rápida", details: "Diseño UX enfocado 100% en ventas." },
+          { name: "SEO + Google My Business", details: "Aparece en búsquedas desde el día 1." },
+          { name: "Dominio + SSL + Hosting", details: "Todo configurado por nosotros." },
+          { name: "WhatsApp Integrado", details: "Botón directo para recibir clientes." },
         ]}
         onOpenDetails={() => onOpenModal("Plan Lanzamiento", "Diseñamos una landing page de alto impacto centrada en un solo objetivo: convertir visitantes en clientes. Incluye integración con WhatsApp, formularios de contacto y optimización móvil total. La forma más rápida de profesionalizar tu presencia digital.")}
       />
@@ -1054,15 +1093,20 @@ const Services = ({
       {/* Featured Business Plan */}
       <PricingCard
         isPopular={true}
+        icon={Flame}
+        badge="Más Vendido"
         title="Crecimiento Business"
-        description="Ecosistema digital completo para empresas que buscan automatizar su flujo de clientes."
-        price="$500 USD"
-        period="/ Pago Único"
+        description="Ecosistema digital completo. Automatiza tu captación de clientes."
+        price="$500"
+        period="USD / Pago Único"
+        savings="Ahorra +$2,000 vs agencia tradicional"
+        whatsappText="Hola! Me interesa el Plan Crecimiento Business ($500 USD). Quiero automatizar mi captación de clientes."
         items={[
-          { name: "Estructura Multipage (5)", details: "Inicio, Servicios, Nosotros, Blog, Contacto." },
-          { name: "Automatización de Leads", details: "Filtros inteligentes y CRM básico." },
-          { name: "Tracking de Conversiones", details: "Meta Pixel y GA4 configurados." },
-          { name: "Soporte VIP Post-Entrega", details: "Acompañamiento técnico por 30 días." },
+          { name: "Web Multipágina (5 secciones)", details: "Inicio, Servicios, Nosotros, Blog, Contacto." },
+          { name: "Automatización de Leads con IA", details: "Filtros inteligentes y seguimiento automático." },
+          { name: "Meta Pixel + GA4 + Tracking", details: "Mide cada centavo invertido en publicidad." },
+          { name: "Soporte VIP 30 días", details: "Acompañamiento técnico post-entrega." },
+          { name: "2 Rondas de Revisión", details: "Ajustes hasta que quede perfecto." },
         ]}
         onOpenDetails={() => onOpenModal("Plan Business", "Nuestra solución más equilibrada. No solo es una web, es una máquina de captación. Construimos un sistema que captura, califica y procesa leads automáticamente. Incluye análisis de datos avanzado para optimizar cada dólar en publicidad.")}
       />
@@ -1070,14 +1114,17 @@ const Services = ({
       {/* Elite Plan */}
       <PricingCard
         title="Dominio Elite & IA"
-        description="Desarrollo de software y agentes de IA para dominar nichos altamente competitivos."
-        price="Custom"
-        period="Desde $1,200"
+        icon={Crown}
+        badge="Premium"
+        description="Software y agentes de IA para dominar mercados competitivos."
+        price="$1,200+"
+        period="USD / Proyecto"
+        whatsappText="Hola! Me interesa el Plan Elite & IA (desde $1,200 USD). Necesito una solución avanzada para mi negocio."
         items={[
           { name: "Agentes de IA 24/7", details: "Vendedores inteligentes en tu web o WhatsApp." },
           { name: "E-Commerce de Escala", details: "Plataformas de venta masiva personalizadas." },
-          { name: "Automatización de Procesos", details: "Software a medida para tu operación." },
-          { name: "Estrategia de Performance", details: "Consultoría de escala de facturación." },
+          { name: "Automatización Total", details: "Software a medida para tu operación." },
+          { name: "Consultoría de Escala", details: "Estrategia de crecimiento de facturación." },
         ]}
         onOpenDetails={() => onOpenModal("Plan Elite", "Para proyectos de alta complejidad. Implementamos los últimos avances en IA y desarrollo de software para dominar mercados competitivos. Desde CRMs personalizados hasta agentes de IA que cierran ventas por ti.")}
       />
@@ -1112,7 +1159,7 @@ const Services = ({
             whileTap={{ scale: 0.95 }}
             href="https://wa.me/51904060670?text=Hola,%20quisiera%20agendar%20una%20auditoría%20gratuita."
             target="_blank"
-            className="bg-accent text-white py-5 px-10 rounded-2xl font-black text-[15px] uppercase tracking-widest shadow-[0_20px_40px_rgba(59,130,246,0.3)] flex items-center justify-center gap-3"
+            className="bg-gradient-to-r from-cta to-cta-hover text-white py-5 px-10 rounded-2xl font-black text-[15px] uppercase tracking-widest shadow-[0_20px_40px_rgba(255,107,53,0.3)] flex items-center justify-center gap-3 cta-pulse"
           >
             <WhatsAppIcon className="w-5 h-5" />
             Agendar Auditoría Gratis
@@ -1713,8 +1760,8 @@ export const ChambaNavbar = () => {
   const navLinks = [
     { name: "Inicio", path: "/" },
     { name: "Servicios", path: "/#servicios" },
-    { name: "Portafolio", path: "/#portafolio" },
-    { name: "Metodología", path: "/#metodologia" },
+    { name: "Portafolio", path: "/portafolio" },
+    { name: "Metodología", path: "/metodologia" },
     { name: "Sorteo", path: "/raffle" },
   ];
 
@@ -1859,20 +1906,42 @@ const ChambaHero = () => (
         <motion.a
           whileHover={{ scale: 1.05, y: -2 }}
           whileTap={{ scale: 0.95 }}
-          href="#servicios"
-          className="bg-accent text-white px-10 py-5 rounded-[12px] font-bold text-[15px] w-full sm:w-auto shadow-[0_10px_30px_rgba(59,130,246,0.3)] hover:shadow-[0_15px_40px_rgba(59,130,246,0.4)] transition-all"
+          href="https://wa.me/51904060670?text=Hola%2C%20quiero%20una%20auditoría%20gratuita%20para%20mi%20negocio."
+          target="_blank"
+          rel="noopener noreferrer"
+          className="bg-gradient-to-r from-cta to-cta-hover text-white px-10 py-5 rounded-[14px] font-black text-[15px] w-full sm:w-auto shadow-[0_15px_40px_rgba(255,107,53,0.3)] hover:shadow-[0_20px_50px_rgba(255,107,53,0.4)] transition-all flex items-center justify-center gap-3 cta-pulse uppercase tracking-wider"
         >
-          Impulsar mi Negocio
+          <WhatsAppIcon className="w-5 h-5" />
+          Auditoría Gratis
         </motion.a>
         <motion.a
           whileHover={{ x: 5 }}
-          href="#portafolio"
+          href="#servicios"
           className="group inline-flex items-center gap-2 text-[15px] font-bold text-fg hover:text-accent transition-colors py-3"
         >
-          Ver Casos de Éxito
+          Ver Planes y Precios
           <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
         </motion.a>
       </div>
+
+      {/* Social Proof Stats */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.6, duration: 0.8 }}
+        className="mt-14 flex flex-wrap items-center justify-center gap-6 md:gap-10"
+      >
+        {[
+          { value: "+50", label: "Proyectos Entregados" },
+          { value: "+10", label: "Años de Experiencia" },
+          { value: "24/7", label: "Soporte Activo" },
+        ].map((stat, i) => (
+          <div key={i} className="flex flex-col items-center gap-1">
+            <span className="text-[28px] md:text-[36px] font-black text-accent tracking-tight">{stat.value}</span>
+            <span className="text-[10px] font-bold text-muted uppercase tracking-[0.2em]">{stat.label}</span>
+          </div>
+        ))}
+      </motion.div>
     </motion.div>
   </section>
 );
@@ -1919,8 +1988,76 @@ const PainPoints = () => (
         </motion.div>
       ))}
     </div>
+
+    {/* Inline Lead Capture after Pain Points */}
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      className="mt-16 text-center glass rounded-[32px] p-8 md:p-12 border-cta/20 relative overflow-hidden"
+    >
+      <div className="absolute inset-0 bg-gradient-to-br from-cta/5 via-transparent to-gold/5 -z-0" />
+      <div className="relative z-10">
+        <h3 className="text-[24px] md:text-[32px] font-black tracking-tight mb-3">
+          ¿Te identificas con alguno?
+        </h3>
+        <p className="text-muted text-[15px] mb-8 max-w-[500px] mx-auto">
+          Hablemos 15 minutos. <strong className="text-fg">Sin costo, sin compromiso.</strong> Te diremos exactamente qué necesitas.
+        </p>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <motion.a
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            href="https://wa.me/51904060670?text=Hola%2C%20tengo%20un%20problema%20con%20mi%20negocio%20digital%20y%20necesito%20ayuda."
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-gradient-to-r from-cta to-cta-hover text-white px-8 py-4 rounded-2xl font-black text-[14px] shadow-[0_15px_30px_rgba(255,107,53,0.3)] flex items-center gap-3 uppercase tracking-wider"
+          >
+            <WhatsAppIcon className="w-5 h-5" />
+            Diagnóstico Gratis por WhatsApp
+          </motion.a>
+        </div>
+      </div>
+    </motion.div>
   </section>
 );
+
+const StickyCtaBar = () => {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setVisible(window.scrollY > 600);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  return (
+    <AnimatePresence>
+      {visible && (
+        <motion.div
+          initial={{ y: 60, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: 60, opacity: 0 }}
+          transition={{ type: "spring", damping: 20, stiffness: 300 }}
+          className="fixed bottom-0 left-0 right-0 z-[90] sticky-cta-bar py-3 px-6 flex items-center justify-center gap-4 shadow-[0_-10px_40px_rgba(0,0,0,0.3)]"
+        >
+          <span className="text-white font-bold text-[13px] hidden sm:block">
+            🚀 Transforma tu negocio hoy
+          </span>
+          <a
+            href="https://wa.me/51904060670?text=Hola%2C%20quiero%20una%20auditoría%20gratuita%20para%20mi%20negocio."
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-white text-cta px-6 py-2.5 rounded-xl font-black text-[12px] uppercase tracking-wider shadow-lg flex items-center gap-2 hover:scale-105 transition-transform"
+          >
+            <WhatsAppIcon className="w-4 h-4" />
+            Auditoría Gratis
+          </a>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+};
 
 const Methodology = () => (
   <section
@@ -2458,6 +2595,7 @@ const ChambaContent = ({ onOpenModal }: any) => (
       <FAQ />
       <ContactForm />
     </main>
+    <StickyCtaBar />
     <footer className="py-20 px-6 md:px-10 border-t border-glass-border bg-black/40 backdrop-blur-md">
       <div className="max-w-[1024px] mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
@@ -2673,6 +2811,8 @@ export default function App() {
           path="/mothographics-chamba-digital"
           element={<AllianceContent onOpenModal={openModal} />}
         />
+        <Route path="/portafolio" element={<PortfolioPage />} />
+        <Route path="/metodologia" element={<MethodologyPage />} />
         <Route path="/ecommerce" element={<EcommerceLandingPage />} />
         <Route path="/hotels" element={<HotelsLandingPage />} />
         <Route

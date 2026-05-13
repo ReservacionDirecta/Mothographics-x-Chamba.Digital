@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
 
 @theme {
@@ -9,6 +9,10 @@
   --color-fg: #ffffff;
   --color-muted: #888888;
   --color-accent: #3B82F6;
+  --color-cta: #FF6B35;
+  --color-cta-hover: #FF8555;
+  --color-gold: #F59E0B;
+  --color-emerald: #10B981;
   --color-glass: rgba(255, 255, 255, 0.02);
   --color-glass-border: rgba(255, 255, 255, 0.08);
   --color-liquid: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.05) 50%, rgba(255,255,255,0.2) 100%);
@@ -65,6 +69,43 @@
     backface-visibility: hidden;
     perspective: 1000px;
   }
+
+  /* Conversion-optimized CTA pulse */
+  .cta-pulse {
+    animation: ctaPulse 2s ease-in-out infinite;
+  }
+
+  /* Popular pricing card glow */
+  .pricing-popular-glow {
+    box-shadow:
+      0 0 0 1px rgba(255, 107, 53, 0.3),
+      0 0 30px rgba(255, 107, 53, 0.15),
+      0 20px 60px rgba(255, 107, 53, 0.1);
+  }
+
+  .pricing-popular-glow:hover {
+    box-shadow:
+      0 0 0 1px rgba(255, 107, 53, 0.5),
+      0 0 40px rgba(255, 107, 53, 0.25),
+      0 30px 80px rgba(255, 107, 53, 0.15);
+  }
+}
+
+@keyframes ctaPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 107, 53, 0.4); }
+  50% { box-shadow: 0 0 0 12px rgba(255, 107, 53, 0); }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Sticky CTA bar */
+.sticky-cta-bar {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  background: linear-gradient(135deg, rgba(255, 107, 53, 0.95) 0%, rgba(245, 158, 11, 0.95) 100%);
 }
 
 /* Custom Scrollbar Optimization */
