@@ -510,17 +510,35 @@ const SplashScreen = () => (
     transition={{ duration: 0.8, ease: "easeInOut" }}
     className="fixed inset-0 z-[200] bg-bg flex flex-col items-center justify-center"
   >
-    <motion.div
-      initial={{ scale: 0.8, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      transition={{
-        duration: 0.5,
-        repeat: Infinity,
-        repeatType: "reverse",
-      }}
-    >
-      <Logo className="scale-150" />
-    </motion.div>
+    <div className="relative">
+      <motion.div
+        animate={{ 
+          scale: [1, 1.4, 1, 1.6, 1, 1],
+          opacity: [0.05, 0.15, 0.05, 0.2, 0.05, 0.05]
+        }}
+        transition={{
+          duration: 2.5,
+          repeat: Infinity,
+          times: [0, 0.1, 0.2, 0.35, 0.5, 1],
+          ease: "easeInOut"
+        }}
+        className="absolute inset-0 bg-accent rounded-full blur-[60px] -z-10"
+      />
+      <motion.div
+        animate={{ 
+          scale: [1, 1.08, 1, 1.12, 1, 1],
+          opacity: [0.9, 1, 0.9, 1, 0.9, 0.9]
+        }}
+        transition={{
+          duration: 2.5,
+          repeat: Infinity,
+          times: [0, 0.1, 0.2, 0.35, 0.5, 1],
+          ease: "easeInOut"
+        }}
+      >
+        <Logo className="scale-150" />
+      </motion.div>
+    </div>
     <motion.div
       initial={{ width: 0 }}
       animate={{ width: 200 }}
