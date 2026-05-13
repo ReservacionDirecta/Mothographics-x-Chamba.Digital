@@ -2706,6 +2706,18 @@ const ChambaContent = ({ onOpenModal }: any) => (
           </p>
           <div className="flex gap-6 mt-4 md:mt-0">
             <Link
+              to="/portafolio"
+              className="text-[10px] font-black uppercase tracking-widest text-muted hover:text-accent transition-colors"
+            >
+              Portafolio
+            </Link>
+            <Link
+              to="/metodologia"
+              className="text-[10px] font-black uppercase tracking-widest text-muted hover:text-accent transition-colors"
+            >
+              Metodología
+            </Link>
+            <Link
               to="/terminos"
               className="text-[10px] font-black uppercase tracking-widest text-muted hover:text-accent transition-colors"
             >
@@ -2718,25 +2730,11 @@ const ChambaContent = ({ onOpenModal }: any) => (
               Privacidad
             </Link>
           </div>
-          <div className="flex gap-6">
-            <a
-              href="#"
-              className="text-[11px] text-muted hover:text-fg transition-colors uppercase tracking-widest"
-            >
-              Privacidad
-            </a>
-            <a
-              href="#"
-              className="text-[11px] text-muted hover:text-fg transition-colors uppercase tracking-widest"
-            >
-              Términos
-            </a>
-          </div>
         </div>
-      </div>
-    </footer>
-  </div>
-);
+      </footer>
+    </div>
+  );
+};
 
 const AllianceContent = ({ onOpenModal }: any) => {
   useEffect(() => {
