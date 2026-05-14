@@ -11,6 +11,7 @@ import ServiceBusinessesLandingPage from "./pages/LandingPage/ServiceBusinesses.
 import ProposalPage from "./pages/LandingPage/Proposal.tsx";
 import PortfolioPage from "./pages/PortfolioPage";
 import MethodologyPage from "./pages/MethodologyPage";
+import ServicesPage from "./pages/ServicesPage";
 import TermsPage from "./pages/TermsPage";
 import PrivacyPage from "./pages/PrivacyPage";
 import { motion, AnimatePresence } from "motion/react";
@@ -1774,7 +1775,7 @@ export const ChambaNavbar = () => {
 
   const navLinks = [
     { name: "Inicio", path: "/" },
-    { name: "Servicios", path: "/#servicios" },
+    { name: "Servicios", path: "/servicios" },
     { name: "Portafolio", path: "/portafolio" },
     { name: "Metodología", path: "/metodologia" },
     { name: "Sorteo", path: "/raffle" },
@@ -1929,14 +1930,13 @@ const ChambaHero = () => (
           <WhatsAppIcon className="w-5 h-5" />
           Auditoría Gratis
         </motion.a>
-        <motion.a
-          whileHover={{ x: 5 }}
-          href="#servicios"
+        <Link
+          to="/servicios"
           className="group inline-flex items-center gap-2 text-[15px] font-bold text-fg hover:text-accent transition-colors py-3"
         >
-          Ver Planes y Precios
+          Explorar Servicios
           <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-        </motion.a>
+        </Link>
       </div>
 
       {/* Social Proof Stats */}
@@ -2611,146 +2611,109 @@ const ChambaContent = ({ onOpenModal }: any) => (
       <ContactForm />
     </main>
     <StickyCtaBar />
-    <footer className="py-20 px-6 md:px-10 border-t border-glass-border bg-black/40 backdrop-blur-md">
-      <div className="max-w-[1024px] mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
-          {/* Brand Column */}
-          <div className="flex flex-col gap-6">
-            <Logo />
-            <p className="text-[14px] text-muted leading-relaxed">
-              Ingeniería Digital de alto nivel. Transformamos negocios con
-              tecnología, datos y diseño de performance.
-            </p>
-            <div className="flex gap-4">
-              <motion.a
-                whileHover={{ y: -3, color: "#3B82F6" }}
-                href="https://instagram.com"
-                target="_blank"
-                className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-muted transition-colors"
-              >
-                <Instagram className="w-5 h-5" />
-              </motion.a>
-              <motion.a
-                whileHover={{ y: -3, color: "#3B82F6" }}
-                href="https://linkedin.com"
-                target="_blank"
-                className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-muted transition-colors"
-              >
-                <Linkedin className="w-5 h-5" />
-              </motion.a>
-            </div>
-          </div>
-
-          {/* Quick Links */}
-          <div>
-            <h4 className="text-[14px] font-black uppercase tracking-widest mb-6 text-fg">
-              Explorar
-            </h4>
-            <ul className="space-y-4">
-              {[
-                { name: "Servicios", id: "servicios" },
-                { name: "Portafolio", id: "portafolio" },
-                { name: "Metodología", id: "metodologia" },
-                { name: "FAQ", id: "faq" },
-                { name: "Sorteo", id: "raffle", isRoute: true },
-              ].map((item) => (
-                <li key={item.id}>
-                  {item.isRoute ? (
-                    <Link
-                      to={`/${item.id}`}
-                      className="text-[14px] text-muted hover:text-accent transition-colors"
-                    >
-                      {item.name}
-                    </Link>
-                  ) : (
-                    <a
-                      href={`#${item.id}`}
-                      className="text-[14px] text-muted hover:text-accent transition-colors"
-                    >
-                      {item.name}
-                    </a>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Contact Info */}
-          <div>
-            <h4 className="text-[14px] font-black uppercase tracking-widest mb-6 text-fg">
-              Contacto
-            </h4>
-            <div className="space-y-4">
-              <div className="flex items-start gap-3 text-muted">
-                <MapPin className="w-4 h-4 text-accent shrink-0 mt-1" />
-                <p className="text-[13px] leading-relaxed">
-                  Alameda del premio Real 736, La Encantada de Villa,
-                  Chorrillos, Lima, Perú
-                </p>
-              </div>
-              <div className="flex items-center gap-3 text-muted">
-                <Mail className="w-4 h-4 text-accent shrink-0" />
-                <p className="text-[13px]">hola@chamba.digital</p>
-              </div>
-            </div>
-          </div>
-
-          {/* CTA Column */}
-          <div className="flex flex-col items-start gap-6">
-            <h4 className="text-[14px] font-black uppercase tracking-widest mb-6 text-fg">
-              ¿Listo para empezar?
-            </h4>
-            <motion.a
-              whileHover={{
-                scale: 1.05,
-                y: -5,
-                boxShadow: "0 20px 40px rgba(59, 130, 246, 0.3)",
-              }}
-              whileTap={{ scale: 0.95 }}
-              href="https://wa.me/51904060670"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-accent text-white px-8 py-4 rounded-[12px] font-bold text-[14px] transition-all w-full text-center shadow-[0_10px_30px_rgba(59,130,246,0.2)]"
-            >
-              Solicitar Auditoría
+export const ChambaFooter = () => (
+  <footer className="py-20 px-6 md:px-10 border-t border-glass-border bg-black/40 backdrop-blur-md">
+    <div className="max-w-[1024px] mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+        {/* Brand Column */}
+        <div className="flex flex-col gap-6">
+          <Logo />
+          <p className="text-[14px] text-muted leading-relaxed">
+            Ingeniería Digital de alto nivel. Transformamos negocios con tecnología, datos y diseño de performance.
+          </p>
+          <div className="flex gap-4">
+            <motion.a whileHover={{ y: -3, color: "#3B82F6" }} href="https://instagram.com" target="_blank" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-muted transition-colors">
+              <Instagram className="w-5 h-5" />
+            </motion.a>
+            <motion.a whileHover={{ y: -3, color: "#3B82F6" }} href="https://linkedin.com" target="_blank" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-muted transition-colors">
+              <Linkedin className="w-5 h-5" />
             </motion.a>
           </div>
         </div>
 
-        <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-[12px] text-muted text-center md:text-left">
-            © {new Date().getFullYear()} Chamba Digital. Todos los derechos
-            reservados.
-          </p>
-          <div className="flex gap-6 mt-4 md:mt-0">
-            <Link
-              to="/portafolio"
-              className="text-[10px] font-black uppercase tracking-widest text-muted hover:text-accent transition-colors"
-            >
-              Portafolio
-            </Link>
-            <Link
-              to="/metodologia"
-              className="text-[10px] font-black uppercase tracking-widest text-muted hover:text-accent transition-colors"
-            >
-              Metodología
-            </Link>
-            <Link
-              to="/terminos"
-              className="text-[10px] font-black uppercase tracking-widest text-muted hover:text-accent transition-colors"
-            >
-              Términos
-            </Link>
-            <Link
-              to="/privacidad"
-              className="text-[10px] font-black uppercase tracking-widest text-muted hover:text-accent transition-colors"
-            >
-              Privacidad
-            </Link>
+        {/* Quick Links */}
+        <div>
+          <h4 className="text-[14px] font-black uppercase tracking-widest mb-6 text-fg">Explorar</h4>
+          <ul className="space-y-4">
+            {[
+              { name: "Inicio", path: "/" },
+              { name: "Servicios", path: "/servicios" },
+              { name: "Portafolio", path: "/portafolio" },
+              { name: "Metodología", path: "/metodologia" },
+              { name: "FAQ", id: "faq", isHomeAnchor: true },
+              { name: "Sorteo", path: "/raffle" },
+            ].map((item) => (
+              <li key={item.name}>
+                {item.isHomeAnchor ? (
+                  <a href={`/#${item.id}`} className="text-[14px] text-muted hover:text-accent transition-colors">
+                    {item.name}
+                  </a>
+                ) : (
+                  <Link to={item.path!} className="text-[14px] text-muted hover:text-accent transition-colors">
+                    {item.name}
+                  </Link>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Contact Info */}
+        <div>
+          <h4 className="text-[14px] font-black uppercase tracking-widest mb-6 text-fg">Contacto</h4>
+          <div className="space-y-4">
+            <div className="flex items-start gap-3 text-muted">
+              <MapPin className="w-4 h-4 text-accent shrink-0 mt-1" />
+              <p className="text-[13px] leading-relaxed">Lima, Perú</p>
+            </div>
+            <div className="flex items-center gap-3 text-muted">
+              <Mail className="w-4 h-4 text-accent shrink-0" />
+              <p className="text-[13px]">hola@chamba.digital</p>
+            </div>
           </div>
         </div>
+
+        {/* CTA Column */}
+        <div className="flex flex-col items-start gap-6">
+          <h4 className="text-[14px] font-black uppercase tracking-widest mb-6 text-fg">¿Listo para empezar?</h4>
+          <motion.a whileHover={{ scale: 1.05, y: -5, boxShadow: "0 20px 40px rgba(59, 130, 246, 0.3)" }} whileTap={{ scale: 0.95 }} href="https://wa.me/51904060670" target="_blank" rel="noopener noreferrer" className="bg-accent text-white px-8 py-4 rounded-[12px] font-bold text-[14px] transition-all w-full text-center shadow-[0_10px_30px_rgba(59,130,246,0.2)]">
+            Solicitar Auditoría
+          </motion.a>
+        </div>
       </div>
-    </footer>
+
+      <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4">
+        <p className="text-[12px] text-muted text-center md:text-left">
+          © {new Date().getFullYear()} Chamba Digital. Todos los derechos reservados.
+        </p>
+        <div className="flex gap-6 mt-4 md:mt-0">
+          <Link to="/portafolio" className="text-[10px] font-black uppercase tracking-widest text-muted hover:text-accent transition-colors">Portafolio</Link>
+          <Link to="/metodologia" className="text-[10px] font-black uppercase tracking-widest text-muted hover:text-accent transition-colors">Metodología</Link>
+          <Link to="/servicios" className="text-[10px] font-black uppercase tracking-widest text-muted hover:text-accent transition-colors">Servicios</Link>
+          <Link to="/terminos" className="text-[10px] font-black uppercase tracking-widest text-muted hover:text-accent transition-colors">Términos</Link>
+          <Link to="/privacidad" className="text-[10px] font-black uppercase tracking-widest text-muted hover:text-accent transition-colors">Privacidad</Link>
+        </div>
+      </div>
+    </div>
+  </footer>
+);
+
+const ChambaContent = ({ onOpenModal }: any) => (
+  <div className="selection:bg-accent selection:text-white">
+    <ChambaNavbar />
+    <main className="pt-[70px]">
+      <ChambaHero />
+      <PainPoints />
+      <Methodology />
+      <Services onOpenModal={onOpenModal} title="Ingeniería de Performance" label="Nuestros Servicios" />
+      <Portfolio />
+      <ProcessTimeline />
+      <Guarantees />
+      <FAQ />
+      <ContactForm />
+    </main>
+    <StickyCtaBar />
+    <ChambaFooter />
   </div>
 );
 
@@ -2773,7 +2736,7 @@ const AllianceContent = ({ onOpenModal }: any) => {
         <Portfolio />
         <BusinessModel />
       </main>
-      <Footer />
+      <ChambaFooter />
     </div>
   );
 };
@@ -2839,6 +2802,7 @@ export default function App() {
           element={<AllianceContent onOpenModal={openModal} />}
         />
         <Route path="/portafolio" element={<PortfolioPage />} />
+        <Route path="/servicios" element={<ServicesPage />} />
         <Route path="/metodologia" element={<MethodologyPage />} />
         <Route path="/terminos" element={<TermsPage />} />
         <Route path="/privacidad" element={<PrivacyPage />} />

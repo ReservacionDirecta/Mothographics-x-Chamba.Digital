@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { ChambaNavbar, Logo, WhatsAppIcon } from "../App";
+import { ChambaNavbar, Logo, WhatsAppIcon, ChambaFooter } from "../App";
 import { Link } from "react-router-dom";
 import {
   ArrowRight, CheckCircle2, Target, Palette, Code2, Zap,
@@ -199,14 +199,8 @@ export default function MethodologyPage() {
         </section>
       </main>
 
-      <footer className="py-12 px-6 border-t border-white/5 text-center">
-        <Logo className="mx-auto mb-6 opacity-50" />
-        <div className="flex justify-center gap-8 text-[11px] font-black text-muted uppercase tracking-[0.2em]">
-          <Link to="/terminos" className="hover:text-accent transition-colors">Términos</Link>
-          <Link to="/privacidad" className="hover:text-accent transition-colors">Privacidad</Link>
-          <Link to="/portafolio" className="hover:text-accent transition-colors">Portafolio</Link>
-        </div>
-      </footer>
+
+      <ChambaFooter />
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { ChambaNavbar, Logo, WhatsAppIcon } from "../App";
+import { ChambaNavbar, Logo, WhatsAppIcon, ChambaFooter } from "../App";
 import { Link } from "react-router-dom";
 import {
   ArrowRight, CheckCircle2, X, Zap, ExternalLink, MapPin,
@@ -453,6 +453,7 @@ export default function PortfolioPage() {
           </div>
         )}
       </AnimatePresence>
+      <ChambaFooter />
     </div>
   );
 }

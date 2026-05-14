@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ChambaNavbar } from '../../App';
+import { ChambaNavbar, ChambaFooter } from '../../App';
 import { 
   Building2, 
   Users, 
@@ -456,6 +456,7 @@ const HotelsLandingPage: React.FC = () => {
           </div>
         )}
       </AnimatePresence>
+      <ChambaFooter />
     </div>
   );
 };

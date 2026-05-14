@@ -21,7 +21,7 @@ import {
   BarChart3,
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { Logo } from '../../App';
+import { Logo, ChambaFooter } from '../../App';
 
 const ServiceBusinessesLandingPage: React.FC = () => {
   return (
@@ -196,60 +196,7 @@ const ServiceBusinessesLandingPage: React.FC = () => {
         </section>
       </main>
 
-      <footer className="py-20 px-6 md:px-10 border-t border-glass-border bg-black/40 backdrop-blur-md">
-        <div className="max-w-[1024px] mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
-            <div className="flex flex-col gap-6">
-              <Logo />
-              <p className="text-[14px] text-muted leading-relaxed">
-                Ingeniería Digital para negocios de servicios y B2B. Transformamos la adquisición de clientes con tecnología.
-              </p>
-              <div className="flex gap-4">
-                <Instagram className="w-5 h-5 text-muted hover:text-accent transition-colors cursor-pointer" />
-                <Linkedin className="w-5 h-5 text-muted hover:text-accent transition-colors cursor-pointer" />
-              </div>
-            </div>
-            
-            <div>
-              <h4 className="text-[14px] font-black uppercase tracking-widest mb-6 text-fg">Explorar</h4>
-              <ul className="space-y-4">
-                <li><Link to="/" className="text-[14px] text-muted hover:text-accent transition-colors">Inicio</Link></li>
-                <li><Link to="/ecommerce" className="text-[14px] text-muted hover:text-accent transition-colors">E-commerce</Link></li>
-                <li><Link to="/hotels" className="text-[14px] text-muted hover:text-accent transition-colors">Hoteles</Link></li>
-                <li><Link to="/alianza" className="text-[14px] text-muted hover:text-accent transition-colors">Alianza</Link></li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="text-[14px] font-black uppercase tracking-widest mb-6 text-fg">Contacto</h4>
-              <div className="space-y-4">
-                <div className="flex items-start gap-3 text-muted text-[13px]">
-                  <MapPin className="w-4 h-4 text-accent shrink-0 mt-1" />
-                  <p>Lima, Perú</p>
-                </div>
-                <div className="flex items-center gap-3 text-muted text-[13px]">
-                  <Mail className="w-4 h-4 text-accent shrink-0" />
-                  <p>hola@chamba.digital</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex flex-col items-start gap-6">
-              <h4 className="text-[14px] font-black uppercase tracking-widest mb-6 text-fg">Ubicación Estratégica</h4>
-              <div className="bg-accent/10 p-4 rounded-lg border border-accent/20">
-                <p className="text-[11px] text-accent font-bold uppercase tracking-wider mb-2">Sede Técnica</p>
-                <p className="text-[13px] font-medium">Lima, Perú</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-[12px] text-muted">
-              © {new Date().getFullYear()} Chamba Digital. Todos los derechos reservados.
-            </p>
-          </div>
-        </div>
-      </footer>
+      <ChambaFooter />
     </div>
   );
 };

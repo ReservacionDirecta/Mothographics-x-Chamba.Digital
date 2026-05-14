@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { ChambaNavbar, Logo } from "../App";
+import { ChambaNavbar, Logo, ChambaFooter } from "../App";
 import { Link } from "react-router-dom";
 import { Eye, ShieldCheck, Database, Mail, Bell } from "lucide-react";
 
@@ -71,16 +71,7 @@ export default function PrivacyPage() {
           </section>
         </div>
       </main>
-
-      <footer className="py-12 px-6 md:px-10 border-t border-glass-border bg-black/40 backdrop-blur-md">
-        <div className="max-w-[800px] mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-          <Logo />
-          <div className="flex gap-6 text-[11px] font-bold text-muted uppercase tracking-widest">
-            <Link to="/" className="hover:text-accent transition-colors">Inicio</Link>
-            <Link to="/terminos" className="hover:text-accent transition-colors">Términos</Link>
-          </div>
-        </div>
-      </footer>
+      <ChambaFooter />
     </div>
   );
 }
