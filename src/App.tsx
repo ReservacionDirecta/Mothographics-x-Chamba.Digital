@@ -2592,25 +2592,7 @@ const Guarantees = () => (
   </section>
 );
 
-const ChambaContent = ({ onOpenModal }: any) => (
-  <div className="selection:bg-accent selection:text-white">
-    <ChambaNavbar />
-    <main className="pt-[70px]">
-      <ChambaHero />
-      <PainPoints />
-      <Methodology />
-      <Services
-        onOpenModal={onOpenModal}
-        title="Ingeniería de Performance"
-        label="Nuestros Servicios"
-      />
-      <Portfolio />
-      <ProcessTimeline />
-      <Guarantees />
-      <FAQ />
-      <ContactForm />
-    </main>
-    <StickyCtaBar />
+
 export const ChambaFooter = () => (
   <footer className="py-20 px-6 md:px-10 border-t border-glass-border bg-black/40 backdrop-blur-md">
     <div className="max-w-[1024px] mx-auto">
