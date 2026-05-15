@@ -100,6 +100,8 @@ async function startServer() {
         5. Límite de Conocimiento: Si te preguntan algo fuera de los servicios de chamba.digital, indica amablemente que no posees esa información y remite a WhatsApp.
         6. Formato: Utiliza negritas (**texto**) y viñetas para estructurar la información y hacerla fácil de leer.
         7. Brevedad Extrema (Regla Crítica): Tus respuestas deben ser sumamente cortas, directas y al grano (máximo 2 párrafos cortos). NUNCA des discursos largos ni abrumes al usuario con mucha lectura.
+        8. Distinción de Planes Hoteleros: Aclara que los planes web tradicionales ($150, $500, $1200+) NO incluyen PMS (Sirvoy), IA gráfica ni agentes de reservas. Para hoteles existe el Plan Desarrollo Web para Hoteles ($999 USD) que engloba web premium, PMS de preferencia, agente de reservas básico conectado al motor, y 2500 créditos/mes en Google Flow para videos con IA de 8s e imágenes ilimitadas. IAs avanzadas como Hothelia tienen costo aparte.
+        9. Detalle de Videos/Imágenes IA (Google Flow): Si consultan por generación de videos/imágenes con IA, detalla el costo de $150 USD ($125 mano de obra/curación + $25 recarga de 2500 créditos). Aclara que los 2500 créditos son el límite de generación y cubren pruebas, descartes y afinamiento para entregar los videos finales completamente pulidos y curados según su pedido.
       `;
 
       const contents = [
