@@ -3,11 +3,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState, useEffect, FormEvent } from "react";
+import React, { useState, useEffect, FormEvent, useRef } from "react";
 import { BrowserRouter, Routes, Route, Navigate, Link } from "react-router-dom";
 import HotelsLandingPage from "./pages/LandingPage/Hotels.tsx";
 import EcommerceLandingPage from "./pages/LandingPage/ECommerce.tsx";
 import ServiceBusinessesLandingPage from "./pages/LandingPage/ServiceBusinesses.tsx";
+import HospitalitySolutions from "./pages/LandingPage/HospitalitySolutions.tsx";
 import ProposalPage from "./pages/LandingPage/Proposal.tsx";
 import PortfolioPage from "./pages/PortfolioPage";
 import MethodologyPage from "./pages/MethodologyPage";
@@ -62,80 +63,53 @@ import {
 
 const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [step, setStep] = useState(0);
-  const [answers, setAnswers] = useState<any>({});
+  const [messages, setMessages] = useState<{ role: 'user' | 'model'; content: string }[]>([
+    { role: 'model', content: "¡Hola! Soy Chamba AI. Estoy aquí para resolver tus dudas sobre nuestros servicios de Marketing, Desarrollo Web y Automatización. ¿En qué puedo ayudarte hoy?" }
+  ]);
   const [inputValue, setInputValue] = useState("");
   const [isTyping, setIsTyping] = useState(false);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
-  const steps = [
-    {
-      id: "name",
-      question: "¡Hola! Soy el asistente virtual de Chamba Digital. ¿Con quién tengo el gusto de hablar?",
-      placeholder: "Escribe tu nombre...",
-      type: "text",
-    },
-    {
-      id: "business",
-      question: "Mucho gusto, {name}. ¿Cómo se llama tu empresa o proyecto y a qué se dedican?",
-      placeholder: "Ej: Mi Empresa SAC, venta de repuestos...",
-      type: "text",
-    },
-    {
-      id: "objective",
-      question: "¿Cuál es el desafío más grande que quieres resolver ahora?",
-      options: [
-        "Vender más en automático",
-        "Automatizar procesos internos",
-        "Implementar IA en mi atención",
-        "Optimizar mi web actual",
-      ],
-    },
-    {
-      id: "budget",
-      question: "Entiendo. ¿Tienes un presupuesto estimado para esta inversión?",
-      options: [
-        "Menos de $500",
-        "$500 - $1,500",
-        "Más de $1,500",
-        "Por ahora solo consulto",
-      ],
-    },
-    {
-      id: "finish",
-      question: "¡Genial! Ya procesé tu información. Haz clic abajo para enviármela por WhatsApp y agendar una breve llamada.",
-      type: "finish",
-    },
-  ];
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  }, [messages, isTyping]);
 
-  const handleNext = (value: string) => {
-    const currentStep = steps[step];
-    const newAnswers = { ...answers, [currentStep.id]: value };
-    setAnswers(newAnswers);
-    setInputValue("");
+  const handleSend = async (text: string) => {
+    if (!text.trim()) return;
     
+    const userMessage = { role: 'user' as const, content: text };
+    setMessages(prev => [...prev, userMessage]);
+    setInputValue("");
     setIsTyping(true);
-    setTimeout(() => {
-      setStep(step + 1);
+
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          message: text,
+          history: messages.filter(m => m.content !== messages[0].content)
+        })
+      });
+
+      const data = await response.json();
+      
+      if (data.content) {
+        setMessages(prev => [...prev, { role: 'model', content: data.content }]);
+      } else {
+        throw new Error(data.error || "Error de conexión");
+      }
+    } catch (error) {
+      setMessages(prev => [...prev, { role: 'model', content: "Lo siento, tuve un problema técnico. ¿Podrías contactarnos directamente por WhatsApp? https://wa.me/51904060670" }]);
+    } finally {
       setIsTyping(false);
-    }, 1000);
+    }
   };
-
-  const getWhatsAppUrl = () => {
-    const text = `Hola Chamba Digital, acabo de completar el formulario del Chatbot:\n\n` +
-      `👤 Nombre: ${answers.name}\n` +
-      `🏢 Empresa: ${answers.business}\n` +
-      `🎯 Objetivo: ${answers.objective}\n` +
-      `💰 Presupuesto: ${answers.budget}\n\n` +
-      `Quisiera agendar una consultoría gratuita.`;
-    return `https://wa.me/51904060670?text=${encodeURIComponent(text)}`;
-  };
-
-  const currentStepData = steps[step];
-  const questionText = currentStepData?.question.replace("{name}", answers.name || "");
 
   return (
     <>
-      {/* Botón Flotante (solo si no está abierto) */}
       {!isOpen && (
         <motion.button
           initial={{ scale: 0, opacity: 0 }}
@@ -156,10 +130,10 @@ const Chatbot = () => {
             initial={{ opacity: 0, y: 100, scale: 0.8 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 100, scale: 0.8 }}
-            className="fixed bottom-6 right-6 z-[200] w-[calc(100vw-48px)] sm:w-[380px] glass rounded-[32px] border-accent/20 overflow-hidden shadow-[0_30px_100px_rgba(0,0,0,0.5)] flex flex-col"
+            className="fixed bottom-6 right-6 z-[200] w-[calc(100vw-48px)] sm:w-[420px] glass rounded-[32px] border-accent/20 overflow-hidden shadow-[0_30px_100px_rgba(0,0,0,0.5)] flex flex-col h-[600px] max-h-[85vh]"
           >
             {/* Header */}
-            <div className="bg-accent p-6 flex items-center justify-between">
+            <div className="bg-accent p-6 flex items-center justify-between shrink-0">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-md">
                   <Bot className="w-6 h-6 text-white" />
@@ -168,108 +142,92 @@ const Chatbot = () => {
                   <h4 className="text-white font-black text-[15px] leading-none">Chamba AI</h4>
                   <div className="flex items-center gap-1.5 mt-1">
                     <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
-                    <span className="text-white/60 text-[10px] font-bold uppercase tracking-widest">En Línea</span>
+                    <span className="text-white/60 text-[10px] font-bold uppercase tracking-widest">IA Activa</span>
                   </div>
                 </div>
               </div>
               <button 
                 onClick={() => setIsOpen(false)}
-                className="text-white/60 hover:text-white transition-colors"
+                className="text-white/60 hover:text-white transition-colors p-2"
               >
                 <X className="w-6 h-6" />
               </button>
             </div>
 
-            {/* Content */}
-            <div className="p-6 min-h-[300px] flex flex-col">
-              <div className="flex-grow">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={step}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -20 }}
-                    className="space-y-4"
-                  >
-                    <div className="bg-white/5 border border-white/10 rounded-[20px] rounded-tl-none p-4 max-w-[85%]">
-                      <p className="text-[14px] leading-relaxed text-fg font-medium">
-                        {questionText}
-                      </p>
-                    </div>
-
-                    {isTyping && (
-                      <div className="flex gap-1 p-2">
-                        <div className="w-1.5 h-1.5 bg-accent/40 rounded-full animate-bounce" />
-                        <div className="w-1.5 h-1.5 bg-accent/40 rounded-full animate-bounce [animation-delay:0.2s]" />
-                        <div className="w-1.5 h-1.5 bg-accent/40 rounded-full animate-bounce [animation-delay:0.4s]" />
-                      </div>
-                    )}
-                  </motion.div>
-                </AnimatePresence>
-              </div>
-
-              {/* Input Area */}
-              <div className="mt-6">
-                {currentStepData?.type === "text" && !isTyping && (
-                  <form 
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      if (inputValue.trim()) handleNext(inputValue);
-                    }}
-                    className="relative"
-                  >
-                    <input
-                      autoFocus
-                      type="text"
-                      value={inputValue}
-                      onChange={(e) => setInputValue(e.target.value)}
-                      placeholder={currentStepData.placeholder}
-                      className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-4 pr-12 text-[14px] focus:outline-none focus:border-accent/50 transition-all"
-                    />
-                    <button 
-                      type="submit"
-                      className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-accent text-white rounded-xl flex items-center justify-center shadow-lg"
-                    >
-                      <ArrowRight className="w-5 h-5" />
-                    </button>
-                  </form>
-                )}
-
-                {currentStepData?.options && !isTyping && (
-                  <div className="grid gap-2">
-                    {currentStepData.options.map((opt) => (
-                      <motion.button
-                        key={opt}
-                        whileHover={{ scale: 1.02, x: 5 }}
-                        whileTap={{ scale: 0.98 }}
-                        onClick={() => handleNext(opt)}
-                        className="w-full text-left p-4 bg-white/5 border border-white/10 rounded-2xl text-[13px] font-bold hover:bg-accent/10 hover:border-accent/30 transition-all"
-                      >
-                        {opt}
-                      </motion.button>
+            {/* Chat Area */}
+            <div 
+              ref={scrollRef}
+              className="flex-grow overflow-y-auto p-6 space-y-4 custom-scrollbar bg-bg/20"
+            >
+              {messages.map((msg, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 10, x: msg.role === 'user' ? 10 : -10 }}
+                  animate={{ opacity: 1, y: 0, x: 0 }}
+                  className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                >
+                  <div className={`max-w-[85%] p-4 rounded-[20px] text-[14px] leading-relaxed font-medium ${
+                    msg.role === 'user' 
+                      ? 'bg-accent text-white rounded-tr-none' 
+                      : 'bg-white/5 border border-white/10 text-fg rounded-tl-none'
+                  }`}>
+                    {msg.content.split('\n').map((line, idx) => (
+                      <span key={idx} className="block mb-1">
+                        {line.includes('https://') ? (
+                          <a 
+                            href={line.match(/https:\/\/\S+/)?.[0]} 
+                            target="_blank" 
+                            className="underline decoration-white/30 hover:text-white"
+                          >
+                            {line}
+                          </a>
+                        ) : line}
+                      </span>
                     ))}
                   </div>
-                )}
-
-                {currentStepData?.type === "finish" && !isTyping && (
-                  <motion.a
-                    initial={{ scale: 0.9, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    href={getWhatsAppUrl()}
-                    target="_blank"
-                    className="w-full bg-accent text-white py-5 rounded-2xl font-black text-[14px] flex items-center justify-center gap-3 shadow-[0_15px_30px_rgba(59,130,246,0.3)] uppercase tracking-widest"
-                  >
-                    <WhatsAppIcon className="w-5 h-5" />
-                    Enviar a WhatsApp
-                  </motion.a>
-                )}
-              </div>
+                </motion.div>
+              ))}
+              
+              {isTyping && (
+                <div className="flex justify-start">
+                  <div className="bg-white/5 border border-white/10 p-4 rounded-[20px] rounded-tl-none">
+                    <div className="flex gap-1.5">
+                      <div className="w-1.5 h-1.5 bg-accent rounded-full animate-bounce" />
+                      <div className="w-1.5 h-1.5 bg-accent rounded-full animate-bounce [animation-delay:0.2s]" />
+                      <div className="w-1.5 h-1.5 bg-accent rounded-full animate-bounce [animation-delay:0.4s]" />
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
-            
-            <div className="p-4 border-t border-white/5 text-center">
-              <span className="text-[9px] font-black uppercase tracking-[0.3em] text-muted/30">Powered by Chamba Digital AI</span>
+
+            {/* Input Area */}
+            <div className="p-6 pt-2 shrink-0">
+              <form 
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  handleSend(inputValue);
+                }}
+                className="relative"
+              >
+                <input
+                  type="text"
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  placeholder="Hazme una pregunta..."
+                  className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-4 pr-12 text-[14px] focus:outline-none focus:border-accent/50 transition-all placeholder:text-muted/50"
+                />
+                <button 
+                  disabled={!inputValue.trim() || isTyping}
+                  type="submit"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-accent text-white rounded-xl flex items-center justify-center shadow-lg disabled:opacity-50 transition-all hover:scale-105 active:scale-95"
+                >
+                  <Send className="w-5 h-5" />
+                </button>
+              </form>
+              <p className="text-[9px] text-center text-muted/40 mt-3 uppercase tracking-widest font-black">
+                Powered by Gemini 1.5 Flash · Chamba Engine
+              </p>
             </div>
           </motion.div>
         )}
@@ -946,7 +904,7 @@ const PricingCard = ({
       whileHover={{ y: -8 }}
       className={`relative p-8 rounded-[28px] flex flex-col h-full transition-all duration-500 group overflow-hidden ${
         isPopular
-          ? "pricing-popular-glow bg-gradient-to-b from-[#1a1207] via-[#0d0d0d] to-[#0d0d0d] border-2 border-cta/40 scale-[1.03] lg:scale-105 z-10"
+          ? "pricing-popular-glow bg-gradient-to-b from-[#1a1207] via-[#0d0d0d] to-[#0d0d0d] border-2 border-cta/40 scale-[1.02] lg:scale-[1.04] z-10"
           : "glass border-white/10 hover:border-white/20"
       }`}
     >
@@ -1054,14 +1012,15 @@ const Services = ({
     id="servicios"
     className="py-24 px-6 md:px-10 max-w-[1200px] mx-auto relative overflow-hidden"
   >
-    {/* Fondo decorativo solicitado */}
-    <div 
-      className="absolute inset-0 opacity-40 -z-10" 
-      style={{ 
-        background: "radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, transparent 70%)", 
-        filter: "blur(30px)" 
-      }} 
-    />
+    <div className="absolute inset-0 overflow-hidden -z-10 pointer-events-none">
+      <div 
+        className="absolute inset-0 opacity-40" 
+        style={{ 
+          background: "radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, transparent 70%)", 
+          filter: "blur(30px)" 
+        }} 
+      />
+    </div>
 
     <div className="text-center mb-16 relative">
       <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-full max-w-[800px] aspect-video -z-10 opacity-20 blur-[100px] bg-accent/30 rounded-full" />
@@ -1091,7 +1050,7 @@ const Services = ({
       </div>
     </div>
 
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-4 items-stretch mb-24">
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-6 items-stretch mb-24 px-4 lg:px-0">
       {/* Starter Plan */}
       <PricingCard
         title="Lanzamiento OnePage"
@@ -1346,7 +1305,7 @@ const Portfolio = () => {
   return (
     <section
       id="portafolio"
-      className="py-20 px-6 md:px-10 max-w-[1024px] mx-auto"
+      className="py-20 px-6 md:px-10 max-w-[1024px] mx-auto overflow-hidden"
     >
       <div className="text-center mb-16">
         <span className="label-editorial mx-auto">Experiencia Comprobada</span>
@@ -1779,6 +1738,7 @@ export const ChambaNavbar = () => {
     { name: "Portafolio", path: "/portafolio" },
     { name: "Metodología", path: "/metodologia" },
     { name: "Sorteo", path: "/raffle" },
+    { name: "Hotelería", path: "/hospitality" },
   ];
 
   return (
@@ -2425,7 +2385,7 @@ const ContactForm = () => {
 };
 
 const ProcessTimeline = () => (
-  <section className="py-20 px-6 md:px-10 bg-accent/[0.02] border-y border-white/5">
+  <section className="py-20 px-6 md:px-10 bg-accent/[0.02] border-y border-white/5 overflow-hidden">
     <div className="max-w-[1024px] mx-auto">
       <div className="text-center mb-16">
         <span className="label-editorial mx-auto">Cómo Trabajamos</span>
@@ -2502,7 +2462,7 @@ const ProcessTimeline = () => (
 );
 
 const Guarantees = () => (
-  <section className="py-20 px-6 md:px-10 max-w-[1024px] mx-auto">
+  <section className="py-20 px-6 md:px-10 max-w-[1024px] mx-auto overflow-hidden">
     <div className="text-center mb-16">
       <span className="label-editorial mx-auto">Compromisos Reales</span>
       <h2 className="text-[32px] md:text-[48px] font-bold tracking-tight mb-4">
@@ -2624,6 +2584,7 @@ export const ChambaFooter = () => (
               { name: "Metodología", path: "/metodologia" },
               { name: "FAQ", id: "faq", isHomeAnchor: true },
               { name: "Sorteo", path: "/raffle" },
+              { name: "Hotelería Premium", path: "/hospitality" },
             ].map((item) => (
               <li key={item.name}>
                 {item.isHomeAnchor ? (
@@ -2681,7 +2642,7 @@ export const ChambaFooter = () => (
 );
 
 const ChambaContent = ({ onOpenModal }: any) => (
-  <div className="selection:bg-accent selection:text-white">
+  <div className="selection:bg-accent selection:text-white overflow-x-hidden w-full relative">
     <ChambaNavbar />
     <main className="pt-[70px]">
       <ChambaHero />
@@ -2705,7 +2666,7 @@ const AllianceContent = ({ onOpenModal }: any) => {
   }, []);
 
   return (
-    <div className="selection:bg-accent selection:text-white">
+    <div className="selection:bg-accent selection:text-white overflow-x-hidden w-full relative">
       <ChambaNavbar />
       <main className="pt-[70px]">
         <Hero />
@@ -2794,6 +2755,7 @@ export default function App() {
           path="/servicebusinesses"
           element={<ServiceBusinessesLandingPage />}
         />
+        <Route path="/hospitality" element={<HospitalitySolutions />} />
         <Route path="/propuesta/:slug" element={<ProposalPage />} />
         <Route
           path="/alianza"

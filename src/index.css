@@ -19,8 +19,10 @@
 }
 
 @layer base {
-  body {
+  html, body {
     @apply bg-bg text-fg font-sans antialiased overflow-x-hidden;
+    width: 100%;
+    position: relative;
   }
   
   h1 {
