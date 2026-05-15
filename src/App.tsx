@@ -171,19 +171,39 @@ const Chatbot = () => {
                       ? 'bg-accent text-white rounded-tr-none' 
                       : 'bg-white/5 border border-white/10 text-fg rounded-tl-none'
                   }`}>
-                    {msg.content.split('\n').map((line, idx) => (
-                      <span key={idx} className="block mb-1">
-                        {line.includes('https://') ? (
-                          <a 
-                            href={line.match(/https:\/\/\S+/)?.[0]} 
-                            target="_blank" 
-                            className="underline decoration-white/30 hover:text-white"
-                          >
-                            {line}
-                          </a>
-                        ) : line}
-                      </span>
-                    ))}
+                    {msg.content.split('\n').map((line, idx) => {
+                      if (!line.trim()) {
+                        return <span key={idx} className="block h-2" />;
+                      }
+                      const parts = line.split(/(\*\*.*?\*\*|https?:\/\/[^\s)]+)/g);
+                      return (
+                        <span key={idx} className="block mb-2 last:mb-0 leading-relaxed">
+                          {parts.map((part, pIdx) => {
+                            if (part.startsWith('**') && part.endsWith('**')) {
+                              return (
+                                <strong key={pIdx} className="font-extrabold text-white">
+                                  {part.slice(2, -2)}
+                                </strong>
+                              );
+                            }
+                            if (part.startsWith('http://') || part.startsWith('https://')) {
+                              return (
+                                <a 
+                                  key={pIdx} 
+                                  href={part} 
+                                  target="_blank" 
+                                  rel="noopener noreferrer"
+                                  className="underline decoration-accent/50 text-accent hover:text-accent/80 transition-colors font-bold"
+                                >
+                                  {part}
+                                </a>
+                              );
+                            }
+                            return part;
+                          })}
+                        </span>
+                      );
+                    })}
                   </div>
                 </motion.div>
               ))}
