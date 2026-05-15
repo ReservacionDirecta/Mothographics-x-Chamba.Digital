@@ -14,15 +14,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Initialize Gemini
-const genAI = process.env.GEMINI_API_KEY ? new GoogleGenAI(process.env.GEMINI_API_KEY) : null;
-const model = genAI ? genAI.getGenerativeModel({ 
-  model: "gemini-1.5-flash",
-  generationConfig: {
-    temperature: 0.3,
-    topP: 0.8,
-    topK: 40,
-  }
-}) : null;
+const ai = process.env.GEMINI_API_KEY ? new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY }) : null;
 
 // Load knowledge base once
 const knowledgeBase = fs.readFileSync(path.join(__dirname, "KNOWLEDGE_BASE.md"), "utf-8");
@@ -84,10 +76,13 @@ async function startServer() {
     const { message, history } = req.body;
 
     if (!message) return res.status(400).json({ error: "Message is required" });
-    if (!model) return res.status(503).json({ error: "AI Service unavailable" });
+    if (!ai) return res.status(503).json({ error: "AI Service unavailable" });
+
+    console.log(`[Chat] Incoming message: "${message.slice(0, 50)}"`);
+    console.log(`[Chat] History steps: ${history?.length || 0}`);
 
     try {
-      // Security: Sanitize input to prevent basic prompt injection
+      // Security: Sanitize input
       const cleanMessage = message.slice(0, 500).replace(/[<>]/g, ""); 
 
       const systemPrompt = `
@@ -107,23 +102,34 @@ async function startServer() {
         7. Responde de forma concisa y directa.
       `;
 
-      const chat = model.startChat({
-        history: [
-          { role: "user", parts: [{ text: systemPrompt }] },
-          { role: "model", parts: [{ text: "Entendido. Soy el asistente oficial de Chamba Digital y responderé basado únicamente en el contexto proporcionado." }] },
-          ...(history || []).map((h: any) => ({
-            role: h.role === "user" ? "user" : "model",
-            parts: [{ text: h.content }]
-          }))
-        ],
+      const contents = [
+        { role: "user", parts: [{ text: systemPrompt }] },
+        { role: "model", parts: [{ text: "Entendido. Soy el asistente oficial de Chamba Digital y responderé basado únicamente en el contexto proporcionado." }] },
+        ...(history || []).map((h: any) => ({
+          role: h.role === "user" ? "user" : "model",
+          parts: [{ text: h.content }]
+        })),
+        { role: "user", parts: [{ text: cleanMessage }] }
+      ];
+
+      console.log("[Chat] Calling Gemini API...");
+      const result = await ai.models.generateContent({
+        model: "models/gemini-2.5-flash-lite",
+        contents: contents,
+        generationConfig: {
+          temperature: 0.3,
+          topP: 0.8,
+          topK: 40,
+        }
       });
 
-      const result = await chat.sendMessage(cleanMessage);
-      const response = await result.response;
-      res.json({ content: response.text() });
-    } catch (error) {
-      console.error("[Chat] Error:", error);
-      res.status(500).json({ error: "Error procesando tu mensaje" });
+      const responseText = result.text || result.response?.text() || "Sin respuesta";
+      console.log(`[Chat] Gemini response received (${responseText.length} chars)`);
+      
+      res.json({ content: responseText });
+    } catch (error: any) {
+      console.error("[Chat] Fatal Error:", error.message || error);
+      res.status(500).json({ error: "Error procesando tu mensaje", details: error.message });
     }
   });
 
