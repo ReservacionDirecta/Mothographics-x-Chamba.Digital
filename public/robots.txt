@@ -1,3 +1,9 @@
 User-agent: *
 Allow: /
+Disallow: /api/
+
+# Host
+Host: https://chamba.digital
+
+# Sitemaps
 Sitemap: https://chamba.digital/sitemap.xml

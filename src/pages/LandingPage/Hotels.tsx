@@ -26,6 +26,7 @@ import {
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Logo } from '../../App';
+import { SEO } from '../../components/SEO';
 
 const HotelsLandingPage: React.FC = () => {
   const [selectedClient, setSelectedClient] = useState<any>(null);
@@ -56,7 +57,7 @@ const HotelsLandingPage: React.FC = () => {
         "Diseño de experiencias completas (hospedaje + tours).",
         "Estrategias de pricing y rentabilidad.",
         "Contenido emocional y narrativo (misticismo).",
-        "Automatización de atención y conversión."
+        "Automatización de atención y conversion."
       ],
       focus: "Transformación de alojamiento en producto turístico premium estructurado y escalable."
     },
@@ -117,6 +118,62 @@ const HotelsLandingPage: React.FC = () => {
 
   return (
     <div className="bg-bg text-fg selection:bg-accent selection:text-white">
+      <SEO 
+        title="Marketing Hotelero y Motor de Reservas Directas | Chamba Digital"
+        description="Recupera tus reservas directas y elimina comisiones de OTAs (Booking, Airbnb). Especialistas en Marketing Hotelero, integración de Sirvoy PMS, motores de reservas de alta conversión y automatización con Inteligencia Artificial en Perú y Latinoamérica."
+        keywords="Marketing Hotelero Perú, Motor de Reservas Hoteles, Sirvoy PMS Perú, Desarrollo Web Hoteles, Automatización Hotelera IA, Reservas Directas Hoteles, Agencia Marketing Hotelero Lima, Máncora Hoteles Marketing, Chamba Digital Hoteles"
+        ogTitle="Marketing Hotelero y Motor de Reservas Directas | Chamba Digital"
+        ogDescription="Recupera tus reservas directas y elimina comisiones de OTAs con nuestro ecosistema integral de marketing hotelero, PMS y automatización IA."
+        ogImage="https://chamba.digital/og-image.png"
+        canonicalUrl="https://chamba.digital/hotels"
+        schema={{
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "WebPage",
+              "@id": "https://chamba.digital/hotels#webpage",
+              "url": "https://chamba.digital/hotels",
+              "name": "Marketing Hotelero y Motor de Reservas Directas | Chamba Digital",
+              "description": "Recupera tus reservas directas y elimina comisiones de OTAs con nuestro ecosistema integral de marketing hotelero, PMS y automatización IA.",
+              "isPartOf": {
+                "@id": "https://chamba.digital/#website"
+              }
+            },
+            {
+              "@type": "Service",
+              "@id": "https://chamba.digital/hotels#service",
+              "name": "Ecosistema Digital Hotelero de Alta Conversión",
+              "provider": {
+                "@id": "https://chamba.digital/#organization"
+              },
+              "description": "Implementación y gestión integral de Sirvoy PMS, desarrollo web premium para hoteles, integración de motor de reservas directas sin comisiones y automatización de atención con Inteligencia Artificial.",
+              "category": "Marketing Hotelero y Tecnología PMS",
+              "areaServed": [
+                { "@type": "Country", "name": "Perú" },
+                { "@type": "Country", "name": "México" },
+                { "@type": "Country", "name": "Estados Unidos" },
+                { "@type": "Country", "name": "América Latina" }
+              ],
+              "hasOfferCatalog": {
+                "@type": "OfferCatalog",
+                "name": "Planes de Desarrollo y Marketing Hotelero",
+                "itemListElement": [
+                  {
+                    "@type": "Offer",
+                    "itemOffered": {
+                      "@type": "Service",
+                      "name": "Plan Desarrollo Web para Hoteles ($999 USD)",
+                      "description": "Web premium, integración de PMS, agente de reservas básico conectado al motor y 2500 créditos/mes en Google Flow para videos e imágenes IA."
+                    },
+                    "price": "999.00",
+                    "priceCurrency": "USD"
+                  }
+                ]
+              }
+            }
+          ]
+        }}
+      />
       <ChambaNavbar />
       
       <main className="pt-[70px]">

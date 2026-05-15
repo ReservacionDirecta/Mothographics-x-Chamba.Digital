@@ -146,7 +146,39 @@ async function startServer() {
     const distPath = path.join(process.cwd(), 'dist');
     app.use(express.static(distPath));
     app.get('*', (req, res) => {
-      res.sendFile(path.join(distPath, 'index.html'));
+      const indexPath = path.join(distPath, 'index.html');
+      if (!fs.existsSync(indexPath)) {
+        return res.status(404).send('Index not found');
+      }
+      let html = fs.readFileSync(indexPath, 'utf-8');
+
+      let title = "";
+      let desc = "";
+
+      if (req.path.startsWith('/hotels') || req.path.startsWith('/hospitality')) {
+        title = "Marketing Hotelero y Motor de Reservas Directas | Chamba Digital";
+        desc = "Recupera tus reservas directas y elimina comisiones de OTAs (Booking, Airbnb). Especialistas en Marketing Hotelero, integración de Sirvoy PMS, motores de reservas de alta conversión y automatización con Inteligencia Artificial en Perú y Latinoamérica.";
+      } else if (req.path.startsWith('/ecommerce')) {
+        title = "Desarrollo E-commerce de Alta Conversión | Chamba Digital";
+        desc = "Tiendas virtuales ultrarrápidas optimizadas para convertir visitantes en compradores. Especialistas en Shopify, WooCommerce, Meta Ads y automatización de carritos abandonados en Perú.";
+      } else if (req.path.startsWith('/servicebusinesses')) {
+        title = "Marketing y Embudos B2B para Empresas de Servicios | Chamba Digital";
+        desc = "Escala tu empresa de servicios con embudos de generación de leads cualificados, automatización de citas con Inteligencia Artificial y posicionamiento digital de alto nivel en Perú.";
+      } else if (req.path.startsWith('/alianza') || req.path.toLowerCase().includes('mothographics')) {
+        title = "Alianza Estratégica: Mothographics × Chamba Digital";
+        desc = "Unión de fuerzas entre el diseño de alto impacto de Mothographics y la ingeniería de performance de Chamba Digital para transformar negocios en México y Perú.";
+      }
+
+      if (title && desc) {
+        html = html.replace(/<title>[^<]*<\/title>/, `<title>${title}</title>`);
+        html = html.replace(/<meta name="description" content="[^"]*"/, `<meta name="description" content="${desc}"`);
+        html = html.replace(/<meta property="og:title" content="[^"]*"/, `<meta property="og:title" content="${title}"`);
+        html = html.replace(/<meta property="og:description" content="[^"]*"/, `<meta property="og:description" content="${desc}"`);
+        html = html.replace(/<meta property="twitter:title" content="[^"]*"/, `<meta property="twitter:title" content="${title}"`);
+        html = html.replace(/<meta property="twitter:description" content="[^"]*"/, `<meta property="twitter:description" content="${desc}"`);
+      }
+
+      res.send(html);
     });
   }
 

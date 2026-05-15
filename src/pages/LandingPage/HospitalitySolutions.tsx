@@ -25,10 +25,67 @@ import {
   ArrowUpRight,
   Globe
 } from 'lucide-react';
+import { SEO } from '../../components/SEO';
 
 const HospitalitySolutions: React.FC = () => {
   return (
     <div className="bg-bg text-fg selection:bg-accent selection:text-white overflow-x-hidden">
+      <SEO 
+        title="Ingeniería Digital para Hoteles de Alto Nivel | Chamba Digital"
+        description="Especialistas en Marketing Hotelero, Implementación de Sirvoy PMS, Desarrollo Web Premium de alta conversión y Automatización con Inteligencia Artificial para hoteles y cadenas boutique."
+        keywords="Sirvoy PMS Perú, Marketing Hotelero Premium, Motor de Reservas Directas, Automatización IA Hoteles, Agentes IA Reservas, Desarrollo Web Cadenas Hoteleras, Consultoría Hotelera Lima, Chamba Digital Hospitality"
+        ogTitle="Ingeniería Digital para Hoteles de Alto Nivel | Chamba Digital"
+        ogDescription="Especialistas en Marketing Hotelero, Implementación de Sirvoy PMS, Desarrollo Web Premium y Automatización con Inteligencia Artificial."
+        ogImage="https://chamba.digital/og-image.png"
+        canonicalUrl="https://chamba.digital/hospitality"
+        schema={{
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "WebPage",
+              "@id": "https://chamba.digital/hospitality#webpage",
+              "url": "https://chamba.digital/hospitality",
+              "name": "Ingeniería Digital para Hoteles de Alto Nivel | Chamba Digital",
+              "description": "Especialistas en Marketing Hotelero, Implementación de Sirvoy PMS, Desarrollo Web Premium y Automatización con Inteligencia Artificial.",
+              "isPartOf": {
+                "@id": "https://chamba.digital/#website"
+              }
+            },
+            {
+              "@type": "Service",
+              "@id": "https://chamba.digital/hospitality#service",
+              "name": "Ecosistema Digital 360° para Hoteles",
+              "provider": {
+                "@id": "https://chamba.digital/#organization"
+              },
+              "description": "Soluciones avanzadas de marketing estratégico, integración y optimización de Sirvoy PMS, desarrollo web de alto rendimiento y agentes de inteligencia artificial para venta y atención 24/7.",
+              "category": "Hospitality Technology & Marketing",
+              "areaServed": [
+                { "@type": "Country", "name": "Perú" },
+                { "@type": "Country", "name": "México" },
+                { "@type": "Country", "name": "Estados Unidos" },
+                { "@type": "Country", "name": "América Latina" }
+              ],
+              "hasOfferCatalog": {
+                "@type": "OfferCatalog",
+                "name": "Servicios Hospitality 360",
+                "itemListElement": [
+                  {
+                    "@type": "Offer",
+                    "itemOffered": {
+                      "@type": "Service",
+                      "name": "Plan Desarrollo Web para Hoteles ($999 USD)",
+                      "description": "Web premium, integración de PMS, agente de reservas básico conectado al motor y 2500 créditos/mes en Google Flow para videos e imágenes IA."
+                    },
+                    "price": "999.00",
+                    "priceCurrency": "USD"
+                  }
+                ]
+              }
+            }
+          ]
+        }}
+      />
       <ChambaNavbar />
       
       <main className="pt-[70px]">
