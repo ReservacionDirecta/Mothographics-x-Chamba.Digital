@@ -159,54 +159,85 @@ const Chatbot = () => {
               ref={scrollRef}
               className="flex-grow overflow-y-auto p-6 space-y-4 custom-scrollbar bg-bg/20"
             >
-              {messages.map((msg, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 10, x: msg.role === 'user' ? 10 : -10 }}
-                  animate={{ opacity: 1, y: 0, x: 0 }}
-                  className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
-                >
-                  <div className={`max-w-[85%] p-4 rounded-[20px] text-[14px] leading-relaxed font-medium ${
-                    msg.role === 'user' 
-                      ? 'bg-accent text-white rounded-tr-none' 
-                      : 'bg-white/5 border border-white/10 text-fg rounded-tl-none'
-                  }`}>
-                    {msg.content.split('\n').map((line, idx) => {
-                      if (!line.trim()) {
-                        return <span key={idx} className="block h-2" />;
-                      }
-                      const parts = line.split(/(\*\*.*?\*\*|https?:\/\/[^\s)]+)/g);
-                      return (
-                        <span key={idx} className="block mb-2 last:mb-0 leading-relaxed">
-                          {parts.map((part, pIdx) => {
-                            if (part.startsWith('**') && part.endsWith('**')) {
-                              return (
-                                <strong key={pIdx} className="font-extrabold text-white">
-                                  {part.slice(2, -2)}
-                                </strong>
-                              );
-                            }
-                            if (part.startsWith('http://') || part.startsWith('https://')) {
-                              return (
-                                <a 
-                                  key={pIdx} 
-                                  href={part} 
-                                  target="_blank" 
-                                  rel="noopener noreferrer"
-                                  className="underline decoration-accent/50 text-accent hover:text-accent/80 transition-colors font-bold"
-                                >
-                                  {part}
-                                </a>
-                              );
-                            }
-                            return part;
-                          })}
-                        </span>
-                      );
-                    })}
-                  </div>
-                </motion.div>
-              ))}
+              {messages.map((msg, i) => {
+                const hasWhatsApp = msg.role === 'model' && msg.content.includes('wa.me/51904060670');
+                let displayContent = msg.content;
+                if (hasWhatsApp) {
+                  displayContent = displayContent.replace(/\[https?:\/\/wa\.me\/51904060670\]\(https?:\/\/wa\.me\/51904060670\)/g, "nuestro canal de WhatsApp");
+                  displayContent = displayContent.replace(/\[[^\]]+\]\(https?:\/\/wa\.me\/51904060670\)/g, "nuestro canal de WhatsApp");
+                  displayContent = displayContent.replace(/https?:\/\/wa\.me\/51904060670/g, "nuestro canal de WhatsApp");
+                }
+
+                const lastUserMsg = messages.filter(m => m.role === 'user').pop()?.content || "";
+                const whatsappUrl = `https://wa.me/51904060670?text=${encodeURIComponent(
+                  lastUserMsg 
+                    ? `Hola Chamba Digital, tengo una consulta sobre mi negocio:\n\n"${lastUserMsg}"\n\nQuisiera recibir asesoría y un presupuesto exacto.`
+                    : `Hola Chamba Digital, quiero potenciar mi negocio con vuestra tecnología y agendar una auditoría.`
+                )}`;
+
+                return (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, y: 10, x: msg.role === 'user' ? 10 : -10 }}
+                    animate={{ opacity: 1, y: 0, x: 0 }}
+                    className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                  >
+                    <div className={`max-w-[85%] p-4 rounded-[20px] text-[14px] leading-relaxed font-medium ${
+                      msg.role === 'user' 
+                        ? 'bg-accent text-white rounded-tr-none' 
+                        : 'bg-white/5 border border-white/10 text-fg rounded-tl-none'
+                    }`}>
+                      {displayContent.split('\n').map((line, idx) => {
+                        if (!line.trim()) {
+                          return <span key={idx} className="block h-2" />;
+                        }
+                        const parts = line.split(/(\*\*.*?\*\*|https?:\/\/[^\s)]+)/g);
+                        return (
+                          <span key={idx} className="block mb-2 last:mb-0 leading-relaxed">
+                            {parts.map((part, pIdx) => {
+                              if (part.startsWith('**') && part.endsWith('**')) {
+                                return (
+                                  <strong key={pIdx} className="font-extrabold text-white">
+                                    {part.slice(2, -2)}
+                                  </strong>
+                                );
+                              }
+                              if (part.startsWith('http://') || part.startsWith('https://')) {
+                                return (
+                                  <a 
+                                    key={pIdx} 
+                                    href={part} 
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                    className="underline decoration-accent/50 text-accent hover:text-accent/80 transition-colors font-bold"
+                                  >
+                                    {part}
+                                  </a>
+                                );
+                              }
+                              return part;
+                            })}
+                          </span>
+                        );
+                      })}
+
+                      {hasWhatsApp && (
+                        <motion.a
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          href={whatsappUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="mt-4 w-full bg-[#25D366] text-white py-3 px-4 rounded-xl font-black text-[13px] uppercase tracking-wider flex items-center justify-center gap-2.5 shadow-[0_10px_20px_rgba(37,211,102,0.3)] hover:bg-[#20ba5c] transition-all group border border-white/20"
+                        >
+                          <WhatsAppIcon className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                          Conectar por WhatsApp
+                        </motion.a>
+                      )}
+                    </div>
+                  </motion.div>
+                );
+              })}
               
               {isTyping && (
                 <div className="flex justify-start">
@@ -329,7 +360,7 @@ const ExitIntentModal = ({
               <Gift className="w-10 h-10 text-accent" />
             </div>
 
-            {status === "idle" ? (
+            {status !== "success" ? (
               <>
                 <h3 className="text-[32px] md:text-[38px] font-black tracking-tighter leading-none mb-4">
                   Acceso{" "}

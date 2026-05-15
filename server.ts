@@ -21,7 +21,7 @@ const knowledgeBase = fs.readFileSync(path.join(__dirname, "KNOWLEDGE_BASE.md"),
 
 async function startServer() {
   const app = express();
-  const PORT = process.env.PORT || 3000;
+  const PORT = Number(process.env.PORT || 3000);
 
   app.use(express.json());
 
@@ -49,8 +49,8 @@ async function startServer() {
         };
 
         const response = await mailerlite.subscribers.createOrUpdate(params);
-        console.log(`[MailerLite] Subscriber added: ${email}. ID: ${response.data.id}`);
-        return res.json({ success: true, provider: "mailerlite", messageId: response.data.id });
+        console.log(`[MailerLite] Subscriber added: ${email}. ID: ${(response.data as any).id}`);
+        return res.json({ success: true, provider: "mailerlite", messageId: (response.data as any).id });
       } else {
         // Mock fallback if .env is missing
         console.log(`[Email Mock] Simulated sending to: ${email}`);
@@ -116,14 +116,14 @@ async function startServer() {
       const result = await ai.models.generateContent({
         model: "models/gemini-2.5-flash-lite",
         contents: contents,
-        generationConfig: {
+        config: {
           temperature: 0.3,
           topP: 0.8,
           topK: 40,
         }
       });
 
-      const responseText = result.text || result.response?.text() || "Sin respuesta";
+      const responseText = result.text || "Sin respuesta";
       console.log(`[Chat] Gemini response received (${responseText.length} chars)`);
       
       res.json({ content: responseText });
