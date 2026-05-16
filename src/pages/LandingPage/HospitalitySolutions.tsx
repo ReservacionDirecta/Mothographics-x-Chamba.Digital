@@ -23,7 +23,8 @@ import {
   ExternalLink,
   Layers,
   ArrowUpRight,
-  Globe
+  Globe,
+  Building2
 } from 'lucide-react';
 import { SEO } from '../../components/SEO';
 
@@ -58,7 +59,7 @@ const HospitalitySolutions: React.FC = () => {
               "provider": {
                 "@id": "https://chamba.digital/#organization"
               },
-              "description": "Soluciones avanzadas de marketing estratégico, integración y optimización de Sirvoy PMS, desarrollo web de alto rendimiento y agentes de inteligencia artificial para venta y atención 24/7.",
+              "description": "Soluciones avanzadas de marketing estratégico, integration y optimización de Sirvoy PMS, desarrollo web de alto rendimiento y agentes de inteligencia artificial para venta y atención 24/7.",
               "category": "Hospitality Technology & Marketing",
               "areaServed": [
                 { "@type": "Country", "name": "Perú" },
@@ -374,6 +375,114 @@ const HospitalitySolutions: React.FC = () => {
                     <h4 className="text-[15px] font-bold">App de Housekeeping</h4>
                     <p className="text-[13px] text-muted">Tu equipo de limpieza conectado en tiempo real.</p>
                   </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* Featured Case Study: Peña Linda Máncora */}
+        <section className="py-24 px-6 md:px-10 max-w-[1200px] mx-auto border-t border-white/5 overflow-hidden">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="space-y-6"
+            >
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/20 text-accent text-[12px] font-black uppercase tracking-widest">
+                <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
+                Caso de Estudio Destacado
+              </div>
+              <h2 className="text-[32px] md:text-[48px] font-black tracking-tight leading-[1.1]">
+                Ingeniería de Performance en <span className="text-accent underline decoration-accent/30 underline-offset-4">penalindamancora.com</span>
+              </h2>
+              <p className="text-[16px] md:text-[18px] text-muted leading-relaxed font-medium">
+                Transformamos la presencia digital de Peña Linda Bungalows en Máncora en una máquina autónoma de reservas directas, eliminando la dependencia de comisiones externas.
+              </p>
+
+              <div className="space-y-4 pt-2">
+                {[
+                  { title: "Motor Sirvoy Integrado", desc: "Sincronización en tiempo real de tarifas y disponibilidad sin riesgo de overbooking.", icon: Building2 },
+                  { title: "Asistente IA por WhatsApp", desc: "Atención automatizada 24/7 que guía a los huéspedes hasta el cierre de pago.", icon: Smartphone },
+                  { title: "Diseño Premium & Mobile-First", desc: "Interfaz inmersiva orientada a la conversión con fotografías de alta calidad y navegación ultra-rápida.", icon: Code2 },
+                  { title: "+10 Años de Rentabilidad", desc: "Estrategia continua de crecimiento, Meta Ads de performance y fidelización de huéspedes.", icon: BarChart3 }
+                ].map((item, idx) => (
+                  <div key={idx} className="flex items-start gap-4 p-4 glass rounded-2xl border-white/5 hover:border-accent/20 transition-all group">
+                    <div className="w-12 h-12 bg-accent/10 rounded-xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                      <item.icon className="w-6 h-6 text-accent" />
+                    </div>
+                    <div>
+                      <h4 className="text-[16px] font-bold text-fg mb-1">{item.title}</h4>
+                      <p className="text-[13px] text-muted leading-relaxed">{item.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="pt-4 flex flex-col sm:flex-row items-center gap-4">
+                <a
+                  href="https://penalindamancora.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full sm:w-auto bg-accent text-white px-8 py-4 rounded-xl font-bold text-[14px] shadow-[0_10px_30px_rgba(59,130,246,0.3)] hover:scale-105 transition-all flex items-center justify-center gap-2"
+                >
+                  Visitar penalindamancora.com <ArrowRight className="w-4 h-4" />
+                </a>
+                <a
+                  href="https://wa.me/51904060670?text=Hola,%20quiero%20una%20web%20hotelera%20como%20la%20de%20Pe%C3%B1a%20Linda%20M%C3%A1ncora."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full sm:w-auto bg-white/5 border border-white/10 hover:border-accent/30 text-fg px-8 py-4 rounded-xl font-bold text-[14px] transition-all flex items-center justify-center gap-2"
+                >
+                  Solicitar Web Similar
+                </a>
+              </div>
+            </motion.div>
+
+            {/* Mockups Visual Display */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              className="relative flex flex-col items-center gap-8 py-10"
+            >
+              <div className="absolute inset-0 bg-accent/10 blur-[100px] rounded-full -z-10" />
+
+              {/* Desktop Mockup */}
+              <div className="relative w-full rounded-2xl overflow-hidden border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] group">
+                <div className="bg-bg-subtle px-4 py-3 border-b border-white/10 flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="w-3 h-3 rounded-full bg-red-500/80" />
+                    <span className="w-3 h-3 rounded-full bg-yellow-500/80" />
+                    <span className="w-3 h-3 rounded-full bg-green-500/80" />
+                  </div>
+                  <div className="bg-bg/60 px-4 py-1 rounded-md text-[11px] text-muted font-mono flex items-center gap-2">
+                    <span className="text-accent">🔒</span> https://penalindamancora.com
+                  </div>
+                  <div className="w-12" />
+                </div>
+                <div className="relative aspect-[16/10] bg-bg overflow-hidden">
+                  <img 
+                    src="/penalinda-desktop.png" 
+                    alt="Peña Linda Máncora Desktop Interface" 
+                    className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-bg via-transparent to-transparent opacity-40" />
+                </div>
+              </div>
+
+              {/* Mobile Mockup Overlay / Side Display */}
+              <div className="absolute -bottom-6 -right-4 w-[200px] md:w-[240px] rounded-[32px] overflow-hidden border-4 border-bg shadow-[0_25px_60px_rgba(0,0,0,0.8)] group z-20 hover:scale-105 transition-transform duration-500">
+                <div className="bg-black py-2 flex justify-center">
+                  <div className="w-16 h-4 bg-bg rounded-full" />
+                </div>
+                <div className="relative aspect-[9/19] bg-bg overflow-hidden">
+                  <img 
+                    src="/penalinda-mobile.png" 
+                    alt="Peña Linda Máncora Mobile Booking" 
+                    className="w-full h-full object-cover object-top"
+                  />
                 </div>
               </div>
             </motion.div>
