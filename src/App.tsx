@@ -2605,9 +2605,9 @@ const Guarantees = () => (
 
 
 export const ChambaFooter = () => (
-  <footer className="py-20 px-6 md:px-10 border-t border-glass-border bg-black/40 backdrop-blur-md">
+  <footer className="pt-16 pb-36 md:pt-20 md:pb-20 px-6 md:px-10 border-t border-glass-border bg-black/40 backdrop-blur-md">
     <div className="max-w-[1024px] mx-auto">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 md:gap-12 mb-12 md:mb-16">
         {/* Brand Column */}
         <div className="flex flex-col gap-6">
           <Logo />
@@ -2676,11 +2676,11 @@ export const ChambaFooter = () => (
         </div>
       </div>
 
-      <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4">
-        <p className="text-[12px] text-muted text-center md:text-left">
+      <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-6 md:gap-4">
+        <p className="text-[12px] text-muted text-center md:text-left leading-relaxed">
           © {new Date().getFullYear()} Chamba Digital. Todos los derechos reservados.
         </p>
-        <div className="flex gap-6 mt-4 md:mt-0">
+        <div className="flex flex-wrap justify-center gap-x-6 gap-y-3 mt-2 md:mt-0">
           <Link to="/portafolio" className="text-[10px] font-black uppercase tracking-widest text-muted hover:text-accent transition-colors">Portafolio</Link>
           <Link to="/metodologia" className="text-[10px] font-black uppercase tracking-widest text-muted hover:text-accent transition-colors">Metodología</Link>
           <Link to="/servicios" className="text-[10px] font-black uppercase tracking-widest text-muted hover:text-accent transition-colors">Servicios</Link>
