@@ -326,7 +326,7 @@ const HotelsLandingPage: React.FC = () => {
               {/* Contenedor Scrollable */}
               <div className="relative h-[550px] bg-bg overflow-y-auto custom-scrollbar">
                 <img 
-                  src="/www.penalindamancora.com_.png" 
+                  src="/penalindamancora-escritorio.png" 
                   alt="Peña Linda Máncora Desktop Interface" 
                   className="w-full h-auto block"
                 />
