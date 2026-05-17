@@ -724,7 +724,7 @@ const HospitalitySolutions: React.FC = () => {
                 <img 
                   src="/www.penalindamancora.com_.png" 
                   alt="Peña Linda Máncora Desktop Interface" 
-                  className="w-full h-auto object-contain block"
+                  className="w-full h-auto block"
                 />
               </div>
             </motion.div>
@@ -742,7 +742,7 @@ const HospitalitySolutions: React.FC = () => {
                 <img 
                   src="/www.penalindamancora.com_(iPhone 14 Pro Max).png" 
                   alt="Peña Linda Máncora Mobile Booking" 
-                  className="w-full h-auto object-contain block"
+                  className="w-full h-auto block"
                 />
               </div>
             </motion.div>
