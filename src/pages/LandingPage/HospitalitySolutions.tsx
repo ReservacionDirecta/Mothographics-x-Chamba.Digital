@@ -143,7 +143,7 @@ const HospitalitySolutions: React.FC = () => {
               </h1>
               
               <p className="text-[18px] sm:text-[22px] text-muted max-w-[680px] leading-relaxed font-medium">
-                Ecosistema automatizado de reservas directas para hoteles con <span className="text-fg font-bold">Sirvoy PMS</span> e <span className="text-fg font-bold">Inteligencia Artificial 24/7</span>.
+                Automatiza tus reservas directas con <span className="text-fg font-bold">Sirvoy PMS</span> e <span className="text-fg font-bold">Inteligencia Artificial</span>.
               </p>
               
               {/* Trust Metrics Bar */}
@@ -229,7 +229,7 @@ const HospitalitySolutions: React.FC = () => {
                       </div>
                     </div>
                     <div className="p-3 bg-white/5 rounded-xl text-[13px] text-fg/90 italic border border-white/5">
-                      "¡Perfecto! Ya generé tu link de pago seguro para el Bungalow. ¿Deseas agregar el traslado desde el aeropuerto de Talara?"
+                      "Aquí tienes el link de pago seguro para tu reserva. ¿Deseas agregar el traslado?"
                     </div>
                   </div>
 
@@ -258,12 +258,12 @@ const HospitalitySolutions: React.FC = () => {
         {/* El Discurso de Contraste (Alex Dey Style: Dolor vs Placer) */}
         <section className="py-28 px-6 md:px-10 max-w-[1280px] mx-auto border-t border-white/5">
           <div className="text-center max-w-3xl mx-auto mb-20 space-y-4">
-            <span className="label-editorial mx-auto">Análisis de Realidad Comercial</span>
+            <span className="label-editorial mx-auto">El Problema</span>
             <h2 className="text-[32px] sm:text-[48px] font-black tracking-tight leading-none text-fg">
-              La Trampa de las OTAs vs. <span className="text-accent">La Libertad Digital</span>.
+              Comisiones vs. <span className="text-accent">Reservas Directas</span>.
             </h2>
             <p className="text-[17px] text-muted leading-relaxed font-medium">
-              Observa la diferencia matemática y operativa de tener tu propio ecosistema de conversión vs depender de terceros.
+              Compara el costo de depender de terceros frente a tener tu propio ecosistema.
             </p>
           </div>
 
@@ -276,7 +276,7 @@ const HospitalitySolutions: React.FC = () => {
               className="glass p-10 rounded-[36px] border-red-500/20 bg-gradient-to-b from-red-500/[0.05] to-transparent flex flex-col justify-between relative overflow-hidden group hover:border-red-500/40 transition-all duration-500"
             >
               <div className="absolute top-0 right-0 bg-red-500 text-white text-[11px] font-black px-6 py-2 rounded-bl-2xl uppercase tracking-widest shadow-lg">
-                Modelo Tradicional (Pérdida)
+                Modelo Tradicional
               </div>
               
               <div className="space-y-8 pt-4">
@@ -319,7 +319,7 @@ const HospitalitySolutions: React.FC = () => {
               className="glass p-10 rounded-[36px] border-accent/30 bg-gradient-to-b from-accent/[0.08] to-transparent flex flex-col justify-between relative overflow-hidden group hover:border-accent/60 shadow-[0_20px_50px_rgba(59,130,246,0.15)] transition-all duration-500"
             >
               <div className="absolute top-0 right-0 bg-accent text-white text-[11px] font-black px-6 py-2 rounded-bl-2xl uppercase tracking-widest shadow-lg">
-                Modelo Chamba Digital (Rentabilidad)
+                Modelo Chamba Digital
               </div>
 
               <div className="space-y-8 pt-4">
@@ -359,12 +359,12 @@ const HospitalitySolutions: React.FC = () => {
         {/* Pillars Section: Soluciones Estructuradas con Equilibrio Perfecto */}
         <section id="servicios" className="py-28 px-6 md:px-10 max-w-[1280px] mx-auto border-t border-white/5">
           <div className="text-center max-w-3xl mx-auto mb-20 space-y-4">
-            <span className="label-editorial mx-auto">Arquitectura de Conversión</span>
+            <span className="label-editorial mx-auto">Nuestros Pilares</span>
             <h2 className="text-[32px] sm:text-[56px] font-black tracking-tight leading-none text-fg">
-              Soluciones <span className="text-accent">360°</span> para Escalar.
+              Ecosistema <span className="text-accent">360°</span>
             </h2>
             <p className="text-[17px] text-muted leading-relaxed font-medium">
-              Cada pilar de nuestro servicio está diseñado milimétricamente para resolver un cuello de botella en la comercialización y gestión de tu propiedad.
+              Sistemas diseñados para escalar las ventas y optimizar la gestión de tu propiedad.
             </p>
           </div>
 
@@ -484,20 +484,20 @@ const HospitalitySolutions: React.FC = () => {
                 viewport={{ once: true }}
                 className="lg:col-span-7 space-y-8"
               >
-                <span className="label-editorial">Fuerza de Ventas Autónoma</span>
+                <span className="label-editorial">Vendedor Autónomo</span>
                 <h2 className="text-[36px] sm:text-[52px] font-black leading-tight text-fg">
                   Tu vendedor IA <span className="text-accent">24/7</span>.
                 </h2>
                 <p className="text-[18px] text-muted leading-relaxed font-medium">
-                  Cerradores de ventas automatizados con comprensión de lenguaje natural e integrados a tu inventario.
+                  Chatbots inteligentes que responden y cierran reservas al instante.
                 </p>
                 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 pt-4">
                   {[
-                    { title: "Atención Inmediata 24/7", desc: "Respuestas en menos de 2 segundos a cualquier hora del día o de la noche.", icon: MessageSquare },
-                    { title: "Cotización Inteligente", desc: "Sugiere la suite perfecta calculando el precio exacto según el número de huéspedes.", icon: Sparkles },
-                    { title: "Cierre con Link de Pago", desc: "Genera y envía enlaces de pago seguros para cerrar la reserva en el acto.", icon: Wallet },
-                    { title: "Escalado Human-in-the-Loop", desc: "Detecta solicitudes complejas o clientes VIP y notifica de inmediato a recepción.", icon: UserCheck }
+                    { title: "Atención Inmediata 24/7", desc: "Respuestas instantáneas 24/7.", icon: MessageSquare },
+                    { title: "Cotización Inteligente", desc: "Calcula precios según disponibilidad y fechas.", icon: Sparkles },
+                    { title: "Cierre con Link de Pago", desc: "Envía links de pago y cierra ventas.", icon: Wallet },
+                    { title: "Escalado Inteligente", desc: "Asigna chats complejos a tu equipo.", icon: UserCheck }
                   ].map((feat, i) => (
                     <div key={i} className="space-y-3 glass p-6 rounded-3xl border-white/5 hover:border-accent/30 transition-colors">
                       <div className="w-12 h-12 bg-accent/10 rounded-2xl flex items-center justify-center border border-accent/20">
@@ -540,13 +540,13 @@ const HospitalitySolutions: React.FC = () => {
                         <Bot className="w-5 h-5 text-white" />
                       </div>
                       <div className="bg-white/5 border border-white/10 p-5 rounded-3xl rounded-tl-none font-medium max-w-[85%] leading-relaxed text-fg/90 shadow-md">
-                        ¡Hola! He visto que buscas habitación para el próximo fin de semana en Máncora. Tengo disponible el <strong className="text-accent font-bold">Bungalow Vista Mar</strong> por $360 USD (3 noches). ¿Te gustaría reservarlo ahora?
+                        Tengo disponible el <strong className="text-accent font-bold">Bungalow Vista Mar</strong> para esas fechas. ¿Te gustaría reservarlo ahora?
                       </div>
                     </div>
 
                     <div className="flex gap-4 items-start justify-end">
                       <div className="bg-accent/15 border border-accent/30 p-5 rounded-3xl rounded-tr-none font-bold max-w-[85%] leading-relaxed text-fg shadow-md">
-                        Sí, me encanta la vista. ¿Aceptan tarjeta de crédito o transferencia?
+                        ¿Aceptan tarjeta o transferencia?
                       </div>
                       <div className="w-8 h-8 bg-fg rounded-xl flex items-center justify-center shrink-0 mt-1 shadow">
                         <Users className="w-5 h-5 text-bg" />
@@ -558,7 +558,7 @@ const HospitalitySolutions: React.FC = () => {
                         <Bot className="w-5 h-5 text-white" />
                       </div>
                       <div className="bg-white/5 border border-white/10 p-5 rounded-3xl rounded-tl-none space-y-4 max-w-[85%] shadow-md">
-                        <p className="font-medium text-fg/90 leading-relaxed">¡Por supuesto! Aceptamos todas las tarjetas y transferencias bancarias. Haz clic en el botón seguro de abajo para confirmar tu suite antes de que se ocupe.</p>
+                        <p className="font-medium text-fg/90 leading-relaxed">Claro, aceptamos todos los medios de pago. Confirma tu reserva aquí:</p>
                         <button className="w-full bg-accent hover:bg-accent/90 text-white py-4 rounded-2xl font-black text-[13px] uppercase tracking-widest flex items-center justify-center gap-2 shadow-lg transition-transform hover:scale-[1.02]">
                           Pagar Reserva Segura <Wallet className="w-4 h-4" />
                         </button>
@@ -618,7 +618,7 @@ const HospitalitySolutions: React.FC = () => {
                 Especialistas en <span className="text-accent underline decoration-accent/30 underline-offset-8">Sirvoy PMS</span>.
               </h2>
               <p className="text-[18px] text-muted leading-relaxed font-medium">
-                No somos una agencia genérica que solo instala plugins. Entendemos la operación hotelera desde adentro. Configuramos toda tu estructura comercial: planes de tarifas, temporadas altas, restricciones de estadía y la conexión perfecta con tu motor de reservas directo.
+                Configuramos tu estructura comercial: tarifas, temporadas y restricciones, conectándolas perfectamente con tu motor de reservas directo.
               </p>
               <div className="space-y-5 pt-2">
                 <div className="flex items-center gap-5 p-6 glass rounded-3xl border-white/5 hover:border-accent/20 transition-colors shadow">
@@ -659,7 +659,7 @@ const HospitalitySolutions: React.FC = () => {
                 Ingeniería de Performance en <span className="text-accent underline decoration-accent/30 underline-offset-8">penalindamancora.com</span>
               </h2>
               <p className="text-[18px] text-muted leading-relaxed font-medium">
-                Transformamos la presencia digital de Peña Linda Bungalows en Máncora en una máquina autónoma de reservas directas, eliminando la dependencia de comisiones externas y asegurando el 100% de ocupación en temporada alta.
+                Máquina autónoma de reservas directas, con 100% de ocupación en temporada alta.
               </p>
 
               <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-5">
@@ -758,13 +758,13 @@ const HospitalitySolutions: React.FC = () => {
 
             <div className="max-w-3xl mx-auto text-center mb-10 space-y-3 pt-2 sm:pt-4">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent/10 border border-accent/20 text-accent text-[12px] font-black uppercase tracking-widest">
-                <Calculator className="w-4 h-4" /> El Discurso del Lápiz (Alex Dey Style)
+                <Calculator className="w-4 h-4" /> Calculadora de Pérdidas
               </div>
               <h2 className="text-[28px] sm:text-[38px] font-black tracking-tight leading-none text-fg">
-                Descubre Cuánto Dinero le Estás <span className="text-accent underline decoration-accent/30 underline-offset-8">Regalando a las OTAs</span>.
+                Calcula cuánto le regalas a las <span className="text-accent underline decoration-accent/30 underline-offset-8">OTAs</span>.
               </h2>
               <p className="text-[16px] text-muted leading-relaxed font-medium">
-                Mueve los selectores inferiores según la realidad de tu hotel. Observa la fuga de capital anual y descubre cómo nuestro Plan de Desarrollo Web ($999 USD) se paga solo en tiempo récord.
+                Mueve los selectores y descubre cuánto dinero ahorras con nuestro sistema.
               </p>
             </div>
 
@@ -930,7 +930,7 @@ const HospitalitySolutions: React.FC = () => {
                 ¿Cómo Prefieres Empezar a <span className="text-accent underline decoration-accent/30 underline-offset-8">Escalar tu Hotel</span>?
               </h2>
               <p className="text-[18px] sm:text-[22px] text-muted max-w-[800px] mx-auto font-medium leading-relaxed">
-                Elige la opción que mejor se adapte a tu momento actual. Ambas te garantizan eliminar comisiones y potenciar tu venta directa desde el primer mes.
+                Elige la opción que mejor se adapte a ti. Ambas eliminan comisiones y potencian la venta directa.
               </p>
             </div>
             
@@ -943,7 +943,7 @@ const HospitalitySolutions: React.FC = () => {
                   </div>
                   <h3 className="text-[26px] font-black text-fg leading-tight">Opción 1: Auditoría Estratégica Gratuita</h3>
                   <p className="text-[16px] text-muted leading-relaxed font-medium">
-                    Habla con un especialista en hospitalidad. Analizamos la configuración actual de tu PMS, tu sitio web y tus procesos de venta para detectar fugas de capital sin ningún compromiso.
+                    Análisis gratuito de tu PMS, web y ventas para detectar fugas de dinero sin compromiso.
                   </p>
                 </div>
                 <motion.a
@@ -965,7 +965,7 @@ const HospitalitySolutions: React.FC = () => {
                   </div>
                   <h3 className="text-[26px] font-black text-fg leading-tight">Opción 2: Acción Inmediata (Plan $999 USD)</h3>
                   <p className="text-[16px] text-muted leading-relaxed font-medium">
-                    Contrata hoy mismo el Plan de Desarrollo Web para Hoteles. Incluye sitio web premium, integración de Sirvoy PMS, agente IA de reservas y 2500 créditos mensuales en Google Flow.
+                    Web premium, Sirvoy PMS, agente IA y 2500 créditos IA. Elimina comisiones hoy.
                   </p>
                 </div>
                 <motion.a
