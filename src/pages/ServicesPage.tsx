@@ -25,25 +25,25 @@ const ServicesPage: React.FC = () => {
     {
       title: "Desarrollo Web de Alto Rendimiento",
       icon: Code2,
-      desc: "Ingeniería limpia, ultra rápida y optimizada para buscadores. Creamos experiencias que no solo se ven bien, sino que venden.",
+      desc: "Webs ultra rápidas de alta conversión.",
       features: ["React / Next.js", "Liquid Glass Design", "SEO Técnico Avanzado", "Mobile First Strategy"]
     },
     {
       title: "Agentes e IA Avanzada",
       icon: Bot,
-      desc: "Automatizamos tu atención al cliente y ventas con agentes inteligentes que entienden a tu prospecto 24/7.",
+      desc: "Ventas automáticas 24/7 con inteligencia artificial.",
       features: ["Chatbots Cognitivos", "Automatización de WhatsApp", "Análisis de Datos con IA", "Entrenamiento de Modelos Propios"]
     },
     {
       title: "Automatización de Negocios",
       icon: Zap,
-      desc: "Eliminamos tareas manuales. Conectamos tu CRM, pagos y logística en un ecosistema fluido.",
+      desc: "Ecosistemas fluidos, sin tareas manuales.",
       features: ["Integración de APIs", "Automatización de CRMs", "Flujos de Trabajo sin Código", "Sistemas de Pago Globales"]
     },
     {
       title: "Data & Analytics de Conversión",
       icon: BarChart3,
-      desc: "Si no se puede medir, no se puede mejorar. Implementamos tracking de precisión quirúrgica.",
+      desc: "Medición de precisión quirúrgica para mejorar tu ROI.",
       features: ["Meta Pixel & GA4", "Tracking Server-Side", "Dashboards de ROI", "Atribución de Ventas"]
     }
   ];
@@ -69,7 +69,7 @@ const ServicesPage: React.FC = () => {
               Ingeniería Digital <br /> para <span className="text-accent">Dominar Mercados</span>.
             </h1>
             <p className="text-muted text-[17px] md:text-[20px] max-w-[700px] mx-auto leading-relaxed mb-12">
-              No hacemos simples páginas web. Construimos infraestructuras digitales de alto impacto diseñadas para escalar tu facturación y automatizar tu operación.
+              Infraestructuras digitales diseñadas para escalar facturación y automatizar operaciones.
             </p>
           </motion.div>
         </section>

@@ -15,68 +15,40 @@ const hotelClients = [
     category: "hotel", url: "penalindamancora.com",
     thumb: "https://s.wordpress.com/mshots/v1/https://penalindamancora.com?w=600",
     highlight: "+10 años operando juntos",
-    tasks: [
-      "Implementación y gestión integral del PMS.",
-      "Desarrollo y optimización continua de la web oficial.",
-      "Integración de motor de reservas para ventas directas.",
-      "Administración completa del flujo de reservas.",
-      "Atención vía WhatsApp y Automatización con IA.",
-    ],
-    focus: "Operación integral: marketing + ventas + tecnología + automatización.",
+    tasks: ["PMS Integral", "Web Oficial", "Motor de Reservas", "Gestión Total", "IA WhatsApp"],
+    focus: "Ecosistema comercial 100% autónomo.",
   },
   {
     emoji: "🌿", name: "Fundo Achamaqui", location: "Chachapoyas – Perú",
     category: "hotel", url: "fundoachamaqui.webflow.io",
     thumb: "https://s.wordpress.com/mshots/v1/https://fundoachamaqui.webflow.io?w=600",
     highlight: "Producto turístico premium",
-    tasks: [
-      "Implementación del PMS y estructura de reservas.",
-      "Desarrollo de paquetes turísticos premium.",
-      "Diseño de experiencias completas y pricing.",
-      "Contenido emocional y narrativo.",
-      "Automatización de atención y conversión.",
-    ],
-    focus: "Transformación de alojamiento en producto turístico premium escalable.",
+    tasks: ["PMS", "Paquetes Premium", "Estrategia Pricing", "Narrativa", "Atención IA"],
+    focus: "Transformación en producto turístico premium.",
   },
   {
     emoji: "🌊", name: "Punta Negritos | Wind & Surf", location: "Talara – Perú",
     category: "hotel", url: "puntanegritos.com",
     thumb: "https://s.wordpress.com/mshots/v1/https://puntanegritos.com?w=600",
     highlight: "Presencia digital desde cero",
-    tasks: [
-      "Implementación completa del PMS.",
-      "Desarrollo y publicación de la web oficial.",
-      "Integración del motor de reservas.",
-      "Configuración en OTAs (Booking, Airbnb).",
-      "Construcción de presencia digital desde cero.",
-    ],
-    focus: "Implementación total desde cero: infraestructura digital + canales de venta.",
+    tasks: ["PMS", "Web Oficial", "Motor de Reservas", "Canales OTAs", "Presencia Digital"],
+    focus: "Infraestructura digital y canales de venta activos.",
   },
   {
     emoji: "🌴", name: "Hacienda Don Vicente", location: "Tarapoto – Perú",
     category: "hotel", url: "haciendadonvicente.com",
     thumb: "https://s.wordpress.com/mshots/v1/https://haciendadonvicente.com?w=600",
     highlight: "Estrategia de contenido",
-    tasks: [
-      "Creación de copys estratégicos para redes sociales.",
-      "Desarrollo de promociones estacionales.",
-      "Diseño de ofertas con valor agregado.",
-      "Optimización de mensajes de venta y conversión.",
-    ],
-    focus: "Incremento de reservas mediante comunicación efectiva y ofertas atractivas.",
+    tasks: ["Copywriting", "Promociones Estacionales", "Ofertas", "Conversión"],
+    focus: "Incremento de reservas vía comunicación estratégica.",
   },
   {
     emoji: "🏔️", name: "Sauce Hotel Boutique", location: "Ollantaytambo – Perú",
     category: "hotel", url: "sauce.pe",
     thumb: "https://s.wordpress.com/mshots/v1/https://sauce.pe?w=600",
     highlight: "Optimización operativa",
-    tasks: [
-      "Implementación y optimización del PMS.",
-      "Configuración de tarifas y disponibilidad.",
-      "Sincronización con OTAs.",
-      "Soporte técnico y ajustes estratégicos.",
-    ],
-    focus: "Eficiencia y control total en la gestión de reservas.",
+    tasks: ["PMS", "Pricing", "OTAs", "Soporte Técnico"],
+    focus: "Eficiencia y control total en reservas.",
   },
 ];
 
@@ -86,39 +58,24 @@ const techClients = [
     category: "tech", url: "latamabogados.com",
     thumb: "https://s.wordpress.com/mshots/v1/https://latamabogados.com?w=600",
     highlight: "Migración WordPress → React",
-    tasks: [
-      "Migración pixel-perfect de WordPress a React/Vite.",
-      "Integración nativa de API MailerLite / Mailchimp.",
-      "Automatización de sistema de reservas B2B.",
-      "Optimización de assets para SEO internacional.",
-    ],
-    focus: "Plataforma líder en Inglés Jurídico con automatización avanzada de leads.",
+    tasks: ["Migración React", "API MailerLite", "Reservas B2B", "SEO Internacional"],
+    focus: "Automatización avanzada de leads.",
   },
   {
     emoji: "🤖", name: "Sistema Autónomo B2B", location: "VPS Linux/Ubuntu",
     category: "tech", url: "hothelia.com",
     thumb: "https://s.wordpress.com/mshots/v1/https://hothelia.com?w=600",
     highlight: "-70% tiempo de procesamiento",
-    tasks: [
-      "Orquestación de API RESTful escalable.",
-      "Integración de Agente Ollama para análisis de datos privados.",
-      "Automatización de flujos con Google Workflows.",
-      "Monitoreo 24/7 con PM2 y Docker.",
-    ],
-    focus: "Reducción del 70% en tiempo de procesamiento de datos confidenciales.",
+    tasks: ["API RESTful", "Agente Ollama", "Workflows", "Monitoreo PM2/Docker"],
+    focus: "Reducción del 70% en tiempo de procesamiento.",
   },
   {
     emoji: "🛍️", name: "E-Commerce AI Agent", location: "Arquitectura Cloud",
     category: "tech", url: "olivosdelperu.com",
     thumb: "https://s.wordpress.com/mshots/v1/https://olivosdelperu.com?w=600",
     highlight: "+35% conversión",
-    tasks: [
-      "Implementación de ChatGPT/Claude para atención 24/7.",
-      "Conexión en tiempo real con inventario vía GraphQL.",
-      "Webhooks conectados a WhatsApp Business API.",
-      "Calificación predictiva de leads.",
-    ],
-    focus: "Atención hiper-personalizada y aumento del 35% en tasa de conversión.",
+    tasks: ["Atención IA", "GraphQL", "Webhooks WhatsApp", "Calificación Leads"],
+    focus: "Aumento del 35% en conversión.",
   },
 ];
 
@@ -168,8 +125,7 @@ export default function PortfolioPage() {
               Nuestro <span className="text-accent">Portafolio</span>.
             </h1>
             <p className="text-muted text-[16px] md:text-[19px] max-w-[650px] mx-auto leading-relaxed">
-              Más de <strong className="text-fg">50 proyectos entregados</strong> en hospitality,
-              e-commerce, IA y desarrollo de software. Explora cada caso en detalle.
+              <strong className="text-fg">+50 proyectos entregados.</strong> Explora nuestros casos de éxito.
             </p>
           </motion.div>
 
@@ -326,8 +282,7 @@ export default function PortfolioPage() {
                   <Zap className="w-8 h-8 text-accent" /> Hothelia SaaS
                 </h3>
                 <p className="text-[15px] text-muted leading-relaxed mb-8">
-                  Nuestra plataforma propia de gestión hotelera. Multi-tenant, con chatbot IA integrado,
-                  motor de reservas y dashboard analítico. Prueba viviente de nuestra capacidad técnica.
+                  Nuestra plataforma de gestión hotelera con IA integrada. Prueba de nuestra capacidad técnica.
                 </p>
                 <a href="https://hothelia.com" target="_blank" rel="noopener noreferrer"
                   className="inline-flex items-center gap-3 bg-white/5 border border-white/10 hover:border-accent/40 px-6 py-4 rounded-[12px] font-bold text-fg text-[14px] transition-all hover:bg-white/10">

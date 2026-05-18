@@ -730,7 +730,7 @@ const Hero = () => {
           Hacemos que tu negocio funcione en <span className="text-accent">Piloto Automático</span>.
         </>
       ),
-      sub: "Implementamos Inteligencia Artificial y sistemas de software a medida para reducir tus costos operativos, automatizar tus ventas y escalar tu empresa sin contratar más personal.",
+      sub: "IA y software a medida para reducir costos, automatizar ventas y escalar sin más personal.",
     },
     B: {
       tag: "⚡ Tecnología para Escalar Ventas",
@@ -739,7 +739,7 @@ const Hero = () => {
           Multiplica tus resultados con <span className="text-accent">Inteligencia Artificial</span>.
         </>
       ),
-      sub: "Olvídate de las tareas repetitivas. Creamos asistentes virtuales, automatizamos tus procesos y construimos páginas ultra rápidas que convierten visitantes en clientes las 24 horas del día.",
+      sub: "Asistentes virtuales, procesos automáticos y webs ultra rápidas que venden 24/7.",
     },
   }[headlineVariant as "A" | "B"];
 
@@ -817,8 +817,8 @@ const Opportunity = () => (
         Tecnología orientada a <span className="text-accent">Resultados</span>.
       </h2>
       <p className="text-muted text-[17px] md:text-[19px] max-w-3xl mx-auto leading-relaxed">
-        No hablamos en código complejo, hablamos de <strong className="text-fg">rentabilidad</strong>. 
-        Implementamos las herramientas exactas que tu empresa necesita para dejar de perder tiempo en procesos manuales y enfocarse en crecer.
+        Hablamos de <strong className="text-fg">rentabilidad</strong>. 
+        Implementamos herramientas para eliminar procesos manuales y escalar sin límites.
       </p>
     </div>
 
@@ -839,10 +839,10 @@ const Opportunity = () => (
         </h3>
         <ul className="space-y-3">
           {[
-            "Conectamos tus sistemas para que hablen entre sí.",
-            "Eliminamos el ingreso manual de datos y errores.",
-            "Webs ultrarrápidas que nunca se caen.",
-            "Notificaciones y alertas de ventas en tiempo real.",
+            "Sistemas interconectados.",
+            "Cero tareas manuales.",
+            "Webs de alto rendimiento.",
+            "Tracking en tiempo real.",
           ].map((item, i) => (
             <li
               key={i}
@@ -871,10 +871,10 @@ const Opportunity = () => (
         </h3>
         <ul className="space-y-3">
           {[
-            "Asistentes virtuales que venden por ti 24/7.",
-            "Creación automática de contenido para redes.",
-            "Análisis inteligente de los datos de tus clientes.",
-            "Ahorro drástico en costos de atención al cliente.",
+            "Asistentes de venta 24/7.",
+            "Contenido automático.",
+            "Análisis de datos IA.",
+            "Reducción de costos de atención.",
           ].map((item, i) => (
             <li
               key={i}
@@ -1056,8 +1056,8 @@ const PricingCard = ({
 const Services = ({
   onOpenModal,
   title = "Planes y Soluciones",
-  subtitle = "Ingeniería de performance diseñada para escalar tu facturación y optimizar cada dólar invertido.",
-  label = "Inversión Inteligente",
+  subtitle = "Ingeniería diseñada para escalar tu facturación.",
+  label = "Alto Rendimiento",
 }: any) => (
   <section
     id="servicios"
@@ -1181,7 +1181,7 @@ const Services = ({
             ¿No sabes cuál elegir?
           </h3>
           <p className="text-muted text-[16px] md:text-[18px] max-w-xl leading-relaxed">
-            Hablemos por 15 minutos. Analizaremos tu negocio y te diremos exactamente qué estructura necesitas para dejar de perder clientes. <strong>Sin compromiso.</strong>
+            Hablemos por 15 minutos. Analizaremos tu negocio para decirte qué necesitas para escalar. <strong>Sin compromiso.</strong>
           </p>
         </div>
         
@@ -1364,7 +1364,7 @@ const Portfolio = () => {
           Nuestra <span className="text-accent">Trayectoria</span>.
         </h2>
         <p className="text-muted max-w-2xl mx-auto text-[15px] md:text-[17px]">
-          Desde la consolidación de la industria hotelera con <strong className="text-fg">Hothelia</strong> hasta el éxito comercial de <strong className="text-fg">Olivos del Perú</strong> e infraestructura de <strong className="text-fg">IA & Cloud</strong>.
+          De la industria hotelera al E-Commerce e infraestructura IA & Cloud.
         </p>
       </div>
 

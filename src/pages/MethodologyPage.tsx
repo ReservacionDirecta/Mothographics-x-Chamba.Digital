@@ -10,27 +10,27 @@ import {
 const steps = [
   {
     step: "01", title: "Estrategia de Ventas", icon: Target,
-    desc: "No solo diseñamos, planeamos cómo vas a facturar más. Wireframes orientados a conversión.",
+    desc: "Wireframes orientados a conversión.",
     accent: "bg-blue-500/10 text-blue-500"
   },
   {
     step: "02", title: "Diseño Liquid Glass", icon: Palette,
-    desc: "Estética premium que genera confianza inmediata. Prototipos en Figma aprobados por ti.",
+    desc: "Prototipos premium aprobados por ti.",
     accent: "bg-purple-500/10 text-purple-500"
   },
   {
     step: "03", title: "Ingeniería de Performance", icon: Code2,
-    desc: "Código ultra-rápido. Sin plantillas. Integración total con tu ecosistema de ventas.",
+    desc: "Código rápido, sin plantillas. Integrado a ventas.",
     accent: "bg-orange-500/10 text-orange-500"
   },
   {
     step: "04", title: "Optimización Crítica", icon: CheckCircle2,
-    desc: "4 rondas de pulido semanal. Ajustamos cada detalle para que la experiencia sea perfecta.",
+    desc: "Ajustes semanales hasta la perfección.",
     accent: "bg-green-500/10 text-green-500"
   },
   {
     step: "05", title: "Escala & Lanzamiento", icon: Rocket,
-    desc: "Deploy en Cloud AWS. Tu negocio listo para recibir tráfico y cerrar ventas 24/7.",
+    desc: "Deploy escalable para cerrar ventas 24/7.",
     accent: "bg-red-500/10 text-red-500"
   },
 ];
@@ -58,7 +58,7 @@ export default function MethodologyPage() {
               Tu visión, construida con <span className="text-accent">Ingeniería de Élite</span>.
             </h1>
             <p className="text-muted text-[17px] md:text-[20px] max-w-[650px] mx-auto leading-relaxed mb-10">
-              Transformamos ideas complejas en <strong className="text-fg">máquinas de conversión</strong> en solo 17 días. Un proceso diseñado para que dejes de preocuparte por la técnica y te enfoques en vender.
+              Transformamos ideas complejas en <strong className="text-fg">máquinas de conversión</strong> en tiempo récord. Enfócate en vender.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -122,7 +122,7 @@ export default function MethodologyPage() {
                   <span className="text-accent">A Tu Medida</span>.
                 </h2>
                 <p className="text-muted text-[16px] leading-relaxed mb-8">
-                  Diseñamos un cronograma de pagos que protege tu inversión y garantiza que cada avance cumpla con tus expectativas. <strong className="text-fg">Pagas por resultados entregados.</strong>
+                  Cronograma de pagos diseñado para proteger tu inversión. <strong className="text-fg">Pagas por resultados entregados.</strong>
                 </p>
                 <div className="space-y-4">
                   <div className="flex items-center gap-3 text-[14px] font-bold">

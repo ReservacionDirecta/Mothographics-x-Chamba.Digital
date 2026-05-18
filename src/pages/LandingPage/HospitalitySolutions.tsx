@@ -139,11 +139,11 @@ const HospitalitySolutions: React.FC = () => {
               </div>
               
               <h1 className="text-[40px] sm:text-[56px] lg:text-[72px] font-black tracking-tight leading-[1.05] text-fg">
-                Vende el <span className="text-accent underline decoration-accent/30 underline-offset-8">100% de tus Habitaciones</span> sin Pagar Comisiones a Booking o Airbnb.
+                Reservas Directas. <span className="text-accent underline decoration-accent/30 underline-offset-8">0% Comisiones.</span>
               </h1>
               
               <p className="text-[18px] sm:text-[22px] text-muted max-w-[680px] leading-relaxed font-medium">
-                El sistema definitivo de Ingeniería de Performance para hoteles boutique y cadenas. Automatizamos tus reservas directas con <span className="text-fg font-bold">Sirvoy PMS</span> e <span className="text-fg font-bold">Inteligencia Artificial 24/7</span>.
+                Ecosistema automatizado de reservas directas para hoteles con <span className="text-fg font-bold">Sirvoy PMS</span> e <span className="text-fg font-bold">Inteligencia Artificial 24/7</span>.
               </p>
               
               {/* Trust Metrics Bar */}
@@ -263,7 +263,7 @@ const HospitalitySolutions: React.FC = () => {
               La Trampa de las OTAs vs. <span className="text-accent">La Libertad Digital</span>.
             </h2>
             <p className="text-[17px] text-muted leading-relaxed font-medium">
-              Muchos hoteleros trabajan duro para pagarle el 20% de sus ingresos a plataformas externas. Observa la diferencia matemática y operativa de tener tu propio ecosistema de conversión.
+              Observa la diferencia matemática y operativa de tener tu propio ecosistema de conversión vs depender de terceros.
             </p>
           </div>
 
@@ -285,15 +285,15 @@ const HospitalitySolutions: React.FC = () => {
                 </div>
                 
                 <h3 className="text-[28px] font-black text-fg leading-tight">
-                  Trabajas para Booking, Airbnb y Expedia.
+                  Dependencia de OTAs.
                 </h3>
 
                 <ul className="space-y-5">
                   {[
-                    { bold: "Comisiones Asfixiantes:", desc: "Pagas entre el 15% y el 25% por cada reserva. En un año, les regalas el valor de un auto nuevo." },
-                    { bold: "Riesgo de Overbooking:", desc: "Gestión manual en Excel o papel que genera reservas duplicadas y clientes insatisfechos." },
-                    { bold: "Pérdida del Cliente:", desc: "Booking se queda con el email y teléfono real del huésped. No puedes hacerles retargeting." },
-                    { bold: "Esclavitud Operativa:", desc: "Tu equipo pasa horas respondiendo mensajes repetitivos de WhatsApp a deshora." }
+                    { bold: "Altas Comisiones:", desc: "Pagas 15-25% por reserva." },
+                    { bold: "Overbooking:", desc: "Gestión manual ineficiente." },
+                    { bold: "Sin Data:", desc: "Pierdes emails de clientes." },
+                    { bold: "Caos Operativo:", desc: "Horas perdidas en WhatsApp." }
                   ].map((item, i) => (
                     <li key={i} className="flex items-start gap-4 text-[15px] leading-relaxed">
                       <XCircle className="w-6 h-6 text-red-500 shrink-0 mt-0.5" />
@@ -306,7 +306,7 @@ const HospitalitySolutions: React.FC = () => {
               </div>
 
               <div className="pt-8 mt-8 border-t border-red-500/20 flex items-center justify-between">
-                <span className="text-[14px] font-black text-red-400 uppercase tracking-wider">Fuga de Capital Estimada:</span>
+                <span className="text-[14px] font-black text-red-400 uppercase tracking-wider">Fuga estimada:</span>
                 <span className="text-[22px] font-black text-red-500">~$21,600 USD / año</span>
               </div>
             </motion.div>
@@ -328,15 +328,15 @@ const HospitalitySolutions: React.FC = () => {
                 </div>
                 
                 <h3 className="text-[28px] font-black text-fg leading-tight">
-                  Tu Hotel como una Máquina Autónoma.
+                  Máquina Autónoma de Reservas.
                 </h3>
 
                 <ul className="space-y-5">
                   {[
-                    { bold: "0% Comisiones de OTAs:", desc: "El 100% del dinero va directo a tu cuenta bancaria al instante mediante pasarelas de pago." },
-                    { bold: "Sirvoy PMS Sincronizado:", desc: "Disponibilidad y tarifas actualizadas en tiempo real en tu web y en todos los canales." },
-                    { bold: "Base de Datos 100% Tuya:", desc: "Capturas el email y WhatsApp de cada huésped para campañas de fidelización y upsells." },
-                    { bold: "Inteligencia Artificial 24/7:", desc: "Un agente virtual responde cotizaciones y cierra ventas por WhatsApp en segundos." }
+                    { bold: "0% Comisiones:", desc: "Ingresos directos a tu cuenta." },
+                    { bold: "Sirvoy PMS:", desc: "Inventario en tiempo real." },
+                    { bold: "Data Propia:", desc: "Captura correos y números." },
+                    { bold: "Agentes IA:", desc: "Cierre automático 24/7." }
                   ].map((item, i) => (
                     <li key={i} className="flex items-start gap-4 text-[15px] leading-relaxed">
                       <CheckCircle2 className="w-6 h-6 text-accent shrink-0 mt-0.5" />
@@ -382,7 +382,7 @@ const HospitalitySolutions: React.FC = () => {
                 </div>
                 <h3 className="text-[24px] font-black mb-4 leading-tight">Marketing <br/><span className="text-accent">Estratégico</span></h3>
                 <p className="text-muted text-[15px] leading-relaxed mb-8 font-medium">
-                  Captación directa de huéspedes de alto valor mediante campañas de performance avanzada en Meta Ads y Google Ads.
+                  Captación directa de huéspedes con anuncios hiper-segmentados.
                 </p>
               </div>
               <ul className="space-y-3 pt-6 border-t border-white/5">
@@ -408,7 +408,7 @@ const HospitalitySolutions: React.FC = () => {
                 </div>
                 <h3 className="text-[24px] font-black mb-4 leading-tight">Sirvoy <br/><span className="text-accent">Expertise</span></h3>
                 <p className="text-muted text-[15px] leading-relaxed mb-8 font-medium">
-                  Configuración, migración y optimización de tu Property Management System para una gestión hotelera impecable y sin errores.
+                  Gestión impecable sin overbooking.
                 </p>
               </div>
               <ul className="space-y-3 pt-6 border-t border-white/5">
@@ -434,7 +434,7 @@ const HospitalitySolutions: React.FC = () => {
                 </div>
                 <h3 className="text-[24px] font-black mb-4 leading-tight">Desarrollo <br/><span className="text-accent">Web Premium</span></h3>
                 <p className="text-muted text-[15px] leading-relaxed mb-8 font-medium">
-                  Sitios web inmersivos, ultrarrápidos y orientados al cierre de ventas que integran tu motor de reservas y deslumbran al visitante.
+                  Webs inmersivas, veloces y de alta conversión.
                 </p>
               </div>
               <ul className="space-y-3 pt-6 border-t border-white/5">
@@ -460,7 +460,7 @@ const HospitalitySolutions: React.FC = () => {
                 </div>
                 <h3 className="text-[24px] font-black mb-4 leading-tight">IA & <br/><span className="text-accent">Automatización</span></h3>
                 <p className="text-muted text-[15px] leading-relaxed mb-8 font-medium">
-                  Agentes virtuales inteligentes que atienden a tus huéspedes por WhatsApp, automatizan cobros y gestionan leads las 24 horas.
+                  Atención y cobro automatizado 24/7 en WhatsApp.
                 </p>
               </div>
               <ul className="space-y-3 pt-6 border-t border-white/5">
@@ -486,10 +486,10 @@ const HospitalitySolutions: React.FC = () => {
               >
                 <span className="label-editorial">Fuerza de Ventas Autónoma</span>
                 <h2 className="text-[36px] sm:text-[52px] font-black leading-tight text-fg">
-                  El Vendedor Estrella que Trabaja <span className="text-accent">24/7/365</span> sin Pedir Aumento.
+                  Tu vendedor IA <span className="text-accent">24/7</span>.
                 </h2>
                 <p className="text-[18px] text-muted leading-relaxed font-medium">
-                  Implementamos agentes entrenados específicamente con la data, tarifas y políticas de tu hotel. No son simples bots de botones obsoletos; son verdaderos cerradores de ventas capaces de entender audios y texto en lenguaje natural.
+                  Cerradores de ventas automatizados con comprensión de lenguaje natural e integrados a tu inventario.
                 </p>
                 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 pt-4">

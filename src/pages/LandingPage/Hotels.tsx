@@ -36,83 +36,43 @@ const HotelsLandingPage: React.FC = () => {
       emoji: "🏝️",
       name: "Peña Linda Bungalows",
       location: "Máncora – Perú",
-      tasks: [
-        "Implementación y gestión integral del PMS.",
-        "Desarrollo y optimización continua de la web oficial.",
-        "Integración de motor de reservas para ventas directas.",
-        "Administración completa del flujo de reservas.",
-        "Gestión de cobranza y atención vía WhatsApp.",
-        "Ejecución de estrategias de marketing digital y IA.",
-        "+10 años consolidando resultados."
-      ],
-      focus: "Operación integral del negocio: marketing + ventas + tecnología + automatización."
+      tasks: ["PMS Integral", "Web Oficial de Alta Conversión", "Motor de Reservas Directo", "Automatización IA", "Marketing Digital"],
+      focus: "Ecosistema comercial 100% autónomo."
     },
     {
       emoji: "🌿",
       name: "Fundo Achamaqui",
       location: "Chachapoyas – Perú",
-      tasks: [
-        "Implementación del PMS y estructura de reservas.",
-        "Desarrollo de oferta comercial premium (paquetes).",
-        "Diseño de experiencias completas (hospedaje + tours).",
-        "Estrategias de pricing y rentabilidad.",
-        "Contenido emocional y narrativo (misticismo).",
-        "Automatización de atención y conversion."
-      ],
-      focus: "Transformación de alojamiento en producto turístico premium estructurado y escalable."
+      tasks: ["PMS + Reservas", "Diseño de Paquetes Premium", "Pricing Estratégico", "Conversión IA"],
+      focus: "Transformación en producto turístico premium."
     },
     {
       emoji: "🌊",
       name: "Punta Negritos | Wind & Surf",
       location: "Talara – Perú",
-      tasks: [
-        "Implementación completa del PMS.",
-        "Desarrollo y publicación de la web oficial.",
-        "Integración del motor de reservas.",
-        "Configuración en OTAs (Booking, Airbnb).",
-        "Registro y optimización en Google Business Profile.",
-        "Construcción de presencia digital desde cero."
-      ],
-      focus: "Implementación total desde cero: infraestructura digital + canales de venta + posicionamiento inicial."
+      tasks: ["PMS Configurado", "Web Oficial", "OTAs Sincronizadas", "Google Business"],
+      focus: "Lanzamiento digital y canales de venta activos."
     },
     {
       emoji: "🌴",
       name: "Hacienda Don Vicente",
       location: "Tarapoto – Perú",
-      tasks: [
-        "Creación de copys estratégicos para redes sociales.",
-        "Desarrollo de promociones estacionales.",
-        "Diseño de ofertas con valor agregado.",
-        "Optimización de mensajes de venta y conversión.",
-        "Apoyo en estrategia de contenido visual."
-      ],
-      focus: "Incremento de reservas mediante comunicación efectiva y ofertas atractivas."
+      tasks: ["Copywriting Estratégico", "Promociones Estacionales", "Ofertas Premium", "Conversión"],
+      focus: "Incremento de reservas vía comunicación estratégica."
     },
     {
       emoji: "🏔️",
       name: "Sauce Hotel Boutique",
       location: "Ollantaytambo – Perú",
-      tasks: [
-        "Implementación y optimización del PMS.",
-        "Configuración de tarifas, disponibilidad y restricciones.",
-        "Sincronización con OTAs.",
-        "Mejora continua de la operación de reservas.",
-        "Soporte técnico y ajustes estratégicos."
-      ],
-      focus: "Optimización operativa para lograr eficiencia y control en la gestión."
+      tasks: ["PMS Optimizado", "Pricing Dinámico", "Sincronización OTAs", "Soporte Técnico"],
+      focus: "Eficiencia operativa y control total."
     },
     {
       emoji: "🏡",
       name: "Casa QX | Hotel Boutique",
       location: "Pachacamac – Perú",
-      tasks: [
-        "Desarrollo de concepto de marca boutique.",
-        "Creación de comunicación aspiracional y premium.",
-        "Estrategia de posicionamiento digital.",
-        "Generación de contenido para redes sociales.",
-        "Apoyo en narrativa de marca."
-      ],
-      focus: "Construcción de una marca enfocada en exclusividad, diseño y experiencia privada."
+      tasks: ["Concepto Boutique", "Comunicación Premium", "Posicionamiento", "Contenido Visual"],
+      focus: "Marca exclusiva enfocada en experiencia privada."
     }
   ];
 
@@ -188,10 +148,10 @@ const HotelsLandingPage: React.FC = () => {
           >
             <span className="label-editorial mx-auto">Hospitality Performance</span>
             <h1 className="text-[36px] md:text-[64px] font-black tracking-tight leading-[1.1] mb-6">
-              Recupera tus <span className="text-accent">Reservas Directas</span> y elimina comisiones.
+              Tus <span className="text-accent">Reservas Directas</span>. 0% Comisiones.
             </h1>
             <p className="text-[16px] md:text-[18px] text-muted max-w-[700px] mx-auto mb-10 leading-relaxed">
-              Sistema integral diseñado específicamente para hoteles: captación de huéspedes, reducción de dependencia de OTAs y automatización operativa 24/7.
+              Ecosistema de captación directa: Motor de reservas y agentes de Inteligencia Artificial operativos 24/7.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <motion.a
@@ -216,17 +176,17 @@ const HotelsLandingPage: React.FC = () => {
             {[
               {
                 title: "Optimización PMS",
-                desc: "Conectamos tu inventario en tiempo real con canales de venta directos para evitar overbooking.",
+                desc: "Inventario en tiempo real con canales directos. Sin overbooking.",
                 icon: Building2
               },
               {
                 title: "Motor de Reservas",
-                desc: "Experiencia de reserva fluida en móviles que reduce el abandono y aumenta el ticket promedio.",
+                desc: "Experiencia fluida móvil que aumenta tu ticket promedio.",
                 icon: Smartphone
               },
               {
-                title: "Anuncios de Tráfico",
-                desc: "Campañas de Meta Ads hiper-segmentadas para viajeros que ya están buscando tu destino.",
+                title: "Tráfico Avanzado",
+                desc: "Meta Ads hiper-segmentados para viajeros calificados.",
                 icon: BarChart3
               }
             ].map((item, i) => (
@@ -260,10 +220,10 @@ const HotelsLandingPage: React.FC = () => {
             >
               <span className="label-editorial">CASO DE ESTUDIO DESTACADO</span>
               <h2 className="text-[36px] sm:text-[52px] font-black tracking-tight leading-[1.1] text-fg font-display">
-                Ingeniería de Performance en <span className="text-accent underline decoration-accent/30 underline-offset-8">penalindamancora.com</span>
+                Performance en <span className="text-accent underline decoration-accent/30 underline-offset-8">penalindamancora.com</span>
               </h2>
               <p className="text-[18px] text-muted leading-relaxed font-medium">
-                Transformamos la presencia digital de Peña Linda Bungalows en Máncora en una máquina autónoma de reservas directas, eliminando la dependencia de comisiones externas y asegurando el 100% de ocupación en temporada alta.
+                Transformamos Peña Linda Bungalows en una máquina autónoma de reservas. 0% dependencia de OTAs, 100% ocupación en temporada alta.
               </p>
 
               <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-5">
@@ -297,10 +257,10 @@ const HotelsLandingPage: React.FC = () => {
                   <span className="w-2 h-2 rounded-full bg-accent animate-pulse" /> Pilares del Proyecto
                 </h3>
                 {[
-                  { num: "01", title: "Motor Sirvoy Integrado", desc: "Sincronización en tiempo real de tarifas y disponibilidad sin riesgo de overbooking." },
-                  { num: "02", title: "Asistente IA por WhatsApp", desc: "Atención automatizada 24/7 que guía a los huéspedes hasta el Hub de pago." },
-                  { num: "03", title: "Diseño Premium & Mobile-First", desc: "Interfaz inmersiva orientada a la conversión con fotografías de alta calidad." },
-                  { num: "04", title: "+10 Años de Rentabilidad", desc: "Estrategia continua de crecimiento, Meta Ads y fidelización de huéspedes." }
+                  { num: "01", title: "Motor Sirvoy", desc: "Sincronización total sin overbooking." },
+                  { num: "02", title: "Asistente IA", desc: "Cierre de ventas automático 24/7." },
+                  { num: "03", title: "Diseño Premium", desc: "Interfaz inmersiva de alta conversión." },
+                  { num: "04", title: "+10 Años ROI", desc: "Crecimiento constante y fidelización." }
                 ].map((item, idx) => (
                   <div key={idx} className="flex items-start gap-5 group pb-4 border-b border-white/5 last:border-0 last:pb-0">
                     <span className="font-mono text-[14px] font-bold text-accent pt-0.5 tracking-wider">{item.num}</span>
@@ -402,9 +362,9 @@ const HotelsLandingPage: React.FC = () => {
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 {[
-                  { level: "1. Implementación", clients: "(Punta Negritos)", desc: "Infraestructura digital + canales de venta" },
-                  { level: "2. Operación", clients: "(Peña Linda)", desc: "Marketing + ventas + automatización + gestión completa" },
-                  { level: "3. Escalada", clients: "(F. Achamaqui, Sauce, etc.)", desc: "Estrategia, conversión y rentabilidad" }
+                  { level: "1. Lanzamiento", clients: "(Punta Negritos)", desc: "Web + Canales de Venta" },
+                  { level: "2. Automatización", clients: "(Peña Linda)", desc: "Marketing + IA + PMS" },
+                  { level: "3. Escalada", clients: "(Fundo Achamaqui)", desc: "Conversión y Rentabilidad" }
                 ].map((item, i) => (
                   <div key={i} className="space-y-2">
                     <p className="text-[14px] font-black text-accent uppercase tracking-tighter">{item.level}</p>
@@ -426,12 +386,10 @@ const HotelsLandingPage: React.FC = () => {
             </div>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-5">
               {[
-                { s: "01", t: "Auditoría", d: "Analizamos tu PMS, web y canales actuales.", icon: Target },
-                { s: "02", t: "Estrategia", d: "Plan de captación directa para reducir OTAs.", icon: BarChart3 },
-                { s: "03", t: "Desarrollo", d: "Web + motor de reservas optimizado.", icon: Code2 },
-                { s: "04", t: "Revisión", d: "2 rondas de ajustes incluidas.", icon: CheckCircle2 },
-                { s: "05", t: "Lanzamiento", d: "SEO, campañas y tracking activos.", icon: Zap },
-                { s: "06", t: "Soporte 30 días", d: "Post-lanzamiento sin costo extra.", icon: Headphones },
+                { s: "01", t: "Auditoría", d: "Analizamos tu negocio actual.", icon: Target },
+                { s: "02", t: "Estrategia", d: "Plan para reservas directas.", icon: BarChart3 },
+                { s: "03", t: "Desarrollo", d: "Motor + IA integrada.", icon: Code2 },
+                { s: "04", t: "Lanzamiento", d: "SEO y tracking activos.", icon: Zap },
               ].map((item, i) => (
                 <motion.div key={i} initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }} className="glass rounded-[16px] p-6 border-white/5 hover:border-accent/20 transition-colors group relative overflow-hidden">
                   <span className="absolute top-3 right-4 text-[36px] font-black text-accent/5">{item.s}</span>
@@ -451,9 +409,9 @@ const HotelsLandingPage: React.FC = () => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {[
-              { icon: Clock, t: "Entrega en plazo", d: "Si no cumplimos, devolvemos el 20% del pago final." },
-              { icon: Code2, t: "Código propio", d: "Sin plantillas. Carga rápido y rankea mejor." },
-              { icon: Headphones, t: "Soporte 30 días", d: "Ajustes técnicos post-lanzamiento incluidos." },
+              { icon: Clock, t: "En Plazo", d: "Devolvemos el 20% si fallamos." },
+              { icon: Code2, t: "Propio", d: "Sin plantillas. SEO de élite." },
+              { icon: Headphones, t: "Soporte", d: "30 días de ajustes gratuitos." },
             ].map((item, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }} className="glass rounded-[16px] p-6 border-white/5 group">
                 <div className="w-10 h-10 bg-accent/10 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform"><item.icon className="w-5 h-5 text-accent" /></div>
