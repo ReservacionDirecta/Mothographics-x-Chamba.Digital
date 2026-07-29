@@ -15,6 +15,8 @@ import MethodologyPage from "./pages/MethodologyPage";
 import ServicesPage from "./pages/ServicesPage";
 import TermsPage from "./pages/TermsPage";
 import PrivacyPage from "./pages/PrivacyPage";
+import SuperAdminDashboard from "./pages/SuperAdminDashboard";
+import UserPortal from "./pages/UserPortal";
 import { motion, AnimatePresence } from "motion/react";
 import RafflePage from "./pages/RaffleLandingPage/RafflePage";
 import { HeroAnimation } from "./components/animations/HeroAnimation";
@@ -483,15 +485,20 @@ const ExitIntentModal = ({
   );
 };
 
-export const Logo = ({ className = "" }: { className?: string }) => (
+export const Logo = ({
+  className = "",
+  textColor = "text-slate-900",
+}: {
+  className?: string;
+  textColor?: string;
+}) => (
   <Link to="/">
     <motion.div
       whileHover={{ scale: 1.02 }}
       className={`flex items-center gap-2 sm:gap-3 cursor-pointer ${className}`}
     >
-      
       <div className="flex flex-col sm:flex-row sm:items-center leading-[0.9] sm:leading-none">
-        <span className="text-[16px] sm:text-[22px] font-black tracking-tighter">
+        <span className={`text-[16px] sm:text-[22px] font-black tracking-tighter transition-colors duration-300 ${textColor}`}>
           Chamba
         </span>
         <span className="text-[14px] sm:text-[22px] font-bold sm:font-black tracking-tighter text-accent">
@@ -720,29 +727,6 @@ const Modal = ({ isOpen, onClose, title, content }: any) => {
 };
 
 const Hero = () => {
-  const headlineVariant = getABVariant("hero_headline", ["A", "B"]);
-
-  const headlines = {
-    A: {
-      tag: "🚀 Agencia de Ingeniería e Inteligencia Artificial",
-      title: (
-        <>
-          Hacemos que tu negocio funcione en <span className="text-accent">Piloto Automático</span>.
-        </>
-      ),
-      sub: "IA y software a medida para reducir costos, automatizar ventas y escalar sin más personal.",
-    },
-    B: {
-      tag: "⚡ Tecnología para Escalar Ventas",
-      title: (
-        <>
-          Multiplica tus resultados con <span className="text-accent">Inteligencia Artificial</span>.
-        </>
-      ),
-      sub: "Asistentes virtuales, procesos automáticos y webs ultra rápidas que venden 24/7.",
-    },
-  }[headlineVariant as "A" | "B"];
-
   return (
     <section className="relative min-h-[90vh] flex flex-col items-center justify-center text-center pt-[70px] px-6 md:px-10 overflow-hidden max-w-[1024px] mx-auto">
       <div className="absolute top-[-100px] left-[30%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-radial-[circle,rgba(59,130,246,0.1)_0%,transparent_70%] blur-[60px] -z-10" />
@@ -753,42 +737,37 @@ const Hero = () => {
         transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
         className="z-10 flex flex-col items-center smooth-gpu"
       >
-        <span className="label-editorial mx-auto">{headlines?.tag}</span>
-        <h1 className="text-[40px] md:text-[72px] font-black max-w-[900px] leading-tight md:leading-[1.1] mb-6">
-          {headlines?.title}
+        <span className="label-editorial mx-auto">Web as a Service (WaaS)</span>
+        <h1 className="text-[40px] md:text-[56px] font-black max-w-[900px] leading-tight md:leading-[1.1] mb-6">
+          Tu web a medida <br />
+          <span className="text-accent">$49 al mes</span>.
         </h1>
-        <h2 className="text-[18px] md:text-[20px] text-muted font-normal leading-relaxed max-w-[600px] mb-10">
-          {headlines?.sub}
+        <h2 className="text-[16px] md:text-[18px] text-muted font-normal leading-relaxed max-w-[650px] mb-10">
+          Cambios e iteraciones ilimitadas. Arquitectura moderna en Railway, SSL, mantenimiento y soporte continuo por WhatsApp.
         </h2>
         <div className="flex flex-col sm:flex-row items-center gap-4">
           <motion.a
             onClick={() =>
               trackEvent("cta_click", {
                 section: "hero",
-                variant: headlineVariant,
-                label: "Auditoría",
+                label: "Hablar con un Asesor",
               })
             }
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
-            href="#contacto"
-            className="bg-accent text-white px-10 py-5 rounded-[12px] font-bold text-[16px] shadow-[0_10px_30px_rgba(59,130,246,0.3)] transition-all"
+            href="https://wa.me/51904060670?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20sus%20planes%20WaaS."
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-accent text-white px-10 py-5 rounded-xl font-bold text-[16px] shadow-[0_10px_30px_rgba(37,99,235,0.3)] transition-all"
           >
-            Solicitar Auditoría de Conversión
+            Hablar con un Asesor
           </motion.a>
           <motion.a
-            onClick={() =>
-              trackEvent("cta_click", {
-                section: "hero",
-                variant: headlineVariant,
-                label: "Ver Sistemas",
-              })
-            }
             whileHover={{ x: 5 }}
             href="#servicios"
             className="group inline-flex items-center gap-2 text-[14px] font-bold text-muted hover:text-fg transition-colors"
           >
-            Ver Sistemas de Venta
+            Ver Planes WaaS
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </motion.a>
         </div>
@@ -812,13 +791,12 @@ const Opportunity = () => (
     className="py-20 px-6 md:px-10 max-w-[1024px] mx-auto"
   >
     <div className="text-center mb-16">
-      <span className="label-editorial mx-auto">Nuestro Enfoque</span>
+      <span className="label-editorial mx-auto">Por qué WaaS</span>
       <h2 className="text-[32px] md:text-[56px] font-black tracking-tighter leading-none mb-8">
-        Tecnología orientada a <span className="text-accent">Resultados</span>.
+        Tu web lista sin <span className="text-accent">dolores de cabeza</span>.
       </h2>
       <p className="text-muted text-[17px] md:text-[19px] max-w-3xl mx-auto leading-relaxed">
-        Hablamos de <strong className="text-fg">rentabilidad</strong>. 
-        Implementamos herramientas para eliminar procesos manuales y escalar sin límites.
+        Olvídate de pagar miles por adelantado a una agencia para luego quedarte solo. Con nuestro modelo WaaS, <strong className="text-fg">nosotros nos encargamos de todo</strong> por una tarifa mensual fija.
       </p>
     </div>
 
@@ -835,14 +813,14 @@ const Opportunity = () => (
         </div>
         <h3 className="text-[20px] font-bold mb-4 flex items-center gap-3">
           <Globe className="w-5 h-5 text-accent" />
-          Automatización de Negocios
+          Web a Medida
         </h3>
         <ul className="space-y-3">
           {[
-            "Sistemas interconectados.",
-            "Cero tareas manuales.",
-            "Webs de alto rendimiento.",
-            "Tracking en tiempo real.",
+            "Diseño y código 100% personalizado.",
+            "Despliegue rápido en Railway (desde $5/mes).",
+            "Optimizada para móviles y motores de búsqueda.",
+            "Certificado SSL y dominio propio configurado.",
           ].map((item, i) => (
             <li
               key={i}
@@ -867,14 +845,14 @@ const Opportunity = () => (
         </div>
         <h3 className="text-[20px] font-bold mb-4 flex items-center gap-3">
           <Bot className="w-5 h-5 text-accent" />
-          Implementación de IA
+          Soporte Continuo
         </h3>
         <ul className="space-y-3">
           {[
-            "Asistentes de venta 24/7.",
-            "Contenido automático.",
-            "Análisis de datos IA.",
-            "Reducción de costos de atención.",
+            "Cambios ilimitados de contenido.",
+            "Soporte directo por WhatsApp.",
+            "Actualizaciones de seguridad.",
+            "Respaldos periódicos automáticos.",
           ].map((item, i) => (
             <li
               key={i}
@@ -897,23 +875,23 @@ const Opportunity = () => (
     >
       {[
         {
-          title: "Más Tiempo Libre",
-          desc: "Delega lo aburrido a los sistemas.",
+          title: "Sin Pago Inicial Masivo",
+          desc: "Empiezas con solo tu primera mensualidad.",
           icon: Clock,
         },
         {
-          title: "Ventas Seguras",
-          desc: "Tu web siempre lista para cobrar.",
+          title: "Cambios Ilimitados",
+          desc: "Pides un ajuste y lo hacemos en horas.",
           icon: Target,
         },
         {
-          title: "Ahorro Real",
-          desc: "Menos personal para tareas rutinarias.",
+          title: "Cero Preocupaciones",
+          desc: "Mantenimiento y seguridad a nuestro cargo.",
           icon: BarChart3,
         },
         {
-          title: "Atención 24/7",
-          desc: "Clientes respondidos al instante.",
+          title: "Atención Rápida",
+          desc: "Respuesta directa por WhatsApp sin tickets.",
           icon: MessageCircle,
         },
       ].map((item, i) => (
@@ -930,42 +908,85 @@ const Opportunity = () => (
   </section>
 );
 
+interface PricingCardProps {
+  title: string;
+  price: string;
+  period?: string;
+  badge?: string;
+  description: string;
+  items: Array<{ name: string; details?: string }>;
+  isPopular?: boolean;
+  savings?: string;
+  whatsappText?: string;
+  productId?: string;
+  delay?: number;
+  onOpenDetails?: () => void;
+  icon?: any;
+}
+
 const PricingCard = ({
   title,
-  description,
-  items = [],
   price,
   period,
+  badge,
+  description,
+  items,
   isPopular = false,
+  savings,
+  whatsappText,
+  productId,
   delay = 0,
   onOpenDetails,
-  badge,
   icon: Icon = Zap,
-  whatsappText,
-  savings,
-}: any) => {
-  const waUrl = `https://wa.me/51904060670?text=${encodeURIComponent(whatsappText || `Hola, me interesa el plan: ${title}`)}`;
+}: PricingCardProps) => {
+  const [loading, setLoading] = useState(false);
+  const encodedMsg = encodeURIComponent(whatsappText || `Hola! Me interesa el plan WaaS ${title}`);
+  const waUrl = `https://wa.me/51904060670?text=${encodedMsg}`;
+
+  const handleCheckout = async (e: React.MouseEvent) => {
+    if (!productId) return; // fallback to WhatsApp link if no product ID
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ productId }),
+      });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        window.open(waUrl, "_blank");
+      }
+    } catch (err) {
+      console.error("Polar Checkout error:", err);
+      window.open(waUrl, "_blank");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
+      viewport={{ once: true }}
       transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
       whileHover={{ y: -8 }}
       className={`relative p-8 rounded-[28px] flex flex-col h-full transition-all duration-500 group overflow-hidden ${
         isPopular
-          ? "pricing-popular-glow bg-gradient-to-b from-[#1a1207] via-[#0d0d0d] to-[#0d0d0d] border-2 border-cta/40 scale-[1.02] lg:scale-[1.04] z-10"
-          : "glass border-white/10 hover:border-white/20"
+          ? "bg-slate-900 text-white border-2 border-cta shadow-2xl scale-[1.02] lg:scale-[1.04] z-10"
+          : "bg-white border border-slate-200 hover:border-slate-300 shadow-lg hover:shadow-xl"
       }`}
     >
-      {/* Popular shimmer effect */}
+      {/* Popular background highlight */}
       {isPopular && (
         <div className="absolute inset-0 -z-0 overflow-hidden rounded-[28px]">
           <div
-            className="absolute inset-0 opacity-20"
+            className="absolute inset-0 opacity-30"
             style={{
-              background: "linear-gradient(135deg, rgba(255,107,53,0.15) 0%, transparent 50%, rgba(245,158,11,0.1) 100%)",
+              background: "radial-gradient(circle at top right, rgba(234,88,12,0.2) 0%, transparent 60%)",
             }}
           />
         </div>
@@ -973,8 +994,8 @@ const PricingCard = ({
 
       {/* Badge */}
       {badge && (
-        <div className={`absolute top-0 right-0 z-20 ${isPopular ? "bg-gradient-to-r from-cta to-gold" : "bg-white/10"} text-white text-[10px] font-black uppercase tracking-[0.15em] px-5 py-2 rounded-bl-2xl shadow-lg flex items-center gap-1.5`}>
-          {isPopular && <Flame className="w-3 h-3" />}
+        <div className={`absolute top-0 right-0 z-20 ${isPopular ? "bg-cta text-white font-black" : "bg-slate-100 text-slate-700 border-l border-b border-slate-200 font-bold"} text-[11px] uppercase tracking-[0.15em] px-4 py-2 rounded-bl-2xl shadow-sm flex items-center gap-1.5`}>
+          {isPopular && <Flame className="w-3.5 h-3.5 text-amber-300" />}
           {badge}
         </div>
       )}
@@ -982,25 +1003,25 @@ const PricingCard = ({
       <div className="relative z-10 flex flex-col h-full">
         {/* Header */}
         <div className="mb-6">
-          <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-4 ${isPopular ? "bg-cta/15" : "bg-accent/10"}`}>
-            <Icon className={`w-6 h-6 ${isPopular ? "text-cta" : "text-accent"}`} />
+          <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-4 ${isPopular ? "bg-cta/20 text-cta" : "bg-blue-50 text-accent"}`}>
+            <Icon className="w-6 h-6" />
           </div>
-          <h3 className={`text-[20px] font-black tracking-tight mb-2 ${isPopular ? "text-cta" : "text-fg"}`}>
+          <h3 className={`text-[22px] font-black tracking-tight mb-2 ${isPopular ? "text-white" : "text-slate-900"}`}>
             {title}
           </h3>
-          <p className="text-[13px] text-muted leading-relaxed">{description}</p>
+          <p className={`text-[13px] leading-relaxed ${isPopular ? "text-slate-300" : "text-slate-600"}`}>{description}</p>
         </div>
 
         {/* Price */}
-        <div className="mb-8 pb-6 border-b border-white/5">
+        <div className={`mb-8 pb-6 border-b ${isPopular ? "border-slate-800" : "border-slate-100"}`}>
           <div className="flex items-baseline gap-2">
-            <span className={`text-[42px] font-black tracking-tighter ${isPopular ? "text-fg" : "text-fg"}`}>{price}</span>
-            {period && <span className="text-[13px] text-muted font-medium">{period}</span>}
+            <span className={`text-[46px] font-black tracking-tighter ${isPopular ? "text-amber-400" : "text-slate-900"}`}>{price}</span>
+            {period && <span className={`text-[14px] font-semibold ${isPopular ? "text-slate-400" : "text-slate-500"}`}>{period}</span>}
           </div>
           {savings && (
-            <div className="mt-2 inline-flex items-center gap-1.5 bg-emerald/10 text-emerald px-3 py-1 rounded-full">
+            <div className={`mt-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-full ${isPopular ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30" : "bg-emerald-50 text-emerald-700 border border-emerald-200"}`}>
               <Sparkles className="w-3 h-3" />
-              <span className="text-[11px] font-bold">{savings}</span>
+              <span className="text-[11px] font-extrabold">{savings}</span>
             </div>
           )}
         </div>
@@ -1010,38 +1031,57 @@ const PricingCard = ({
           {items.map((item: any, idx: number) => (
             <li key={idx} className="flex items-start gap-3">
               <div className="mt-0.5 shrink-0">
-                <CheckCircle2 className={`w-[18px] h-[18px] ${isPopular ? "text-cta" : "text-emerald"}`} />
+                <CheckCircle2 className={`w-[18px] h-[18px] ${isPopular ? "text-amber-400" : "text-emerald-600"}`} />
               </div>
               <div>
-                <span className="text-[13px] font-bold text-fg block leading-tight">{item.name}</span>
-                {item.details && <p className="text-[11px] text-muted leading-relaxed mt-0.5">{item.details}</p>}
+                <span className={`text-[13px] font-bold block leading-tight ${isPopular ? "text-white" : "text-slate-800"}`}>{item.name}</span>
+                {item.details && <p className={`text-[11px] leading-relaxed mt-0.5 ${isPopular ? "text-slate-400" : "text-slate-500"}`}>{item.details}</p>}
               </div>
             </li>
           ))}
         </ul>
 
-        {/* CTA */}
-        <div className="mt-auto space-y-3">
-          <motion.a
-            whileHover={{ scale: 1.03, y: -2 }}
+        {/* CTA Buttons */}
+        <div className="mt-auto space-y-2.5">
+          <motion.button
+            whileHover={{ scale: 1.02, y: -2 }}
             whileTap={{ scale: 0.97 }}
+            onClick={handleCheckout}
+            disabled={loading}
+            className={`w-full py-3.5 sm:py-4 px-3 sm:px-4 rounded-xl sm:rounded-2xl font-black text-[12px] sm:text-[13px] md:text-[14px] uppercase tracking-wider transition-all flex items-center justify-center gap-2 sm:gap-2.5 cursor-pointer text-center leading-tight ${
+              isPopular
+                ? "bg-cta hover:bg-cta-hover text-white shadow-[0_10px_25px_rgba(234,88,12,0.4)] cta-pulse"
+                : "bg-accent hover:bg-accent/90 text-white shadow-md"
+            }`}
+          >
+            {loading ? (
+              <span className="inline-block animate-pulse">Cargando Checkout...</span>
+            ) : (
+              <>
+                <Zap className="w-4 h-4" />
+                Suscripción Instantánea Polar
+              </>
+            )}
+          </motion.button>
+
+          <a
             href={waUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className={`w-full py-4 rounded-2xl font-black text-[14px] uppercase tracking-wider transition-all flex items-center justify-center gap-2.5 ${
-              isPopular
-                ? "bg-gradient-to-r from-cta to-cta-hover text-white shadow-[0_15px_40px_rgba(255,107,53,0.3)] cta-pulse"
-                : "bg-white/5 text-fg hover:bg-white/10 border border-white/10 hover:border-cta/30"
+            className={`w-full py-2.5 rounded-xl font-bold text-[12px] transition-colors flex items-center justify-center gap-2 ${
+              isPopular ? "text-slate-300 hover:text-white bg-slate-800/60" : "text-slate-700 hover:text-slate-900 bg-slate-100"
             }`}
           >
-            <WhatsAppIcon className="w-5 h-5" />
-            {isPopular ? "Empezar Ahora" : "Consultar Plan"}
-          </motion.a>
+            <WhatsAppIcon className="w-4 h-4 text-emerald-500" />
+            O consulta por WhatsApp
+          </a>
 
           {onOpenDetails && (
             <button
               onClick={onOpenDetails}
-              className="w-full text-[11px] font-bold text-muted hover:text-accent transition-colors flex items-center justify-center gap-2 py-2"
+              className={`w-full text-[11px] font-bold transition-colors flex items-center justify-center gap-2 py-1.5 ${
+                isPopular ? "text-slate-400 hover:text-white" : "text-slate-500 hover:text-accent"
+              }`}
             >
               Ver detalles técnicos <ArrowRight className="w-3 h-3" />
             </button>
@@ -1102,63 +1142,68 @@ const Services = ({
     </div>
 
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-6 items-stretch mb-24 px-4 lg:px-0">
-      {/* Starter Plan */}
+      {/* Plan $49/mes - Web Tradicional */}
       <PricingCard
-        title="Lanzamiento OnePage"
+        title="Web Tradicional"
         icon={Zap}
-        badge="Ideal para empezar"
-        description="Valida tu modelo de negocio con una landing de alta conversión."
-        price="$150"
-        period="USD / Pago Único"
-        savings="Entrega en 7 días"
-        whatsappText="Hola! Me interesa el Plan Lanzamiento OnePage ($150 USD). Quisiera más información."
+        badge="Suscripción Básica"
+        description="Para profesionales, marcas personales, tiendas, clínicas y negocios locales."
+        price="$49.99"
+        period="/ mes"
+        savings="Sin inversión inicial"
+        productId="70f62d4c-2cd9-49ad-9628-24a04d462cc0"
+        whatsappText="Hola! Me interesa la suscripción WaaS Web Tradicional ($49/mes). Quisiera más información."
         items={[
-          { name: "Landing Page Ultra Rápida", details: "Diseño UX enfocado 100% en ventas." },
-          { name: "SEO + Google My Business", details: "Aparece en búsquedas desde el día 1." },
-          { name: "Dominio + SSL + Hosting", details: "Todo configurado por nosotros." },
-          { name: "WhatsApp Integrado", details: "Botón directo para recibir clientes." },
+          { name: "Sitio Web Profesional 100% a medida", details: "Sin plantillas genéricas. Código propio." },
+          { name: "Cambios ilimitados de contenido", details: "Actualizamos tu web cuando lo necesites." },
+          { name: "Despliegue Cloud en Railway", details: "Hosting ultra rápido en Railway (coste directo del cliente desde $5/mes)." },
+          { name: "Integración con WhatsApp y Google", details: "Optimizada para recibir clientes de inmediato." },
+          { name: "Soporte técnico continuo", details: "Atención rápida directa por WhatsApp." },
         ]}
-        onOpenDetails={() => onOpenModal("Plan Lanzamiento", "Diseñamos una landing page de alto impacto centrada en un solo objetivo: convertir visitantes en clientes. Incluye integración con WhatsApp, formularios de contacto y optimización móvil total. La forma más rápida de profesionalizar tu presencia digital.")}
+        onOpenDetails={() => onOpenModal("Web Tradicional WaaS", "Con nuestro plan de $49/mes obtienes tu sitio web totalmente profesional sin hacer un desembolso inicial de miles de dólares. Nos encargamos de todo: diseño, desarrollo, hosting cloud, certificado de seguridad SSL y soporte continuo con cambios ilimitados.")}
       />
 
-      {/* Featured Business Plan */}
+      {/* Plan $99/mes - Web App Advanced */}
       <PricingCard
         isPopular={true}
-        icon={Flame}
-        badge="Más Vendido"
-        title="Crecimiento Business"
-        description="Ecosistema digital completo. Automatiza tu captación de clientes."
-        price="$500"
-        period="USD / Pago Único"
-        savings="Ahorra +$2,000 vs agencia tradicional"
-        whatsappText="Hola! Me interesa el Plan Crecimiento Business ($500 USD). Quiero automatizar mi captación de clientes."
+        icon={Crown}
+        badge="Más Popular"
+        title="Web App Advanced"
+        description="Para empresas que requieren panel de administración, catálogo o API REST."
+        price="$99.99"
+        period="/ mes"
+        savings="Incluye Panel Admin + API"
+        productId="b78ef21a-1fdc-4fb6-b411-f4eb46f3fe96"
+        whatsappText="Hola! Me interesa el plan WaaS Web App Advanced ($99/mes). Necesito panel de administración y funciones avanzadas."
         items={[
-          { name: "Web Multipágina (5 secciones)", details: "Inicio, Servicios, Nosotros, Blog, Contacto." },
-          { name: "Automatización de Leads con IA", details: "Filtros inteligentes y seguimiento automático." },
-          { name: "Meta Pixel + GA4 + Tracking", details: "Mide cada centavo invertido en publicidad." },
-          { name: "Soporte VIP 30 días", details: "Acompañamiento técnico post-entrega." },
-          { name: "4 Rondas de Revisión", details: "Ajustes semanales sincronizados con pagos." },
+          { name: "Web App interactiva y dinámica", details: "Base de datos y panel de control personalizado." },
+          { name: "Rest API e Integración de Sistemas", details: "Conexión con pasarelas de pago o software externo." },
+          { name: "Cambios e iteraciones ilimitadas", details: "Evolución constante de la plataforma." },
+          { name: "Arquitectura Cloud en Railway + Backups", details: "Infraestructura en Railway (desde $5/mes a cuenta del cliente) y 99.9% uptime." },
+          { name: "Soporte prioritario directo", details: "Contacto directo con el equipo de desarrollo." },
         ]}
-        onOpenDetails={() => onOpenModal("Plan Business", "Nuestra solución más equilibrada. No solo es una web, es una máquina de captación. Construimos un sistema que captura, califica y procesa leads automáticamente. Incluye análisis de datos avanzado para optimizar cada dólar en publicidad.")}
+        onOpenDetails={() => onOpenModal("Web App Advanced WaaS", "Diseñado para negocios que necesitan gestionar contenido dinámico, usuarios, reservas o inventario. Incluye un panel administrativo simple e intutitivo, arquitectura escalable y soporte activo para mantener tu plataforma en constante evolución.")}
       />
 
-      {/* Elite Plan */}
+      {/* Plan $599/mes - Web App con IA */}
       <PricingCard
-        title="Dominio Elite & IA"
-        icon={Crown}
-        badge="Premium"
-        description="Software y agentes de IA para dominar mercados competitivos."
-        price="$1,200+"
-        period="USD / Proyecto"
-        whatsappText="Hola! Me interesa el Plan Elite & IA (desde $1,200 USD). Necesito una solución avanzada para mi negocio."
+        title="Web App con IA"
+        icon={Sparkles}
+        badge="Empresarial & IA"
+        description="Para empresas con flujos de trabajo automatizables e integración profunda de IA."
+        price="$599.99"
+        period="/ mes"
+        savings="Automatización Operativa Total"
+        productId="ef4fe8a9-0f60-40c2-b0c3-0cf2663e38de"
+        whatsappText="Hola! Me interesa el plan WaaS Web App con IA ($599/mes). Deseo automatizar la gestión y flujos de mi empresa con IA."
         items={[
-          { name: "Agentes de IA 24/7", details: "Vendedores inteligentes en tu web o WhatsApp." },
-          { name: "E-Commerce de Escala", details: "Plataformas de venta masiva personalizadas." },
-          { name: "Automatización Total", details: "Software a medida para tu operación." },
-          { name: "Consultoría de Escala", details: "Estrategia de crecimiento de facturación." },
-          { name: "4 Rondas de Revisión", details: "Ajustes semanales sincronizados con pagos." },
+          { name: "Integración de Inteligencia Artificial", details: "Modelos de IA aplicados a la gestión de tu empresa." },
+          { name: "Agentes y Asistentes Automatizados", details: "Atención, calificación y procesamiento 24/7." },
+          { name: "Automatización de Flujos de Trabajo", details: "Eliminación de procesos manuales y repetitivos." },
+          { name: "Infraestructura Cloud Dedicada", details: "Servidores preparados para alta concurrencia." },
+          { name: "Consultoría y Evolución Mensual", details: "Optimización continua de tus sistemas con IA." },
         ]}
-        onOpenDetails={() => onOpenModal("Plan Elite", "Para proyectos de alta complejidad. Implementamos los últimos avances en IA y desarrollo de software para dominar mercados competitivos. Desde CRMs personalizados hasta agentes de IA que cierran ventas por ti.")}
+        onOpenDetails={() => onOpenModal("Web App con IA WaaS", "Nuestra solución de máximo nivel para empresas que buscan transformar sus operaciones. Integramos IA en tus flujos de trabajo, automatizamos la atención de clientes y reducimos costos operativos significativamente por una tarifa mensual fija.")}
       />
     </div>
 
@@ -1301,6 +1346,11 @@ const Portfolio = () => {
   ];
 
   const webs = [
+    {
+      url: "pacificsurfschool.com.pe",
+      label: "Escuela & Clases de Surf",
+      thumb: "https://s.wordpress.com/mshots/v1/https://pacificsurfschool.com.pe?w=600",
+    },
     {
       url: "latamabogados.com",
       label: "Inglés Legal & Consultoría U.S.",
@@ -1485,23 +1535,32 @@ const Portfolio = () => {
               key={i}
               href={`https://${web.url}`}
               target="_blank"
-              whileHover={{ y: -5 }}
-              className="group block"
+              rel="noopener noreferrer"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.05, duration: 0.5 }}
+              whileHover={{ y: -6, scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="group block interactive-card p-2 rounded-[22px] hover:bg-slate-50 border border-transparent hover:border-slate-200 transition-all duration-300"
             >
-              <div className="relative aspect-video rounded-[20px] overflow-hidden border border-white/5 mb-4 shadow-2xl">
+              <div className="relative aspect-video rounded-[18px] overflow-hidden border border-slate-200/80 mb-3.5 shadow-md group-hover:shadow-xl transition-all duration-500">
                 <img
                   src={web.thumb}
                   alt={web.label}
-                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                 />
-                <div className="absolute inset-0 bg-accent/20 opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-center justify-center">
-                  <ExternalLink className="w-6 h-6 text-white" />
+                <div className="absolute inset-0 bg-slate-900/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[2px]">
+                  <div className="p-3 bg-accent text-white rounded-full shadow-lg transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                    <ExternalLink className="w-5 h-5" />
+                  </div>
                 </div>
               </div>
-              <h4 className="text-[13px] font-bold text-fg mb-1">
+              <h4 className="text-[14px] font-extrabold text-slate-900 mb-0.5 group-hover:text-accent transition-colors">
                 {web.label}
               </h4>
-              <p className="text-[11px] text-muted uppercase tracking-widest">
+              <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider flex items-center gap-1">
+                <Globe className="w-3 h-3 text-slate-400 group-hover:text-accent transition-colors" />
                 {web.url}
               </p>
             </motion.a>
@@ -1788,7 +1847,6 @@ export const ChambaNavbar = () => {
     { name: "Servicios", path: "/servicios" },
     { name: "Portafolio", path: "/portafolio" },
     { name: "Metodología", path: "/metodologia" },
-    { name: "Sorteo", path: "/raffle" },
     { name: "Hotelería", path: "/hospitality" },
   ];
 
@@ -1796,12 +1854,12 @@ export const ChambaNavbar = () => {
     <nav
       className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 px-6 md:px-10 flex items-center justify-between smooth-gpu ${
         scrolled
-          ? "h-[70px] bg-black/60 backdrop-blur-xl border-b border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.3)]"
+          ? "h-[70px] bg-slate-900/95 backdrop-blur-xl border-b border-slate-800 shadow-[0_10px_30px_rgba(15,23,42,0.4)]"
           : "h-[90px] bg-transparent"
       }`}
     >
       <div className="flex items-center gap-12">
-        <Logo />
+        <Logo textColor={scrolled ? "text-white" : "text-slate-900"} />
 
         {/* Desktop Nav */}
         <div className="hidden lg:flex items-center gap-8">
@@ -1809,41 +1867,64 @@ export const ChambaNavbar = () => {
             <Link
               key={link.path}
               to={link.path.startsWith("/") ? link.path : link.path}
-              className="text-[12px] font-black uppercase tracking-[0.2em] text-muted hover:text-accent transition-all relative group py-2"
+              className={`text-[12px] font-black uppercase tracking-[0.2em] transition-all relative group py-2 ${
+                scrolled ? "text-white hover:text-amber-400" : "text-slate-700 hover:text-accent"
+              }`}
             >
               {link.name}
-              <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-accent transition-all duration-300 group-hover:w-full" />
+              <span className={`absolute bottom-0 left-0 w-0 h-[2px] transition-all duration-300 group-hover:w-full ${scrolled ? "bg-amber-400" : "bg-accent"}`} />
             </Link>
           ))}
         </div>
       </div>
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-3 md:gap-4">
+        {/* Login Button */}
+        <Link
+          to="/login"
+          className={`text-[12px] font-black uppercase tracking-[0.15em] transition-all px-4 py-2 rounded-xl flex items-center gap-1.5 border ${
+            scrolled
+              ? "text-white hover:text-amber-400 border-slate-700 bg-slate-800/80 hover:bg-slate-800"
+              : "text-slate-800 hover:text-accent border-slate-200 bg-slate-100 hover:bg-slate-200"
+          }`}
+        >
+          <User className="w-3.5 h-3.5" />
+          <span>Login</span>
+        </Link>
+
         <motion.a
           whileHover={{ scale: 1.05, y: -2 }}
           whileTap={{ scale: 0.95 }}
           href="https://wa.me/51904060670"
           target="_blank"
           rel="noopener noreferrer"
-          className="hidden sm:flex bg-accent text-white px-8 py-3.5 rounded-[14px] text-[12px] font-black uppercase tracking-widest transition-all shadow-[0_10px_25px_rgba(59,130,246,0.3)] hover:shadow-[0_15px_35px_rgba(59,130,246,0.5)] border border-white/10 smooth-gpu"
+          className="hidden lg:flex bg-accent text-white px-5 py-2.5 rounded-xl text-[11px] font-black uppercase tracking-wider transition-all shadow-[0_4px_12px_rgba(37,99,235,0.35)] hover:shadow-[0_6px_18px_rgba(37,99,235,0.5)] border border-white/10 smooth-gpu shrink-0"
         >
           Iniciar Proyecto
         </motion.a>
 
-        {/* Mobile Toggle */}
+        {/* Mobile / Tablet Toggle */}
         <button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="lg:hidden p-3 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-colors"
+          aria-label="Abrir menú"
+          className={`lg:hidden p-2.5 md:p-3 rounded-xl border transition-colors flex items-center gap-2 ${
+            scrolled
+              ? "bg-slate-800 text-white border-slate-700 hover:bg-slate-700"
+              : "bg-slate-100 text-slate-900 border-slate-200 hover:bg-slate-200"
+          }`}
         >
           {isMobileMenuOpen ? (
-            <X className="w-6 h-6" />
+            <X className="w-5 h-5 md:w-6 md:h-6" />
           ) : (
-            <Menu className="w-6 h-6" />
+            <>
+              <Menu className="w-5 h-5 md:w-6 md:h-6" />
+              <span className="text-[11px] font-bold uppercase tracking-wider hidden sm:inline-block md:hidden">Menú</span>
+            </>
           )}
         </button>
       </div>
 
-      {/* Mobile Menu Overlay */}
+      {/* Mobile & Tablet Menu Overlay */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
@@ -1851,53 +1932,67 @@ export const ChambaNavbar = () => {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "100%" }}
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="fixed inset-0 z-[110] bg-black/98 backdrop-blur-[30px] flex flex-col p-8 pt-24 lg:hidden h-[100dvh] w-full overflow-y-auto"
+            className="fixed inset-0 z-[110] bg-slate-950/98 backdrop-blur-[30px] flex flex-col p-6 sm:p-10 pt-20 lg:hidden h-[100dvh] w-full overflow-y-auto"
           >
             {/* Background Decorations */}
-            <div className="absolute top-[-10%] right-[-10%] w-[80vw] h-[80vw] bg-accent/10 blur-[120px] rounded-full -z-10" />
-            <div className="absolute bottom-[-5%] left-[-10%] w-[60vw] h-[60vw] bg-accent/5 blur-[100px] rounded-full -z-10" />
+            <div className="absolute top-[-10%] right-[-10%] w-[80vw] h-[80vw] bg-accent/15 blur-[120px] rounded-full -z-10" />
+            <div className="absolute bottom-[-5%] left-[-10%] w-[60vw] h-[60vw] bg-accent/10 blur-[100px] rounded-full -z-10" />
 
             <button
               onClick={() => setIsMobileMenuOpen(false)}
-              className="absolute top-8 right-8 p-3 bg-white/5 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors"
+              className="absolute top-6 right-6 p-3 bg-white/10 text-white rounded-2xl border border-white/10 hover:bg-white/20 transition-colors"
             >
               <X className="w-6 h-6" />
             </button>
 
-            <div className="flex flex-col gap-6 mb-12">
-              <span className="text-[11px] font-black uppercase tracking-[0.4em] text-accent mb-4">
+            <div className="flex flex-col gap-5 my-auto py-6">
+              <span className="text-[11px] font-black uppercase tracking-[0.3em] text-accent mb-2">
                 Menú de Navegación
               </span>
               {navLinks.map((link, i) => (
                 <motion.div
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.1 }}
+                  transition={{ delay: i * 0.08 }}
                   key={link.path}
                 >
                   <Link
                     to={link.path}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="text-[32px] font-black tracking-tight hover:text-accent transition-colors block"
+                    className="text-[28px] sm:text-[36px] font-black tracking-tight text-white hover:text-amber-400 transition-colors block"
                   >
                     {link.name}
                   </Link>
                 </motion.div>
               ))}
+
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: navLinks.length * 0.08 }}
+              >
+                <Link
+                  to="/login"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="text-[28px] sm:text-[36px] font-black tracking-tight text-amber-400 hover:text-white transition-colors flex items-center gap-3 pt-2 border-t border-white/10"
+                >
+                  <User className="w-8 h-8" /> Login Cliente
+                </Link>
+              </motion.div>
             </div>
 
-            <div className="mt-auto space-y-6">
-              <div className="h-[1px] w-full bg-white/10" />
-              <div className="flex flex-col gap-4">
-                <span className="text-[13px] text-muted italic">
-                  ¿Listo para escalar tus operaciones?
+            <div className="mt-auto space-y-6 pt-6 border-t border-white/10">
+              <div className="flex flex-col gap-3">
+                <span className="text-[13px] text-slate-400 font-medium">
+                  Web as a Service desde <strong className="text-amber-400">$49/mes</strong>
                 </span>
                 <a
                   href="https://wa.me/51904060670"
                   target="_blank"
-                  className="bg-accent text-white py-5 rounded-2xl text-center font-black uppercase tracking-widest text-[14px]"
+                  rel="noopener noreferrer"
+                  className="bg-accent hover:bg-accent/90 text-white py-4 rounded-xl text-center font-black uppercase tracking-wider text-[13px] shadow-lg"
                 >
-                  Agendar Auditoría Gratuita
+                  Hablar por WhatsApp
                 </a>
               </div>
             </div>
@@ -1909,43 +2004,42 @@ export const ChambaNavbar = () => {
 };
 
 const ChambaHero = () => (
-  <section className="relative min-h-[80vh] flex flex-col items-center text-center justify-center pt-[70px] px-6 md:px-10 overflow-hidden max-w-[1024px] mx-auto">
+  <section className="relative min-h-[85vh] flex flex-col items-center text-center justify-center pt-[70px] px-6 md:px-10 overflow-hidden max-w-[1024px] mx-auto">
     <div className="absolute top-[-100px] left-[30%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-radial-[circle,rgba(59,130,246,0.1)_0%,transparent_70%] blur-[60px] -z-10" />
 
     <motion.div
       initial={{ opacity: 0, y: 30, scale: 0.98 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
       className="z-10 smooth-gpu"
     >
       <span className="label-editorial mx-auto">
-        🚀 Ingeniería de Performance
+        Web as a Service (WaaS)
       </span>
-      <h1 className="text-[36px] sm:text-[48px] md:text-[64px] max-w-[800px] leading-[1.1] md:leading-[1] mb-6 font-black tracking-tight">
-        Transformamos tu negocio con{" "}
-        <span className="text-accent">Tecnología de Alto Nivel</span>.
+      <h1 className="text-[36px] sm:text-[48px] md:text-[56px] max-w-[850px] leading-[1.1] md:leading-[1] mb-6 font-black tracking-tight text-slate-900">
+        Tu web a medida <br />
+        <span className="text-accent">$49 al mes</span>.
       </h1>
-      <p className="text-[15px] md:text-[18px] text-muted font-normal leading-[1.6] max-w-[600px] mb-10 mx-auto px-4">
-        Desarrollo web, Meta Ads y Automatización con IA. Operamos desde Perú
-        para el mundo, entregando resultados medibles y escalables.
+      <p className="text-[16px] md:text-[18px] text-slate-600 font-medium leading-[1.6] max-w-[650px] mb-10 mx-auto px-4">
+        Cambios e iteraciones ilimitadas. Mantenimiento y soporte continuo. Despliegue en Railway (hosting desde $5/mes y dominio a cuenta del cliente).
       </p>
       <div className="flex flex-col sm:flex-row items-center justify-center gap-4 px-6">
         <motion.a
           whileHover={{ scale: 1.05, y: -2 }}
           whileTap={{ scale: 0.95 }}
-          href="https://wa.me/51904060670?text=Hola%2C%20quiero%20una%20auditoría%20gratuita%20para%20mi%20negocio."
+          href="https://wa.me/51904060670?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20sus%20planes%20WaaS."
           target="_blank"
           rel="noopener noreferrer"
           className="bg-gradient-to-r from-cta to-cta-hover text-white px-10 py-5 rounded-[14px] font-black text-[15px] w-full sm:w-auto shadow-[0_15px_40px_rgba(255,107,53,0.3)] hover:shadow-[0_20px_50px_rgba(255,107,53,0.4)] transition-all flex items-center justify-center gap-3 cta-pulse uppercase tracking-wider"
         >
           <WhatsAppIcon className="w-5 h-5" />
-          Auditoría Gratis
+          Hablar con un Asesor
         </motion.a>
         <Link
           to="/servicios"
           className="group inline-flex items-center gap-2 text-[15px] font-bold text-fg hover:text-accent transition-colors py-3"
         >
-          Explorar Servicios
+          Ver Planes WaaS
           <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
         </Link>
       </div>
@@ -1975,26 +2069,26 @@ const ChambaHero = () => (
 const PainPoints = () => (
   <section className="py-20 px-6 md:px-10 max-w-[1024px] mx-auto border-t border-white/5">
     <div className="text-center mb-16">
-      <span className="label-editorial mx-auto">¿Te suena familiar?</span>
+      <span className="label-editorial mx-auto">El problema</span>
       <h2 className="text-[32px] md:text-[40px] font-bold tracking-tight mb-4">
-        El problema de la mayoría de negocios digitales
+        Esto le pasa a la mayoría
       </h2>
     </div>
     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
       {[
         {
-          title: "Inversión sin Retorno",
-          desc: "Gastas en anuncios pero no ves ventas reales. El tráfico llega, pero no convierte.",
+          title: "Pagaste y no funcionó",
+          desc: "Te cobraron miles por una web que no genera clientes. Quedó bonita pero no vende.",
           icon: TrendingUp,
         },
         {
-          title: "Webs 'Fantasma'",
-          desc: "Tienes una web bonita que nadie visita o que es tan lenta que espanta a los clientes.",
+          title: "Tu web está abandonada",
+          desc: "Necesitas un cambio y tu desarrollador no responde. O te cobra de nuevo por cada ajuste.",
           icon: Globe,
         },
         {
-          title: "Procesos Manuales",
-          desc: "Pierdes tiempo respondiendo lo mismo una y otra vez en lugar de cerrar ventas.",
+          title: "Todo es manual",
+          desc: "Respondes lo mismo 20 veces al día. Copias datos a mano. Pierdes ventas por lento.",
           icon: MessageSquare,
         },
       ].map((item, i) => (
@@ -2025,22 +2119,22 @@ const PainPoints = () => (
       <div className="absolute inset-0 bg-gradient-to-br from-cta/5 via-transparent to-gold/5 -z-0" />
       <div className="relative z-10">
         <h3 className="text-[24px] md:text-[32px] font-black tracking-tight mb-3">
-          ¿Te identificas con alguno?
+          Te suena, ¿verdad?
         </h3>
         <p className="text-muted text-[15px] mb-8 max-w-[500px] mx-auto">
-          Hablemos 15 minutos. <strong className="text-fg">Sin costo, sin compromiso.</strong> Te diremos exactamente qué necesitas.
+          Cuéntanos qué necesitas en 2 minutos por WhatsApp. <strong className="text-fg">Te respondemos hoy.</strong>
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <motion.a
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            href="https://wa.me/51904060670?text=Hola%2C%20tengo%20un%20problema%20con%20mi%20negocio%20digital%20y%20necesito%20ayuda."
+            href="https://wa.me/51904060670?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20sus%20planes%20WaaS."
             target="_blank"
             rel="noopener noreferrer"
             className="bg-gradient-to-r from-cta to-cta-hover text-white px-8 py-4 rounded-2xl font-black text-[14px] shadow-[0_15px_30px_rgba(255,107,53,0.3)] flex items-center gap-3 uppercase tracking-wider"
           >
             <WhatsAppIcon className="w-5 h-5" />
-            Diagnóstico Gratis por WhatsApp
+            Hablar con un Asesor
           </motion.a>
         </div>
       </div>
@@ -2065,19 +2159,19 @@ const StickyCtaBar = () => {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 60, opacity: 0 }}
           transition={{ type: "spring", damping: 20, stiffness: 300 }}
-          className="fixed bottom-0 left-0 right-0 z-[90] sticky-cta-bar py-3 px-6 flex items-center justify-center gap-4 shadow-[0_-10px_40px_rgba(0,0,0,0.3)]"
+          className="fixed bottom-0 left-0 right-0 z-[90] bg-slate-900/95 backdrop-blur-xl border-t border-slate-800 py-3.5 px-6 flex items-center justify-center gap-4 sm:gap-6 shadow-[0_-10px_30px_rgba(15,23,42,0.3)]"
         >
-          <span className="text-white font-bold text-[13px] hidden sm:block">
-            🚀 Transforma tu negocio hoy
+          <span className="text-white font-extrabold text-[13px] sm:text-[14px] hidden sm:block tracking-wide">
+            Tu web desde <span className="text-amber-400 font-black">$49/mes</span> · Cambios ilimitados · Hosting Railway desde $5/mes
           </span>
           <a
-            href="https://wa.me/51904060670?text=Hola%2C%20quiero%20una%20auditoría%20gratuita%20para%20mi%20negocio."
+            href="https://wa.me/51904060670?text=Hola%2C%20quiero%20m%C3%A1s%20informaci%C3%B3n%20sobre%20sus%20planes%20WaaS."
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-white text-cta px-6 py-2.5 rounded-xl font-black text-[12px] uppercase tracking-wider shadow-lg flex items-center gap-2 hover:scale-105 transition-transform"
+            className="bg-cta hover:bg-cta-hover text-white px-5 sm:px-6 py-2.5 rounded-xl font-black text-[11px] sm:text-[12px] uppercase tracking-wider shadow-lg flex items-center gap-2 hover:scale-105 transition-all"
           >
-            <WhatsAppIcon className="w-4 h-4" />
-            Auditoría Gratis
+            <WhatsAppIcon className="w-4 h-4 text-white" />
+            Hablar por WhatsApp
           </a>
         </motion.div>
       )}
@@ -2090,30 +2184,31 @@ const Methodology = () => (
     id="metodologia"
     className="py-20 px-6 md:px-10 bg-accent/[0.02] border-y border-white/5"
   >
+    <div className="max-w-[1024px] mx-auto text-center mb-16">
+      <span className="label-editorial mx-auto">Así funciona</span>
+      <h2 className="text-[32px] md:text-[48px] font-black tracking-tight leading-tight mb-4">
+        Tres pasos. <span className="text-accent">Sin vueltas.</span>
+      </h2>
+    </div>
     <div className="max-w-[1024px] mx-auto">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
         <div>
-          <span className="label-editorial">Nuestro Método</span>
-          <h2 className="text-[32px] md:text-[48px] font-bold tracking-tight leading-tight mb-6">
-            No vendemos humo, <br /> vendemos{" "}
-            <span className="text-accent">Ingeniería</span>.
-          </h2>
           <div className="space-y-8">
             {[
               {
                 step: "01",
-                title: "Captación Estratégica",
-                desc: "Tráfico calificado (Meta Ads) enviado directo a landing pages de alta conversión.",
+                title: "Nos cuentas qué necesitas",
+                desc: "Hablamos por WhatsApp o llamada. Entendemos tu negocio y definimos qué tipo de web necesitas.",
               },
               {
                 step: "02",
-                title: "Conversión Optimizada",
-                desc: "UX premium (Liquid Glass), modales activos y triggers diseñados para cerrar ventas.",
+                title: "Diseñamos y desarrollamos",
+                desc: "Creamos tu web a medida con código propio. Tú apruebas cada etapa antes de avanzar.",
               },
               {
                 step: "03",
-                title: "Automatización Continua",
-                desc: "Agentes de IA y flujos de remarketing que venden y atienden clientes 24/7.",
+                title: "Lanzamos y mantenemos",
+                desc: "Publicamos, configuramos hosting y SSL. A partir de ahí, cualquier cambio está incluido en tu plan.",
               },
             ].map((item, i) => (
               <div key={i} className="flex gap-6">
@@ -2161,16 +2256,24 @@ const FAQ = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const faqs = [
     {
-      q: "¿En cuánto tiempo veré resultados?",
-      a: "Las campañas de Meta Ads pueden generar leads en las primeras 48-72 horas. Proyectos web y de IA suelen tomar entre 2 a 4 semanas según complejidad.",
+      q: "¿Cómo funciona el servicio WaaS y la infraestructura?",
+      a: "Tu suscripción WaaS cubre el diseño, desarrollo a medida, cambios ilimitados de contenido, actualizaciones de seguridad y soporte por WhatsApp. La infraestructura y hosting se despliegan en Railway (con un costo directo desde $5 USD/mes) y el dominio es de tu propiedad.",
+    },
+    {
+      q: "¿Puedo cancelar en cualquier momento?",
+      a: "Sí. No hay contratos de permanencia. Si cancelas, tu web sigue online el mes que ya pagaste y te entregamos todo el código.",
+    },
+    {
+      q: "¿Cuánto tarda en estar lista mi web?",
+      a: "Entre 2 y 4 semanas dependiendo de la complejidad. Webs corporativas simples pueden estar listas en 10 días.",
     },
     {
       q: "¿Trabajan con clientes fuera de Perú?",
-      a: "Sí, operamos de forma remota para clientes en México, España, Estados Unidos y toda Latinoamérica.",
+      a: "Sí. Tenemos clientes en México, España, Estados Unidos y toda Latinoamérica. Todo el proceso es remoto.",
     },
     {
-      q: "¿Necesito una inversión mínima en publicidad?",
-      a: "Recomendamos iniciar con al menos $10-$15 USD diarios para que el algoritmo de Meta tenga datos suficientes para optimizar.",
+      q: "¿El código es mío?",
+      a: "100%. No usamos plantillas ni WordPress. Tu web se desarrolla a medida y al finalizar el proyecto recibes todo el código fuente.",
     },
   ];
 
@@ -2220,7 +2323,7 @@ const ContactForm = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    objective: "Escalar Ventas",
+    objective: "Web Tradicional ($50/mes)",
     message: "",
   });
 
@@ -2237,7 +2340,7 @@ const ContactForm = () => {
       setFormData({
         name: "",
         email: "",
-        objective: "Escalar Ventas",
+        objective: "Web Tradicional ($49/mes)",
         message: "",
       });
     }, 1500);
@@ -2252,11 +2355,10 @@ const ContactForm = () => {
         <div>
           <span className="label-editorial">Contacto</span>
           <h2 className="text-[32px] md:text-[48px] font-bold tracking-tight leading-tight mb-6">
-            ¿Listo para <span className="text-accent">escalar</span>?
+            Cuéntanos qué <span className="text-accent">necesitas</span>
           </h2>
           <p className="text-muted text-[16px] mb-8 leading-relaxed">
-            Cuéntanos sobre tu proyecto. Analizaremos tu situación actual y te
-            propondremos una estrategia técnica a medida.
+            Escríbenos y te respondemos en menos de 2 horas con una propuesta concreta para tu negocio.
           </p>
 
           <div className="space-y-6">
@@ -2515,10 +2617,9 @@ const ProcessTimeline = () => (
 const Guarantees = () => (
   <section className="py-20 px-6 md:px-10 max-w-[1024px] mx-auto overflow-hidden">
     <div className="text-center mb-16">
-      <span className="label-editorial mx-auto">Compromisos Reales</span>
+      <span className="label-editorial mx-auto">Nuestro compromiso</span>
       <h2 className="text-[32px] md:text-[48px] font-bold tracking-tight mb-4">
-        Garantías que <span className="text-accent">respaldan</span> nuestra
-        palabra.
+        Lo que <span className="text-accent">garantizamos</span> por escrito.
       </h2>
     </div>
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -2550,8 +2651,8 @@ const Guarantees = () => (
         },
         {
           icon: BarChart3,
-          title: "Resultados medibles desde el día 1",
-          desc: "Analytics, Pixel y tracking configurados desde el lanzamiento. Cada centavo se mide.",
+          title: "Tracking desde el día 1",
+          desc: "Google Analytics, Meta Pixel y medición de conversiones configurados desde el lanzamiento.",
         },
       ].map((item, i) => (
         <motion.div
@@ -2574,20 +2675,20 @@ const Guarantees = () => (
     {/* Dual CTA */}
     <div className="mt-16 text-center">
       <h3 className="text-[24px] md:text-[32px] font-black mb-4">
-        ¿Listo para empezar?
+        ¿Empezamos?
       </h3>
       <p className="text-muted text-[15px] mb-8">
-        Hablemos sobre tu proyecto. Sin compromiso.
+        Escríbenos por WhatsApp y te respondemos hoy.
       </p>
       <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
         <motion.a
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          href="https://wa.me/51904060670?text=Hola%2C%20quiero%20iniciar%20un%20proyecto%20con%20Chamba%20Digital."
+          href="https://wa.me/51904060670?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20sus%20planes%20WaaS."
           target="_blank"
           className="w-full sm:w-auto bg-accent text-white px-10 py-5 rounded-[12px] font-bold text-[15px] shadow-[0_10px_30px_rgba(59,130,246,0.3)]"
         >
-          Empezar Proyecto →
+          Hablar con un Asesor
         </motion.a>
         <motion.a
           whileHover={{ scale: 1.05 }}
@@ -2610,9 +2711,9 @@ export const ChambaFooter = () => (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 md:gap-12 mb-12 md:mb-16">
         {/* Brand Column */}
         <div className="flex flex-col gap-6">
-          <Logo />
+          <Logo textColor="text-white" />
           <p className="text-[14px] text-muted leading-relaxed">
-            Ingeniería Digital de alto nivel. Transformamos negocios con tecnología, datos y diseño de performance.
+            Hacemos webs que venden. Desde Lima, Perú para el mundo.
           </p>
           <div className="flex gap-4">
             <motion.a whileHover={{ y: -3, color: "#3B82F6" }} href="https://instagram.com" target="_blank" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-muted transition-colors">
@@ -2634,7 +2735,6 @@ export const ChambaFooter = () => (
               { name: "Portafolio", path: "/portafolio" },
               { name: "Metodología", path: "/metodologia" },
               { name: "FAQ", id: "faq", isHomeAnchor: true },
-              { name: "Sorteo", path: "/raffle" },
               { name: "Hotelería Premium", path: "/hospitality" },
             ].map((item) => (
               <li key={item.name}>
@@ -2669,9 +2769,9 @@ export const ChambaFooter = () => (
 
         {/* CTA Column */}
         <div className="flex flex-col items-start gap-6">
-          <h4 className="text-[14px] font-black uppercase tracking-widest mb-6 text-fg">¿Listo para empezar?</h4>
+          <h4 className="text-[14px] font-black uppercase tracking-widest mb-6 text-fg">Empecemos</h4>
           <motion.a whileHover={{ scale: 1.05, y: -5, boxShadow: "0 20px 40px rgba(59, 130, 246, 0.3)" }} whileTap={{ scale: 0.95 }} href="https://wa.me/51904060670" target="_blank" rel="noopener noreferrer" className="bg-accent text-white px-8 py-4 rounded-[12px] font-bold text-[14px] transition-all w-full text-center shadow-[0_10px_30px_rgba(59,130,246,0.2)]">
-            Solicitar Auditoría
+            Hablar con un Asesor
           </motion.a>
         </div>
       </div>
@@ -2699,9 +2799,8 @@ const ChambaContent = ({ onOpenModal }: any) => (
       <ChambaHero />
       <PainPoints />
       <Methodology />
-      <Services onOpenModal={onOpenModal} title="Ingeniería de Performance" label="Nuestros Servicios" />
+      <Services onOpenModal={onOpenModal} title="Planes WaaS" label="Suscripción Mensual" />
       <Portfolio />
-      <ProcessTimeline />
       <Guarantees />
       <FAQ />
       <ContactForm />
@@ -2741,46 +2840,17 @@ export default function App() {
     title: "",
     content: "",
   });
-  const [isLoading, setIsLoading] = useState(true);
-
-  const [exitIntentOpen, setExitIntentOpen] = useState(false);
-  const [hasShownExit, setHasShownExit] = useState(false);
-
-  useEffect(() => {
-    const handleMouseLeave = (e: MouseEvent) => {
-      if (e.clientY <= 0 && !hasShownExit) {
-        setExitIntentOpen(true);
-        setHasShownExit(true);
-      }
-    };
-    document.addEventListener("mouseleave", handleMouseLeave);
-    return () => document.removeEventListener("mouseleave", handleMouseLeave);
-  }, [hasShownExit]);
-
-  // Simulate initial load
-  useEffect(() => {
-    console.log("App loaded. Path:", window.location.pathname);
-    const timer = setTimeout(() => setIsLoading(false), 2000);
-    return () => clearTimeout(timer);
-  }, []);
 
   const openModal = (title: string, content: any) => {
-    // Changed type to 'any' to match usage in the component structure
     setModalData({ isOpen: true, title, content });
   };
 
   const closeModal = () => {
-    setModalData({ isOpen: false, title: "", content: "" }); // Resetting state on close for clean slate
+    setModalData({ isOpen: false, title: "", content: "" });
   };
 
   return (
     <BrowserRouter>
-      <AnimatePresence>
-        {" "}
-        {/* Removed 'mode="wait"' as it might conflict with other lifecycle hooks */}
-        {isLoading && <SplashScreen key="splash" />}
-      </AnimatePresence>
-
       <Routes>
         <Route path="/" element={<ChambaContent onOpenModal={openModal} />} />
         <Route
@@ -2808,10 +2878,13 @@ export default function App() {
         />
         <Route path="/hospitality" element={<HospitalitySolutions />} />
         <Route path="/propuesta/:slug" element={<ProposalPage />} />
-        <Route
-          path="/alianza"
-          element={<AllianceContent onOpenModal={openModal} />}
-        />
+        <Route path="/alianza" element={<AllianceContent onOpenModal={openModal} />} />
+        <Route path="/admin" element={<SuperAdminDashboard />} />
+        <Route path="/dashboard" element={<SuperAdminDashboard />} />
+        <Route path="/login" element={<UserPortal />} />
+        <Route path="/registro" element={<UserPortal />} />
+        <Route path="/portal" element={<UserPortal />} />
+        <Route path="/perfil" element={<UserPortal />} />
         <Route path="*" element={<Navigate to="/" replace />} />
         <Route path="/sorteo" element={<RafflePage />} />
         <Route path="/raffle" element={<RafflePage />} />
@@ -2823,13 +2896,6 @@ export default function App() {
         content={modalData.content}
       />
       <Chatbot />
-      
-      <ExitIntentModal
-        isOpen={exitIntentOpen}
-        onClose={() => setExitIntentOpen(false)}
-      />
-      
-      {/* Floating WhatsApp Button */}
       <motion.a
         initial={{ opacity: 0, scale: 0.5 }}
         animate={{ opacity: 1, scale: 1 }}

@@ -1,82 +1,55 @@
-# chamba.digital - Ecosistema de Servicios, Planes y Conocimiento Oficial
+# chamba.digital - Ecosistema de Servicios WaaS, Planes y Conocimiento Oficial
 
-Este documento es la fuente de verdad oficial y exclusiva para el agente de Inteligencia Artificial (chatbot) de la web. El objetivo principal es brindar información precisa, de alta ayuda para el visitante, y motivar de forma proactiva el contacto directo vía **WhatsApp (+51 904060670)** para cerrar la venta o coordinar una auditoría técnica con un agente humano.
-
----
-
-## 1. Contexto General y Filosofía de Marca
-**chamba.digital** (nombre oficial, escrito siempre todo pegado y en minúsculas en el entorno digital) es un **Partner de Ingeniería Digital y Performance**. Fusionamos el desarrollo de software de calidad premium con estrategias de marketing orientadas estrictamente a resultados y retorno de inversión (ROI/ROAS).
-- **Propuesta de Valor:** "Hacemos que tu negocio funcione en Piloto Automático. Multiplica tus resultados con Inteligencia Artificial."
-- **Metodología:** Data-driven, basada en experimentación continua, tracking avanzado de eventos (Meta Pixel, GA4, GTM) y automatización con IA.
-- **Diferencial Técnico:** No utilizamos plantillas comerciales (como WordPress, Wix o constructores pesados). Desarrollamos infraestructuras *Handcrafted* a medida con tecnologías modernas (React, Next.js, Vite, Tailwind CSS), garantizando tiempos de carga inferiores a 1 segundo y una optimización extrema para la conversión.
+Este documento es la fuente de verdad oficial y exclusiva para el agente de Inteligencia Artificial (chatbot) de la web. El objetivo principal es brindar información precisa sobre nuestros servicios WaaS (Web as a Service), responder sobre los planes ($50/mes, $100/mes, $500/mes), agendar consultas y motivar el contacto vía **WhatsApp (+51 904060670)**.
 
 ---
 
-## 2. Pilares y Soluciones por Industria (Ecosistema Digital)
-
-### A. Marketing de Performance & E-commerce (Maximiza tu ROAS)
-Especializados en optimización de conversión (CRO) y escalamiento rentable para tiendas digitales.
-- **Alta Conversión (CRO):** Checkouts de un solo paso y diseño Liquid Glass orientado a la venta inmediata.
-- **Tracking Avanzado:** API de Conversiones de Meta (CAPI) y Google Tag Manager para medir cada centavo invertido en publicidad.
-- **Automatización E-commerce:** Recuperación de carritos abandonados y post-venta automatizada mediante agentes de IA. Conexión en tiempo real con inventario vía GraphQL y pasarelas globales (Stripe, PayPal, Kushki).
-- **Métricas:** ROAS promedio actual del portafolio: **4.5x**.
-
-### B. Generación de Leads & Conversión B2B (Empresas de Servicios)
-Tu máquina de generación de leads y cierres para agencias, consultoras y empresas de servicios.
-- **Captura & Calificación:** Formularios inteligentes y agentes de IA que filtran a los prospectos evaluando su presupuesto y necesidad en tiempo real (ahorrando 50% del tiempo perdido en calificación manual).
-- **Agendamiento 24/7:** Sincronización directa con Google Calendar para agendar citas sin intervención manual.
-- **Lead Nurturing:** Flujos automáticos por WhatsApp y Email que educan al prospecto hasta que esté listo para cerrar la compra. Integración total con CRMs (Salesforce, HubSpot, Pipedrive).
-
-### C. Hospitality Growth Engine (Hoteles de Alto Nivel)
-Ingeniería digital 360° para hoteles, resorts y alojamientos boutique.
-- **Marketing Estratégico:** Captación directa de huéspedes mediante campañas de performance en Meta y Google Ads (Ads de conversión, SEO Hospitality, Retargeting).
-- **Sirvoy PMS Expertise:** Somos especialistas certificados en Sirvoy PMS. Configuramos toda la lógica comercial (tipos de habitación, tarifas, restricciones), Channel Manager (Booking, Airbnb, Expedia) y App de Housekeeping en tiempo real, eliminando el overbooking.
-- **Desarrollo Web Pro:** Sitios web ultra-rápidos (Mobile First, High Performance) con motores de reservas propios para maximizar ventas directas y reducir drásticamente el pago de comisiones a OTAs.
-- **IA & Automation:** Agentes virtuales entrenados con la data del hotel que atienden huéspedes 24/7 en lenguaje natural, sugieren habitaciones, automatizan cobros con enlaces de pago (Stripe, PayPal, Culqi) y gestionan leads.
-
-### D. Automatización & Inteligencia Artificial (Chamba AI / Hothelia)
-Asistentes virtuales autónomos y flujos automatizados para transformar la atención al cliente y las ventas en cualquier industria.
-- **Omnicanalidad:** Integración oficial con WhatsApp Business API, Instagram Direct y Web chat widgets.
-- **Sistemas Autónomos:** Conexión de IA con bases de datos privadas, lógicas de negocio corporativas y automatización de procesos repetitivos.
+## 1. Contexto General y Filosofía WaaS
+**chamba.digital** es un **Partner WaaS (Web as a Service) e Ingeniería Digital**. Ofrecemos infraestructura web gestionada, desarrollo de software, paneles administrativos, APIs y automatización con IA bajo suscripción mensual flexible sin requerir pagos iniciales masivos de desarrollo.
+- **Propuesta de Valor:** "Tu web a medida desde $50 al mes. Cambios ilimitados."
+- **Ventaja WaaS:** Incluye desarrollo a medida, hosting cloud de alta velocidad, certificado SSL, mantenimiento continuo, actualizaciones de seguridad y cambios/ajustes ilimitados dentro de la suscripción.
+- **Diferencial Técnico:** Handcrafted con tecnologías modernas (React, Next.js, Vite, Tailwind CSS), garantizando tiempos de carga inferiores a 1 segundo y máxima optimización para conversión.
 
 ---
 
-## 3. Lista de Precios, Planes y Detalles Exactos
+## 2. Pilares de Servicios WaaS
 
-A continuación se detallan los planes de inversión oficiales de **chamba.digital**. *Nota comercial para el chatbot: Al informar estos precios, aclara que representan la base de inversión y que cada proyecto se personaliza mediante una auditoría previa con nuestro equipo.*
+### A. Web Tradicional WaaS ($50/mes)
+Solución de infraestructura web para negocios locales, marcas corporativas, tiendas, clínicas y profesionales.
+- Sitios web corporativos, catálogos digitales y landings de alta conversión.
+- Hosting cloud de alta velocidad y certificado de seguridad SSL.
+- Indexación y SEO técnico estructural + Google My Business.
+- Mantenimiento continuo, respaldos y cambios ilimitados.
 
-### A. Planes de Desarrollo Web Tradicional (Pago Único / Proyecto)
-*Nota Crítica para el Chatbot: Aclara siempre de forma explícita que estos planes de desarrollo tradicional (Lanzamiento $150, Business $500 y Dominio Elite $1,200+ a $2,500+ USD) NO incluyen servicios especializados para hoteles como implementación de PMS Sirvoy, generación de contenido gráfico con IA (videos/imágenes) ni agentes avanzados de IA como Hothelia. Dichos servicios tienen costos independientes o se engloban en el Plan de Desarrollo Web para Hoteles.*
+### B. Web App Advanced WaaS ($100/mes)
+Aplicaciones web avanzadas para empresas con necesidades de software a medida.
+- Panel administrativo personalizado para gestión de usuarios, contenidos y métricas.
+- Arquitectura escalable y desarrollo/integración de REST APIs.
+- Integración de pasarelas de pago, autenticación y bases de datos cloud.
+- Mantenimiento proactivo, soporte dedicado y mejoras continuas.
 
-#### 1. Plan Lanzamiento OnePage
-- **Inversión:** **$150 USD** (Pago Único).
-- **Ideal para:** Empezar y validar tu modelo de negocio con una landing de alta conversión. Entrega rápida en 7 días.
-- **Alcance y Características Exactas:**
-  - Landing Page Ultra Rápida con diseño UX enfocado 100% en ventas.
-  - SEO técnico inicial + Google My Business para aparecer en búsquedas desde el día 1.
-  - Dominio + SSL + Hosting configurados por nuestro equipo.
-  - WhatsApp Integrado con botón directo para recibir clientes.
-  - Garantía técnica y soporte post-lanzamiento de 30 días.
+### C. Web App con IA & Automatizaciones WaaS ($500/mes)
+Plataformas web inteligentes y automatización directa de flujos operativos empresariales.
+- Implementación de modelos y agentes de Inteligencia Artificial aplicados a la gestión.
+- Automatización de flujos de trabajo (Workflows) entre equipos y sistemas internos.
+- Procesamiento automático de leads, tickets, reservas y analítica predictiva 24/7.
+- Acompañamiento estratégico continuo para evolución de procesos e IA.
 
-#### 2. Plan Crecimiento Business (Más Vendido)
-- **Inversión:** **$500 USD** (Pago Único).
-- **Ideal para:** Ecosistema digital completo para automatizar la captación de clientes. Ahorra +$2,000 vs agencia tradicional.
-- **Alcance y Características Exactas:**
-  - Web Multipágina (hasta 5 secciones: Inicio, Servicios, Nosotros, Blog/Portafolio, Contacto).
-  - Automatización de Leads con IA (filtros inteligentes y seguimiento automático).
-  - Meta Pixel + GA4 + Tracking avanzado para medir cada centavo invertido en publicidad.
-  - Soporte VIP 30 días con acompañamiento técnico post-entrega.
-  - 4 Rondas de Revisión con ajustes semanales sincronizados con pagos.
+---
 
-#### 3. Plan Dominio Elite & IA Tradicional (Premium)
-- **Inversión:** Desde **$1,200+ a $2,500+ USD** (Por Proyecto).
-- **Ideal para:** Proyectos de alta complejidad, software a medida y plataformas de venta masiva para dominar mercados competitivos.
-- **Alcance y Características Exactas:**
-  - Agentes de IA 24/7 (vendedores inteligentes autónomos en tu web o WhatsApp).
-  - E-Commerce de Escala o plataformas de venta masiva personalizadas.
-  - Automatización Total (software a medida, CRMs personalizados, conexión con ERPs).
-  - Consultoría de Escala (estrategia de crecimiento de facturación).
-  - 4 Rondas de Revisión con ajustes semanales sincronizados con pagos.
+## 3. Lista Oficial de Precios y Modelos WaaS
+
+#### 1. Plan Web Tradicional
+- **Inversión:** **$50 USD / mes** (Suscripción WaaS).
+- **Ideal para:** Negocios, marcas, tiendas, clínicas, consultorios y empresas que necesitan presencia digital profesional de alto nivel con cambios ilimitados y mantenimiento incluido.
+
+#### 2. Plan Web App Advanced (Enterprise WaaS)
+- **Inversión:** **$100 USD / mes** (Suscripción WaaS).
+- **Ideal para:** Empresas que requieren aplicaciones web avanzadas, paneles de administración a medida, consumo/entrega de REST APIs y funcionalidades de software escalables.
+
+#### 3. Plan Web App con IA & Automatizaciones
+- **Inversión:** **$500 USD / mes** (Suscripción WaaS).
+- **Ideal para:** Compañías orientadas a la máxima eficiencia operativa que buscan implementar Inteligencia Artificial en su gestión y automatizar flujos de trabajo complejos 24/7.
 
 ### B. Plan Especializado: Desarrollo Web enfocado en Hoteles (Hospitality Growth)
 *Nota Crítica para el Chatbot: Este es el plan diseñado específicamente para el sector hotelero que busca maximizar reservas directas y automatizar su gestión.*
