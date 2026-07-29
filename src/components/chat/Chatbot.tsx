@@ -58,7 +58,7 @@ export const Chatbot: React.FC = () => {
           whileHover={{ scale: 1.1, rotate: 5 }}
           whileTap={{ scale: 0.9 }}
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-24 right-6 z-[140] w-16 h-16 bg-accent rounded-full flex items-center justify-center shadow-[0_15px_40px_rgba(59,130,246,0.4)] border border-white/20 cursor-pointer"
+          className="fixed bottom-20 right-4 z-[140] w-12 h-12 bg-accent rounded-full flex items-center justify-center shadow-[0_8px_25px_rgba(59,130,246,0.3)] border border-white/10 cursor-pointer"
           aria-label="Abrir asistente de IA"
         >
           <Bot className="w-8 h-8 text-white" />
@@ -72,7 +72,7 @@ export const Chatbot: React.FC = () => {
             initial={{ opacity: 0, y: 100, scale: 0.8 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 100, scale: 0.8 }}
-            className="fixed bottom-6 right-6 z-[200] w-[calc(100vw-48px)] sm:w-[420px] glass rounded-[32px] border-accent/20 overflow-hidden shadow-[0_30px_100px_rgba(0,0,0,0.5)] flex flex-col h-[600px] max-h-[85vh]"
+            className="fixed bottom-4 right-4 z-[200] w-[calc(100vw-32px)] sm:w-[380px] glass rounded-2xl border-accent/20 overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.4)] flex flex-col h-[520px] max-h-[80vh]"
           >
             {/* Header */}
             <div className="bg-accent p-6 flex items-center justify-between shrink-0">

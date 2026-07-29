@@ -51,7 +51,7 @@ const ServiceBusinessesLandingPage: React.FC = () => {
                 whileTap={{ scale: 0.95 }}
                 href="https://wa.me/51904060670"
                 target="_blank"
-                className="bg-accent text-white px-10 py-5 rounded-[12px] font-bold text-[15px] shadow-[0_10px_30px_rgba(59,130,246,0.3)] transition-all"
+                className="bg-accent text-white px-6 py-3.5 rounded-lg font-bold text-[13px] shadow-md transition-all"
               >
                 Diseñar mi Embudo de Ventas
               </motion.a>
@@ -185,11 +185,11 @@ const ServiceBusinessesLandingPage: React.FC = () => {
         <section className="py-24 px-6 md:px-10 text-center max-w-[800px] mx-auto">
           <h2 className="text-[32px] md:text-[48px] font-black mb-6">Transformemos tu tráfico en reuniones</h2>
           <p className="text-muted mb-10 text-[16px]">Automatizamos el embudo completo: del clic a la cita.</p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <motion.a whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} href="https://wa.me/51904060670?text=Hola%2C%20quiero%20configurar%20mi%20embudo%20de%20leads." target="_blank" className="w-full sm:w-auto bg-accent text-white px-10 py-5 rounded-[12px] font-bold text-[15px] shadow-[0_10px_30px_rgba(59,130,246,0.3)]">
-              Configurar mi Embudo →
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <motion.a whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} href="https://wa.me/51904060670?text=Hola%2C%20quiero%20configurar%20mi%20embudo%20de%20leads." target="_blank" className="w-full sm:w-auto bg-accent text-white px-6 py-3.5 rounded-lg font-bold text-[13px] shadow-[0_6px_20px_rgba(59,130,246,0.3)]">
+              Configurar mi Embudo
             </motion.a>
-            <motion.a whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} href="https://wa.me/51904060670?text=Hola%2C%20tengo%20preguntas%20sobre%20generaci%C3%B3n%20de%20leads." target="_blank" className="w-full sm:w-auto bg-white/5 border border-white/10 hover:border-accent/30 text-fg px-10 py-5 rounded-[12px] font-bold text-[15px] transition-colors">
+            <motion.a whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} href="https://wa.me/51904060670?text=Hola%2C%20tengo%20preguntas%20sobre%20generaci%C3%B3n%20de%20leads." target="_blank" className="w-full sm:w-auto bg-white/5 border border-white/10 hover:border-accent/30 text-fg px-6 py-3.5 rounded-lg font-bold text-[13px] transition-colors">
               Tengo Preguntas
             </motion.a>
           </div>

@@ -230,8 +230,8 @@ const ServicesPage: React.FC = () => {
                         : "bg-accent hover:bg-accent/90 text-white shadow-md"
                     }`}
                   >
-                    <Zap className="w-4 h-4" />
-                    Suscripción Instantánea Polar
+<Zap className="w-4 h-4" />
+                Suscripción Polar
                   </button>
 
                   <a
@@ -340,7 +340,7 @@ const ServicesPage: React.FC = () => {
             href="https://wa.me/51904060670?text=Hola!%20Quiero%20informaci%C3%B3n%20sobre%20los%20servicios%20WaaS."
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-3 bg-cta hover:bg-cta-hover text-white px-10 py-5 rounded-xl font-black text-[14px] uppercase tracking-wider shadow-lg cta-pulse"
+            className="inline-flex items-center gap-2 bg-cta hover:bg-cta-hover text-white px-6 py-3.5 rounded-lg font-black text-[13px] uppercase tracking-wider shadow-md"
           >
             <WhatsAppIcon className="w-5 h-5" /> Hablar con un Asesor por WhatsApp
           </motion.a>

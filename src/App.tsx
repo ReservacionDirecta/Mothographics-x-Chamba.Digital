@@ -533,7 +533,7 @@ const Hero = () => {
             href="https://wa.me/51904060670?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20sus%20planes%20WaaS."
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-accent text-white px-10 py-5 rounded-xl font-bold text-[16px] shadow-[0_10px_30px_rgba(37,99,235,0.3)] transition-all"
+            className="bg-accent text-white px-6 py-3.5 rounded-lg font-bold text-[14px] shadow-md transition-all"
           >
             Hablar con un Asesor
           </motion.a>
@@ -563,11 +563,11 @@ const Hero = () => {
 const Opportunity = () => (
   <section
     id="tech-stack"
-    className="py-20 px-6 md:px-10 max-w-[1024px] mx-auto"
+    className="py-14 md:py-20 px-6 md:px-10 max-w-[1024px] mx-auto"
   >
-    <div className="text-center mb-16">
+    <div className="text-center mb-10 md:mb-16">
       <span className="label-editorial mx-auto">Por qué WaaS</span>
-      <h2 className="text-[32px] md:text-[56px] font-black tracking-tighter leading-none mb-8">
+      <h2 className="text-[32px] md:text-[56px] font-black tracking-tighter leading-none mb-5 md:mb-8">
         Tu web lista sin <span className="text-accent">dolores de cabeza</span>.
       </h2>
       <p className="text-muted text-[17px] md:text-[19px] max-w-3xl mx-auto leading-relaxed">
@@ -830,11 +830,11 @@ const PricingCard = ({
             }`}
           >
             {loading ? (
-              <span className="inline-block animate-pulse">Cargando Checkout...</span>
+              <span className="inline-block animate-pulse">Cargando...</span>
             ) : (
               <>
-                <Zap className="w-4 h-4" />
-                Suscripción Instantánea Polar
+                <Zap className="w-3.5 h-3.5" />
+                Suscribirme
               </>
             )}
           </motion.button>
@@ -876,7 +876,7 @@ const Services = ({
 }: any) => (
   <section
     id="servicios"
-    className="py-24 px-6 md:px-10 max-w-[1200px] mx-auto relative overflow-hidden"
+    className="py-16 md:py-24 px-6 md:px-10 max-w-[1200px] mx-auto relative overflow-hidden"
   >
     <div className="absolute inset-0 overflow-hidden -z-10 pointer-events-none">
       <div 
@@ -1011,7 +1011,7 @@ const Services = ({
             whileTap={{ scale: 0.95 }}
             href="https://wa.me/51904060670?text=Hola,%20quisiera%20agendar%20una%20auditoría%20gratuita."
             target="_blank"
-            className="bg-gradient-to-r from-cta to-cta-hover text-white py-5 px-10 rounded-2xl font-black text-[15px] uppercase tracking-widest shadow-[0_20px_40px_rgba(255,107,53,0.3)] flex items-center justify-center gap-3 cta-pulse"
+            className="bg-gradient-to-r from-cta to-cta-hover text-white py-3.5 px-6 rounded-xl font-black text-[13px] uppercase tracking-wider shadow-lg flex items-center justify-center gap-2"
           >
             <WhatsAppIcon className="w-5 h-5" />
             Agendar Auditoría Gratis
@@ -1181,9 +1181,9 @@ const Portfolio = () => {
   return (
     <section
       id="portafolio"
-      className="py-20 px-6 md:px-10 max-w-[1024px] mx-auto overflow-hidden"
+      className="py-14 md:py-20 px-6 md:px-10 max-w-[1024px] mx-auto overflow-hidden"
     >
-      <div className="text-center mb-16">
+      <div className="text-center mb-10 md:mb-16">
         <span className="label-editorial mx-auto">Experiencia Comprobada</span>
         <h2 className="text-[32px] md:text-[56px] font-black tracking-tighter leading-none mb-4">
           Nuestra <span className="text-accent">Trayectoria</span>.
@@ -1487,7 +1487,7 @@ const Portfolio = () => {
 };
 
 const BusinessModel = () => (
-  <section id="modelo" className="py-20 px-6 md:px-10 max-w-[1024px] mx-auto">
+  <section id="modelo" className="py-14 md:py-20 px-6 md:px-10 max-w-[1024px] mx-auto">
     <motion.div
       initial={{ opacity: 0, scale: 0.98 }}
       whileInView={{ opacity: 1, scale: 1 }}
@@ -1923,7 +1923,7 @@ const ChambaHero = () => (
           href="https://wa.me/51904060670?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20sus%20planes%20WaaS."
           target="_blank"
           rel="noopener noreferrer"
-          className="bg-gradient-to-r from-cta to-cta-hover text-white px-10 py-5 rounded-[14px] font-black text-[15px] w-full sm:w-auto shadow-[0_15px_40px_rgba(255,107,53,0.3)] hover:shadow-[0_20px_50px_rgba(255,107,53,0.4)] transition-all flex items-center justify-center gap-3 cta-pulse uppercase tracking-wider"
+          className="bg-gradient-to-r from-cta to-cta-hover text-white px-6 py-3.5 rounded-xl font-black text-[13px] w-full sm:w-auto shadow-lg transition-all flex items-center justify-center gap-2 uppercase tracking-wider"
         >
           <WhatsAppIcon className="w-5 h-5" />
           Hablar con un Asesor
@@ -1960,8 +1960,8 @@ const ChambaHero = () => (
 );
 
 const PainPoints = () => (
-  <section className="py-20 px-6 md:px-10 max-w-[1024px] mx-auto border-t border-white/5">
-    <div className="text-center mb-16">
+  <section className="py-14 md:py-20 px-6 md:px-10 max-w-[1024px] mx-auto border-t border-white/5">
+    <div className="text-center mb-10 md:mb-16">
       <span className="label-editorial mx-auto">El problema</span>
       <h2 className="text-[32px] md:text-[40px] font-bold tracking-tight mb-4">
         Esto le pasa a la mayoría
@@ -2024,7 +2024,7 @@ const PainPoints = () => (
             href="https://wa.me/51904060670?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20sus%20planes%20WaaS."
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-gradient-to-r from-cta to-cta-hover text-white px-8 py-4 rounded-2xl font-black text-[14px] shadow-[0_15px_30px_rgba(255,107,53,0.3)] flex items-center gap-3 uppercase tracking-wider"
+            className="bg-gradient-to-r from-cta to-cta-hover text-white px-6 py-3.5 rounded-xl font-black text-[13px] shadow-lg flex items-center gap-2 uppercase tracking-wider"
           >
             <WhatsAppIcon className="w-5 h-5" />
             Hablar con un Asesor
@@ -2075,9 +2075,9 @@ const StickyCtaBar = () => {
 const Methodology = () => (
   <section
     id="metodologia"
-    className="py-20 px-6 md:px-10 bg-accent/[0.02] border-y border-white/5"
+    className="py-14 md:py-20 px-6 md:px-10 bg-accent/[0.02] border-y border-white/5"
   >
-    <div className="max-w-[1024px] mx-auto text-center mb-16">
+    <div className="max-w-[1024px] mx-auto text-center mb-10 md:mb-16">
       <span className="label-editorial mx-auto">Así funciona</span>
       <h2 className="text-[32px] md:text-[48px] font-black tracking-tight leading-tight mb-4">
         Tres pasos. <span className="text-accent">Sin vueltas.</span>
@@ -2171,8 +2171,8 @@ const FAQ = () => {
   ];
 
   return (
-    <section id="faq" className="py-20 px-6 md:px-10 max-w-[800px] mx-auto">
-      <div className="text-center mb-12">
+    <section id="faq" className="py-14 md:py-20 px-6 md:px-10 max-w-[800px] mx-auto">
+      <div className="text-center mb-8 md:mb-12">
         <h2 className="text-[24px] md:text-[32px] font-bold tracking-tight">
           Preguntas Frecuentes
         </h2>
@@ -2242,9 +2242,9 @@ const ContactForm = () => {
   return (
     <section
       id="contacto"
-      className="py-20 px-6 md:px-10 max-w-[1024px] mx-auto"
+      className="py-14 md:py-20 px-6 md:px-10 max-w-[1024px] mx-auto"
     >
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-16 items-start">
         <div>
           <span className="label-editorial">Contacto</span>
           <h2 className="text-[32px] md:text-[48px] font-bold tracking-tight leading-tight mb-6">
@@ -2431,9 +2431,9 @@ const ContactForm = () => {
 };
 
 const ProcessTimeline = () => (
-  <section className="py-20 px-6 md:px-10 bg-accent/[0.02] border-y border-white/5 overflow-hidden">
+  <section className="py-14 md:py-20 px-6 md:px-10 bg-accent/[0.02] border-y border-white/5 overflow-hidden">
     <div className="max-w-[1024px] mx-auto">
-      <div className="text-center mb-16">
+      <div className="text-center mb-10 md:mb-16">
         <span className="label-editorial mx-auto">Cómo Trabajamos</span>
         <h2 className="text-[32px] md:text-[48px] font-bold tracking-tight mb-4">
           De la idea al <span className="text-accent">lanzamiento</span> en
@@ -2508,8 +2508,8 @@ const ProcessTimeline = () => (
 );
 
 const Guarantees = () => (
-  <section className="py-20 px-6 md:px-10 max-w-[1024px] mx-auto overflow-hidden">
-    <div className="text-center mb-16">
+  <section className="py-14 md:py-20 px-6 md:px-10 max-w-[1024px] mx-auto overflow-hidden">
+    <div className="text-center mb-10 md:mb-16">
       <span className="label-editorial mx-auto">Nuestro compromiso</span>
       <h2 className="text-[32px] md:text-[48px] font-bold tracking-tight mb-4">
         Lo que <span className="text-accent">garantizamos</span> por escrito.
@@ -2579,7 +2579,7 @@ const Guarantees = () => (
           whileTap={{ scale: 0.95 }}
           href="https://wa.me/51904060670?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20sus%20planes%20WaaS."
           target="_blank"
-          className="w-full sm:w-auto bg-accent text-white px-10 py-5 rounded-[12px] font-bold text-[15px] shadow-[0_10px_30px_rgba(59,130,246,0.3)]"
+          className="w-full sm:w-auto bg-accent text-white px-6 py-3.5 rounded-lg font-bold text-[13px] shadow-md"
         >
           Hablar con un Asesor
         </motion.a>
@@ -2588,7 +2588,7 @@ const Guarantees = () => (
           whileTap={{ scale: 0.95 }}
           href="https://wa.me/51904060670?text=Hola%2C%20tengo%20preguntas%20sobre%20los%20servicios%20de%20Chamba%20Digital."
           target="_blank"
-          className="w-full sm:w-auto bg-white/5 border border-white/10 hover:border-accent/30 text-fg px-10 py-5 rounded-[12px] font-bold text-[15px] transition-colors"
+          className="w-full sm:w-auto bg-white/5 border border-white/10 hover:border-accent/30 text-fg px-6 py-3.5 rounded-lg font-bold text-[13px] transition-colors"
         >
           Tengo Preguntas
         </motion.a>
@@ -2775,7 +2775,7 @@ function AppRoutes() {
             href="https://wa.me/51904060670?text=Hola,%20vengo%20de%20la%20web%20y%20quisiera%20m%C3%A1s%20informaci%C3%B3n."
             target="_blank"
             rel="noopener noreferrer"
-            className="fixed bottom-6 right-6 z-[150] w-14 h-14 bg-[#25D366] rounded-full flex items-center justify-center shadow-[0_10px_30px_rgba(37,211,102,0.4)] border border-white/20 p-3.5"
+            className="fixed bottom-4 right-4 z-[150] w-11 h-11 bg-[#25D366] rounded-full flex items-center justify-center shadow-[0_6px_20px_rgba(37,211,102,0.3)] border border-white/20 p-2.5"
           >
             <WhatsAppIcon className="w-full h-full text-white" />
           </motion.a>

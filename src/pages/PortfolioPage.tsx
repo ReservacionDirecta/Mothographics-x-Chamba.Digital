@@ -348,11 +348,11 @@ export default function PortfolioPage() {
             <motion.a whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}
               href="https://wa.me/51904060670?text=Hola%2C%20vi%20su%20portafolio%20y%20quiero%20informaci%C3%B3n%20sobre%20sus%20planes%20WaaS."
               target="_blank" rel="noopener noreferrer"
-              className="w-full sm:w-auto bg-cta hover:bg-cta-hover text-white px-9 py-4.5 rounded-xl font-black text-[14px] shadow-[0_10px_25px_rgba(234,88,12,0.4)] flex items-center justify-center gap-3 uppercase tracking-wider cta-pulse">
+              className="w-full sm:w-auto bg-cta hover:bg-cta-hover text-white px-6 py-3.5 rounded-lg font-black text-[13px] shadow-md flex items-center justify-center gap-2 uppercase tracking-wider">
               <WhatsAppIcon className="w-5 h-5" /> Hablar con un Asesor
             </motion.a>
             <Link to="/#servicios"
-              className="w-full sm:w-auto bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-800 px-9 py-4.5 rounded-xl font-bold text-[14px] transition-colors text-center">
+              className="w-full sm:w-auto bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-800 px-6 py-3.5 rounded-lg font-bold text-[13px] transition-colors text-center">
               Ver Planes WaaS
             </Link>
           </div>

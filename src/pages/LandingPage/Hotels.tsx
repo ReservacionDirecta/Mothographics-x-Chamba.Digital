@@ -159,7 +159,7 @@ const HotelsLandingPage: React.FC = () => {
                 whileTap={{ scale: 0.95 }}
                 href="https://wa.me/51904060670"
                 target="_blank"
-                className="bg-accent text-white px-10 py-5 rounded-[12px] font-bold text-[15px] shadow-[0_10px_30px_rgba(59,130,246,0.3)] transition-all"
+                className="bg-accent text-white px-6 py-3.5 rounded-lg font-bold text-[13px] shadow-md transition-all"
               >
                 Auditar mi Motor de Reservas
               </motion.a>
@@ -426,11 +426,11 @@ const HotelsLandingPage: React.FC = () => {
         <section className="py-24 px-6 md:px-10 text-center max-w-[800px] mx-auto">
           <h2 className="text-[32px] md:text-[48px] font-black mb-6">¿Listo para llenar tu hotel?</h2>
           <p className="text-muted mb-10 text-[16px]">Analizamos tu sistema actual sin compromiso.</p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <motion.a whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} href="https://wa.me/51904060670?text=Hola%2C%20quiero%20una%20auditor%C3%ADa%20de%20mi%20motor%20de%20reservas." target="_blank" className="w-full sm:w-auto bg-accent text-white px-10 py-5 rounded-[12px] font-bold text-[15px] shadow-[0_10px_30px_rgba(59,130,246,0.3)]">
-              Auditar mi Motor de Reservas →
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <motion.a whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} href="https://wa.me/51904060670?text=Hola%2C%20quiero%20una%20auditor%C3%ADa%20de%20mi%20motor%20de%20reservas." target="_blank" className="w-full sm:w-auto bg-accent text-white px-6 py-3.5 rounded-lg font-bold text-[13px] shadow-[0_6px_20px_rgba(59,130,246,0.3)]">
+              Auditar Motor de Reservas
             </motion.a>
-            <motion.a whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} href="https://wa.me/51904060670?text=Hola%2C%20tengo%20preguntas%20sobre%20el%20servicio%20de%20hoteles." target="_blank" className="w-full sm:w-auto bg-white/5 border border-white/10 hover:border-accent/30 text-fg px-10 py-5 rounded-[12px] font-bold text-[15px] transition-colors">
+            <motion.a whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} href="https://wa.me/51904060670?text=Hola%2C%20tengo%20preguntas%20sobre%20el%20servicio%20de%20hoteles." target="_blank" className="w-full sm:w-auto bg-white/5 border border-white/10 hover:border-accent/30 text-fg px-6 py-3.5 rounded-lg font-bold text-[13px] transition-colors">
               Tengo Preguntas
             </motion.a>
           </div>

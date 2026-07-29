@@ -309,7 +309,7 @@ const RafflePage: React.FC = () => {
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => document.getElementById("seccion-formulario")?.scrollIntoView({ behavior: "smooth" })}
-                className="bg-accent text-white px-8 py-4 rounded-[12px] font-bold text-[14px] shadow-[0_10px_25px_rgba(59,130,246,0.3)] transition-all uppercase tracking-widest"
+                className="bg-accent text-white px-6 py-3.5 rounded-lg font-bold text-[13px] shadow-md transition-all uppercase tracking-wider"
               >
                 ¡Participar Ahora!
               </motion.button>

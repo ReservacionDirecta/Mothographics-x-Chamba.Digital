@@ -65,7 +65,7 @@ export default function MethodologyPage() {
               <motion.a
                 whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
                 href="https://wa.me/51904060670?text=Hola!%20Vi%20vuestra%20metodología%20y%20quiero%20empezar."
-                className="w-full sm:w-auto bg-gradient-to-r from-cta to-cta-hover text-white px-10 py-5 rounded-2xl font-black text-[15px] shadow-[0_20px_50px_rgba(255,107,53,0.3)] flex items-center justify-center gap-3 uppercase tracking-wider cta-pulse"
+                className="w-full sm:w-auto bg-gradient-to-r from-cta to-cta-hover text-white px-6 py-3.5 rounded-xl font-black text-[13px] shadow-lg flex items-center justify-center gap-2 uppercase tracking-wider"
               >
                 <WhatsAppIcon className="w-5 h-5" /> Iniciar Proyecto
               </motion.a>

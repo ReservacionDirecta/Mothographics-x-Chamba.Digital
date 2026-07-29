@@ -256,7 +256,7 @@ const ProposalPage: React.FC = () => {
         <p className="text-[16px] mb-8" style={{ color: C.mt }}>
           {T(lang, 'Esta propuesta no existe o ha expirado.', 'This proposal does not exist or has expired.')}
         </p>
-        <Link to="/" className="text-white px-8 py-4 rounded-[12px] font-bold text-[14px]" style={{ backgroundColor: C.ac }}>
+        <Link to="/" className="text-white px-6 py-3.5 rounded-lg font-bold text-[13px]" style={{ backgroundColor: C.ac }}>
           {T(lang, 'Ir a Chamba.Digital →', 'Go to Chamba.Digital →')}
         </Link>
       </div>
