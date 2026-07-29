@@ -145,24 +145,177 @@ function requireMongo() {
   }
 }
 
-// Helper: Seed test user + admin
+// Portfolio Seed Data
+const PORTFOLIO_SEED = [
+  {
+    name: "Pacific Surf School",
+    email: "contacto@pacificsurfschool.com.pe",
+    company: "Escuela & Clases de Surf",
+    plan: "Web Tradicional",
+    planPrice: "$49.99/mes",
+    subscriptionStatus: "activa",
+    projectStatus: "en_produccion",
+    projectDescription: "Plataforma de reservas de clases de surf y alquiler de equipos en Máncora y Miraflores.",
+    deployedUrl: "https://pacificsurfschool.com.pe",
+    thumbnailUrl: "https://s.wordpress.com/mshots/v1/https://pacificsurfschool.com.pe?w=600",
+    techStack: "React, Vite, Express, Railway, MongoDB",
+    role: "client",
+  },
+  {
+    name: "LATAM Abogados",
+    email: "contacto@latamabogados.com",
+    company: "Inglés Legal & Consultoría U.S.",
+    plan: "Business",
+    planPrice: "$99.99/mes",
+    subscriptionStatus: "activa",
+    projectStatus: "en_produccion",
+    projectDescription: "Firma legal internacional especializada en asesoría corporativa, marcas e inglés jurídico.",
+    deployedUrl: "https://latamabogados.com",
+    thumbnailUrl: "https://s.wordpress.com/mshots/v1/https://latamabogados.com?w=600",
+    techStack: "React, Node.js, Express, MailerLite, Railway",
+    role: "client",
+  },
+  {
+    name: "Peña Linda Máncora",
+    email: "reservas@penalindamancora.com",
+    company: "Reserva Directa Hotelera",
+    plan: "Plan Hoteles",
+    planPrice: "$499.00/mes",
+    subscriptionStatus: "activa",
+    projectStatus: "en_produccion",
+    projectDescription: "Hotel de playa con sistema de reservaciones directas sin comisiones y motor de pagos.",
+    deployedUrl: "https://penalindamancora.com",
+    thumbnailUrl: "https://s.wordpress.com/mshots/v1/https://penalindamancora.com?w=600",
+    techStack: "React, Motor Sirvoy PMS, Polar.sh, Railway",
+    role: "client",
+  },
+  {
+    name: "Dupla Work",
+    email: "contacto@dupla.work",
+    company: "Producción Visual & Fotografía",
+    plan: "Business",
+    planPrice: "$99.99/mes",
+    subscriptionStatus: "activa",
+    projectStatus: "en_produccion",
+    projectDescription: "Estudio de producción audiovisual, fotografía comercial y cobertura de eventos.",
+    deployedUrl: "https://www.dupla.work",
+    thumbnailUrl: "https://s.wordpress.com/mshots/v1/https://www.dupla.work?w=600",
+    techStack: "React, TailwindCSS, Express, CDN Asset Optimization",
+    role: "client",
+  },
+  {
+    name: "Kabsa Constructora",
+    email: "proyectos@kabsa.pe",
+    company: "Constructora Alcance Nacional",
+    plan: "Business",
+    planPrice: "$99.99/mes",
+    subscriptionStatus: "activa",
+    projectStatus: "en_produccion",
+    projectDescription: "Empresa constructora e inmobiliaria especializada en obras de infraestructura y proyectos llave en mano.",
+    deployedUrl: "https://kabsa.pe",
+    thumbnailUrl: "https://s.wordpress.com/mshots/v1/https://kabsa.pe?w=600",
+    techStack: "React, Headless CMS, Express, Railway",
+    role: "client",
+  },
+  {
+    name: "Punta Negritos",
+    email: "reservas@puntanegritos.com",
+    company: "Wind & Surf Hotel",
+    plan: "Plan Hoteles",
+    planPrice: "$499.00/mes",
+    subscriptionStatus: "activa",
+    projectStatus: "en_produccion",
+    projectDescription: "Hotel eco-lodge frente al mar para practicantes de Kitesurf, Windsurf y Surf.",
+    deployedUrl: "https://puntanegritos.com",
+    thumbnailUrl: "https://s.wordpress.com/mshots/v1/https://puntanegritos.com?w=600",
+    techStack: "React, Sirvoy PMS, Polar.sh, Express, MongoDB",
+    role: "client",
+  },
+  {
+    name: "Hacienda Don Vicente",
+    email: "contacto@haciendadonvicente.com",
+    company: "Hacienda Don Vicente",
+    plan: "Plan Hoteles",
+    planPrice: "$499.00/mes",
+    subscriptionStatus: "activa",
+    projectStatus: "en_produccion",
+    projectDescription: "Hacienda turística y centro de eventos campestres con reserva directa de bungalows.",
+    deployedUrl: "https://haciendadonvicente.com",
+    thumbnailUrl: "https://s.wordpress.com/mshots/v1/https://haciendadonvicente.com?w=600",
+    techStack: "React, Express, Motor de Reservas, Railway",
+    role: "client",
+  },
+  {
+    name: "Sauce Hotel Boutique",
+    email: "reservas@sauce.pe",
+    company: "Sauce Hotel Boutique",
+    plan: "Plan Hoteles",
+    planPrice: "$499.00/mes",
+    subscriptionStatus: "activa",
+    projectStatus: "en_produccion",
+    projectDescription: "Hotel boutique exclusivo frente a la laguna de Sauce con integración de pagos y reservas.",
+    deployedUrl: "https://sauce.pe",
+    thumbnailUrl: "https://s.wordpress.com/mshots/v1/https://sauce.pe?w=600",
+    techStack: "React, Express, Sirvoy PMS, Railway, MongoDB",
+    role: "client",
+  },
+  {
+    name: "Jah Surf San Bartolo",
+    email: "contacto@jahsurfperu.com",
+    company: "Jah Surf San Bartolo",
+    plan: "Web Tradicional",
+    planPrice: "$49.99/mes",
+    subscriptionStatus: "activa",
+    projectStatus: "en_produccion",
+    projectDescription: "Escuela de surf y lodge juvenil en la bahía de San Bartolo.",
+    deployedUrl: "https://jahsurfperu.com",
+    thumbnailUrl: "https://s.wordpress.com/mshots/v1/https://jahsurfperu.com?w=600",
+    techStack: "React, Express, Railway, MongoDB",
+    role: "client",
+  },
+  {
+    name: "Olivos del Perú",
+    email: "ventas@olivosdelperu.com",
+    company: "Exportación & E-Commerce",
+    plan: "Business",
+    planPrice: "$99.99/mes",
+    subscriptionStatus: "activa",
+    projectStatus: "en_produccion",
+    projectDescription: "Plataforma de catálogo digital y exportación de aceites y aceitunas premium.",
+    deployedUrl: "https://olivosdelperu.com",
+    thumbnailUrl: "https://s.wordpress.com/mshots/v1/https://olivosdelperu.com?w=600",
+    techStack: "React, Node.js, Catalog Engine, Express",
+    role: "client",
+  },
+  {
+    name: "Usuario de Prueba WaaS",
+    email: "demo@chamba.digital",
+    company: "Pacific Surf School (Demo)",
+    plan: "Web Tradicional",
+    planPrice: "$49.99/mes",
+    subscriptionStatus: "activa",
+    projectStatus: "en_produccion",
+    projectDescription: "Cuenta demo interactiva para probar el portal de clientes WaaS.",
+    deployedUrl: "https://pacificsurfschool.com.pe",
+    thumbnailUrl: "https://s.wordpress.com/mshots/v1/https://pacificsurfschool.com.pe?w=600",
+    techStack: "React, TailwindCSS, Express, Railway, MongoDB",
+    role: "client",
+  }
+];
+
+// Helper: Seed test user + admin + portfolio
 async function seedTestUser() {
   try {
-    const existingDemo = await UserModel.findOne({ email: "demo@chamba.digital" });
-    if (!existingDemo) {
-      const hashedPassword = await bcrypt.hash("demo123456", 10);
-      await UserModel.create({
-        name: "Usuario de Prueba WaaS",
-        email: "demo@chamba.digital",
-        password: hashedPassword,
-        company: "Pacific Surf School",
-        plan: "Web Tradicional",
-        planPrice: "$49.99/mes",
-        subscriptionStatus: "activa",
-        projectStatus: "en_produccion",
-        role: "client"
-      });
-      console.log("[Seed] Test client created: demo@chamba.digital / demo123456");
+    const defaultPassword = await bcrypt.hash("demo123456", 10);
+    for (const item of PORTFOLIO_SEED) {
+      const existing = await UserModel.findOne({ email: item.email });
+      if (!existing) {
+        await UserModel.create({
+          ...item,
+          password: defaultPassword,
+        });
+        console.log(`[Seed] Client created in DB: ${item.email}`);
+      }
     }
 
     const adminEmail = process.env.ADMIN_EMAIL || "admin@chamba.digital";
@@ -181,7 +334,7 @@ async function seedTestUser() {
         projectStatus: "n/a",
         role: "admin"
       });
-      console.log(`[Seed] Admin created: ${adminEmail} (password from env)`);
+      console.log(`[Seed] Admin created in DB: ${adminEmail} (password from env)`);
     }
   } catch (e) {
     if (isProduction) {
@@ -190,18 +343,13 @@ async function seedTestUser() {
     }
     console.warn("[Seed] Using in-memory fallback (dev only):", (e as Error).message);
     const hashedPassword = await bcrypt.hash("demo123456", 10);
-    inMemoryUsers["demo@chamba.digital"] = {
-      _id: "demo_user_id_123",
-      name: "Usuario de Prueba WaaS",
-      email: "demo@chamba.digital",
-      password: hashedPassword,
-      company: "Pacific Surf School",
-      plan: "Web Tradicional",
-      planPrice: "$49.99/mes",
-      subscriptionStatus: "activa",
-      projectStatus: "en_produccion",
-      role: "client"
-    };
+    PORTFOLIO_SEED.forEach((item, index) => {
+      inMemoryUsers[item.email] = {
+        _id: item.email === "demo@chamba.digital" ? "demo_user_id_123" : `cli_${index + 1}`,
+        ...item,
+        password: hashedPassword,
+      };
+    });
     const adminEmail = process.env.ADMIN_EMAIL || "admin@chamba.digital";
     inMemoryUsers[adminEmail] = {
       _id: "admin_user_id_1",
@@ -822,6 +970,87 @@ async function startServer() {
       res.json({ success: true, task });
     } catch (e: any) {
       res.status(500).json({ error: "Error actualizando estado de tarea.", details: e.message });
+    }
+  });
+
+  // USER API: Update project info
+  app.put("/api/users/:id/project-info", requireAuth, async (req: any, res) => {
+    try {
+      const { id } = req.params;
+      const { projectDescription, deployedUrl, thumbnailUrl, techStack, githubRepo } = req.body || {};
+
+      if (isMongoConnected) {
+        let user = await UserModel.findById(id);
+        if (!user && (id === "demo_user_id_123" || id === "demo")) {
+          user = await UserModel.findOne({ email: "demo@chamba.digital" });
+        }
+        if (!user) return res.status(404).json({ error: "Usuario no encontrado en la base de datos." });
+
+        if (projectDescription !== undefined) user.projectDescription = projectDescription;
+        if (deployedUrl !== undefined) user.deployedUrl = deployedUrl;
+        if (thumbnailUrl !== undefined) user.thumbnailUrl = thumbnailUrl;
+        if (techStack !== undefined) user.techStack = techStack;
+        if (githubRepo !== undefined) user.githubRepo = githubRepo;
+        await user.save();
+
+        return res.json({
+          success: true,
+          user: {
+            id: user._id,
+            name: user.name,
+            email: user.email,
+            company: user.company,
+            plan: user.plan,
+            planPrice: user.planPrice,
+            subscriptionStatus: user.subscriptionStatus,
+            projectStatus: user.projectStatus,
+            projectDescription: user.projectDescription,
+            deployedUrl: user.deployedUrl,
+            thumbnailUrl: user.thumbnailUrl,
+            techStack: user.techStack,
+            githubRepo: user.githubRepo,
+            role: user.role || "client"
+          }
+        });
+      }
+
+      // In-memory fallback
+      const foundKey = Object.keys(inMemoryUsers).find(k => inMemoryUsers[k]._id === id || inMemoryUsers[k].id === id || k === id || inMemoryUsers[k].email === "demo@chamba.digital");
+      if (!foundKey) {
+        return res.status(404).json({ error: "Usuario no encontrado en memoria." });
+      }
+
+      inMemoryUsers[foundKey] = {
+        ...inMemoryUsers[foundKey],
+        projectDescription: projectDescription ?? inMemoryUsers[foundKey].projectDescription,
+        deployedUrl: deployedUrl ?? inMemoryUsers[foundKey].deployedUrl,
+        thumbnailUrl: thumbnailUrl ?? inMemoryUsers[foundKey].thumbnailUrl,
+        techStack: techStack ?? inMemoryUsers[foundKey].techStack,
+        githubRepo: githubRepo ?? inMemoryUsers[foundKey].githubRepo,
+      };
+
+      const user = inMemoryUsers[foundKey];
+      res.json({
+        success: true,
+        user: {
+          id: user._id || user.id,
+          name: user.name,
+          email: user.email,
+          company: user.company,
+          plan: user.plan,
+          planPrice: user.planPrice,
+          subscriptionStatus: user.subscriptionStatus,
+          projectStatus: user.projectStatus,
+          projectDescription: user.projectDescription,
+          deployedUrl: user.deployedUrl,
+          thumbnailUrl: user.thumbnailUrl,
+          techStack: user.techStack,
+          githubRepo: user.githubRepo,
+          role: user.role || "client"
+        }
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: "Error actualizando información del proyecto.", details: e.message });
     }
   });
 
