@@ -17,6 +17,7 @@ import {
   CreditCard, 
   BarChart3, 
   ChevronRight, 
+  ChevronLeft,
   Activity,
   UserCheck,
   Building,
@@ -172,6 +173,7 @@ export default function SuperAdminDashboard() {
 
   const toast = useToast();
   const [activeTab, setActiveTab] = useState<"overview" | "clients" | "kanban" | "chat">("overview");
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [clients, setClients] = useState<ClientProfile[]>(initialClients);
   const [tasks, setTasks] = useState<TaskItem[]>(initialTasks);
   const [messages, setMessages] = useState<ChatMessage[]>(initialMessages);
@@ -311,7 +313,7 @@ export default function SuperAdminDashboard() {
             plan: u.plan,
             price: u.planPrice,
             subscriptionStatus: u.subscriptionStatus === "activa" ? "active" : u.subscriptionStatus,
-            projectStatus: u.projectStatus,
+            projectStatus: u.projectStatus || "en_desarrollo",
             railwayStatus: "activo",
             startDate: u.createdAt ? String(u.createdAt).slice(0, 10) : "—",
             notes: u.projectDescription || "Cliente WaaS activo",
@@ -589,7 +591,29 @@ export default function SuperAdminDashboard() {
       {/* Main Container */}
       <div className="flex-grow flex flex-col md:flex-row">
         {/* Sidebar Nav */}
-        <aside className="w-full md:w-64 bg-slate-900 border-b md:border-b-0 md:border-r border-slate-800 p-3 sm:p-4 flex md:flex-col md:space-y-2 gap-2 overflow-x-auto custom-scrollbar">
+        <aside
+          className={`w-full ${
+            isSidebarCollapsed ? "md:w-20" : "md:w-64"
+          } bg-slate-900 border-b md:border-b-0 md:border-r border-slate-800 p-3 sm:p-4 flex md:flex-col md:space-y-2 gap-2 overflow-x-auto custom-scrollbar transition-all duration-300 relative shrink-0`}
+        >
+          {/* Toggle button for collapse (Desktop) */}
+          <button
+            onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+            className="hidden md:flex items-center justify-between p-2 rounded-xl bg-slate-800/80 hover:bg-slate-800 text-slate-400 hover:text-white transition-colors mb-1 cursor-pointer border border-slate-700/50 w-full"
+            title={isSidebarCollapsed ? "Expandir menú" : "Colapsar menú"}
+          >
+            {!isSidebarCollapsed && (
+              <span className="text-[11px] font-black uppercase tracking-wider text-slate-400 px-1">
+                Menú
+              </span>
+            )}
+            {isSidebarCollapsed ? (
+              <ChevronRight className="w-5 h-5 mx-auto text-blue-400" />
+            ) : (
+              <ChevronLeft className="w-4 h-4 text-slate-400" />
+            )}
+          </button>
+
           {[
             { id: "overview", label: "Resumen General", icon: Activity },
             { id: "clients", label: "Clientes & Suscripciones", icon: Users },
@@ -599,15 +623,22 @@ export default function SuperAdminDashboard() {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id as any)}
-              className={`flex items-center gap-3 px-4 py-3 rounded-xl font-extrabold text-[clamp(12px,2.5vw,13px)] transition-all cursor-pointer shrink-0 whitespace-nowrap ${
+              title={tab.label}
+              className={`flex items-center ${
+                isSidebarCollapsed ? "md:justify-center px-3" : "gap-3 px-4"
+              } py-3 rounded-xl font-extrabold text-[clamp(12px,2.5vw,13px)] transition-all cursor-pointer shrink-0 whitespace-nowrap ${
                 activeTab === tab.id
-                  ? "bg-blue-600 text-white shadow-lg"
+                  ? "bg-blue-600 text-white shadow-lg shadow-blue-900/30"
                   : "text-slate-400 hover:bg-slate-800 hover:text-white"
               }`}
             >
-              <tab.icon className="w-4 h-4" />
-              <span className="hidden sm:inline">{tab.label}</span>
-              <span className="sm:hidden">{tab.label.split(" ")[0]}</span>
+              <tab.icon className="w-5 h-5 shrink-0" />
+              {!isSidebarCollapsed && (
+                <>
+                  <span className="hidden sm:inline">{tab.label}</span>
+                  <span className="sm:hidden">{tab.label.split(" ")[0]}</span>
+                </>
+              )}
             </button>
           ))}
         </aside>
@@ -688,7 +719,7 @@ export default function SuperAdminDashboard() {
                               Activa
                             </span>
                           </td>
-                          <td className="py-4 px-2 sm:px-4 font-semibold text-slate-300 capitalize">{c.projectStatus.replace("_", " ")}</td>
+                          <td className="py-4 px-2 sm:px-4 font-semibold text-slate-300 capitalize">{(c.projectStatus || "en_desarrollo").replace(/_/g, " ")}</td>
                           <td className="py-4 px-2 sm:px-4 text-emerald-400 font-mono text-[clamp(9px,2vw,11px)]">{c.railwayStatus}</td>
                         </tr>
                       ))}
