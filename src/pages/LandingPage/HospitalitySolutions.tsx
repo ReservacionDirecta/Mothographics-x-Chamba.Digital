@@ -165,7 +165,7 @@ const HospitalitySolutions: React.FC = () => {
               {/* Hero CTAs */}
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-5 pt-2">
                 <motion.a
-                  whileHover={{ scale: 1.03, shadow: "0 25px 50px rgba(59,130,246,0.4)" }}
+                  whileHover={{ scale: 1.03, boxShadow: "0 25px 50px rgba(59,130,246,0.4)" }}
                   whileTap={{ scale: 0.97 }}
                   href="https://wa.me/51904060670?text=Hola,%20quiero%20eliminar%20las%20comisiones%20de%20Booking%20y%20potenciar%20mis%20reservas%20directas."
                   target="_blank"
@@ -969,7 +969,7 @@ const HospitalitySolutions: React.FC = () => {
                   </p>
                 </div>
                 <motion.a
-                  whileHover={{ scale: 1.02, shadow: "0 20px 40px rgba(59,130,246,0.4)" }}
+                  whileHover={{ scale: 1.02, boxShadow: "0 20px 40px rgba(59,130,246,0.4)" }}
                   whileTap={{ scale: 0.98 }}
                   href="https://wa.me/51904060670?text=Hola,%20quiero%20contratar%20el%20Plan%20Desarrollo%20Web%20para%20Hoteles%20de%20$999%20USD%20para%20empezar%20a%20vender%20sin%20comisiones."
                   target="_blank"
