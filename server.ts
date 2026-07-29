@@ -427,6 +427,55 @@ async function startServer() {
     }
   });
 
+  // PUT /api/admin/clients/:id - Admin updates full client including project fields
+  app.put("/api/admin/clients/:id", requireAuth, async (req: any, res) => {
+    try {
+      const { id } = req.params;
+      const updateData = req.body;
+      // Remove immutable fields
+      delete updateData.id;
+      delete updateData._id;
+      delete updateData.password;
+      delete updateData.createdAt;
+
+      let user: any = null;
+      if (isMongoConnected) {
+        user = await UserModel.findByIdAndUpdate(id, updateData, { new: true }).select("-password");
+      } else {
+        user = inMemoryUsers[id];
+        if (user) {
+          Object.assign(user, updateData);
+        }
+      }
+      if (!user) return res.status(404).json({ error: "Cliente no encontrado." });
+
+      return res.json({
+        client: {
+          id: user._id || user.id,
+          name: user.name,
+          email: user.email,
+          phone: user.phone || "—",
+          company: user.company,
+          plan: user.plan,
+          price: user.planPrice,
+          subscriptionStatus: user.subscriptionStatus === "activa" ? "active" : user.subscriptionStatus,
+          projectStatus: user.projectStatus,
+          railwayStatus: "activo",
+          startDate: user.createdAt ? String(user.createdAt).slice(0, 10) : "—",
+          notes: user.projectDescription || "Cliente WaaS activo",
+          projectDescription: user.projectDescription,
+          deployedUrl: user.deployedUrl,
+          thumbnailUrl: user.thumbnailUrl,
+          techStack: user.techStack,
+          githubRepo: user.githubRepo,
+          lastDeployedAt: user.lastDeployedAt
+        }
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: "Error actualizando cliente.", details: e.message });
+    }
+  });
+
   // API: Get messages for a client (by clientId or current user)
   app.get("/api/messages/:clientId?", requireAuth, async (req: any, res) => {
     try {
