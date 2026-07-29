@@ -495,18 +495,18 @@ export default function SuperAdminDashboard() {
   return (
     <div className="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans">
       {/* Top Admin Header */}
-      <header className="border-b border-slate-800 bg-slate-900/90 backdrop-blur-md px-6 py-4 sticky top-0 z-50 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="p-2 bg-blue-600 text-white rounded-xl font-black text-sm">CD</div>
-          <div>
-            <h1 className="text-[16px] font-black text-white flex items-center gap-2">
-              Chamba.Digital <span className="text-[10px] bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded-full border border-blue-500/30">Super Admin WaaS</span>
+      <header className="border-b border-slate-800 bg-slate-900/90 backdrop-blur-md px-4 sm:px-6 py-3 sm:py-4 sticky top-0 z-50 flex items-center justify-between">
+        <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+          <div className="p-1.5 sm:p-2 bg-blue-600 text-white rounded-xl font-black text-[clamp(11px,2vw,14px)] shrink-0">CD</div>
+          <div className="min-w-0">
+            <h1 className="text-[clamp(13px,3vw,16px)] font-black text-white flex items-center gap-2">
+              <span className="truncate">Chamba.Digital</span> <span className="text-[clamp(8px,1.5vw,10px)] bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded-full border border-blue-500/30 hidden sm:inline-block">Super Admin WaaS</span>
             </h1>
           </div>
         </div>
-        <div className="flex items-center gap-4">
-          <span className="text-[12px] text-slate-400 font-medium hidden sm:inline-block">chambadigital2019@gmail.com</span>
-          <button onClick={() => setIsAuthenticated(false)} className="p-2 text-slate-400 hover:text-white transition-colors" title="Cerrar sesión">
+        <div className="flex items-center gap-3 sm:gap-4 shrink-0">
+          <span className="text-[clamp(10px,2vw,12px)] text-slate-400 font-medium hidden md:inline-block">chambadigital2019@gmail.com</span>
+          <button onClick={() => setIsAuthenticated(false)} className="p-2 text-slate-400 hover:text-white transition-colors cursor-pointer" title="Cerrar sesión">
             <LogOut className="w-5 h-5" />
           </button>
         </div>
@@ -515,7 +515,7 @@ export default function SuperAdminDashboard() {
       {/* Main Container */}
       <div className="flex-grow flex flex-col md:flex-row">
         {/* Sidebar Nav */}
-        <aside className="w-full md:w-64 bg-slate-900 border-r border-slate-800 p-4 space-y-2">
+        <aside className="w-full md:w-64 bg-slate-900 border-b md:border-b-0 md:border-r border-slate-800 p-3 sm:p-4 flex md:flex-col md:space-y-2 gap-2 overflow-x-auto custom-scrollbar">
           {[
             { id: "overview", label: "Resumen General", icon: Activity },
             { id: "clients", label: "Clientes & Suscripciones", icon: Users },
@@ -525,96 +525,97 @@ export default function SuperAdminDashboard() {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id as any)}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-extrabold text-[13px] transition-all cursor-pointer ${
+              className={`flex items-center gap-3 px-4 py-3 rounded-xl font-extrabold text-[clamp(12px,2.5vw,13px)] transition-all cursor-pointer shrink-0 whitespace-nowrap ${
                 activeTab === tab.id
                   ? "bg-blue-600 text-white shadow-lg"
                   : "text-slate-400 hover:bg-slate-800 hover:text-white"
               }`}
             >
               <tab.icon className="w-4 h-4" />
-              {tab.label}
+              <span className="hidden sm:inline">{tab.label}</span>
+              <span className="sm:hidden">{tab.label.split(" ")[0]}</span>
             </button>
           ))}
         </aside>
 
         {/* Dynamic Content */}
-        <main className="flex-grow p-6 md:p-8 overflow-y-auto">
+        <main className="flex-grow p-4 sm:p-6 md:p-8 overflow-y-auto">
           {/* TAB 1: OVERVIEW */}
           {activeTab === "overview" && (
-            <div className="space-y-8">
+            <div className="space-y-6 sm:space-y-8">
               <div>
-                <h2 className="text-[26px] font-black text-white tracking-tight">Panel General WaaS</h2>
-                <p className="text-slate-400 text-[14px]">Monitoreo de suscripciones Polar.sh y estado de servidores en Railway.</p>
+                <h2 className="text-[clamp(20px,4vw,26px)] font-black text-white tracking-tight">Panel General WaaS</h2>
+                <p className="text-slate-400 text-[clamp(12px,2.5vw,14px)]">Monitoreo de suscripciones Polar.sh y estado de servidores en Railway.</p>
               </div>
 
               {/* Stats Cards */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div className="bg-slate-900 border border-slate-800 p-6 rounded-2xl">
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">Ingresos Mensuales</span>
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
+                <div className="bg-slate-900 border border-slate-800 p-4 sm:p-6 rounded-2xl">
+                  <div className="flex items-center justify-between mb-3 sm:mb-4">
+                    <span className="text-[clamp(9px,2vw,11px)] font-extrabold text-slate-400 uppercase tracking-wider">Ingresos Mensuales</span>
                     <CreditCard className="w-5 h-5 text-emerald-400" />
                   </div>
-                  <span className="text-[32px] font-black text-white">$749.97</span>
-                  <p className="text-[11px] text-emerald-400 mt-1 font-bold">+100% cobro vía Polar.sh</p>
+                  <span className="text-[clamp(22px,5vw,32px)] font-black text-white">$749.97</span>
+                  <p className="text-[clamp(10px,2vw,11px)] text-emerald-400 mt-1 font-bold">+100% cobro vía Polar.sh</p>
                 </div>
 
-                <div className="bg-slate-900 border border-slate-800 p-6 rounded-2xl">
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">Clientes Activos</span>
+                <div className="bg-slate-900 border border-slate-800 p-4 sm:p-6 rounded-2xl">
+                  <div className="flex items-center justify-between mb-3 sm:mb-4">
+                    <span className="text-[clamp(9px,2vw,11px)] font-extrabold text-slate-400 uppercase tracking-wider">Clientes Activos</span>
                     <UserCheck className="w-5 h-5 text-blue-400" />
                   </div>
-                  <span className="text-[32px] font-black text-white">{clients.length}</span>
-                  <p className="text-[11px] text-slate-400 mt-1 font-bold">100% Retención este mes</p>
+                  <span className="text-[clamp(22px,5vw,32px)] font-black text-white">{clients.length}</span>
+                  <p className="text-[clamp(10px,2vw,11px)] text-slate-400 mt-1 font-bold">100% Retención este mes</p>
                 </div>
 
-                <div className="bg-slate-900 border border-slate-800 p-6 rounded-2xl">
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">Hosting Railway</span>
+                <div className="bg-slate-900 border border-slate-800 p-4 sm:p-6 rounded-2xl">
+                  <div className="flex items-center justify-between mb-3 sm:mb-4">
+                    <span className="text-[clamp(9px,2vw,11px)] font-extrabold text-slate-400 uppercase tracking-wider">Hosting Railway</span>
                     <Zap className="w-5 h-5 text-amber-400" />
                   </div>
-                  <span className="text-[32px] font-black text-white">3 Servidores</span>
-                  <p className="text-[11px] text-amber-400 mt-1 font-bold">99.9% Uptime ($5/mes por cliente)</p>
+                  <span className="text-[clamp(18px,4vw,28px)] font-black text-white">3 Servidores</span>
+                  <p className="text-[clamp(10px,2vw,11px)] text-amber-400 mt-1 font-bold">99.9% Uptime ($5/mes)</p>
                 </div>
 
-                <div className="bg-slate-900 border border-slate-800 p-6 rounded-2xl">
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">Tareas Pendientes</span>
+                <div className="bg-slate-900 border border-slate-800 p-4 sm:p-6 rounded-2xl">
+                  <div className="flex items-center justify-between mb-3 sm:mb-4">
+                    <span className="text-[clamp(9px,2vw,11px)] font-extrabold text-slate-400 uppercase tracking-wider">Tareas Pendientes</span>
                     <Kanban className="w-5 h-5 text-purple-400" />
                   </div>
-                  <span className="text-[32px] font-black text-white">{tasks.filter(t => t.status !== "completado").length}</span>
-                  <p className="text-[11px] text-purple-400 mt-1 font-bold">En flujo de trabajo WaaS</p>
+                  <span className="text-[clamp(22px,5vw,32px)] font-black text-white">{tasks.filter(t => t.status !== "completado").length}</span>
+                  <p className="text-[clamp(10px,2vw,11px)] text-purple-400 mt-1 font-bold">En flujo de trabajo WaaS</p>
                 </div>
               </div>
 
               {/* Recent Clients Table */}
-              <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
-                <h3 className="text-[18px] font-black text-white mb-6">Suscripciones Recientes</h3>
+              <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-6">
+                <h3 className="text-[clamp(15px,3vw,18px)] font-black text-white mb-4 sm:mb-6">Suscripciones Recientes</h3>
                 <div className="overflow-x-auto">
-                  <table className="w-full text-left text-[13px]">
-                    <thead className="border-b border-slate-800 text-slate-400 uppercase tracking-wider text-[11px]">
+                  <table className="w-full text-left text-[clamp(11px,2.5vw,13px)] whitespace-nowrap">
+                    <thead className="border-b border-slate-800 text-slate-400 uppercase tracking-wider text-[clamp(9px,2vw,11px)]">
                       <tr>
-                        <th className="py-3 px-4">Cliente / Empresa</th>
-                        <th className="py-3 px-4">Plan WaaS</th>
-                        <th className="py-3 px-4">Suscripción</th>
-                        <th className="py-3 px-4">Proyecto</th>
-                        <th className="py-3 px-4">Railway</th>
+                        <th className="py-3 px-2 sm:px-4">Cliente / Empresa</th>
+                        <th className="py-3 px-2 sm:px-4">Plan WaaS</th>
+                        <th className="py-3 px-2 sm:px-4">Suscripción</th>
+                        <th className="py-3 px-2 sm:px-4">Proyecto</th>
+                        <th className="py-3 px-2 sm:px-4">Railway</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-800/60">
                       {clients.map((c) => (
                         <tr key={c.id} className="hover:bg-slate-800/40 transition-colors">
-                          <td className="py-4 px-4 font-bold text-white">
-                            <div>{c.name}</div>
-                            <div className="text-[11px] text-slate-400 font-normal">{c.company}</div>
+                          <td className="py-4 px-2 sm:px-4 font-bold text-white">
+                            <div className="truncate max-w-[120px] sm:max-w-none">{c.name}</div>
+                            <div className="text-[clamp(9px,2vw,11px)] text-slate-400 font-normal">{c.company}</div>
                           </td>
-                          <td className="py-4 px-4 font-extrabold text-blue-400">{c.plan} ({c.price})</td>
-                          <td className="py-4 px-4">
-                            <span className="bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded-full text-[11px] font-black border border-emerald-500/30">
+                          <td className="py-4 px-2 sm:px-4 font-extrabold text-blue-400">{c.plan} ({c.price})</td>
+                          <td className="py-4 px-2 sm:px-4">
+                            <span className="bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded-full text-[clamp(9px,2vw,11px)] font-black border border-emerald-500/30">
                               Activa
                             </span>
                           </td>
-                          <td className="py-4 px-4 font-semibold text-slate-300 capitalize">{c.projectStatus.replace("_", " ")}</td>
-                          <td className="py-4 px-4 text-emerald-400 font-mono text-[11px]">{c.railwayStatus}</td>
+                          <td className="py-4 px-2 sm:px-4 font-semibold text-slate-300 capitalize">{c.projectStatus.replace("_", " ")}</td>
+                          <td className="py-4 px-2 sm:px-4 text-emerald-400 font-mono text-[clamp(9px,2vw,11px)]">{c.railwayStatus}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -629,48 +630,50 @@ export default function SuperAdminDashboard() {
             <div className="space-y-6">
               <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
                 <div>
-                  <h2 className="text-[26px] font-black text-white tracking-tight">Perfiles de Clientes</h2>
-                  <p className="text-slate-400 text-[14px]">Gestión de planes WaaS, estado del proyecto y Railway.</p>
+                  <h2 className="text-[clamp(20px,4vw,26px)] font-black text-white tracking-tight">Perfiles de Clientes</h2>
+                  <p className="text-slate-400 text-[clamp(12px,2.5vw,14px)]">Gestión de planes WaaS, estado del proyecto y Railway.</p>
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                 {clients.map((c) => (
-                  <div key={c.id} className="bg-slate-900 border border-slate-800 p-6 rounded-2xl flex flex-col justify-between space-y-4">
+                  <div key={c.id} className="bg-slate-900 border border-slate-800 p-4 sm:p-6 rounded-2xl flex flex-col justify-between space-y-4">
                     <div>
                       <div className="flex justify-between items-start mb-4">
-                        <span className="text-[10px] font-black uppercase tracking-wider bg-blue-500/20 text-blue-400 px-3 py-1 rounded-full border border-blue-500/30">
+                        <span className="text-[clamp(9px,2vw,10px)] font-black uppercase tracking-wider bg-blue-500/20 text-blue-400 px-3 py-1 rounded-full border border-blue-500/30">
                           {c.plan}
                         </span>
-                        <span className="text-emerald-400 font-bold text-[14px]">{c.price}</span>
+                        <span className="text-emerald-400 font-bold text-[clamp(12px,2.5vw,14px)]">{c.price}</span>
                       </div>
-                      <h3 className="text-[18px] font-black text-white">{c.name}</h3>
-                      <p className="text-[12px] font-bold text-slate-400 mb-4">{c.company}</p>
+                      <h3 className="text-[clamp(16px,3vw,18px)] font-black text-white">{c.name}</h3>
+                      <p className="text-[clamp(11px,2vw,12px)] font-bold text-slate-400 mb-4">{c.company}</p>
 
-                      <div className="space-y-2 text-[12px] text-slate-300 bg-slate-950/60 p-4 rounded-xl border border-slate-800">
-                        <div className="flex items-center gap-2"><Mail className="w-3.5 h-3.5 text-slate-500" /> {c.email}</div>
-                        <div className="flex items-center gap-2"><Phone className="w-3.5 h-3.5 text-slate-500" /> {c.phone}</div>
-                        <div className="flex items-center gap-2"><Activity className="w-3.5 h-3.5 text-emerald-400" /> Railway: {c.railwayStatus}</div>
+                      <div className="space-y-2 text-[clamp(11px,2vw,12px)] text-slate-300 bg-slate-950/60 p-4 rounded-xl border border-slate-800">
+                        <div className="flex flex-wrap items-center gap-2"><Mail className="w-3.5 h-3.5 text-slate-500 shrink-0" /> <span className="truncate">{c.email || "N/A"}</span></div>
+                        <div className="flex items-center gap-2"><Phone className="w-3.5 h-3.5 text-slate-500 shrink-0" /> {c.phone || "N/A"}</div>
+                        <div className="flex items-center gap-2"><Activity className="w-3.5 h-3.5 text-emerald-400 shrink-0" /> {c.railwayStatus || "Activo"}</div>
                       </div>
 
-                      <p className="text-[12px] text-slate-400 italic mt-3 leading-relaxed">{c.notes}</p>
+                      <p className="text-[clamp(11px,2vw,12px)] text-slate-400 italic mt-3 leading-relaxed line-clamp-2">{c.notes || ""}</p>
                     </div>
 
-                    <button
-                      onClick={() => {
-                        setSelectedClientId(c.id);
-                        setActiveTab("chat");
-                      }}
-                      className="w-full bg-slate-800 hover:bg-slate-700 text-white font-bold py-2.5 rounded-xl text-[12px] transition-colors flex items-center justify-center gap-2 cursor-pointer"
-                    >
-                      <MessageSquare className="w-4 h-4 text-blue-400" /> Abrir Chat de Peticiones
-                    </button>
-                    <button
-                      onClick={() => openEditClientModal(c)}
-                      className="w-full bg-slate-800 hover:bg-blue-600 text-white font-bold py-2.5 rounded-xl text-[12px] transition-colors flex items-center justify-center gap-2 cursor-pointer"
-                    >
-                      <Edit className="w-4 h-4" /> Editar Cliente
-                    </button>
+                    <div className="flex flex-col gap-2">
+                      <button
+                        onClick={() => {
+                          setSelectedClientId(c.id);
+                          setActiveTab("chat");
+                        }}
+                        className="w-full bg-slate-800 hover:bg-slate-700 text-white font-bold py-2.5 rounded-xl text-[clamp(11px,2.5vw,12px)] transition-colors flex items-center justify-center gap-2 cursor-pointer"
+                      >
+                        <MessageSquare className="w-4 h-4 text-blue-400" /> Abrir Chat
+                      </button>
+                      <button
+                        onClick={() => openEditClientModal(c)}
+                        className="w-full bg-slate-800 hover:bg-blue-600 text-white font-bold py-2.5 rounded-xl text-[clamp(11px,2.5vw,12px)] transition-colors flex items-center justify-center gap-2 cursor-pointer"
+                      >
+                        <Edit className="w-4 h-4" /> Editar Cliente
+                      </button>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -680,31 +683,31 @@ export default function SuperAdminDashboard() {
           {/* TAB 3: KANBAN BOARD */}
           {activeTab === "kanban" && (
             <div className="space-y-6">
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between items-center flex-wrap gap-3">
                 <div>
-                  <h2 className="text-[26px] font-black text-white tracking-tight">Tablero Kanban WaaS</h2>
-                  <p className="text-slate-400 text-[14px]">Flujo de trabajo e iteraciones por suscripción.</p>
+                  <h2 className="text-[clamp(20px,4vw,26px)] font-black text-white tracking-tight">Tablero Kanban WaaS</h2>
+                  <p className="text-slate-400 text-[clamp(12px,2.5vw,14px)]">Flujo de trabajo e iteraciones por suscripción.</p>
                 </div>
                 <button
                   onClick={() => setShowTaskModal(true)}
-                  className="bg-blue-600 hover:bg-blue-500 text-white font-black px-4 py-2.5 rounded-xl text-[12px] uppercase tracking-wider flex items-center gap-2 cursor-pointer"
+                  className="bg-blue-600 hover:bg-blue-500 text-white font-black px-4 py-2.5 rounded-xl text-[clamp(11px,2.5vw,12px)] uppercase tracking-wider flex items-center gap-2 cursor-pointer shrink-0"
                 >
                   <Plus className="w-4 h-4" /> Nueva Tarea
                 </button>
               </div>
 
               {/* Kanban Columns */}
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-3 sm:gap-6 overflow-x-auto">
                 {[
                   { id: "backlog", title: "Backlog / Pendientes", color: "border-slate-700" },
                   { id: "en_progreso", title: "En Progreso", color: "border-blue-500" },
                   { id: "revision", title: "En Revisión", color: "border-amber-500" },
                   { id: "completado", title: "Completado", color: "border-emerald-500" },
                 ].map((col) => (
-                  <div key={col.id} className={`bg-slate-900/80 border-t-4 ${col.color} border-slate-800 p-4 rounded-2xl min-h-[500px] flex flex-col space-y-4`}>
-                    <h3 className="text-[14px] font-black text-white uppercase tracking-wider flex items-center justify-between">
+                  <div key={col.id} className={`bg-slate-900/80 border-t-4 ${col.color} border-slate-800 p-3 sm:p-4 rounded-2xl min-h-[300px] sm:min-h-[500px] flex flex-col space-y-3 sm:space-y-4 min-w-[240px]`}>
+                    <h3 className="text-[clamp(12px,2.5vw,14px)] font-black text-white uppercase tracking-wider flex items-center justify-between">
                       <span>{col.title}</span>
-                      <span className="bg-slate-800 text-slate-400 text-[11px] px-2 py-0.5 rounded-full">
+                      <span className="bg-slate-800 text-slate-400 text-[clamp(10px,2vw,11px)] px-2 py-0.5 rounded-full">
                         {tasks.filter(t => t.status === col.id).length}
                       </span>
                     </h3>
@@ -714,26 +717,26 @@ export default function SuperAdminDashboard() {
                         const clientObj = clients.find(c => c.id === task.clientId);
                         const priorityColor = task.priority === "alta" ? "text-red-400 bg-red-500/10" : task.priority === "baja" ? "text-emerald-400 bg-emerald-500/10" : "text-amber-400 bg-amber-500/10";
                         return (
-                          <div key={task.id} className="bg-slate-950 border border-slate-800 p-4 rounded-xl space-y-2 hover:border-slate-700 transition-all shadow-md">
+                          <div key={task.id} className="bg-slate-950 border border-slate-800 p-3 sm:p-4 rounded-xl space-y-2 hover:border-slate-700 transition-all shadow-md">
                             <div className="flex items-center justify-between">
-                              <span className="text-[10px] font-bold text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded-full">
+                              <span className="text-[clamp(9px,2vw,10px)] font-bold text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded-full">
                                 {clientObj?.company || "Cliente"}
                               </span>
-                              <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${priorityColor}`}>
+                              <span className={`text-[clamp(9px,2vw,10px)] font-bold px-2 py-0.5 rounded-full ${priorityColor}`}>
                                 {task.priority}
                               </span>
                             </div>
-                            <h4 className="text-[13px] font-black text-white leading-tight">{task.title}</h4>
-                            <p className="text-[11px] text-slate-400 leading-relaxed">{task.description}</p>
+                            <h4 className="text-[clamp(12px,2.5vw,13px)] font-black text-white leading-tight">{task.title}</h4>
+                            <p className="text-[clamp(10px,2vw,11px)] text-slate-400 leading-relaxed">{task.description}</p>
                             
                             {/* Move controls + Delete */}
-                            <div className="pt-2 border-t border-slate-800/60 flex items-center justify-between text-[10px]">
-                              <span className="text-slate-500">{task.createdAt}</span>
+                            <div className="pt-2 border-t border-slate-800/60 flex items-center justify-between text-[clamp(9px,2vw,10px)]">
+                              <span className="text-slate-500 truncate max-w-[80px]">{task.createdAt}</span>
                               <div className="flex items-center gap-2">
                                 <select
                                   value={task.status}
                                   onChange={(e) => handleMoveTaskStatus(task.id, e.target.value as any)}
-                                  className="bg-slate-900 border border-slate-700 text-slate-300 rounded px-1.5 py-0.5 outline-none text-[10px] cursor-pointer"
+                                  className="bg-slate-900 border border-slate-700 text-slate-300 rounded px-1.5 py-0.5 outline-none text-[clamp(9px,2vw,10px)] cursor-pointer"
                                 >
                                   <option value="backlog">Backlog</option>
                                   <option value="en_progreso">En Progreso</option>
@@ -763,76 +766,78 @@ export default function SuperAdminDashboard() {
 
           {/* TAB 4: CHAT & REQUESTS */}
           {activeTab === "chat" && (
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-[750px]">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 h-[600px] sm:h-[750px]">
               {/* Clients Sidebar */}
-              <div className="bg-slate-900 border border-slate-800 p-4 rounded-2xl space-y-3">
-                <h3 className="text-[14px] font-black text-white uppercase tracking-wider mb-2">Peticiones de Clientes</h3>
+              <div className="bg-slate-900 border border-slate-800 p-4 rounded-2xl space-y-3 overflow-y-auto custom-scrollbar lg:max-h-full max-h-[150px] lg:max-h-none">
+                <h3 className="text-[clamp(12px,2.5vw,14px)] font-black text-white uppercase tracking-wider mb-2 hidden lg:block">Peticiones de Clientes</h3>
+                <div className="flex lg:flex-col gap-2 overflow-x-auto lg:overflow-visible">
                 {clients.map((c) => (
                   <button
                     key={c.id}
                     onClick={() => setSelectedClientId(c.id)}
-                    className={`w-full text-left p-3.5 rounded-xl transition-all cursor-pointer flex items-center justify-between ${
+                    className={`text-left p-3 sm:p-3.5 rounded-xl transition-all cursor-pointer flex items-center justify-between shrink-0 lg:w-full ${
                       selectedClientId === c.id ? "bg-blue-600 text-white shadow-lg" : "bg-slate-950/60 text-slate-300 hover:bg-slate-800"
                     }`}
                   >
-                    <div>
-                      <div className="font-extrabold text-[13px]">{c.name}</div>
-                      <div className="text-[11px] opacity-80">{c.company}</div>
+                    <div className="min-w-0">
+                      <div className="font-extrabold text-[clamp(11px,2.5vw,13px)]">{c.name}</div>
+                      <div className="text-[clamp(9px,2vw,11px)] opacity-80 hidden sm:block">{c.company}</div>
                     </div>
-                    <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-white/10">
+                    <span className="text-[clamp(8px,1.5vw,10px)] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-white/10 shrink-0 ml-2">
                       {c.plan.split(" ")[0]}
                     </span>
                   </button>
                 ))}
+                </div>
               </div>
 
               {/* Chat View */}
-              <div className="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between">
+              <div className="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-6 flex flex-col justify-between">
                 <div>
-                  <div className="border-b border-slate-800 pb-4 mb-4 flex items-center justify-between">
-                    <div>
-                      <h3 className="text-[18px] font-black text-white">{selectedClient.name} ({selectedClient.company})</h3>
-                      <p className="text-[12px] text-blue-400 font-bold">Plan {selectedClient.plan} — {selectedClient.price}</p>
+                  <div className="border-b border-slate-800 pb-4 mb-4 flex items-center justify-between flex-wrap gap-2">
+                    <div className="min-w-0">
+                      <h3 className="text-[clamp(14px,3vw,18px)] font-black text-white truncate">{selectedClient.name} ({selectedClient.company})</h3>
+                      <p className="text-[clamp(10px,2vw,12px)] text-blue-400 font-bold">Plan {selectedClient.plan} — {selectedClient.price}</p>
                     </div>
-                    <span className="text-[11px] bg-emerald-500/20 text-emerald-400 font-bold px-3 py-1 rounded-full border border-emerald-500/30">
+                    <span className="text-[clamp(9px,2vw,11px)] bg-emerald-500/20 text-emerald-400 font-bold px-3 py-1 rounded-full border border-emerald-500/30 shrink-0">
                       Suscripción Activa
                     </span>
                   </div>
 
                   {/* Messages Feed */}
-                  <div className="space-y-4 max-h-[480px] overflow-y-auto pr-2 custom-scrollbar">
+                  <div className="space-y-4 max-h-[300px] sm:max-h-[480px] overflow-y-auto pr-2 custom-scrollbar">
                     {clientMessages.map((msg) => (
                       <div key={msg.id} className={`flex flex-col ${msg.sender === "admin" ? "items-end" : "items-start"}`}>
-                        <div className={`p-4 rounded-2xl max-w-[80%] text-[13px] leading-relaxed ${
+                        <div className={`p-3 sm:p-4 rounded-2xl max-w-[85%] sm:max-w-[80%] text-[clamp(11px,2.5vw,13px)] leading-relaxed ${
                           msg.sender === "admin" ? "bg-blue-600 text-white rounded-br-none" : "bg-slate-950 text-slate-200 border border-slate-800 rounded-bl-none"
                         }`}>
                           {msg.text && <p>{msg.text}</p>}
                           {(msg as any).fileUrl && (msg as any).fileType?.startsWith("image") && (
                             <a href={(msg as any).fileUrl} target="_blank" rel="noopener noreferrer" className="block mt-2">
-                              <img src={(msg as any).fileUrl} alt={(msg as any).fileName || "image"} className="max-w-[280px] max-h-[200px] rounded-lg object-cover" />
+                              <img src={(msg as any).fileUrl} alt={(msg as any).fileName || "image"} className="max-w-[200px] sm:max-w-[280px] max-h-[200px] rounded-lg object-cover" />
                             </a>
                           )}
                           {(msg as any).fileUrl && (msg as any).fileType?.startsWith("video") && (
-                            <video src={(msg as any).fileUrl} controls className="max-w-[280px] max-h-[200px] rounded-lg mt-2" />
+                            <video src={(msg as any).fileUrl} controls className="max-w-[200px] sm:max-w-[280px] max-h-[200px] rounded-lg mt-2" />
                           )}
                           {(msg as any).fileUrl && (msg as any).fileType?.startsWith("audio") && (
                             <audio src={(msg as any).fileUrl} controls className="w-full mt-2" />
                           )}
                           {(msg as any).fileUrl && !(msg as any).fileType?.startsWith("image") && !(msg as any).fileType?.startsWith("video") && !(msg as any).fileType?.startsWith("audio") && (
-                            <a href={(msg as any).fileUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 mt-2 text-blue-300 hover:underline text-[12px]">
+                            <a href={(msg as any).fileUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 mt-2 text-blue-300 hover:underline text-[clamp(10px,2vw,12px)]">
                               <File className="w-4 h-4" /> {(msg as any).fileName || "Archivo adjunto"}
                             </a>
                           )}
                           {msg.sender === "client" && (
                             <button
                               onClick={() => handleCreateTaskFromChat(msg.text)}
-                              className="mt-3 flex items-center gap-1.5 text-[10px] font-bold text-amber-400 hover:underline bg-amber-400/10 px-2 py-1 rounded-md"
+                              className="mt-3 flex items-center gap-1.5 text-[clamp(9px,2vw,10px)] font-bold text-amber-400 hover:underline bg-amber-400/10 px-2 py-1 rounded-md"
                             >
-                              <Plus className="w-3 h-3" /> Crear Tarea Kanban de esta Peticion
+                              <Plus className="w-3 h-3" /> Crear Tarea
                             </button>
                           )}
                         </div>
-                        <span className="text-[10px] text-slate-500 mt-1">{msg.timestamp}</span>
+                        <span className="text-[clamp(9px,2vw,10px)] text-slate-500 mt-1">{msg.timestamp}</span>
                       </div>
                     ))}
                   </div>
@@ -841,13 +846,13 @@ export default function SuperAdminDashboard() {
                 {/* Input Area */}
                 <form onSubmit={handleSendMessage} className="mt-4 pt-4 border-t border-slate-800 space-y-3">
                   {adminPendingFile && (
-                    <div className="flex items-center gap-3 bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-[12px] text-slate-300">
-                      <Paperclip className="w-4 h-4 text-blue-400" />
+                    <div className="flex items-center gap-3 bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-[clamp(11px,2.5vw,12px)] text-slate-300">
+                      <Paperclip className="w-4 h-4 text-blue-400 shrink-0" />
                       <span className="truncate flex-1">{adminPendingFile.name}</span>
-                      <button type="button" onClick={() => setAdminPendingFile(null)} className="text-red-400 hover:text-red-300 font-bold cursor-pointer">x</button>
+                      <button type="button" onClick={() => setAdminPendingFile(null)} className="text-red-400 hover:text-red-300 font-bold cursor-pointer shrink-0">x</button>
                     </div>
                   )}
-                  <div className="flex gap-3">
+                  <div className="flex gap-2 sm:gap-3">
                     <input
                       ref={adminFileRef}
                       type="file"
@@ -859,7 +864,7 @@ export default function SuperAdminDashboard() {
                       type="button"
                       onClick={() => adminFileRef.current?.click()}
                       disabled={adminUploading}
-                      className="bg-slate-800 hover:bg-slate-700 text-white p-3 rounded-xl cursor-pointer disabled:opacity-50"
+                      className="bg-slate-800 hover:bg-slate-700 text-white p-2.5 sm:p-3 rounded-xl cursor-pointer disabled:opacity-50 shrink-0"
                       title="Adjuntar archivo"
                     >
                       <Paperclip className="w-4 h-4" />
@@ -869,9 +874,9 @@ export default function SuperAdminDashboard() {
                       placeholder="Escribe una respuesta o instruccion WaaS..."
                       value={chatInput}
                       onChange={(e) => setChatInput(e.target.value)}
-                      className="flex-grow bg-slate-950 border border-slate-800 focus:border-blue-500 rounded-xl px-4 py-3 text-[13px] text-white outline-none"
+                      className="flex-grow bg-slate-950 border border-slate-800 focus:border-blue-500 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 text-[clamp(12px,2.5vw,13px)] text-white outline-none min-w-0"
                     />
-                    <button type="submit" className="bg-blue-600 hover:bg-blue-500 text-white font-bold px-5 py-3 rounded-xl flex items-center gap-2 cursor-pointer">
+                    <button type="submit" className="bg-blue-600 hover:bg-blue-500 text-white font-bold px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl flex items-center gap-2 cursor-pointer shrink-0">
                       <Send className="w-4 h-4" />
                     </button>
                   </div>
