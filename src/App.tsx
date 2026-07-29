@@ -1840,6 +1840,7 @@ export const ChambaNavbar = () => {
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const [loggedUser, setLoggedUser] = useState<any>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -1847,15 +1848,26 @@ export const ChambaNavbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Check auth state
-  useEffect(() => {
+  const checkAuth = () => {
     const token = localStorage.getItem("chamba_user_token");
     if (token) {
       fetch("/api/auth/me", { headers: { Authorization: `Bearer ${token}` } })
         .then(res => res.json())
-        .then(data => { if (data.user) setLoggedUser(data.user); })
-        .catch(() => {});
+        .then(data => { if (data.user) setLoggedUser(data.user); else setLoggedUser(null); })
+        .catch(() => setLoggedUser(null));
+    } else {
+      setLoggedUser(null);
     }
+  };
+
+  // Re-check auth on route change + on mount
+  useEffect(() => { checkAuth(); }, [location.pathname]);
+
+  // Listen for auth change events (fired after login/logout in UserPortal)
+  useEffect(() => {
+    const handler = () => checkAuth();
+    window.addEventListener("chamba-auth-change", handler);
+    return () => window.removeEventListener("chamba-auth-change", handler);
   }, []);
 
   // Close dropdown on outside click

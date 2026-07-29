@@ -154,6 +154,8 @@ export default function UserPortal() {
         setUser(data.user);
         setView("dashboard");
         fetchClientData(data.user.id);
+        window.dispatchEvent(new Event("chamba-auth-change"));
+        navigate("/portal", { replace: true });
       } else {
         // Dev / Fallback demo user
         if (email === "demo@chamba.digital" && (password === "demo123456" || password.length >= 4)) {
@@ -171,6 +173,8 @@ export default function UserPortal() {
           setUser(mockUser);
           setView("dashboard");
           fetchClientData(mockUser.id);
+          window.dispatchEvent(new Event("chamba-auth-change"));
+          navigate("/portal", { replace: true });
         } else {
           setErrorMsg(data.error || "Credenciales inválidas.");
         }
@@ -217,6 +221,8 @@ export default function UserPortal() {
         setUser(data.user);
         setView("dashboard");
         fetchClientData(data.user.id);
+        window.dispatchEvent(new Event("chamba-auth-change"));
+        navigate("/portal", { replace: true });
       } else {
         setErrorMsg(data.error || "Error al registrar cuenta.");
       }
@@ -231,6 +237,8 @@ export default function UserPortal() {
     localStorage.removeItem("chamba_user_token");
     setUser(null);
     setView("login");
+    window.dispatchEvent(new Event("chamba-auth-change"));
+    navigate("/login", { replace: true });
   };
 
   const saveProjectInfo = async () => {
