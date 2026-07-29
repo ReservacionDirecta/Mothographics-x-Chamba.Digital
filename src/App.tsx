@@ -2599,86 +2599,50 @@ const Guarantees = () => (
 
 
 export const ChambaFooter = () => (
-  <footer className="pt-16 pb-36 md:pt-20 md:pb-20 px-6 md:px-10 border-t border-glass-border bg-black/40 backdrop-blur-md">
+  <footer className="pt-10 pb-6 px-6 md:px-10 bg-slate-950 border-t border-slate-800">
     <div className="max-w-[1024px] mx-auto">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 md:gap-12 mb-12 md:mb-16">
-        {/* Brand Column */}
-        <div className="flex flex-col gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 mb-8">
+        <div className="flex flex-col gap-3">
           <Logo textColor="text-white" />
-          <p className="text-[14px] text-muted leading-relaxed">
-            Hacemos webs que venden. Desde Lima, Perú para el mundo.
-          </p>
-          <div className="flex gap-4">
-            <motion.a whileHover={{ y: -3, color: "#3B82F6" }} href="https://instagram.com/chamba.digital" target="_blank" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-muted transition-colors">
-              <Instagram className="w-5 h-5" />
-            </motion.a>
-            <motion.a whileHover={{ y: -3, color: "#3B82F6" }} href="https://linkedin.com/company/chamba-digital" target="_blank" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-muted transition-colors">
-              <Linkedin className="w-5 h-5" />
-            </motion.a>
+          <p className="text-sm text-slate-400">Hacemos webs que venden. Desde Lima para el mundo.</p>
+          <div className="flex gap-2">
+            <a href="https://instagram.com/chamba.digital" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center text-slate-400 hover:text-accent hover:bg-slate-700 transition-colors"><Instagram className="w-4 h-4" /></a>
+            <a href="https://linkedin.com/company/chamba-digital" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center text-slate-400 hover:text-accent hover:bg-slate-700 transition-colors"><Linkedin className="w-4 h-4" /></a>
           </div>
         </div>
 
-        {/* Quick Links */}
         <div>
-          <h4 className="text-[14px] font-black uppercase tracking-widest mb-6 text-fg">Explorar</h4>
-          <ul className="space-y-4">
-            {[
-              { name: "Inicio", path: "/" },
-              { name: "Servicios", path: "/servicios" },
-              { name: "Portafolio", path: "/portafolio" },
-              { name: "Metodología", path: "/metodologia" },
-              { name: "FAQ", id: "faq", isHomeAnchor: true },
-              { name: "Hotelería Premium", path: "/hospitality" },
-            ].map((item) => (
-              <li key={item.name}>
-                {item.isHomeAnchor ? (
-                  <a href={`/#${item.id}`} className="text-[14px] text-muted hover:text-accent transition-colors">
-                    {item.name}
-                  </a>
-                ) : (
-                  <Link to={item.path!} className="text-[14px] text-muted hover:text-accent transition-colors">
-                    {item.name}
-                  </Link>
-                )}
-              </li>
+          <h4 className="text-xs font-black uppercase tracking-wider mb-3 text-white">Explorar</h4>
+          <ul className="space-y-2">
+            {["Inicio", "Servicios", "Portafolio", "Metodología", "Hotelería Premium"].map((name) => (
+              <li key={name}><Link to={name === "Inicio" ? "/" : "/" + name.toLowerCase().replace("í", "i").replace(" ", "-")} className="text-sm text-slate-400 hover:text-white transition-colors">{name}</Link></li>
             ))}
           </ul>
         </div>
 
-        {/* Contact Info */}
         <div>
-          <h4 className="text-[14px] font-black uppercase tracking-widest mb-6 text-fg">Contacto</h4>
-          <div className="space-y-4">
-            <div className="flex items-start gap-3 text-muted">
-              <MapPin className="w-4 h-4 text-accent shrink-0 mt-1" />
-              <p className="text-[13px] leading-relaxed">Lima, Perú</p>
-            </div>
-            <div className="flex items-center gap-3 text-muted">
-              <Mail className="w-4 h-4 text-accent shrink-0" />
-              <p className="text-[13px]">hola@chamba.digital</p>
-            </div>
+          <h4 className="text-xs font-black uppercase tracking-wider mb-3 text-white">Contacto</h4>
+          <div className="space-y-2 text-sm">
+            <a href="https://wa.me/51904060670" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors"><MessageSquare className="w-4 h-4 text-green-500" /> WhatsApp</a>
+            <div className="flex items-center gap-2 text-slate-400"><Mail className="w-4 h-4 shrink-0" /> hola@chamba.digital</div>
+            <div className="flex items-center gap-2 text-slate-400"><MapPin className="w-4 h-4 shrink-0" /> Lima, Perú</div>
           </div>
         </div>
 
-        {/* CTA Column */}
-        <div className="flex flex-col items-start gap-6">
-          <h4 className="text-[14px] font-black uppercase tracking-widest mb-6 text-fg">Empecemos</h4>
-          <motion.a whileHover={{ scale: 1.05, y: -5, boxShadow: "0 20px 40px rgba(59, 130, 246, 0.3)" }} whileTap={{ scale: 0.95 }} href="https://wa.me/51904060670" target="_blank" rel="noopener noreferrer" className="bg-accent text-white px-8 py-4 rounded-[12px] font-bold text-[14px] transition-all w-full text-center shadow-[0_10px_30px_rgba(59,130,246,0.2)]">
-            Hablar con un Asesor
-          </motion.a>
+        <div className="flex flex-col gap-3">
+          <a href="https://wa.me/51904060670" target="_blank" rel="noopener noreferrer" className="w-full bg-accent text-white px-5 py-3 rounded-lg font-black text-sm text-center hover:bg-accent/90 transition-colors">Hablar con un Asesor <ArrowRight className="w-4 h-4 ml-1 inline" /></a>
+          <p className="text-xs text-slate-500 text-center">Respuesta en <span className="font-bold text-white">menos de 1h</span></p>
         </div>
       </div>
 
-      <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-6 md:gap-4">
-        <p className="text-[12px] text-muted text-center md:text-left leading-relaxed">
-          © {new Date().getFullYear()} Chamba Digital. Todos los derechos reservados.
-        </p>
-        <div className="flex flex-wrap justify-center gap-x-6 gap-y-3 mt-2 md:mt-0">
-          <Link to="/portafolio" className="text-[10px] font-black uppercase tracking-widest text-muted hover:text-accent transition-colors">Portafolio</Link>
-          <Link to="/metodologia" className="text-[10px] font-black uppercase tracking-widest text-muted hover:text-accent transition-colors">Metodología</Link>
-          <Link to="/servicios" className="text-[10px] font-black uppercase tracking-widest text-muted hover:text-accent transition-colors">Servicios</Link>
-          <Link to="/terminos" className="text-[10px] font-black uppercase tracking-widest text-muted hover:text-accent transition-colors">Términos</Link>
-          <Link to="/privacidad" className="text-[10px] font-black uppercase tracking-widest text-muted hover:text-accent transition-colors">Privacidad</Link>
+      <div className="pt-4 border-t border-slate-800 flex flex-col md:flex-row items-center justify-between gap-3">
+        <p className="text-xs text-slate-500">© {new Date().getFullYear()} Chamba Digital. Todos los derechos reservados.</p>
+        <div className="flex flex-wrap justify-center md:justify-end gap-x-4 gap-y-1 text-[10px] font-black uppercase tracking-wider text-slate-500 hover:text-white transition-colors">
+          <Link to="/portafolio">Portafolio</Link>
+          <Link to="/metodologia">Metodología</Link>
+          <Link to="/servicios">Servicios</Link>
+          <Link to="/terminos">Términos</Link>
+          <Link to="/privacidad">Privacidad</Link>
         </div>
       </div>
     </div>
