@@ -3,6 +3,7 @@ import { createServer as createViteServer } from "vite";
 import path from "path";
 import { fileURLToPath } from "url";
 import nodemailer from "nodemailer";
+import { Resend } from "resend";
 import dotenv from "dotenv";
 import MailerLite from '@mailerlite/mailerlite-nodejs';
 import { GoogleGenAI } from "@google/genai";
@@ -364,6 +365,214 @@ async function seedTestUser() {
 }
 seedTestUser();
 
+// ==========================================
+// CENTRAL EMAIL NOTIFICATION SYSTEM (RESEND API)
+// ==========================================
+const resendApiKey = process.env.RESEND_API_KEY || "";
+const resend = new Resend(resendApiKey);
+
+// Senders: 'onboarding@resend.dev' by default until custom domain 'chamba.digital' is verified in Resend
+const SENDER_EMAIL = process.env.SENDER_EMAIL || "Chamba Digital <onboarding@resend.dev>";
+const ADMIN_CONTACT_EMAIL = process.env.ADMIN_NOTIFICATION_EMAIL || "chambadigital2019@gmail.com";
+
+const sendMailSafely = async (options: { to: string; subject: string; html: string; text?: string }) => {
+  try {
+    console.log(`[Resend Email] Enviando "${options.subject}" desde ${SENDER_EMAIL} hacia ${options.to}`);
+    const { data, error } = await resend.emails.send({
+      from: SENDER_EMAIL,
+      to: options.to,
+      subject: options.subject,
+      html: options.html,
+      text: options.text,
+    });
+
+    if (error) {
+      console.warn(`[Resend Warning] Error de Resend para ${options.to}:`, error);
+      return { success: false, error: error.message };
+    }
+
+    console.log(`[Resend Success] Mensaje enviado exitosamente. ID: ${data?.id}`);
+    return { success: true, messageId: data?.id };
+  } catch (err: any) {
+    console.error(`[Resend Exception] Fallo al enviar email a ${options.to}:`, err.message);
+    return { success: false, error: err.message };
+  }
+};
+
+// 1. Notificación de Registro (Bienvenida Cliente + Alerta Admin)
+const sendWelcomeAndRegisterEmails = async (user: { name: string; email: string; company?: string; plan?: string }) => {
+  const clientHtml = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 24px; border: 1px solid #e2e8f0; border-radius: 16px; background-color: #ffffff;">
+      <div style="text-align: center; margin-bottom: 24px;">
+        <h1 style="color: #2563eb; margin: 0; font-size: 24px;">¡Bienvenido a Chamba Digital! 🚀</h1>
+        <p style="color: #64748b; font-size: 14px; margin-top: 4px;">Tu ecosistema WaaS (Website-as-a-Service) está activo</p>
+      </div>
+
+      <p style="color: #334155; font-size: 15px;">Hola <strong>${user.name}</strong>,</p>
+      <p style="color: #334155; font-size: 15px;">Gracias por confiar en <strong>Chamba Digital</strong>. Tu cuenta ha sido registrada con el plan <strong>${user.plan || 'Web Tradicional'}</strong>.</p>
+
+      <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 12px; padding: 16px; margin: 20px 0;">
+        <h3 style="margin: 0 0 10px 0; color: #1e293b; font-size: 15px;">Detalles de tu Cuenta:</h3>
+        <p style="margin: 4px 0; color: #475569; font-size: 14px;"><strong>Email:</strong> ${user.email}</p>
+        <p style="margin: 4px 0; color: #475569; font-size: 14px;"><strong>Empresa:</strong> ${user.company || 'N/A'}</p>
+        <p style="margin: 4px 0; color: #475569; font-size: 14px;"><strong>Plan:</strong> ${user.plan || 'Web Tradicional'}</p>
+      </div>
+
+      <div style="text-align: center; margin: 28px 0;">
+        <a href="https://chamba.digital/login" style="background-color: #2563eb; color: #ffffff; padding: 12px 28px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 14px; display: inline-block;">Acceder al Portal de Cliente</a>
+      </div>
+
+      <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 24px 0;" />
+      <p style="color: #94a3b8; font-size: 12px; text-align: center;">Consultas o soporte: <a href="mailto:contacto@chamba.digital" style="color: #2563eb;">contacto@chamba.digital</a></p>
+    </div>
+  `;
+
+  await sendMailSafely({
+    to: user.email,
+    subject: `🚀 ¡Bienvenido a Chamba Digital! Configuración de tu Proyecto Web`,
+    html: clientHtml,
+  });
+
+  const adminHtml = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 12px; background-color: #f8fafc;">
+      <h2 style="color: #059669; margin-top: 0;">👤 Nuevo Cliente Registrado en Chamba.Digital</h2>
+      <p>Se ha completado un nuevo registro WaaS:</p>
+      <ul>
+        <li><strong>Nombre:</strong> ${user.name}</li>
+        <li><strong>Email:</strong> <a href="mailto:${user.email}">${user.email}</a></li>
+        <li><strong>Empresa:</strong> ${user.company || 'Sin especificar'}</li>
+        <li><strong>Plan Solicítado:</strong> ${user.plan || 'Web Tradicional'}</li>
+      </ul>
+      <p><a href="https://chamba.digital/admin" style="color: #2563eb; font-weight: bold;">Ir al Panel Super Admin →</a></p>
+    </div>
+  `;
+
+  await sendMailSafely({
+    to: ADMIN_CONTACT_EMAIL,
+    subject: `👤 Nuevo Cliente WaaS Registrado: ${user.name} (${user.company || user.email})`,
+    html: adminHtml,
+  });
+};
+
+// 2. Notificación de Login (Inicio de Sesión)
+const sendLoginAlertEmail = async (user: { email: string; name?: string; role?: string }, ipAddress?: string) => {
+  const isTargetAdmin = user.role === "admin";
+  const loginTime = new Date().toLocaleString("es-PE", { timeZone: "America/Lima" });
+
+  const html = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 12px;">
+      <h3 style="color: #1e293b; margin-top: 0;">🔐 Alerta de Inicio de Sesión - Chamba Digital</h3>
+      <p>Hola <strong>${user.name || user.email}</strong>,</p>
+      <p>Se ha detectado un inicio de sesión exitoso en tu cuenta:</p>
+      <div style="background-color: #f1f5f9; padding: 12px; border-radius: 8px; font-size: 13px; color: #334155; margin: 15px 0;">
+        <p style="margin: 3px 0;"><strong>Usuario:</strong> ${user.email}</p>
+        <p style="margin: 3px 0;"><strong>Rol:</strong> ${user.role || 'client'}</p>
+        <p style="margin: 3px 0;"><strong>Fecha y Hora:</strong> ${loginTime} (PET)</p>
+        ${ipAddress ? `<p style="margin: 3px 0;"><strong>IP Origen:</strong> ${ipAddress}</p>` : ''}
+      </div>
+      <p style="font-size: 12px; color: #64748b;">Si no reconoces esta actividad, escríbenos a <a href="mailto:contacto@chamba.digital">contacto@chamba.digital</a>.</p>
+    </div>
+  `;
+
+  await sendMailSafely({
+    to: user.email,
+    subject: `🔐 Alerta de Inicio de Sesión - Chamba Digital`,
+    html,
+  });
+
+  if (isTargetAdmin && user.email !== ADMIN_CONTACT_EMAIL) {
+    await sendMailSafely({
+      to: ADMIN_CONTACT_EMAIL,
+      subject: `🚨 Acceso Admin Detectado: ${user.email}`,
+      html,
+    });
+  }
+};
+
+// 3. Notificación de Pagos y Suscripciones (Polar.sh)
+const sendPaymentConfirmationEmail = async (data: {
+  clientName: string;
+  clientEmail: string;
+  plan: string;
+  price: string;
+  checkoutId?: string;
+}) => {
+  const htmlClient = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 24px; border: 1px solid #e2e8f0; border-radius: 16px;">
+      <h2 style="color: #059669; margin-top: 0;">🎉 ¡Pago y Suscripción Confirmados!</h2>
+      <p>Hola <strong>${data.clientName || 'Cliente'}</strong>,</p>
+      <p>Tu pago para la suscripción WaaS ha sido procesado exitosamente vía Polar.sh.</p>
+      
+      <div style="background-color: #ecfdf5; border: 1px solid #a7f3d0; padding: 16px; border-radius: 12px; margin: 20px 0;">
+        <h4 style="margin: 0 0 8px 0; color: #065f46;">Resumen de la Suscripción:</h4>
+        <p style="margin: 4px 0; font-size: 14px;"><strong>Plan:</strong> ${data.plan}</p>
+        <p style="margin: 4px 0; font-size: 14px;"><strong>Monto:</strong> ${data.price}</p>
+        ${data.checkoutId ? `<p style="margin: 4px 0; font-size: 14px;"><strong>Orden:</strong> ${data.checkoutId}</p>` : ''}
+      </div>
+
+      <p style="font-size: 14px; color: #334155;">El equipo de Chamba Digital iniciará la configuración de tu infraestructura en Railway.</p>
+      <p style="font-size: 12px; color: #64748b; margin-top: 24px;">Contacto de soporte: <a href="mailto:contacto@chamba.digital">contacto@chamba.digital</a></p>
+    </div>
+  `;
+
+  await sendMailSafely({
+    to: data.clientEmail,
+    subject: `💳 Confirmación de Pago WaaS - ${data.plan}`,
+    html: htmlClient,
+  });
+
+  await sendMailSafely({
+    to: ADMIN_CONTACT_EMAIL,
+    subject: `🚨 ¡Nueva Suscripción Pagada! - ${data.plan} (${data.price})`,
+    html: htmlClient,
+  });
+};
+
+// 4. Notificación de Solicitudes de Cambio en las Páginas Web
+const sendPageChangeRequestEmail = async (data: {
+  clientName: string;
+  clientEmail: string;
+  company?: string;
+  taskTitle: string;
+  description: string;
+  requestOrigin?: string;
+}) => {
+  const html = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 12px; background-color: #ffffff;">
+      <h2 style="color: #2563eb; margin-top: 0;">🔄 Nueva Solicitud de Cambio en Web WaaS</h2>
+      <p>El cliente <strong>${data.clientName}</strong> (${data.company || data.clientEmail}) ha registrado una solicitud de cambio:</p>
+
+      <div style="background-color: #f8fafc; border-left: 4px solid #2563eb; padding: 14px; margin: 16px 0; border-radius: 4px;">
+        <h4 style="margin: 0 0 6px 0; color: #1e293b;">${data.taskTitle}</h4>
+        <p style="margin: 0; color: #475569; font-size: 14px;">${data.description}</p>
+        <p style="margin: 8px 0 0 0; color: #94a3b8; font-size: 12px;"><strong>Origen:</strong> ${data.requestOrigin || 'Portal/Chat de Cliente'}</p>
+      </div>
+
+      <p><a href="https://chamba.digital/admin" style="background-color: #2563eb; color: white; padding: 10px 20px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 13px; display: inline-block;">Ver en Tablero Kanban →</a></p>
+    </div>
+  `;
+
+  await sendMailSafely({
+    to: ADMIN_CONTACT_EMAIL,
+    subject: `🔄 Solicitud de Cambio Web: ${data.clientName} - ${data.taskTitle}`,
+    html,
+  });
+
+  await sendMailSafely({
+    to: data.clientEmail,
+    subject: `✅ Recibimos tu solicitud de cambio: ${data.taskTitle}`,
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 12px;">
+        <h3 style="color: #2563eb;">Solicitud Registrada en Chamba Digital</h3>
+        <p>Hola <strong>${data.clientName}</strong>,</p>
+        <p>Hemos recibido tu solicitud de cambio: <strong>"${data.taskTitle}"</strong>.</p>
+        <p>Tu tarea ha sido añadida a nuestro flujo Kanban de trabajo y será procesada según los tiempos de tu plan.</p>
+        <p style="font-size: 12px; color: #64748b;">Soporte: <a href="mailto:contacto@chamba.digital">contacto@chamba.digital</a></p>
+      </div>
+    `,
+  });
+};
+
 // Initialize Polar SDK
 const polarAccessToken = process.env.POLAR_ACCESS_TOKEN || "polar_oat_x37P1mggiiwdbvArW0x0j55KAm2E5rleRzb3u311v5u";
 const polar = new Polar({
@@ -562,6 +771,11 @@ async function startServer() {
         await redisClient.setex(`session:${newUser._id}`, 86400 * 7, JSON.stringify(newUser));
       }
 
+      // Send Welcome email to Client + Alert email to Admin (contacto@chamba.digital)
+      sendWelcomeAndRegisterEmails({ name: newUser.name, email: newUser.email, company: newUser.company, plan: newUser.plan }).catch(err => {
+        console.warn("[Register Email Warning]:", err.message);
+      });
+
       return res.json({
         token,
         user: {
@@ -607,6 +821,11 @@ async function startServer() {
       if (redisClient) {
         await redisClient.setex(`session:${user._id || user.id}`, 86400 * 7, JSON.stringify(user));
       }
+
+      // Send Login Alert email
+      sendLoginAlertEmail({ email: user.email, name: user.name, role: user.role || "client" }, req.ip).catch(err => {
+        console.warn("[Login Email Warning]:", err.message);
+      });
 
       return res.json({
         token,
@@ -782,6 +1001,12 @@ async function startServer() {
       if (!valid) return res.status(401).json({ error: "Credenciales inválidas." });
 
       const token = jwt.sign({ userId: user._id || user.id, email: user.email, role: "admin" }, JWT_SECRET, { expiresIn: "8h" });
+      
+      // Send Admin Login Alert email
+      sendLoginAlertEmail({ email: user.email, name: user.name, role: "admin" }, req.ip).catch(err => {
+        console.warn("[Admin Login Email Warning]:", err.message);
+      });
+
       res.json({
         token,
         admin: {
@@ -793,6 +1018,29 @@ async function startServer() {
       });
     } catch (e: any) {
       res.status(500).json({ error: "Error en login.", details: e.message });
+    }
+  });
+
+  // ADMIN API: Test Email Sender
+  app.post("/api/admin/test-email", requireAuth, requireAdmin, async (req: any, res) => {
+    try {
+      const { targetEmail } = req.body || {};
+      const recipient = targetEmail || ADMIN_CONTACT_EMAIL;
+      const result = await sendMailSafely({
+        to: recipient,
+        subject: "🧪 Prueba de Correo desde contacto@chamba.digital",
+        html: `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; padding: 20px; border: 1px solid #e2e8f0; border-radius: 12px;">
+            <h2 style="color: #2563eb;">✅ Prueba de Correo Exitosa</h2>
+            <p>Este correo ha sido enviado desde el remitente corporativo autorizado <strong>contacto@chamba.digital</strong>.</p>
+            <p>Servidor: <strong>Chamba.Digital Node.js Express Backend</strong></p>
+            <p>Timestamp: ${new Date().toLocaleString("es-PE", { timeZone: "America/Lima" })}</p>
+          </div>
+        `
+      });
+      res.json(result);
+    } catch (e: any) {
+      res.status(500).json({ error: "Error enviando correo de prueba.", details: e.message });
     }
   });
 
@@ -937,6 +1185,17 @@ async function startServer() {
         createdAt: new Date().toLocaleString(),
         requestOrigin: req.user?.role === "admin" ? "SuperAdmin" : "Chat del Cliente",
       };
+
+      // Trigger email notification for Page Change Requests
+      sendPageChangeRequestEmail({
+        clientName: req.user?.name || "Cliente WaaS",
+        clientEmail: req.user?.email || "contacto@chamba.digital",
+        taskTitle: title,
+        description: description || title,
+        requestOrigin: req.user?.role === "admin" ? "SuperAdmin" : "Chat/Portal del Cliente"
+      }).catch(err => {
+        console.warn("[Task Email Notification Warning]:", err.message);
+      });
 
       if (isMongoConnected) {
         const created = await TaskModel.create(newTask);
@@ -1493,7 +1752,7 @@ async function startServer() {
     }
   });
 
-  // Helper: Send email notification to Admin when a client subscribes
+  // Helper: Send email notification to Admin & Client when a subscription is paid
   const notifyAdminOnSubscription = async (data: {
     clientName: string;
     clientEmail: string;
@@ -1501,70 +1760,7 @@ async function startServer() {
     price: string;
     checkoutId?: string;
   }) => {
-    try {
-      console.log(`[Email Notification] Sending subscription alert for ${data.clientEmail} to chambadigital2019@gmail.com`);
-
-      // Configured via environment variables or fallback SMTP
-      const transporter = nodemailer.createTransport({
-        host: process.env.SMTP_HOST || "smtp.gmail.com",
-        port: Number(process.env.SMTP_PORT || 587),
-        secure: process.env.SMTP_SECURE === "true",
-        auth: {
-          user: process.env.SMTP_USER || "chambadigital2019@gmail.com",
-          pass: process.env.SMTP_PASS || "",
-        },
-      });
-
-      const mailOptions = {
-        from: '"Chamba Digital WaaS" <chambadigital2019@gmail.com>',
-        to: "chambadigital2019@gmail.com",
-        subject: `🚨 ¡Nueva Suscripción WaaS Activada! - ${data.plan} (${data.price})`,
-        html: `
-          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 12px;">
-            <h2 style="color: #2563eb; margin-top: 0;">🎉 ¡Nueva Suscripción WaaS Recibida!</h2>
-            <p>Se ha registrado un nuevo pago/suscripción en <strong>Chamba.Digital</strong> vía Polar.sh:</p>
-            
-            <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
-              <tr>
-                <td style="padding: 10px; border-bottom: 1px solid #e2e8f0; font-weight: bold;">Cliente:</td>
-                <td style="padding: 10px; border-bottom: 1px solid #e2e8f0;">${data.clientName || 'Cliente WaaS'}</td>
-              </tr>
-              <tr>
-                <td style="padding: 10px; border-bottom: 1px solid #e2e8f0; font-weight: bold;">Email:</td>
-                <td style="padding: 10px; border-bottom: 1px solid #e2e8f0;"><a href="mailto:${data.clientEmail}">${data.clientEmail}</a></td>
-              </tr>
-              <tr>
-                <td style="padding: 10px; border-bottom: 1px solid #e2e8f0; font-weight: bold;">Plan Adquirido:</td>
-                <td style="padding: 10px; border-bottom: 1px solid #e2e8f0; color: #2563eb; font-weight: bold;">${data.plan}</td>
-              </tr>
-              <tr>
-                <td style="padding: 10px; border-bottom: 1px solid #e2e8f0; font-weight: bold;">Monto / Tarifa:</td>
-                <td style="padding: 10px; border-bottom: 1px solid #e2e8f0; color: #059669; font-weight: bold;">${data.price}</td>
-              </tr>
-              ${data.checkoutId ? `
-              <tr>
-                <td style="padding: 10px; border-bottom: 1px solid #e2e8f0; font-weight: bold;">ID Checkout Polar:</td>
-                <td style="padding: 10px; border-bottom: 1px solid #e2e8f0; font-family: monospace;">${data.checkoutId}</td>
-              </tr>
-              ` : ''}
-            </table>
-
-            <div style="background-color: #f8fafc; padding: 15px; border-radius: 8px; font-size: 13px; color: #475569;">
-              💡 <strong>Siguiente paso:</strong> Accede al <a href="https://chamba.digital/admin" style="color: #2563eb;">Panel Super Admin</a> para configurar su repositorio en Railway y asignarle su primer tablero Kanban.
-            </div>
-          </div>
-        `,
-      };
-
-      if (process.env.SMTP_PASS) {
-        await transporter.sendMail(mailOptions);
-        console.log(`[Email Notification] Email sent successfully to chambadigital2019@gmail.com`);
-      } else {
-        console.log(`[Email Notification Mock] SMTP_PASS not set. Logged alert:\n`, mailOptions.html);
-      }
-    } catch (err) {
-      console.error("[Email Notification Error]:", err);
-    }
+    await sendPaymentConfirmationEmail(data);
   };
 
   // API Route: Webhook or Success Checkout Trigger

@@ -485,6 +485,35 @@ export default function SuperAdminDashboard() {
     }
   };
 
+  // Test Email State
+  const [sendingTestEmail, setSendingTestEmail] = useState(false);
+
+  const handleTestEmail = async () => {
+    setSendingTestEmail(true);
+    try {
+      const headers = getAdminHeaders();
+      const res = await fetch("/api/admin/test-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", ...headers },
+        body: JSON.stringify({ targetEmail: "contacto@chamba.digital" }),
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        if (data.mock) {
+          toast.success("Prueba de correo registrada (remitente: contacto@chamba.digital) ✓");
+        } else {
+          toast.success("¡Correo enviado desde contacto@chamba.digital! ✓");
+        }
+      } else {
+        toast.error(data.error || "Error enviando correo de prueba");
+      }
+    } catch {
+      toast.error("Error de conexión al enviar correo");
+    } finally {
+      setSendingTestEmail(false);
+    }
+  };
+
   // File upload state
   const [adminUploading, setAdminUploading] = useState(false);
   const [adminPendingFile, setAdminPendingFile] = useState<{ url: string; type: string; name: string } | null>(null);
@@ -915,6 +944,15 @@ export default function SuperAdminDashboard() {
                   <p className="text-slate-400 text-xs font-medium">Monitoreo de infraestructura, facturación Polar.sh y estado de servidores en Railway.</p>
                 </div>
                 <div className="flex items-center gap-2">
+                  <button
+                    onClick={handleTestEmail}
+                    disabled={sendingTestEmail}
+                    className="bg-purple-600/80 hover:bg-purple-600 text-white text-xs font-extrabold px-3 py-2 rounded-lg flex items-center gap-1.5 transition-all cursor-pointer shadow-sm disabled:opacity-50"
+                    title="Enviar correo de prueba desde contacto@chamba.digital"
+                  >
+                    <Mail className={`w-3.5 h-3.5 ${sendingTestEmail ? "animate-bounce" : ""}`} />
+                    {sendingTestEmail ? "Enviando..." : "Test Email"}
+                  </button>
                   <button
                     onClick={fetchHealthStatus}
                     disabled={healthLoading}
