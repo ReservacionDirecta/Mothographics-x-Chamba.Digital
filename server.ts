@@ -14,13 +14,19 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 import multer from "multer";
+import rateLimit from "express-rate-limit";
 
 dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const JWT_SECRET = process.env.JWT_SECRET || "chamba_jwt_secret_2026_waas_token";
+const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET || JWT_SECRET.length < 32) {
+  console.error("\n[FATAL] JWT_SECRET environment variable is required and must be at least 32 characters.");
+  console.error("Generate one with: openssl rand -hex 32\n");
+  process.exit(1);
+}
 
 // MongoDB Connection Setup
 const mongoUrl = process.env.MONGO_PUBLIC_URL || "mongodb://localhost:27017/chambadigital";
@@ -59,6 +65,7 @@ const userSchema = new mongoose.Schema({
   planPrice: { type: String, default: "$49.99/mes" },
   subscriptionStatus: { type: String, default: "activa" },
   projectStatus: { type: String, default: "en_produccion" },
+  role: { type: String, enum: ["client", "admin"], default: "client" },
   // Project context fields
   projectDescription: { type: String, default: "" },
   deployedUrl: { type: String, default: "" },
@@ -99,16 +106,23 @@ const taskSchema = new mongoose.Schema({
 const Task = mongoose.models.Task || mongoose.model("Task", taskSchema);
 const TaskModel = Task as any;
 
-// In-memory fallback stores for dev
+// In-memory fallback stores for dev (DISABLED in production)
+const isProduction = process.env.NODE_ENV === "production";
 const inMemoryUsers: Record<string, any> = {};
 const inMemoryMessages: any[] = [];
 const inMemoryTasks: any[] = [];
 
-// Helper: Seed test user
+function requireMongo() {
+  if (!isMongoConnected && isProduction) {
+    throw new Error("MongoDB not available in production");
+  }
+}
+
+// Helper: Seed test user + admin
 async function seedTestUser() {
   try {
-    const existing = await UserModel.findOne({ email: "demo@chamba.digital" });
-    if (!existing) {
+    const existingDemo = await UserModel.findOne({ email: "demo@chamba.digital" });
+    if (!existingDemo) {
       const hashedPassword = await bcrypt.hash("demo123456", 10);
       await UserModel.create({
         name: "Usuario de Prueba WaaS",
@@ -118,12 +132,36 @@ async function seedTestUser() {
         plan: "Web Tradicional",
         planPrice: "$49.99/mes",
         subscriptionStatus: "activa",
-        projectStatus: "en_produccion"
+        projectStatus: "en_produccion",
+        role: "client"
       });
-      console.log("[Seed] Test user created: demo@chamba.digital / demo123456");
+      console.log("[Seed] Test client created: demo@chamba.digital / demo123456");
+    }
+
+    const adminEmail = process.env.ADMIN_EMAIL || "admin@chamba.digital";
+    const adminPassword = process.env.ADMIN_PASSWORD || "chamba2026";
+    const existingAdmin = await UserModel.findOne({ email: adminEmail });
+    if (!existingAdmin) {
+      const hashedAdmin = await bcrypt.hash(adminPassword, 10);
+      await UserModel.create({
+        name: "Super Admin",
+        email: adminEmail,
+        password: hashedAdmin,
+        company: "Chamba Digital",
+        plan: "Elite + IA",
+        planPrice: "—",
+        subscriptionStatus: "activa",
+        projectStatus: "n/a",
+        role: "admin"
+      });
+      console.log(`[Seed] Admin created: ${adminEmail} (password from env)`);
     }
   } catch (e) {
-    // fallback in memory
+    if (isProduction) {
+      console.error("[Seed] FATAL: Cannot seed users in production without MongoDB:", e);
+      process.exit(1);
+    }
+    console.warn("[Seed] Using in-memory fallback (dev only):", (e as Error).message);
     const hashedPassword = await bcrypt.hash("demo123456", 10);
     inMemoryUsers["demo@chamba.digital"] = {
       _id: "demo_user_id_123",
@@ -134,7 +172,18 @@ async function seedTestUser() {
       plan: "Web Tradicional",
       planPrice: "$49.99/mes",
       subscriptionStatus: "activa",
-      projectStatus: "en_produccion"
+      projectStatus: "en_produccion",
+      role: "client"
+    };
+    const adminEmail = process.env.ADMIN_EMAIL || "admin@chamba.digital";
+    inMemoryUsers[adminEmail] = {
+      _id: "admin_user_id_1",
+      name: "Super Admin",
+      email: adminEmail,
+      password: await bcrypt.hash(process.env.ADMIN_PASSWORD || "chamba2026", 10),
+      company: "Chamba Digital",
+      plan: "Elite + IA",
+      role: "admin"
     };
   }
 }
@@ -161,10 +210,94 @@ const ai = process.env.GEMINI_API_KEY ? new GoogleGenAI({ apiKey: process.env.GE
 const knowledgeBase = fs.readFileSync(path.join(__dirname, "KNOWLEDGE_BASE.md"), "utf-8");
 
 async function startServer() {
+  // Production guard: MongoDB is mandatory in production
+  if (isProduction && !isMongoConnected) {
+    console.error("\n[FATAL] MongoDB is required in production. Connection failed.");
+    console.error("Set MONGO_PUBLIC_URL or MONGODB_URI environment variable.\n");
+    process.exit(1);
+  }
+
   const app = express();
   const PORT = Number(process.env.PORT || 3000);
 
+  // Trust Railway proxy (for correct IP detection in rate limiting)
+  app.set("trust proxy", 1);
+
   app.use(express.json());
+
+  // Rate limiters
+  const authLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 min
+    max: 10, // 10 attempts per window
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { error: "Demasiados intentos. Intenta de nuevo en 15 minutos." }
+  });
+
+  const chatLimiter = rateLimit({
+    windowMs: 60 * 1000, // 1 min
+    max: 20, // 20 msgs/min per IP
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { error: "Demasiados mensajes. Espera un momento." }
+  });
+
+  const captureLimiter = rateLimit({
+    windowMs: 60 * 60 * 1000, // 1 hour
+    max: 30, // 30 captures/hour per IP (Chromium is expensive)
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { error: "Límite de capturas alcanzado. Intenta en 1 hora." }
+  });
+
+  const generalLimiter = rateLimit({
+    windowMs: 60 * 1000, // 1 min
+    max: 100, // 100 req/min general
+    standardHeaders: true,
+    legacyHeaders: false
+  });
+
+  app.use("/api/", generalLimiter);
+
+  // Auth middleware for protected routes (defined early so endpoints can use them)
+  const requireAuth = async (req: any, res: any, next: any) => {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res.status(401).json({ error: "No autorizado." });
+    }
+    try {
+      const token = authHeader.split(" ")[1];
+      const decoded = jwt.verify(token, JWT_SECRET) as any;
+
+      // Fetch user from DB to get current role
+      let user: any = null;
+      if (isMongoConnected) {
+        user = await UserModel.findById(decoded.userId).select("role email name");
+      } else if (!isProduction) {
+        user = Object.values(inMemoryUsers).find((u: any) => u._id === decoded.userId || u.id === decoded.userId);
+      } else {
+        return res.status(503).json({ error: "Base de datos no disponible." });
+      }
+
+      if (!user) return res.status(401).json({ error: "Usuario no encontrado." });
+
+      req.user = {
+        userId: decoded.userId,
+        email: decoded.email,
+        role: user.role || "client"
+      };
+      next();
+    } catch {
+      return res.status(401).json({ error: "Token inválido o expirado." });
+    }
+  };
+
+  const requireAdmin = (req: any, res: any, next: any) => {
+    if (!req.user || req.user.role !== "admin") {
+      return res.status(403).json({ error: "Acceso restringido a administradores." });
+    }
+    next();
+  };
 
   // File upload setup
   const uploadsDir = path.join(__dirname, "public", "uploads");
@@ -192,7 +325,7 @@ async function startServer() {
   });
 
   // AUTH API: Register
-  app.post("/api/auth/register", async (req, res) => {
+  app.post("/api/auth/register", authLimiter, async (req, res) => {
     try {
       const { name, email, password, company, plan } = req.body;
       if (!name || !email || !password) {
@@ -216,7 +349,7 @@ async function startServer() {
           subscriptionStatus: "activa",
           projectStatus: "en_desarrollo"
         });
-      } else {
+      } else if (!isProduction) {
         if (inMemoryUsers[email]) return res.status(400).json({ error: "El email ya está registrado." });
         newUser = {
           _id: `user_${Date.now()}`,
@@ -230,6 +363,8 @@ async function startServer() {
           projectStatus: "en_desarrollo"
         };
         inMemoryUsers[email] = newUser;
+      } else {
+        return res.status(503).json({ error: "Base de datos no disponible. Intenta más tarde." });
       }
 
       const token = jwt.sign({ userId: newUser._id, email: newUser.email }, JWT_SECRET, { expiresIn: "7d" });
@@ -258,7 +393,7 @@ async function startServer() {
   });
 
   // AUTH API: Login
-  app.post("/api/auth/login", async (req, res) => {
+  app.post("/api/auth/login", authLimiter, async (req, res) => {
     try {
       const { email, password } = req.body;
       if (!email || !password) {
@@ -343,7 +478,8 @@ async function startServer() {
           plan: user.plan,
           planPrice: user.planPrice,
           subscriptionStatus: user.subscriptionStatus,
-          projectStatus: user.projectStatus
+          projectStatus: user.projectStatus,
+          role: user.role || "client"
         }
       });
     } catch (e) {
@@ -351,21 +487,65 @@ async function startServer() {
     }
   });
 
-  // Helper: Auth middleware for protected routes
-  const requireAuth = (req: any, res: any, next: any) => {
-    const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      return res.status(401).json({ error: "No autorizado." });
-    }
+  // ADMIN API: Login (issues JWT with role=admin)
+  app.post("/api/admin/login", authLimiter, async (req, res) => {
+    const { email, password } = req.body || {};
+    if (!email || !password) return res.status(400).json({ error: "Email y contraseña requeridos." });
+
     try {
-      const token = authHeader.split(" ")[1];
-      const decoded = jwt.verify(token, JWT_SECRET);
-      req.user = decoded;
-      next();
-    } catch {
-      return res.status(401).json({ error: "Token inválido o expirado." });
+      let user: any = null;
+      if (isMongoConnected) {
+        user = await UserModel.findOne({ email });
+      } else if (!isProduction) {
+        user = inMemoryUsers[email];
+      } else {
+        return res.status(503).json({ error: "Servicio no disponible." });
+      }
+
+      if (!user || user.role !== "admin") {
+        return res.status(401).json({ error: "Credenciales inválidas o sin permisos de administrador." });
+      }
+
+      const valid = await bcrypt.compare(password, user.password);
+      if (!valid) return res.status(401).json({ error: "Credenciales inválidas." });
+
+      const token = jwt.sign({ userId: user._id || user.id, email: user.email, role: "admin" }, JWT_SECRET, { expiresIn: "8h" });
+      res.json({
+        token,
+        admin: {
+          id: user._id || user.id,
+          email: user.email,
+          name: user.name,
+          role: "admin"
+        }
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: "Error en login.", details: e.message });
     }
-  };
+  });
+
+  // ADMIN API: Verify session
+  app.get("/api/admin/me", requireAuth, requireAdmin, async (req: any, res) => {
+    try {
+      let user: any = null;
+      if (isMongoConnected) {
+        user = await UserModel.findById(req.user.userId).select("-password");
+      } else if (!isProduction) {
+        user = Object.values(inMemoryUsers).find((u: any) => u._id === req.user.userId || u.id === req.user.userId);
+      }
+      if (!user) return res.status(404).json({ error: "Admin no encontrado." });
+      res.json({
+        admin: {
+          id: user._id || user.id,
+          name: user.name,
+          email: user.email,
+          role: "admin"
+        }
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: "Error verificando sesión." });
+    }
+  });
 
   // API: Upload file for chat
   app.post("/api/upload", requireAuth, upload.single("file"), async (req: any, res) => {
@@ -387,7 +567,7 @@ async function startServer() {
   });
 
   // API: Capture live thumbnail from deployed URL
-  app.post("/api/capture-thumbnail", requireAuth, async (req: any, res) => {
+  app.post("/api/capture-thumbnail", requireAuth, captureLimiter, async (req: any, res) => {
     try {
       const { url } = req.body;
       if (!url || !/^https?:\/\//.test(url)) {
@@ -434,8 +614,10 @@ async function startServer() {
       const userId = req.user.userId;
       if (isMongoConnected) {
         await UserModel.findByIdAndUpdate(userId, { thumbnailUrl: fileUrl });
-      } else if (inMemoryUsers[userId]) {
+      } else if (!isProduction && inMemoryUsers[userId]) {
         inMemoryUsers[userId].thumbnailUrl = fileUrl;
+      } else {
+        return res.status(503).json({ error: "Base de datos no disponible." });
       }
 
       res.json({ 
@@ -503,7 +685,7 @@ async function startServer() {
   });
 
   // GET /api/admin/clients/:id - Admin gets full client details including project fields
-  app.get("/api/admin/clients/:id", requireAuth, async (req: any, res) => {
+  app.get("/api/admin/clients/:id", requireAuth, requireAdmin, async (req: any, res) => {
     try {
       const { id } = req.params;
       let user: any = null;
@@ -543,7 +725,7 @@ async function startServer() {
   });
 
   // PUT /api/admin/clients/:id - Admin updates full client including project fields
-  app.put("/api/admin/clients/:id", requireAuth, async (req: any, res) => {
+  app.put("/api/admin/clients/:id", requireAuth, requireAdmin, async (req: any, res) => {
     try {
       const { id } = req.params;
       const updateData = req.body;
@@ -677,7 +859,7 @@ async function startServer() {
   });
 
   // API: Admin - Get all tasks
-  app.get("/api/admin/tasks", requireAuth, async (req: any, res) => {
+  app.get("/api/admin/tasks", requireAuth, requireAdmin, async (req: any, res) => {
     try {
       let tasks: any[];
       if (isMongoConnected) {
@@ -757,7 +939,7 @@ async function startServer() {
   });
 
   // API: Admin - Get all clients (for super admin)
-  app.get("/api/admin/clients", requireAuth, async (req: any, res) => {
+  app.get("/api/admin/clients", requireAuth, requireAdmin, async (req: any, res) => {
     try {
       let clients: any[];
       if (isMongoConnected) {
@@ -875,25 +1057,76 @@ async function startServer() {
   };
 
   // API Route: Webhook or Success Checkout Trigger
+  // Polar.sh webhook with signature verification (Standard Webhooks spec)
+  // https://docs.polar.sh/api-reference/webhooks/structure
   app.post("/api/checkout/notify", async (req, res) => {
-    const { clientName, clientEmail, plan, price, checkoutId } = req.body;
-    if (!clientEmail || !plan) {
-      return res.status(400).json({ error: "Missing email or plan parameters" });
+    const webhookSecret = process.env.POLAR_WEBHOOK_SECRET;
+    const signatureHeader = req.headers["webhook-signature"] || req.headers["Webhook-Signature"];
+
+    // Verify signature if secret is configured
+    if (webhookSecret && signatureHeader) {
+      const crypto = await import("crypto");
+      const parts = String(signatureHeader).split(",");
+      const timestamp = parts.find(p => p.startsWith("t="))?.slice(2);
+      const v1Sig = parts.find(p => p.startsWith("v1="))?.slice(3);
+
+      if (!timestamp || !v1Sig) {
+        console.warn("[Polar Webhook] Invalid signature header");
+        return res.status(401).json({ error: "Invalid signature header" });
+      }
+
+      // Reject events older than 5 minutes (replay protection)
+      const ageMs = Date.now() - Number(timestamp);
+      if (Number.isNaN(ageMs) || ageMs > 5 * 60 * 1000) {
+        return res.status(401).json({ error: "Webhook timestamp too old" });
+      }
+
+      const payload = `${timestamp}.${JSON.stringify(req.body)}`;
+      const expected = crypto
+        .createHmac("sha256", webhookSecret)
+        .update(payload)
+        .digest("base64");
+
+      const sigBuf = Buffer.from(v1Sig, "base64");
+      const expBuf = Buffer.from(expected, "base64");
+      if (sigBuf.length !== expBuf.length || !crypto.timingSafeEqual(sigBuf, expBuf)) {
+        console.warn("[Polar Webhook] Signature mismatch");
+        return res.status(401).json({ error: "Invalid signature" });
+      }
+    } else if (isProduction) {
+      // In production, webhook secret MUST be configured
+      console.error("[Polar Webhook] No POLAR_WEBHOOK_SECRET configured");
+      return res.status(503).json({ error: "Webhook not configured" });
+    }
+    // In dev, allow unsigned webhooks for testing
+
+    const event = req.body;
+    const eventType = event?.type || event?.event;
+
+    // Handle different Polar.sh events
+    if (eventType === "checkout.created" || eventType === "subscription.created") {
+      const data = event.data || {};
+      const clientEmail = data.customer_email || data.customer?.email;
+      const plan = data.product?.name || data.plan || "Plan WaaS";
+      const price = data.amount ? `${(data.amount / 100).toFixed(2)} ${data.currency || "USD"}` : "$49.99/mes";
+      const checkoutId = data.id || event.id;
+
+      await notifyAdminOnSubscription({
+        clientName: data.customer_name || "Nuevo Suscriptor",
+        clientEmail,
+        plan,
+        price,
+        checkoutId,
+      });
+    } else {
+      console.log(`[Polar Webhook] Unhandled event: ${eventType}`);
     }
 
-    await notifyAdminOnSubscription({
-      clientName: clientName || "Nuevo Suscriptor",
-      clientEmail,
-      plan,
-      price: price || "$49.99/mes",
-      checkoutId,
-    });
-
-    res.json({ success: true, message: "Admin notified successfully" });
+    res.json({ success: true, received: eventType });
   });
 
   // API routes
-  app.post("/api/send-checklist", async (req, res) => {
+  app.post("/api/send-checklist", captureLimiter, async (req, res) => {
     const { email } = req.body;
 
     if (!email) {
@@ -939,7 +1172,7 @@ async function startServer() {
     res.json({ status: "ok" });
   });
 
-  app.post("/api/chat", async (req, res) => {
+  app.post("/api/chat", chatLimiter, async (req, res) => {
     const { message, history } = req.body;
 
     if (!message) return res.status(400).json({ error: "Message is required" });

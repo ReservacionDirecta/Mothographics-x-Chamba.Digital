@@ -160,7 +160,13 @@ const initialMessages: ChatMessage[] = [
 export default function SuperAdminDashboard() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [passwordInput, setPasswordInput] = useState("");
-  const [authError, setAuthError] = useState(false);
+  const [adminEmailInput, setAdminEmailInput] = useState("admin@chamba.digital");
+  const [authError, setAuthError] = useState("");
+  const [adminEmail, setAdminEmail] = useState("");
+  const [authLoading, setAuthLoading] = useState(false);
+
+  // Try restore session on mount
+  useEffect(() => { restoreAdminSession().then(ok => { if (ok) fetchAdminData(); }); }, []);
 
   const [activeTab, setActiveTab] = useState<"overview" | "clients" | "kanban" | "chat">("overview");
   const [clients, setClients] = useState<ClientProfile[]>(initialClients);
@@ -191,29 +197,27 @@ export default function SuperAdminDashboard() {
     return token ? { Authorization: `Bearer ${token}` } : {};
   };
 
-  // Fetch admin token from /api/auth/login (re-uses demo credentials) or fallback
-  const ensureAdminToken = async (): Promise<string | null> => {
-    const existing = localStorage.getItem("chamba_admin_token");
-    if (existing) return existing;
+  // Restore admin session from localStorage
+  const restoreAdminSession = async () => {
+    const token = localStorage.getItem("chamba_admin_token");
+    if (!token) return false;
     try {
-      const res = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: "demo@chamba.digital", password: "demo123456" }),
+      const res = await fetch("/api/admin/me", {
+        headers: { Authorization: `Bearer ${token}` }
       });
-      const data = await res.json();
-      if (data.token) {
-        localStorage.setItem("chamba_admin_token", data.token);
-        return data.token;
+      if (res.ok) {
+        setIsAuthenticated(true);
+        setAdminEmail(localStorage.getItem("chamba_admin_email") || "");
+        return true;
       }
+      localStorage.removeItem("chamba_admin_token");
+      return false;
     } catch {
-      // ignore network errors
+      return false;
     }
-    return null;
   };
 
   const fetchAdminData = async () => {
-    await ensureAdminToken();
     const headers = getAdminHeaders();
     try {
       const [clientsRes, tasksRes] = await Promise.all([
@@ -295,15 +299,32 @@ export default function SuperAdminDashboard() {
     }
 };
 
-  // Simple Auth Check (Password: chamba2026)
-  const handleLogin = (e: React.FormEvent) => {
+  // Login admin via /api/admin/login (issues JWT with role=admin)
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (passwordInput === "chamba2026" || passwordInput === "admin") {
-      setIsAuthenticated(true);
-      setAuthError(false);
-      fetchAdminData();
-    } else {
-      setAuthError(true);
+    setAuthLoading(true);
+    setAuthError("");
+    try {
+      const res = await fetch("/api/admin/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: adminEmailInput, password: passwordInput }),
+      });
+      const data = await res.json();
+      if (res.ok && data.token) {
+        localStorage.setItem("chamba_admin_token", data.token);
+        localStorage.setItem("chamba_admin_email", data.admin.email);
+        setAdminEmail(data.admin.email);
+        setIsAuthenticated(true);
+        setPasswordInput("");
+        fetchAdminData();
+      } else {
+        setAuthError(data.error || "Credenciales inválidas.");
+      }
+    } catch {
+      setAuthError("Error de conexión.");
+    } finally {
+      setAuthLoading(false);
     }
   };
 
@@ -472,19 +493,26 @@ export default function SuperAdminDashboard() {
           </div>
           <h1 className="text-[26px] font-black tracking-tight mb-2">Panel Super Admin</h1>
           <p className="text-slate-400 text-[13px] mb-8 font-medium">Acceso restringido para el equipo de Chamba.Digital</p>
-          <form onSubmit={handleLogin} className="space-y-4">
-            <div>
-              <input
-                type="password"
-                placeholder="Contraseña de acceso..."
-                value={passwordInput}
-                onChange={(e) => setPasswordInput(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 focus:border-blue-500 rounded-xl px-4 py-3.5 text-[14px] text-white outline-none transition-colors"
-              />
-              {authError && <p className="text-red-400 text-[11px] mt-2 font-bold">Contraseña incorrecta. Inténtalo de nuevo.</p>}
-            </div>
-            <button type="submit" className="w-full bg-blue-600 hover:bg-blue-500 text-white font-black py-3.5 rounded-xl text-[13px] uppercase tracking-wider transition-all shadow-lg cursor-pointer">
-              Ingresar al Dashboard
+          <form onSubmit={handleLogin} className="space-y-3">
+            <input
+              type="email"
+              placeholder="Email admin..."
+              value={adminEmailInput}
+              onChange={(e) => setAdminEmailInput(e.target.value)}
+              className="w-full bg-slate-950 border border-slate-800 focus:border-blue-500 rounded-xl px-4 py-3.5 text-[14px] text-white outline-none transition-colors"
+              required
+            />
+            <input
+              type="password"
+              placeholder="Contrasena de acceso..."
+              value={passwordInput}
+              onChange={(e) => setPasswordInput(e.target.value)}
+              className="w-full bg-slate-950 border border-slate-800 focus:border-blue-500 rounded-xl px-4 py-3.5 text-[14px] text-white outline-none transition-colors"
+              required
+            />
+            {authError && <p className="text-red-400 text-[11px] font-bold">{authError}</p>}
+            <button type="submit" disabled={authLoading} className="w-full bg-blue-600 hover:bg-blue-500 text-white font-black py-3.5 rounded-xl text-[13px] uppercase tracking-wider transition-all shadow-lg cursor-pointer disabled:opacity-50">
+              {authLoading ? "Verificando..." : "Ingresar al Dashboard"}
             </button>
           </form>
         </motion.div>
@@ -505,8 +533,8 @@ export default function SuperAdminDashboard() {
           </div>
         </div>
         <div className="flex items-center gap-3 sm:gap-4 shrink-0">
-          <span className="text-[clamp(10px,2vw,12px)] text-slate-400 font-medium hidden md:inline-block">chambadigital2019@gmail.com</span>
-          <button onClick={() => setIsAuthenticated(false)} className="p-2 text-slate-400 hover:text-white transition-colors cursor-pointer" title="Cerrar sesión">
+          <span className="text-[clamp(10px,2vw,12px)] text-slate-400 font-medium hidden md:inline-block">{adminEmail || "admin@chamba.digital"}</span>
+          <button onClick={() => { localStorage.removeItem("chamba_admin_token"); localStorage.removeItem("chamba_admin_email"); setIsAuthenticated(false); setAdminEmail(""); }} className="p-2 text-slate-400 hover:text-white transition-colors cursor-pointer" title="Cerrar sesión">
             <LogOut className="w-5 h-5" />
           </button>
         </div>
