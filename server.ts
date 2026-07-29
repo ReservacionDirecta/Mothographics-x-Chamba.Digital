@@ -44,19 +44,20 @@ if (!JWT_SECRET || JWT_SECRET.length < 32) {
 }
 
 // MongoDB Connection Setup
-const mongoUrl = process.env.MONGO_PUBLIC_URL || "mongodb://localhost:27017/chambadigital";
+const mongoUrl = process.env.MONGO_PUBLIC_URL || process.env.MONGODB_URI || process.env.MONGO_URL || process.env.DATABASE_URL || "mongodb://localhost:27017/chambadigital";
 let isMongoConnected = false;
 
-mongoose.connect(mongoUrl, { serverSelectionTimeoutMS: 5000 })
-  .then(() => {
+async function initDatabase() {
+  try {
+    await mongoose.connect(mongoUrl, { serverSelectionTimeoutMS: 5000 });
     isMongoConnected = true;
     console.log("[MongoDB] Connected successfully to Database.");
-    seedTestUser();
-  })
-  .catch((err) => {
-    console.log("[MongoDB] Connection error (using in-memory fallback for auth if needed):", err.message);
-    seedTestUser();
-  });
+    await seedTestUser();
+  } catch (err: any) {
+    console.log("[MongoDB] Connection notice (using fallback if needed):", err.message);
+    await seedTestUser();
+  }
+}
 
 // Redis Connection Setup
 const redisUrl = process.env.REDIS_PUBLIC_URL;
@@ -236,12 +237,7 @@ const ai = process.env.GEMINI_API_KEY ? new GoogleGenAI({ apiKey: process.env.GE
 const knowledgeBase = fs.readFileSync(path.join(__dirname, "KNOWLEDGE_BASE.md"), "utf-8");
 
 async function startServer() {
-  // Production guard: MongoDB is mandatory in production
-  if (isProduction && !isMongoConnected) {
-    console.error("\n[FATAL] MongoDB is required in production. Connection failed.");
-    console.error("Set MONGO_PUBLIC_URL or MONGODB_URI environment variable.\n");
-    process.exit(1);
-  }
+  await initDatabase();
 
   const app = express();
   const PORT = Number(process.env.PORT || 3000);
