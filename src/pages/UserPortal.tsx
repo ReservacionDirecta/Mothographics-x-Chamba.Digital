@@ -422,21 +422,21 @@ export default function UserPortal() {
         {view === "dashboard" && user ? (
           <div className="w-full space-y-5 sm:space-y-8">
             {/* Header User */}
-            <div className="bg-slate-900 text-white p-5 sm:p-8 md:p-10 rounded-[20px] sm:rounded-[28px] shadow-2xl flex flex-col sm:flex-row justify-between sm:items-center gap-4 sm:gap-6">
+            <div className="bg-slate-900 text-white p-3 sm:p-5 rounded-xl shadow-xl flex flex-col sm:flex-row justify-between sm:items-center gap-2 sm:gap-3">
               <div className="min-w-0">
-                <span className="text-[clamp(9px,2.5vw,11px)] font-black uppercase tracking-[0.2em] text-amber-400 mb-2 block">Portal de Clientes WaaS</span>
-                <h1 className="text-[clamp(22px,5vw,36px)] font-black tracking-tight leading-tight">
+                <span className="text-[clamp(8px,2vw,10px)] font-black uppercase tracking-[0.2em] text-amber-400 mb-1 block">Portal de Clientes WaaS</span>
+                <h1 className="text-[clamp(18px,4vw,28px)] font-black tracking-tight leading-tight">
                   ¡Hola, {user.name}! 👋
                 </h1>
-                <p className="text-slate-300 text-[clamp(12px,3vw,14px)] mt-1 font-medium truncate">{user.company} · {user.email}</p>
+                <p className="text-slate-300 text-[clamp(11px,2.5vw,13px)] mt-0.5 font-medium truncate">{user.company} · {user.email}</p>
               </div>
 
-              <div className="flex items-center gap-3 shrink-0">
+              <div className="flex items-center gap-2 shrink-0">
                 <button
                   onClick={handleLogout}
-                  className="bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl font-bold text-[clamp(11px,2.5vw,12px)] transition-all flex items-center gap-2 cursor-pointer"
+                  className="bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white px-3 sm:px-4 py-2 rounded-lg font-bold text-[clamp(10px,2.5vw,11px)] transition-all flex items-center gap-1.5 cursor-pointer"
                 >
-                  <LogOut className="w-4 h-4" /> <span className="hidden sm:inline">Cerrar Sesión</span><span className="sm:hidden">Salir</span>
+                  <LogOut className="w-3.5 h-3.5" /> <span className="hidden sm:inline">Cerrar Sesión</span><span className="sm:hidden">Salir</span>
                 </button>
               </div>
             </div>
@@ -490,7 +490,7 @@ export default function UserPortal() {
               <div className="space-y-5 sm:space-y-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                   {/* Plan Card */}
-                  <div className="interactive-card bg-white p-5 sm:p-6 md:p-8 rounded-[20px] sm:rounded-[24px] border border-slate-200 shadow-lg space-y-4">
+                  <div className="interactive-card bg-white p-5 sm:p-6 md:p-8 rounded-2xl border border-slate-200 shadow-lg space-y-4">
                     <div className="flex justify-between items-center">
                       <span className="text-[clamp(9px,2vw,10px)] font-black uppercase tracking-wider bg-blue-50 text-accent px-3 py-1 rounded-full border border-blue-100">
                         Tu Plan Activo
@@ -510,7 +510,7 @@ export default function UserPortal() {
                   </div>
 
                   {/* Railway Server Card */}
-                  <div className="interactive-card bg-white p-5 sm:p-6 md:p-8 rounded-[20px] sm:rounded-[24px] border border-slate-200 shadow-lg space-y-4">
+                  <div className="interactive-card bg-white p-5 sm:p-6 md:p-8 rounded-2xl border border-slate-200 shadow-lg space-y-4">
                     <div className="flex justify-between items-center">
                       <span className="text-[clamp(9px,2vw,10px)] font-black uppercase tracking-wider bg-purple-50 text-purple-700 px-3 py-1 rounded-full border border-purple-100">
                         Infraestructura Railway
@@ -530,7 +530,7 @@ export default function UserPortal() {
                   </div>
 
                   {/* Project Status */}
-                  <div className="interactive-card bg-white p-5 sm:p-6 md:p-8 rounded-[20px] sm:rounded-[24px] border border-slate-200 shadow-lg space-y-4">
+                  <div className="interactive-card bg-white p-5 sm:p-6 md:p-8 rounded-2xl border border-slate-200 shadow-lg space-y-4">
                     <div className="flex justify-between items-center">
                       <span className="text-[clamp(9px,2vw,10px)] font-black uppercase tracking-wider bg-amber-50 text-amber-800 px-3 py-1 rounded-full border border-amber-200">
                         Estado del Proyecto
@@ -549,7 +549,7 @@ export default function UserPortal() {
                 </div>
 
                 {/* Direct Action Banner */}
-                <div className="bg-slate-900 text-white p-5 sm:p-8 rounded-[20px] sm:rounded-[28px] shadow-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-6">
+                <div className="bg-slate-900 text-white p-5 sm:p-7 rounded-2xl shadow-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                   <div>
                     <h3 className="text-[clamp(16px,3.5vw,20px)] font-black">¿Quieres pedir una modificación o nueva funcionalidad?</h3>
                     <p className="text-slate-300 text-[clamp(11px,2.5vw,13px)] font-medium mt-1">Usa nuestro chat integrado para comunicarte directamente con el equipo técnico.</p>
@@ -566,7 +566,7 @@ export default function UserPortal() {
 
             {/* TAB: PROJECT INFO */}
             {activeTab === "project" && (
-              <div className="bg-white border border-slate-200 rounded-[20px] sm:rounded-[24px] p-5 sm:p-6 md:p-8 space-y-5 sm:space-y-6 shadow-md">
+              <div className="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 md:p-8 space-y-5 sm:space-y-6 shadow-md">
                 <div className="flex justify-between items-start flex-col">
                   <div>
                     <h2 className="text-[clamp(17px,3.5vw,20px)] font-black text-slate-900">Información del Proyecto</h2>
@@ -688,7 +688,7 @@ export default function UserPortal() {
 
             {/* TAB 2: REQUESTS / TASKS */}
             {activeTab === "requests" && (
-              <div className="bg-white border border-slate-200 rounded-[20px] sm:rounded-[24px] p-5 sm:p-6 md:p-8 space-y-5 sm:space-y-6 shadow-md">
+              <div className="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 md:p-8 space-y-5 sm:space-y-6 shadow-md">
                 <div className="flex justify-between items-center flex-wrap gap-3">
                   <div>
                     <h2 className="text-[clamp(17px,3.5vw,20px)] font-black text-slate-900">Historial de Iteraciones & Tareas</h2>
@@ -736,7 +736,7 @@ export default function UserPortal() {
 
             {/* TAB 3: LIVE CHAT */}
             {activeTab === "chat" && (
-              <div className="bg-white border border-slate-200 rounded-[20px] sm:rounded-[24px] shadow-xl overflow-hidden flex flex-col h-[480px] sm:h-[500px]">
+              <div className="bg-white border border-slate-200 rounded-2xl shadow-xl overflow-hidden flex flex-col h-[480px] sm:h-[500px]">
                 <div className="bg-slate-900 text-white p-4 px-4 sm:px-6 flex items-center justify-between">
                   <div className="flex items-center gap-3 min-w-0">
                     <div className="relative shrink-0">

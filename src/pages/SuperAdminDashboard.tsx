@@ -33,7 +33,11 @@ import {
   Sparkles,
   Paperclip,
   File,
-  Download
+  Download,
+  Calendar,
+  Eye,
+  RefreshCw,
+  XCircle,
 } from "lucide-react";
 import { useToast } from "../context/ToastContext";
 
@@ -50,7 +54,16 @@ export interface ClientProfile {
   projectStatus: "en_desarrollo" | "en_revision" | "en_produccion" | "pausado";
   railwayStatus: "activo" | "configurando" | "inactivo";
   startDate: string;
+  nextBillingDate?: string;
+  polarSubscriptionId?: string;
+  autoRenew?: boolean;
   notes: string;
+  projectDescription?: string;
+  deployedUrl?: string;
+  thumbnailUrl?: string;
+  techStack?: string[];
+  githubRepo?: string;
+  lastDeployedAt?: string;
 }
 
 export interface TaskItem {
@@ -89,7 +102,12 @@ const initialClients: ClientProfile[] = [
     projectStatus: "en_produccion",
     railwayStatus: "activo",
     startDate: "2026-06-15",
-    notes: "Plataforma de reservas de clases de surf en Miraflores. Dominio pacificsurfschool.com.pe"
+    nextBillingDate: "2026-08-15",
+    polarSubscriptionId: "sub_polar_70f62d",
+    autoRenew: true,
+    notes: "Plataforma de reservas de clases de surf en Miraflores. Dominio pacificsurfschool.com.pe",
+    deployedUrl: "https://pacificsurfschool.pe",
+    techStack: ["React", "Vite", "Express", "MongoDB"],
   },
   {
     id: "cli_2",
@@ -103,7 +121,12 @@ const initialClients: ClientProfile[] = [
     projectStatus: "en_desarrollo",
     railwayStatus: "activo",
     startDate: "2026-07-01",
-    notes: "Web app headless React + API de MailerLite y sistema de consultas legales."
+    nextBillingDate: "2026-08-01",
+    polarSubscriptionId: "sub_polar_b78ef2",
+    autoRenew: true,
+    notes: "Web app headless React + API de MailerLite y sistema de consultas legales.",
+    deployedUrl: "https://latamabogados.chamba.digital",
+    techStack: ["React", "Node.js", "Polar.sh", "MailerLite"],
   },
   {
     id: "cli_3",
@@ -117,7 +140,12 @@ const initialClients: ClientProfile[] = [
     projectStatus: "en_revision",
     railwayStatus: "activo",
     startDate: "2026-07-10",
-    notes: "Integración de agente de IA para calificación de leads y flujo automatizado."
+    nextBillingDate: "2026-08-10",
+    polarSubscriptionId: "sub_polar_ef4fe8",
+    autoRenew: true,
+    notes: "Integración de agente de IA para calificación de leads y flujo automatizado.",
+    deployedUrl: "https://automations.chamba.digital",
+    techStack: ["React", "Google Gemini AI", "Express", "Redis"],
   }
 ];
 
@@ -227,6 +255,15 @@ export default function SuperAdminDashboard() {
   const [editClientData, setEditClientData] = useState<any>(null);
   const [savingClient, setSavingClient] = useState(false);
 
+  // Subscription details modal state
+  const [showDetailsModal, setShowDetailsModal] = useState(false);
+  const [detailsClientData, setDetailsClientData] = useState<ClientProfile | null>(null);
+
+  const openDetailsModal = (client: ClientProfile) => {
+    setDetailsClientData(client);
+    setShowDetailsModal(true);
+  };
+
   // File upload state
   const [adminUploading, setAdminUploading] = useState(false);
   const [adminPendingFile, setAdminPendingFile] = useState<{ url: string; type: string; name: string } | null>(null);
@@ -315,7 +352,10 @@ export default function SuperAdminDashboard() {
             subscriptionStatus: u.subscriptionStatus === "activa" ? "active" : u.subscriptionStatus,
             projectStatus: u.projectStatus || "en_desarrollo",
             railwayStatus: "activo",
-            startDate: u.createdAt ? String(u.createdAt).slice(0, 10) : "—",
+            startDate: u.createdAt ? String(u.createdAt).slice(0, 10) : "2026-06-15",
+            nextBillingDate: u.nextBillingDate || (u.createdAt ? new Date(new Date(u.createdAt).setMonth(new Date(u.createdAt).getMonth() + 1)).toISOString().slice(0, 10) : "2026-08-15"),
+            polarSubscriptionId: u.polarSubscriptionId || `sub_polar_${String(u._id || u.id).slice(-6)}`,
+            autoRenew: u.autoRenew !== false,
             notes: u.projectDescription || "Cliente WaaS activo",
             // Project fields
             projectDescription: u.projectDescription,
@@ -571,19 +611,19 @@ export default function SuperAdminDashboard() {
   return (
     <div className="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans">
       {/* Top Admin Header */}
-      <header className="border-b border-slate-800 bg-slate-900/90 backdrop-blur-md px-4 sm:px-6 py-3 sm:py-4 sticky top-0 z-50 flex items-center justify-between">
-        <div className="flex items-center gap-2 sm:gap-3 min-w-0">
-          <div className="p-1.5 sm:p-2 bg-blue-600 text-white rounded-xl font-black text-[clamp(11px,2vw,14px)] shrink-0">CD</div>
+      <header className="border-b border-slate-800 bg-slate-900/90 backdrop-blur-md px-4 py-2 sticky top-0 z-50 flex items-center justify-between">
+        <div className="flex items-center gap-2 min-w-0">
+          <div className="px-2 py-1 bg-blue-600 text-white rounded-lg font-black text-xs shrink-0">CD</div>
           <div className="min-w-0">
-            <h1 className="text-[clamp(13px,3vw,16px)] font-black text-white flex items-center gap-2">
-              <span className="truncate">Chamba.Digital</span> <span className="text-[clamp(8px,1.5vw,10px)] bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded-full border border-blue-500/30 hidden sm:inline-block">Super Admin WaaS</span>
+            <h1 className="text-sm font-black text-white flex items-center gap-2">
+              <span className="truncate">Chamba.Digital</span> <span className="text-[9px] bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded-full border border-blue-500/30 hidden sm:inline-block">Super Admin WaaS</span>
             </h1>
           </div>
         </div>
-        <div className="flex items-center gap-3 sm:gap-4 shrink-0">
-          <span className="text-[clamp(10px,2vw,12px)] text-slate-400 font-medium hidden md:inline-block">{adminEmail || "admin@chamba.digital"}</span>
-          <button onClick={() => { localStorage.removeItem("chamba_admin_token"); localStorage.removeItem("chamba_admin_email"); setIsAuthenticated(false); setAdminEmail(""); }} className="p-2 text-slate-400 hover:text-white transition-colors cursor-pointer" title="Cerrar sesión">
-            <LogOut className="w-5 h-5" />
+        <div className="flex items-center gap-3 shrink-0">
+          <span className="text-xs text-slate-400 font-medium hidden md:inline-block">{adminEmail || "admin@chamba.digital"}</span>
+          <button onClick={() => { localStorage.removeItem("chamba_admin_token"); localStorage.removeItem("chamba_admin_email"); setIsAuthenticated(false); setAdminEmail(""); }} className="p-1.5 text-slate-400 hover:text-white transition-colors cursor-pointer" title="Cerrar sesión">
+            <LogOut className="w-4 h-4" />
           </button>
         </div>
       </header>
@@ -593,24 +633,24 @@ export default function SuperAdminDashboard() {
         {/* Sidebar Nav */}
         <aside
           className={`w-full ${
-            isSidebarCollapsed ? "md:w-20" : "md:w-64"
-          } bg-slate-900 border-b md:border-b-0 md:border-r border-slate-800 p-3 sm:p-4 flex md:flex-col md:space-y-2 gap-2 overflow-x-auto custom-scrollbar transition-all duration-300 relative shrink-0`}
+            isSidebarCollapsed ? "md:w-16" : "md:w-56"
+          } bg-slate-900 border-b md:border-b-0 md:border-r border-slate-800 p-2 sm:p-3 flex md:flex-col md:space-y-1 gap-1.5 overflow-x-auto custom-scrollbar transition-all duration-300 relative shrink-0`}
         >
           {/* Toggle button for collapse (Desktop) */}
           <button
             onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
-            className="hidden md:flex items-center justify-between p-2 rounded-xl bg-slate-800/80 hover:bg-slate-800 text-slate-400 hover:text-white transition-colors mb-1 cursor-pointer border border-slate-700/50 w-full"
+            className="hidden md:flex items-center justify-between p-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-800 text-slate-400 hover:text-white transition-colors mb-1 cursor-pointer border border-slate-700/50 w-full"
             title={isSidebarCollapsed ? "Expandir menú" : "Colapsar menú"}
           >
             {!isSidebarCollapsed && (
-              <span className="text-[11px] font-black uppercase tracking-wider text-slate-400 px-1">
+              <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 px-1">
                 Menú
               </span>
             )}
             {isSidebarCollapsed ? (
-              <ChevronRight className="w-5 h-5 mx-auto text-blue-400" />
+              <ChevronRight className="w-4 h-4 mx-auto text-blue-400" />
             ) : (
-              <ChevronLeft className="w-4 h-4 text-slate-400" />
+              <ChevronLeft className="w-3.5 h-3.5 text-slate-400" />
             )}
           </button>
 
@@ -625,14 +665,14 @@ export default function SuperAdminDashboard() {
               onClick={() => setActiveTab(tab.id as any)}
               title={tab.label}
               className={`flex items-center ${
-                isSidebarCollapsed ? "md:justify-center px-3" : "gap-3 px-4"
-              } py-3 rounded-xl font-extrabold text-[clamp(12px,2.5vw,13px)] transition-all cursor-pointer shrink-0 whitespace-nowrap ${
+                isSidebarCollapsed ? "md:justify-center px-2.5" : "gap-2.5 px-3"
+              } py-2 rounded-lg font-bold text-xs transition-all cursor-pointer shrink-0 whitespace-nowrap ${
                 activeTab === tab.id
-                  ? "bg-blue-600 text-white shadow-lg shadow-blue-900/30"
+                  ? "bg-blue-600 text-white shadow-md"
                   : "text-slate-400 hover:bg-slate-800 hover:text-white"
               }`}
             >
-              <tab.icon className="w-5 h-5 shrink-0" />
+              <tab.icon className="w-4 h-4 shrink-0" />
               {!isSidebarCollapsed && (
                 <>
                   <span className="hidden sm:inline">{tab.label}</span>
@@ -644,83 +684,83 @@ export default function SuperAdminDashboard() {
         </aside>
 
         {/* Dynamic Content */}
-        <main className="flex-grow p-4 sm:p-6 md:p-8 overflow-y-auto">
+        <main className="flex-grow p-3 sm:p-4 md:p-5 overflow-y-auto">
           {/* TAB 1: OVERVIEW */}
           {activeTab === "overview" && (
-            <div className="space-y-6 sm:space-y-8">
+            <div className="space-y-4">
               <div>
-                <h2 className="text-[clamp(20px,4vw,26px)] font-black text-white tracking-tight">Panel General WaaS</h2>
-                <p className="text-slate-400 text-[clamp(12px,2.5vw,14px)]">Monitoreo de suscripciones Polar.sh y estado de servidores en Railway.</p>
+                <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">Panel General WaaS</h2>
+                <p className="text-slate-400 text-xs font-medium">Monitoreo de suscripciones Polar.sh y estado de servidores en Railway.</p>
               </div>
 
               {/* Stats Cards */}
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
-                <div className="bg-slate-900 border border-slate-800 p-4 sm:p-6 rounded-2xl">
-                  <div className="flex items-center justify-between mb-3 sm:mb-4">
-                    <span className="text-[clamp(9px,2vw,11px)] font-extrabold text-slate-400 uppercase tracking-wider">Ingresos Mensuales</span>
-                    <CreditCard className="w-5 h-5 text-emerald-400" />
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                <div className="bg-slate-900 border border-slate-800 p-3.5 rounded-xl">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">Ingresos Mensuales</span>
+                    <CreditCard className="w-4 h-4 text-emerald-400" />
                   </div>
-                  <span className="text-[clamp(22px,5vw,32px)] font-black text-white">$749.97</span>
-                  <p className="text-[clamp(10px,2vw,11px)] text-emerald-400 mt-1 font-bold">+100% cobro vía Polar.sh</p>
+                  <span className="text-xl sm:text-2xl font-black text-white">$749.97</span>
+                  <p className="text-[10px] text-emerald-400 mt-0.5 font-bold">+100% cobro vía Polar.sh</p>
                 </div>
 
-                <div className="bg-slate-900 border border-slate-800 p-4 sm:p-6 rounded-2xl">
-                  <div className="flex items-center justify-between mb-3 sm:mb-4">
-                    <span className="text-[clamp(9px,2vw,11px)] font-extrabold text-slate-400 uppercase tracking-wider">Clientes Activos</span>
-                    <UserCheck className="w-5 h-5 text-blue-400" />
+                <div className="bg-slate-900 border border-slate-800 p-3.5 rounded-xl">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">Clientes Activos</span>
+                    <UserCheck className="w-4 h-4 text-blue-400" />
                   </div>
-                  <span className="text-[clamp(22px,5vw,32px)] font-black text-white">{clients.length}</span>
-                  <p className="text-[clamp(10px,2vw,11px)] text-slate-400 mt-1 font-bold">100% Retención este mes</p>
+                  <span className="text-xl sm:text-2xl font-black text-white">{clients.length}</span>
+                  <p className="text-[10px] text-slate-400 mt-0.5 font-bold">100% Retención este mes</p>
                 </div>
 
-                <div className="bg-slate-900 border border-slate-800 p-4 sm:p-6 rounded-2xl">
-                  <div className="flex items-center justify-between mb-3 sm:mb-4">
-                    <span className="text-[clamp(9px,2vw,11px)] font-extrabold text-slate-400 uppercase tracking-wider">Hosting Railway</span>
-                    <Zap className="w-5 h-5 text-amber-400" />
+                <div className="bg-slate-900 border border-slate-800 p-3.5 rounded-xl">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">Hosting Railway</span>
+                    <Zap className="w-4 h-4 text-amber-400" />
                   </div>
-                  <span className="text-[clamp(18px,4vw,28px)] font-black text-white">3 Servidores</span>
-                  <p className="text-[clamp(10px,2vw,11px)] text-amber-400 mt-1 font-bold">99.9% Uptime ($5/mes)</p>
+                  <span className="text-lg sm:text-xl font-black text-white">3 Servidores</span>
+                  <p className="text-[10px] text-amber-400 mt-0.5 font-bold">99.9% Uptime ($5/mes)</p>
                 </div>
 
-                <div className="bg-slate-900 border border-slate-800 p-4 sm:p-6 rounded-2xl">
-                  <div className="flex items-center justify-between mb-3 sm:mb-4">
-                    <span className="text-[clamp(9px,2vw,11px)] font-extrabold text-slate-400 uppercase tracking-wider">Tareas Pendientes</span>
-                    <Kanban className="w-5 h-5 text-purple-400" />
+                <div className="bg-slate-900 border border-slate-800 p-3.5 rounded-xl">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">Tareas Pendientes</span>
+                    <Kanban className="w-4 h-4 text-purple-400" />
                   </div>
-                  <span className="text-[clamp(22px,5vw,32px)] font-black text-white">{tasks.filter(t => t.status !== "completado").length}</span>
-                  <p className="text-[clamp(10px,2vw,11px)] text-purple-400 mt-1 font-bold">En flujo de trabajo WaaS</p>
+                  <span className="text-xl sm:text-2xl font-black text-white">{tasks.filter(t => t.status !== "completado").length}</span>
+                  <p className="text-[10px] text-purple-400 mt-0.5 font-bold">En flujo WaaS</p>
                 </div>
               </div>
 
               {/* Recent Clients Table */}
-              <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-6">
-                <h3 className="text-[clamp(15px,3vw,18px)] font-black text-white mb-4 sm:mb-6">Suscripciones Recientes</h3>
+              <div className="bg-slate-900 border border-slate-800 rounded-xl p-3.5 sm:p-4">
+                <h3 className="text-sm font-black text-white mb-3">Suscripciones Recientes</h3>
                 <div className="overflow-x-auto">
-                  <table className="w-full text-left text-[clamp(11px,2.5vw,13px)] whitespace-nowrap">
-                    <thead className="border-b border-slate-800 text-slate-400 uppercase tracking-wider text-[clamp(9px,2vw,11px)]">
+                  <table className="w-full text-left text-xs whitespace-nowrap">
+                    <thead className="border-b border-slate-800 text-slate-400 uppercase tracking-wider text-[10px]">
                       <tr>
-                        <th className="py-3 px-2 sm:px-4">Cliente / Empresa</th>
-                        <th className="py-3 px-2 sm:px-4">Plan WaaS</th>
-                        <th className="py-3 px-2 sm:px-4">Suscripción</th>
-                        <th className="py-3 px-2 sm:px-4">Proyecto</th>
-                        <th className="py-3 px-2 sm:px-4">Railway</th>
+                        <th className="py-2 px-3">Cliente / Empresa</th>
+                        <th className="py-2 px-3">Plan WaaS</th>
+                        <th className="py-2 px-3">Suscripción</th>
+                        <th className="py-2 px-3">Proyecto</th>
+                        <th className="py-2 px-3">Railway</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-800/60">
                       {clients.map((c) => (
                         <tr key={c.id} className="hover:bg-slate-800/40 transition-colors">
-                          <td className="py-4 px-2 sm:px-4 font-bold text-white">
-                            <div className="truncate max-w-[120px] sm:max-w-none">{c.name}</div>
-                            <div className="text-[clamp(9px,2vw,11px)] text-slate-400 font-normal">{c.company}</div>
+                          <td className="py-2.5 px-3 font-bold text-white">
+                            <div className="truncate max-w-[140px]">{c.name}</div>
+                            <div className="text-[10px] text-slate-400 font-normal">{c.company}</div>
                           </td>
-                          <td className="py-4 px-2 sm:px-4 font-extrabold text-blue-400">{c.plan} ({c.price})</td>
-                          <td className="py-4 px-2 sm:px-4">
-                            <span className="bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded-full text-[clamp(9px,2vw,11px)] font-black border border-emerald-500/30">
+                          <td className="py-2.5 px-3 font-extrabold text-blue-400">{c.plan} ({c.price})</td>
+                          <td className="py-2.5 px-3">
+                            <span className="bg-emerald-500/20 text-emerald-400 px-2.5 py-0.5 rounded-full text-[10px] font-black border border-emerald-500/30">
                               Activa
                             </span>
                           </td>
-                          <td className="py-4 px-2 sm:px-4 font-semibold text-slate-300 capitalize">{(c.projectStatus || "en_desarrollo").replace(/_/g, " ")}</td>
-                          <td className="py-4 px-2 sm:px-4 text-emerald-400 font-mono text-[clamp(9px,2vw,11px)]">{c.railwayStatus}</td>
+                          <td className="py-2.5 px-3 font-semibold text-slate-300 capitalize">{(c.projectStatus || "en_desarrollo").replace(/_/g, " ")}</td>
+                          <td className="py-2.5 px-3 text-emerald-400 font-mono text-[10px]">{c.railwayStatus}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -788,15 +828,34 @@ export default function SuperAdminDashboard() {
                       <p className="text-[clamp(11px,2vw,12px)] font-bold text-slate-400 mb-4">{c.company}</p>
 
                       <div className="space-y-2 text-[clamp(11px,2vw,12px)] text-slate-300 bg-slate-950/60 p-4 rounded-xl border border-slate-800">
-                        <div className="flex flex-wrap items-center gap-2"><Mail className="w-3.5 h-3.5 text-slate-500 shrink-0" /> <span className="truncate">{c.email || "N/A"}</span></div>
-                        <div className="flex items-center gap-2"><Phone className="w-3.5 h-3.5 text-slate-500 shrink-0" /> {c.phone || "N/A"}</div>
-                        <div className="flex items-center gap-2"><Activity className="w-3.5 h-3.5 text-emerald-400 shrink-0" /> {c.railwayStatus || "Activo"}</div>
+                        <div className="flex flex-wrap items-center justify-between gap-1">
+                          <span className="flex items-center gap-2 text-slate-400"><Mail className="w-3.5 h-3.5 text-slate-500 shrink-0" /> Email:</span>
+                          <span className="truncate text-white font-medium">{c.email || "N/A"}</span>
+                        </div>
+                        <div className="flex items-center justify-between gap-1">
+                          <span className="flex items-center gap-2 text-slate-400"><Calendar className="w-3.5 h-3.5 text-blue-400 shrink-0" /> Fecha Suscripción:</span>
+                          <span className="text-white font-semibold">{c.startDate}</span>
+                        </div>
+                        <div className="flex items-center justify-between gap-1">
+                          <span className="flex items-center gap-2 text-slate-400"><Clock className="w-3.5 h-3.5 text-amber-400 shrink-0" /> Próximo Cobro:</span>
+                          <span className="text-amber-300 font-bold">{c.nextBillingDate || "2026-08-15"}</span>
+                        </div>
+                        <div className="flex items-center justify-between gap-1 pt-1 border-t border-slate-800/80">
+                          <span className="flex items-center gap-2 text-slate-400"><Activity className="w-3.5 h-3.5 text-emerald-400 shrink-0" /> Estado Servidor:</span>
+                          <span className="text-emerald-400 font-bold capitalize">{c.railwayStatus || "Activo"}</span>
+                        </div>
                       </div>
 
                       <p className="text-[clamp(11px,2vw,12px)] text-slate-400 italic mt-3 leading-relaxed line-clamp-2">{c.notes || ""}</p>
                     </div>
 
                     <div className="flex flex-col gap-2">
+                      <button
+                        onClick={() => openDetailsModal(c)}
+                        className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-2.5 rounded-xl text-[clamp(11px,2.5vw,12px)] transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md"
+                      >
+                        <Eye className="w-4 h-4 text-white" /> Ver Detalles de Suscripción
+                      </button>
                       <button
                         onClick={() => {
                           setSelectedClientId(c.id);
@@ -808,9 +867,9 @@ export default function SuperAdminDashboard() {
                       </button>
                       <button
                         onClick={() => openEditClientModal(c)}
-                        className="w-full bg-slate-800 hover:bg-blue-600 text-white font-bold py-2.5 rounded-xl text-[clamp(11px,2.5vw,12px)] transition-colors flex items-center justify-center gap-2 cursor-pointer"
+                        className="w-full bg-slate-800/80 hover:bg-slate-700 text-white font-bold py-2.5 rounded-xl text-[clamp(11px,2.5vw,12px)] transition-colors flex items-center justify-center gap-2 cursor-pointer border border-slate-700/50"
                       >
-                        <Edit className="w-4 h-4" /> Editar Cliente
+                        <Edit className="w-4 h-4 text-slate-400" /> Editar Cliente
                       </button>
                     </div>
                   </div>
@@ -1168,6 +1227,127 @@ export default function SuperAdminDashboard() {
                 className="bg-blue-600 hover:bg-blue-500 text-white font-bold px-4 py-2 rounded-xl text-[12px] disabled:opacity-50 cursor-pointer"
               >
                 {savingClient ? "Guardando..." : "Guardar Cambios"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Subscription Details Modal */}
+      {showDetailsModal && detailsClientData && (
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-slate-900 border border-slate-800 p-6 md:p-8 rounded-[28px] max-w-xl w-full space-y-6 max-h-[90vh] overflow-y-auto shadow-2xl relative">
+            <div className="flex justify-between items-start border-b border-slate-800 pb-4">
+              <div>
+                <span className="text-[10px] font-black uppercase tracking-widest text-blue-400 bg-blue-500/10 px-3 py-1 rounded-full border border-blue-500/20">
+                  {detailsClientData.plan}
+                </span>
+                <h3 className="text-2xl font-black text-white mt-2">{detailsClientData.name}</h3>
+                <p className="text-slate-400 text-xs font-semibold">{detailsClientData.company} • {detailsClientData.email}</p>
+              </div>
+              <button
+                onClick={() => { setShowDetailsModal(false); setDetailsClientData(null); }}
+                className="text-slate-400 hover:text-white p-2 rounded-xl bg-slate-800/80 hover:bg-slate-800 cursor-pointer text-sm font-bold"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Grid of Key Administrative Data */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="bg-slate-950/80 border border-slate-800 p-4 rounded-2xl space-y-1">
+                <span className="text-[11px] font-extrabold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                  <Calendar className="w-3.5 h-3.5 text-blue-400" /> Fecha de Suscripción
+                </span>
+                <p className="text-lg font-black text-white">{detailsClientData.startDate}</p>
+                <p className="text-[11px] text-slate-500 font-medium">Alta en la plataforma WaaS</p>
+              </div>
+
+              <div className="bg-slate-950/80 border border-slate-800 p-4 rounded-2xl space-y-1">
+                <span className="text-[11px] font-extrabold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                  <Clock className="w-3.5 h-3.5 text-amber-400" /> Próximo Cobro Programado
+                </span>
+                <p className="text-lg font-black text-amber-300">{detailsClientData.nextBillingDate || "2026-08-15"}</p>
+                <p className="text-[11px] text-slate-500 font-medium">Facturación automática vía Polar.sh</p>
+              </div>
+
+              <div className="bg-slate-950/80 border border-slate-800 p-4 rounded-2xl space-y-1">
+                <span className="text-[11px] font-extrabold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                  <CreditCard className="w-3.5 h-3.5 text-emerald-400" /> Monto Recurrente
+                </span>
+                <p className="text-lg font-black text-emerald-400">{detailsClientData.price}</p>
+                <p className="text-[11px] text-slate-500 font-medium">Suscripción mensual activa</p>
+              </div>
+
+              <div className="bg-slate-950/80 border border-slate-800 p-4 rounded-2xl space-y-1">
+                <span className="text-[11px] font-extrabold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                  <RefreshCw className="w-3.5 h-3.5 text-purple-400" /> Renovación Automática
+                </span>
+                <div className="flex items-center gap-2 mt-1">
+                  <span className="w-2.5 h-2.5 bg-emerald-400 rounded-full animate-pulse" />
+                  <span className="text-sm font-bold text-emerald-400">Activada</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Technical & Deployment Section */}
+            <div className="bg-slate-950/90 border border-slate-800 p-5 rounded-2xl space-y-3">
+              <h4 className="text-xs font-black uppercase tracking-wider text-slate-300 flex items-center gap-2">
+                <Zap className="w-4 h-4 text-blue-400" /> Detalles Técnicos de Hosting & Dominio
+              </h4>
+              
+              <div className="space-y-2 text-xs text-slate-300">
+                <div className="flex justify-between items-center py-1 border-b border-slate-800">
+                  <span className="text-slate-400">Polar.sh Subscription ID:</span>
+                  <span className="font-mono text-blue-300 font-bold bg-blue-500/10 px-2 py-0.5 rounded border border-blue-500/20">{detailsClientData.polarSubscriptionId || "sub_polar_70f62d"}</span>
+                </div>
+                <div className="flex justify-between items-center py-1 border-b border-slate-800">
+                  <span className="text-slate-400">Estado de Servidor (Railway):</span>
+                  <span className="font-bold text-emerald-400 capitalize flex items-center gap-1.5">
+                    <ShieldCheck className="w-4 h-4" /> {detailsClientData.railwayStatus || "Activo"}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center py-1 border-b border-slate-800">
+                  <span className="text-slate-400">Estado del Proyecto WaaS:</span>
+                  <span className="font-extrabold text-white capitalize bg-slate-800 px-2.5 py-1 rounded-lg">
+                    {(detailsClientData.projectStatus || "en_desarrollo").replace(/_/g, " ")}
+                  </span>
+                </div>
+                {detailsClientData.deployedUrl && (
+                  <div className="flex justify-between items-center py-1 border-b border-slate-800">
+                    <span className="text-slate-400">URL del Sitio Web:</span>
+                    <a href={detailsClientData.deployedUrl} target="_blank" rel="noreferrer" className="text-blue-400 hover:underline font-bold flex items-center gap-1">
+                      {detailsClientData.deployedUrl} <ExternalLink className="w-3.5 h-3.5" />
+                    </a>
+                  </div>
+                )}
+                {detailsClientData.techStack?.length && (
+                  <div className="pt-2">
+                    <span className="text-slate-400 block mb-1.5">Stack Tecnológico Asignado:</span>
+                    <div className="flex flex-wrap gap-1.5">
+                      {detailsClientData.techStack.map((tech, idx) => (
+                        <span key={idx} className="bg-slate-800 text-slate-300 px-2.5 py-1 rounded-md text-[11px] font-bold border border-slate-700/50">
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Notes */}
+            <div className="bg-slate-950/40 border border-slate-800 p-4 rounded-2xl">
+              <span className="text-[11px] font-extrabold uppercase tracking-wider text-slate-400 block mb-1">Notas Administrativas:</span>
+              <p className="text-xs text-slate-300 italic leading-relaxed">{detailsClientData.notes}</p>
+            </div>
+
+            <div className="flex justify-end pt-2">
+              <button
+                onClick={() => { setShowDetailsModal(false); setDetailsClientData(null); }}
+                className="bg-blue-600 hover:bg-blue-500 text-white font-bold px-6 py-2.5 rounded-xl text-xs uppercase tracking-wider cursor-pointer transition-all shadow-lg"
+              >
+                Cerrar Detalles
               </button>
             </div>
           </div>
