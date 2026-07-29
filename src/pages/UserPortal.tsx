@@ -537,21 +537,21 @@ export default function UserPortal() {
 
             {/* TAB 1: OVERVIEW */}
             {activeTab === "overview" && (
-              <div className="space-y-5 sm:space-y-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+              <div className="space-y-4 sm:space-y-5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-5">
                   {/* Plan Card */}
-                  <div className="interactive-card bg-white p-5 sm:p-6 md:p-8 rounded-2xl border border-slate-200 shadow-lg space-y-4">
+                  <div className="interactive-card bg-white p-4 sm:p-5 md:p-6 rounded-2xl border border-slate-200 shadow-md space-y-3">
                     <div className="flex justify-between items-center">
-                      <span className="text-[clamp(9px,2vw,10px)] font-black uppercase tracking-wider bg-blue-50 text-accent px-3 py-1 rounded-full border border-blue-100">
+                      <span className="text-[clamp(9px,2vw,10px)] font-black uppercase tracking-wider bg-blue-50 text-accent px-2.5 py-0.5 rounded-full border border-blue-100">
                         Tu Plan Activo
                       </span>
-                      <CreditCard className="w-5 h-5 text-accent" />
+                      <CreditCard className="w-4 h-4 text-accent" />
                     </div>
                     <div>
-                      <h3 className="text-[clamp(18px,4vw,22px)] font-black text-slate-900">{user.plan}</h3>
+                      <h3 className="text-[clamp(16px,3.5vw,20px)] font-black text-slate-900">{user.plan}</h3>
                       <p className="text-[clamp(12px,2.5vw,14px)] text-emerald-600 font-extrabold mt-0.5">{user.planPrice}</p>
                     </div>
-                    <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-[clamp(11px,2.5vw,12px)]">
+                    <div className="pt-2.5 border-t border-slate-100 flex items-center justify-between text-[clamp(11px,2.5vw,12px)]">
                       <span className="text-slate-500 font-medium">Suscripción:</span>
                       <span className="bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full font-black text-[clamp(9px,2vw,11px)] uppercase">
                         {user.subscriptionStatus}
@@ -560,18 +560,18 @@ export default function UserPortal() {
                   </div>
 
                   {/* Railway Server Card */}
-                  <div className="interactive-card bg-white p-5 sm:p-6 md:p-8 rounded-2xl border border-slate-200 shadow-lg space-y-4">
+                  <div className="interactive-card bg-white p-4 sm:p-5 md:p-6 rounded-2xl border border-slate-200 shadow-md space-y-3">
                     <div className="flex justify-between items-center">
-                      <span className="text-[clamp(9px,2vw,10px)] font-black uppercase tracking-wider bg-purple-50 text-purple-700 px-3 py-1 rounded-full border border-purple-100">
+                      <span className="text-[clamp(9px,2vw,10px)] font-black uppercase tracking-wider bg-purple-50 text-purple-700 px-2.5 py-0.5 rounded-full border border-purple-100">
                         Infraestructura Railway
                       </span>
-                      <Server className="w-5 h-5 text-purple-600" />
+                      <Server className="w-4 h-4 text-purple-600" />
                     </div>
                     <div>
-                      <h3 className="text-[clamp(18px,4vw,22px)] font-black text-slate-900">Servidor Cloud</h3>
-                      <p className="text-[clamp(11px,2.5vw,13px)] text-slate-500 font-medium mt-0.5">Uptime 99.9% · Host Railway ($5/mes directos)</p>
+                      <h3 className="text-[clamp(16px,3.5vw,20px)] font-black text-slate-900">Servidor Cloud</h3>
+                      <p className="text-[clamp(11px,2.5vw,12px)] text-slate-500 font-medium mt-0.5">Uptime 99.9% · Host Railway ($5/mes directos)</p>
                     </div>
-                    <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-[clamp(11px,2.5vw,12px)]">
+                    <div className="pt-2.5 border-t border-slate-100 flex items-center justify-between text-[clamp(11px,2.5vw,12px)]">
                       <span className="text-slate-500 font-medium">Servidor:</span>
                       <span className="bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full font-black text-[clamp(9px,2vw,11px)] uppercase flex items-center gap-1">
                         <span className="w-1.5 h-1.5 bg-emerald-600 rounded-full animate-ping" /> Activo
@@ -580,18 +580,18 @@ export default function UserPortal() {
                   </div>
 
                   {/* Project Status */}
-                  <div className="interactive-card bg-white p-5 sm:p-6 md:p-8 rounded-2xl border border-slate-200 shadow-lg space-y-4">
+                  <div className="interactive-card bg-white p-4 sm:p-5 md:p-6 rounded-2xl border border-slate-200 shadow-md space-y-3">
                     <div className="flex justify-between items-center">
-                      <span className="text-[clamp(9px,2vw,10px)] font-black uppercase tracking-wider bg-amber-50 text-amber-800 px-3 py-1 rounded-full border border-amber-200">
+                      <span className="text-[clamp(9px,2vw,10px)] font-black uppercase tracking-wider bg-amber-50 text-amber-800 px-2.5 py-0.5 rounded-full border border-amber-200">
                         Estado del Proyecto
                       </span>
-                      <Zap className="w-5 h-5 text-amber-500" />
+                      <Zap className="w-4 h-4 text-amber-500" />
                     </div>
                     <div>
-                      <h3 className="text-[clamp(18px,4vw,22px)] font-black text-slate-900 capitalize">{user.projectStatus.replace("_", " ")}</h3>
-                      <p className="text-[clamp(11px,2.5vw,13px)] text-slate-500 font-medium mt-0.5">Cambios e iteraciones ilimitadas activas</p>
+                      <h3 className="text-[clamp(16px,3.5vw,20px)] font-black text-slate-900 capitalize">{user.projectStatus.replace("_", " ")}</h3>
+                      <p className="text-[clamp(11px,2.5vw,12px)] text-slate-500 font-medium mt-0.5">Cambios e iteraciones ilimitadas activas</p>
                     </div>
-                    <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-[clamp(11px,2.5vw,12px)]">
+                    <div className="pt-2.5 border-t border-slate-100 flex items-center justify-between text-[clamp(11px,2.5vw,12px)]">
                       <span className="text-slate-500 font-medium">Iteración WaaS:</span>
                       <span className="text-slate-900 font-bold">Semanal</span>
                     </div>
@@ -599,14 +599,14 @@ export default function UserPortal() {
                 </div>
 
                 {/* Direct Action Banner */}
-                <div className="bg-slate-900 text-white p-5 sm:p-7 rounded-2xl shadow-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div className="bg-slate-900 text-white p-4 sm:p-5 md:p-6 rounded-2xl shadow-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                   <div>
-                    <h3 className="text-[clamp(16px,3.5vw,20px)] font-black">¿Quieres pedir una modificación o nueva funcionalidad?</h3>
-                    <p className="text-slate-300 text-[clamp(11px,2.5vw,13px)] font-medium mt-1">Usa nuestro chat integrado para comunicarte directamente con el equipo técnico.</p>
+                    <h3 className="text-[clamp(15px,3vw,18px)] font-black">¿Quieres pedir una modificación o nueva funcionalidad?</h3>
+                    <p className="text-slate-300 text-[clamp(11px,2.5vw,12px)] font-medium mt-0.5">Usa nuestro chat integrado para comunicarte directamente con el equipo técnico.</p>
                   </div>
                   <button
                     onClick={() => setActiveTab("chat")}
-                    className="bg-accent hover:bg-accent/90 text-white px-5 sm:px-6 py-3 sm:py-3.5 rounded-xl font-black text-[clamp(11px,2.5vw,12px)] uppercase tracking-wider shrink-0 flex items-center gap-2 cursor-pointer shadow-lg w-full sm:w-auto justify-center"
+                    className="bg-accent hover:bg-accent/90 text-white px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl font-black text-[clamp(10px,2.5vw,11px)] uppercase tracking-wider shrink-0 flex items-center gap-2 cursor-pointer shadow-lg w-full sm:w-auto justify-center"
                   >
                     <MessageSquare className="w-4 h-4" /> Abrir Chat de Servicio
                   </button>
