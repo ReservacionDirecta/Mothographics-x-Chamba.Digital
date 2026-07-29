@@ -25,6 +25,7 @@ import {
   FileText,
   Trash2,
   Edit3,
+  Edit,
   ExternalLink,
   Lock,
   LogOut,
@@ -165,6 +166,10 @@ export default function SuperAdminDashboard() {
   const [chatInput, setChatInput] = useState("");
   const [newTaskTitle, setNewTaskTitle] = useState("");
   const [showTaskModal, setShowTaskModal] = useState(false);
+  const [showEditClientModal, setShowEditClientModal] = useState(false);
+  const [editingClient, setEditingClient] = useState<any>(null);
+  const [editClientData, setEditClientData] = useState<any>(null);
+  const [savingClient, setSavingClient] = useState(false);
 
   // Simple admin token (kept in localStorage) to authenticate against backend endpoints
   const getAdminHeaders = (): HeadersInit => {
@@ -197,14 +202,12 @@ export default function SuperAdminDashboard() {
     await ensureAdminToken();
     const headers = getAdminHeaders();
     try {
-      const [clientsRes, tasksRes, msgsRes] = await Promise.all([
+      const [clientsRes, tasksRes] = await Promise.all([
         fetch("/api/admin/clients", { headers }),
         fetch("/api/admin/tasks", { headers }),
-        fetch("/api/messages/cli_1", { headers }),
       ]);
       const clientsData = await clientsRes.json();
       const tasksData = await tasksRes.json();
-      const msgsData = await msgsRes.json();
       if (clientsData.clients?.length) {
         setClients(
           clientsData.clients.map((u: any) => ({
@@ -219,7 +222,14 @@ export default function SuperAdminDashboard() {
             projectStatus: u.projectStatus,
             railwayStatus: "activo",
             startDate: u.createdAt ? String(u.createdAt).slice(0, 10) : "—",
-            notes: "Cliente WaaS activo",
+            notes: u.projectDescription || "Cliente WaaS activo",
+            // Project fields
+            projectDescription: u.projectDescription,
+            deployedUrl: u.deployedUrl,
+            thumbnailUrl: u.thumbnailUrl,
+            techStack: u.techStack,
+            githubRepo: u.githubRepo,
+            lastDeployedAt: u.lastDeployedAt,
           }))
         );
       }
@@ -237,8 +247,19 @@ export default function SuperAdminDashboard() {
           }))
         );
       }
-      if (msgsData.messages?.length) {
-        const fetched: ChatMessage[] = msgsData.messages.map((m: any) => ({
+    } catch (err) {
+      console.warn("Admin fetch failed, using mock data:", err);
+    }
+  };
+
+  // Fetch messages for selected client
+  const fetchClientMessages = async (clientId: string) => {
+    const headers = getAdminHeaders();
+    try {
+      const res = await fetch(`/api/messages/${clientId}`, { headers });
+      const data = await res.json();
+      if (data.messages?.length) {
+        const fetched: ChatMessage[] = data.messages.map((m: any) => ({
           id: m._id || m.id,
           clientId: m.clientId,
           sender: m.sender,
@@ -253,9 +274,9 @@ export default function SuperAdminDashboard() {
         });
       }
     } catch (err) {
-      console.warn("Admin fetch failed, using mock data:", err);
+      console.warn("Failed to fetch client messages:", err);
     }
-  };
+};
 
   // Simple Auth Check (Password: chamba2026)
   const handleLogin = (e: React.FormEvent) => {
@@ -271,6 +292,13 @@ export default function SuperAdminDashboard() {
 
   const selectedClient = clients.find(c => c.id === selectedClientId) || clients[0];
   const clientMessages = messages.filter(m => m.clientId === selectedClientId);
+
+  // Fetch messages when selected client changes
+  useEffect(() => {
+    if (isAuthenticated && selectedClientId) {
+      fetchClientMessages(selectedClientId);
+    }
+  }, [selectedClientId, isAuthenticated]);
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -346,6 +374,66 @@ export default function SuperAdminDashboard() {
       });
     } catch (err) {
       console.warn("Failed to update task status on backend:", err);
+    }
+  };
+
+  const handleSaveClient = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingClient) return;
+    setSavingClient(true);
+    const headers = getAdminHeaders();
+    try {
+      const res = await fetch(`/api/admin/clients/${editingClient.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json", ...headers },
+        body: JSON.stringify(editingClient),
+      });
+      const data = await res.json();
+      if (res.ok && data.client) {
+        setClients(clients.map(c => c.id === editingClient.id ? data.client : c));
+        setShowEditClientModal(false);
+        setEditingClient(null);
+        alert("Cliente actualizado ✓");
+      } else {
+        alert(data.error || "Error actualizando cliente");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Error de conexión");
+    } finally {
+      setSavingClient(false);
+    }
+  };
+
+  const openEditClientModal = (client: ClientProfile) => {
+    setEditClientData({ ...client });
+    setShowEditClientModal(true);
+  };
+
+  const saveEditClient = async () => {
+    if (!editClientData) return;
+    setSavingClient(true);
+    const headers = getAdminHeaders();
+    try {
+      const res = await fetch(`/api/admin/clients/${editClientData.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json", ...headers },
+        body: JSON.stringify(editClientData),
+      });
+      const data = await res.json();
+      if (res.ok && data.client) {
+        setClients(clients.map(c => c.id === editClientData.id ? data.client : c));
+        setShowEditClientModal(false);
+        setEditClientData(null);
+        alert("Cliente actualizado ✓");
+      } else {
+        alert(data.error || "Error actualizando cliente");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Error de conexión");
+    } finally {
+      setSavingClient(false);
     }
   };
 
@@ -550,6 +638,12 @@ export default function SuperAdminDashboard() {
                       className="w-full bg-slate-800 hover:bg-slate-700 text-white font-bold py-2.5 rounded-xl text-[12px] transition-colors flex items-center justify-center gap-2 cursor-pointer"
                     >
                       <MessageSquare className="w-4 h-4 text-blue-400" /> Abrir Chat de Peticiones
+                    </button>
+                    <button
+                      onClick={() => openEditClientModal(c)}
+                      className="w-full bg-slate-800 hover:bg-blue-600 text-white font-bold py-2.5 rounded-xl text-[12px] transition-colors flex items-center justify-center gap-2 cursor-pointer"
+                    >
+                      <Edit className="w-4 h-4" /> Editar Cliente
                     </button>
                   </div>
                 ))}
