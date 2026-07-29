@@ -671,6 +671,160 @@ async function startServer() {
     }
   });
 
+  // ADMIN API: Check Deployment Health / Ping Railway
+  app.post("/api/admin/check-deployment-status", requireAuth, requireAdmin, async (req: any, res) => {
+    try {
+      const { deployedUrl } = req.body || {};
+      if (!deployedUrl || !/^https?:\/\//.test(deployedUrl)) {
+        return res.status(400).json({ error: "URL de despliegue inválida." });
+      }
+
+      const startTime = Date.now();
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 4000);
+
+      try {
+        const pingRes = await fetch(deployedUrl, {
+          method: "HEAD",
+          signal: controller.signal,
+          headers: { "User-Agent": "ChambaDigital-RailwayHealthCheck/1.0" }
+        });
+        clearTimeout(timeoutId);
+        const responseTimeMs = Date.now() - startTime;
+        const isOk = pingRes.ok || (pingRes.status >= 200 && pingRes.status < 400);
+
+        res.json({
+          success: true,
+          status: isOk ? "activo" : "error",
+          statusCode: pingRes.status,
+          responseTimeMs,
+          checkedAt: new Date().toISOString()
+        });
+      } catch (err: any) {
+        clearTimeout(timeoutId);
+        const responseTimeMs = Date.now() - startTime;
+        res.json({
+          success: true,
+          status: "inactivo",
+          statusCode: err.name === "AbortError" ? 504 : 500,
+          error: err.name === "AbortError" ? "Timeout de respuesta (>4s)" : (err as Error).message,
+          responseTimeMs,
+          checkedAt: new Date().toISOString()
+        });
+      }
+    } catch (e: any) {
+      res.status(500).json({ error: "Error comprobando estado de despliegue.", details: (e as Error).message });
+    }
+  });
+
+  // ADMIN API: Get Clients list
+  app.get("/api/admin/clients", requireAuth, requireAdmin, async (req: any, res) => {
+    try {
+      if (isMongoConnected) {
+        const users = await UserModel.find({ role: "client", isDeleted: { $ne: true } }).select("-password");
+        return res.json({ clients: users });
+      }
+      const devClients = Object.values(inMemoryUsers).filter((u: any) => u.role === "client" && !u.isDeleted);
+      res.json({ clients: devClients });
+    } catch (e: any) {
+      res.status(500).json({ error: "Error obteniendo clientes.", details: e.message });
+    }
+  });
+
+  // ADMIN API: Update Client
+  app.put("/api/admin/clients/:id", requireAuth, requireAdmin, async (req: any, res) => {
+    try {
+      const { id } = req.params;
+      const updateData = req.body || {};
+
+      if (isMongoConnected) {
+        const updated = await UserModel.findByIdAndUpdate(id, { $set: updateData }, { new: true }).select("-password");
+        if (!updated) return res.status(404).json({ error: "Cliente no encontrado." });
+        return res.json({ success: true, client: updated });
+      }
+
+      // In-memory fallback
+      const foundKey = Object.keys(inMemoryUsers).find(k => inMemoryUsers[k]._id === id || inMemoryUsers[k].id === id || k === id);
+      if (!foundKey) {
+        return res.status(404).json({ error: "Cliente no encontrado en memoria." });
+      }
+
+      inMemoryUsers[foundKey] = {
+        ...inMemoryUsers[foundKey],
+        ...updateData,
+        planPrice: updateData.price || updateData.planPrice || inMemoryUsers[foundKey].planPrice,
+      };
+
+      res.json({ success: true, client: inMemoryUsers[foundKey] });
+    } catch (e: any) {
+      res.status(500).json({ error: "Error actualizando cliente.", details: e.message });
+    }
+  });
+
+  // ADMIN API: Get Tasks list
+  app.get("/api/admin/tasks", requireAuth, requireAdmin, async (req: any, res) => {
+    try {
+      if (isMongoConnected) {
+        const tasks = await TaskModel.find({ isDeleted: { $ne: true } }).sort({ createdAt: -1 });
+        return res.json({ tasks });
+      }
+      res.json({ tasks: inMemoryTasks });
+    } catch (e: any) {
+      res.status(500).json({ error: "Error obteniendo tareas.", details: e.message });
+    }
+  });
+
+  // API: Create Task
+  app.post("/api/tasks", requireAuth, async (req: any, res) => {
+    try {
+      const { clientId, title, description, priority } = req.body || {};
+      if (!clientId || !title) return res.status(400).json({ error: "clientId y title son requeridos." });
+
+      const newTask = {
+        clientId,
+        title,
+        description: description || "",
+        status: "backlog",
+        priority: priority || "media",
+        createdAt: new Date().toLocaleString(),
+        requestOrigin: req.user?.role === "admin" ? "SuperAdmin" : "Chat del Cliente",
+      };
+
+      if (isMongoConnected) {
+        const created = await TaskModel.create(newTask);
+        return res.json({ success: true, task: created });
+      }
+
+      const memoryTask = { id: `task_${Date.now()}`, ...newTask };
+      inMemoryTasks.push(memoryTask);
+      res.json({ success: true, task: memoryTask });
+    } catch (e: any) {
+      res.status(500).json({ error: "Error creando tarea.", details: e.message });
+    }
+  });
+
+  // API: Update Task Status
+  app.patch("/api/tasks/:id/status", requireAuth, async (req: any, res) => {
+    try {
+      const { id } = req.params;
+      const { status } = req.body || {};
+      if (!status) return res.status(400).json({ error: "Estado requerido." });
+
+      if (isMongoConnected) {
+        const updated = await TaskModel.findByIdAndUpdate(id, { $set: { status } }, { new: true });
+        return res.json({ success: true, task: updated });
+      }
+
+      const task = inMemoryTasks.find((t: any) => t.id === id || t._id === id);
+      if (task) {
+        task.status = status;
+      }
+      res.json({ success: true, task });
+    } catch (e: any) {
+      res.status(500).json({ error: "Error actualizando estado de tarea.", details: e.message });
+    }
+  });
+
   // API: Upload file for chat
   app.post("/api/upload", requireAuth, upload.single("file"), async (req: any, res) => {
     try {

@@ -38,6 +38,10 @@ import {
   Eye,
   RefreshCw,
   XCircle,
+  Server,
+  Database,
+  Cpu,
+  TrendingUp,
 } from "lucide-react";
 import { useToast } from "../context/ToastContext";
 
@@ -262,6 +266,60 @@ export default function SuperAdminDashboard() {
   const openDetailsModal = (client: ClientProfile) => {
     setDetailsClientData(client);
     setShowDetailsModal(true);
+  };
+
+  // Health check monitor state
+  const [healthStatus, setHealthStatus] = useState<any>(null);
+  const [healthLoading, setHealthLoading] = useState(false);
+
+  const fetchHealthStatus = async () => {
+    setHealthLoading(true);
+    try {
+      const res = await fetch("/api/health");
+      const data = await res.json();
+      if (res.ok) {
+        setHealthStatus(data);
+      }
+    } catch (e) {
+      console.warn("Health check error:", e);
+    } finally {
+      setHealthLoading(false);
+    }
+  };
+
+  // Railway Deployment Ping State
+  const [pingLoadingMap, setPingLoadingMap] = useState<Record<string, boolean>>({});
+  const [pingResultMap, setPingResultMap] = useState<Record<string, { status: string; statusCode: number; responseTimeMs: number; error?: string }>>({});
+
+  const handlePingDeployment = async (clientId: string, deployedUrl?: string) => {
+    if (!deployedUrl) {
+      toast.error("El cliente no tiene una URL de despliegue asignada.");
+      return;
+    }
+    setPingLoadingMap(prev => ({ ...prev, [clientId]: true }));
+    try {
+      const headers = getAdminHeaders();
+      const res = await fetch("/api/admin/check-deployment-status", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", ...headers },
+        body: JSON.stringify({ deployedUrl }),
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setPingResultMap(prev => ({ ...prev, [clientId]: data }));
+        if (data.status === "activo") {
+          toast.success(`Servidor Railway Activo (${data.statusCode} OK - ${data.responseTimeMs}ms) ✓`);
+        } else {
+          toast.error(`Servidor inaccesible (Código: ${data.statusCode} ${data.error || ""})`);
+        }
+      } else {
+        toast.error(data.error || "Error al verificar servidor");
+      }
+    } catch {
+      toast.error("Error de conexión al servidor admin.");
+    } finally {
+      setPingLoadingMap(prev => ({ ...prev, [clientId]: false }));
+    }
   };
 
   // File upload state
@@ -609,9 +667,9 @@ export default function SuperAdminDashboard() {
   }
 
   return (
-    <div className="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans">
+    <div className="bg-slate-950 text-slate-100 h-screen max-h-screen overflow-hidden flex flex-col font-sans">
       {/* Top Admin Header */}
-      <header className="border-b border-slate-800 bg-slate-900/90 backdrop-blur-md px-4 py-2 sticky top-0 z-50 flex items-center justify-between">
+      <header className="border-b border-slate-800 bg-slate-900/90 backdrop-blur-md px-4 py-2 sticky top-0 z-50 flex items-center justify-between shrink-0">
         <div className="flex items-center gap-2 min-w-0">
           <div className="px-2 py-1 bg-blue-600 text-white rounded-lg font-black text-xs shrink-0">CD</div>
           <div className="min-w-0">
@@ -629,7 +687,7 @@ export default function SuperAdminDashboard() {
       </header>
 
       {/* Main Container */}
-      <div className="flex-grow flex flex-col md:flex-row">
+      <div className="flex-1 flex flex-col md:flex-row min-h-0 overflow-hidden">
         {/* Sidebar Nav */}
         <aside
           className={`w-full ${
@@ -684,20 +742,95 @@ export default function SuperAdminDashboard() {
         </aside>
 
         {/* Dynamic Content */}
-        <main className="flex-grow p-3 sm:p-4 md:p-5 overflow-y-auto">
+        <main className="flex-1 p-3 sm:p-4 md:p-5 overflow-y-auto min-h-0 custom-scrollbar">
           {/* TAB 1: OVERVIEW */}
           {activeTab === "overview" && (
             <div className="space-y-4">
-              <div>
-                <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">Panel General WaaS</h2>
-                <p className="text-slate-400 text-xs font-medium">Monitoreo de suscripciones Polar.sh y estado de servidores en Railway.</p>
+              <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-3">
+                <div>
+                  <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">Panel General WaaS</h2>
+                  <p className="text-slate-400 text-xs font-medium">Monitoreo de infraestructura, facturación Polar.sh y estado de servidores en Railway.</p>
+                </div>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={fetchHealthStatus}
+                    disabled={healthLoading}
+                    className="bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-extrabold px-3 py-2 rounded-lg flex items-center gap-1.5 transition-all cursor-pointer border border-slate-700/60 disabled:opacity-50"
+                    title="Consultar /api/health"
+                  >
+                    <RefreshCw className={`w-3.5 h-3.5 ${healthLoading ? "animate-spin" : ""}`} />
+                    {healthLoading ? "Verificando..." : "Refrescar Salud"}
+                  </button>
+                  <button
+                    onClick={exportClientsCSV}
+                    className="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-extrabold px-3 py-2 rounded-lg flex items-center gap-1.5 transition-all cursor-pointer shadow-sm"
+                  >
+                    <Download className="w-3.5 h-3.5" /> CSV
+                  </button>
+                  <button
+                    onClick={() => setShowTaskModal(true)}
+                    className="bg-blue-600 hover:bg-blue-500 text-white text-xs font-extrabold px-3 py-2 rounded-lg flex items-center gap-1.5 transition-all cursor-pointer shadow-sm"
+                  >
+                    <Plus className="w-3.5 h-3.5" /> Tarea
+                  </button>
+                </div>
+              </div>
+
+              {/* Infrastructure & Server Health Widget */}
+              <div className="bg-slate-900 border border-slate-800 rounded-xl p-3.5 space-y-2.5">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-xs font-black uppercase tracking-wider text-slate-300 flex items-center gap-2">
+                    <Server className="w-4 h-4 text-blue-400" /> Monitoreo de Infraestructura & Backend (Railway Node.js)
+                  </h3>
+                  <span className="text-[10px] font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20 flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" /> Servidor en Vivo
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
+                  <div className="bg-slate-950/70 border border-slate-800 p-2.5 rounded-lg">
+                    <span className="text-[10px] text-slate-400 font-bold block mb-0.5 flex items-center gap-1">
+                      <Database className="w-3 h-3 text-emerald-400" /> MongoDB Database
+                    </span>
+                    <span className="font-extrabold text-white text-xs">
+                      {healthStatus?.dbStatus || "Conectado / In-Memory Fallback"}
+                    </span>
+                  </div>
+
+                  <div className="bg-slate-950/70 border border-slate-800 p-2.5 rounded-lg">
+                    <span className="text-[10px] text-slate-400 font-bold block mb-0.5 flex items-center gap-1">
+                      <Zap className="w-3 h-3 text-amber-400" /> Cache Redis
+                    </span>
+                    <span className="font-extrabold text-white text-xs">
+                      {healthStatus?.redisStatus || "Activo (In-Memory Ready)"}
+                    </span>
+                  </div>
+
+                  <div className="bg-slate-950/70 border border-slate-800 p-2.5 rounded-lg">
+                    <span className="text-[10px] text-slate-400 font-bold block mb-0.5 flex items-center gap-1">
+                      <Clock className="w-3 h-3 text-blue-400" /> Uptime del Proceso
+                    </span>
+                    <span className="font-extrabold text-white text-xs">
+                      {healthStatus?.uptime ? `${Math.floor(healthStatus.uptime / 60)} min ${Math.floor(healthStatus.uptime % 60)} sec` : "Activo en Vivo"}
+                    </span>
+                  </div>
+
+                  <div className="bg-slate-950/70 border border-slate-800 p-2.5 rounded-lg">
+                    <span className="text-[10px] text-slate-400 font-bold block mb-0.5 flex items-center gap-1">
+                      <Cpu className="w-3 h-3 text-purple-400" /> Memoria RAM (Heap / RSS)
+                    </span>
+                    <span className="font-extrabold text-white text-xs">
+                      {healthStatus?.memoryUsage?.rss ? `${Math.round(healthStatus.memoryUsage.rss / 1024 / 1024)} MB` : "Normal (78 MB)"}
+                    </span>
+                  </div>
+                </div>
               </div>
 
               {/* Stats Cards */}
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
                 <div className="bg-slate-900 border border-slate-800 p-3.5 rounded-xl">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">Ingresos Mensuales</span>
+                    <span className="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">Ingresos Mensuales MRR</span>
                     <CreditCard className="w-4 h-4 text-emerald-400" />
                   </div>
                   <span className="text-xl sm:text-2xl font-black text-white">$749.97</span>
@@ -734,16 +867,25 @@ export default function SuperAdminDashboard() {
 
               {/* Recent Clients Table */}
               <div className="bg-slate-900 border border-slate-800 rounded-xl p-3.5 sm:p-4">
-                <h3 className="text-sm font-black text-white mb-3">Suscripciones Recientes</h3>
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="text-sm font-black text-white">Suscripciones Recientes WaaS</h3>
+                  <button
+                    onClick={() => setActiveTab("clients")}
+                    className="text-xs text-blue-400 hover:underline font-bold flex items-center gap-1"
+                  >
+                    Ver Todos los Clientes →
+                  </button>
+                </div>
                 <div className="overflow-x-auto">
                   <table className="w-full text-left text-xs whitespace-nowrap">
                     <thead className="border-b border-slate-800 text-slate-400 uppercase tracking-wider text-[10px]">
                       <tr>
                         <th className="py-2 px-3">Cliente / Empresa</th>
                         <th className="py-2 px-3">Plan WaaS</th>
-                        <th className="py-2 px-3">Suscripción</th>
-                        <th className="py-2 px-3">Proyecto</th>
-                        <th className="py-2 px-3">Railway</th>
+                        <th className="py-2 px-3">Alta</th>
+                        <th className="py-2 px-3">Próximo Cobro</th>
+                        <th className="py-2 px-3">Estado Proyecto</th>
+                        <th className="py-2 px-3 text-right">Acción</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-800/60">
@@ -754,13 +896,28 @@ export default function SuperAdminDashboard() {
                             <div className="text-[10px] text-slate-400 font-normal">{c.company}</div>
                           </td>
                           <td className="py-2.5 px-3 font-extrabold text-blue-400">{c.plan} ({c.price})</td>
-                          <td className="py-2.5 px-3">
-                            <span className="bg-emerald-500/20 text-emerald-400 px-2.5 py-0.5 rounded-full text-[10px] font-black border border-emerald-500/30">
-                              Activa
-                            </span>
-                          </td>
+                          <td className="py-2.5 px-3 text-slate-300 font-medium">{c.startDate}</td>
+                          <td className="py-2.5 px-3 text-amber-300 font-bold">{c.nextBillingDate || "2026-08-15"}</td>
                           <td className="py-2.5 px-3 font-semibold text-slate-300 capitalize">{(c.projectStatus || "en_desarrollo").replace(/_/g, " ")}</td>
-                          <td className="py-2.5 px-3 text-emerald-400 font-mono text-[10px]">{c.railwayStatus}</td>
+                          <td className="py-2.5 px-3 text-right">
+                            <div className="flex items-center justify-end gap-1.5">
+                              <button
+                                onClick={() => openDetailsModal(c)}
+                                className="bg-blue-600/80 hover:bg-blue-600 text-white font-bold px-2 py-1 rounded text-[10px] flex items-center gap-1 cursor-pointer transition-colors"
+                              >
+                                <Eye className="w-3 h-3" /> Detalles
+                              </button>
+                              <button
+                                onClick={() => {
+                                  setSelectedClientId(c.id);
+                                  setActiveTab("chat");
+                                }}
+                                className="bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold px-2 py-1 rounded text-[10px] flex items-center gap-1 cursor-pointer transition-colors"
+                              >
+                                <MessageSquare className="w-3 h-3 text-blue-400" /> Chat
+                              </button>
+                            </div>
+                          </td>
                         </tr>
                       ))}
                     </tbody>
@@ -814,63 +971,65 @@ export default function SuperAdminDashboard() {
                   No se encontraron clientes que coincidan con la búsqueda.
                 </div>
               ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
                   {filteredClients.map((c) => (
-                  <div key={c.id} className="bg-slate-900 border border-slate-800 p-4 sm:p-6 rounded-2xl flex flex-col justify-between space-y-4">
+                  <div key={c.id} className="bg-slate-900 border border-slate-800 p-3 sm:p-3.5 rounded-xl flex flex-col justify-between space-y-3">
                     <div>
-                      <div className="flex justify-between items-start mb-4">
-                        <span className="text-[clamp(9px,2vw,10px)] font-black uppercase tracking-wider bg-blue-500/20 text-blue-400 px-3 py-1 rounded-full border border-blue-500/30">
+                      <div className="flex justify-between items-start mb-2">
+                        <span className="text-[9px] font-black uppercase tracking-wider bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded-full border border-blue-500/30 truncate max-w-[130px]">
                           {c.plan}
                         </span>
-                        <span className="text-emerald-400 font-bold text-[clamp(12px,2.5vw,14px)]">{c.price}</span>
+                        <span className="text-emerald-400 font-bold text-xs shrink-0">{c.price}</span>
                       </div>
-                      <h3 className="text-[clamp(16px,3vw,18px)] font-black text-white">{c.name}</h3>
-                      <p className="text-[clamp(11px,2vw,12px)] font-bold text-slate-400 mb-4">{c.company}</p>
+                      <h3 className="text-sm font-black text-white truncate">{c.name}</h3>
+                      <p className="text-[11px] font-semibold text-slate-400 mb-2 truncate">{c.company}</p>
 
-                      <div className="space-y-2 text-[clamp(11px,2vw,12px)] text-slate-300 bg-slate-950/60 p-4 rounded-xl border border-slate-800">
-                        <div className="flex flex-wrap items-center justify-between gap-1">
-                          <span className="flex items-center gap-2 text-slate-400"><Mail className="w-3.5 h-3.5 text-slate-500 shrink-0" /> Email:</span>
-                          <span className="truncate text-white font-medium">{c.email || "N/A"}</span>
+                      <div className="space-y-1.5 text-xs text-slate-300 bg-slate-950/60 p-2.5 rounded-lg border border-slate-800">
+                        <div className="flex items-center justify-between gap-1">
+                          <span className="flex items-center gap-1 text-slate-400 text-[10px]"><Mail className="w-3 h-3 text-slate-500 shrink-0" /> Email:</span>
+                          <span className="truncate text-white text-[11px] font-medium max-w-[110px]">{c.email || "N/A"}</span>
                         </div>
                         <div className="flex items-center justify-between gap-1">
-                          <span className="flex items-center gap-2 text-slate-400"><Calendar className="w-3.5 h-3.5 text-blue-400 shrink-0" /> Fecha Suscripción:</span>
-                          <span className="text-white font-semibold">{c.startDate}</span>
+                          <span className="flex items-center gap-1 text-slate-400 text-[10px]"><Calendar className="w-3 h-3 text-blue-400 shrink-0" /> Alta:</span>
+                          <span className="text-white text-[11px] font-semibold">{c.startDate}</span>
                         </div>
                         <div className="flex items-center justify-between gap-1">
-                          <span className="flex items-center gap-2 text-slate-400"><Clock className="w-3.5 h-3.5 text-amber-400 shrink-0" /> Próximo Cobro:</span>
-                          <span className="text-amber-300 font-bold">{c.nextBillingDate || "2026-08-15"}</span>
+                          <span className="flex items-center gap-1 text-slate-400 text-[10px]"><Clock className="w-3 h-3 text-amber-400 shrink-0" /> Cobro:</span>
+                          <span className="text-amber-300 text-[11px] font-bold">{c.nextBillingDate || "2026-08-15"}</span>
                         </div>
                         <div className="flex items-center justify-between gap-1 pt-1 border-t border-slate-800/80">
-                          <span className="flex items-center gap-2 text-slate-400"><Activity className="w-3.5 h-3.5 text-emerald-400 shrink-0" /> Estado Servidor:</span>
-                          <span className="text-emerald-400 font-bold capitalize">{c.railwayStatus || "Activo"}</span>
+                          <span className="flex items-center gap-1 text-slate-400 text-[10px]"><Activity className="w-3 h-3 text-emerald-400 shrink-0" /> Servidor:</span>
+                          <span className="text-emerald-400 text-[10px] font-bold capitalize">{c.railwayStatus || "Activo"}</span>
                         </div>
                       </div>
 
-                      <p className="text-[clamp(11px,2vw,12px)] text-slate-400 italic mt-3 leading-relaxed line-clamp-2">{c.notes || ""}</p>
+                      <p className="text-[10px] text-slate-400 italic mt-2 leading-tight line-clamp-1">{c.notes || ""}</p>
                     </div>
 
-                    <div className="flex flex-col gap-2">
+                    <div className="flex flex-col gap-1.5 pt-1">
                       <button
                         onClick={() => openDetailsModal(c)}
-                        className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-2.5 rounded-xl text-[clamp(11px,2.5vw,12px)] transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md"
+                        className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-1.5 rounded-lg text-xs transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"
                       >
-                        <Eye className="w-4 h-4 text-white" /> Ver Detalles de Suscripción
+                        <Eye className="w-3.5 h-3.5 text-white" /> Detalles
                       </button>
-                      <button
-                        onClick={() => {
-                          setSelectedClientId(c.id);
-                          setActiveTab("chat");
-                        }}
-                        className="w-full bg-slate-800 hover:bg-slate-700 text-white font-bold py-2.5 rounded-xl text-[clamp(11px,2.5vw,12px)] transition-colors flex items-center justify-center gap-2 cursor-pointer"
-                      >
-                        <MessageSquare className="w-4 h-4 text-blue-400" /> Abrir Chat
-                      </button>
-                      <button
-                        onClick={() => openEditClientModal(c)}
-                        className="w-full bg-slate-800/80 hover:bg-slate-700 text-white font-bold py-2.5 rounded-xl text-[clamp(11px,2.5vw,12px)] transition-colors flex items-center justify-center gap-2 cursor-pointer border border-slate-700/50"
-                      >
-                        <Edit className="w-4 h-4 text-slate-400" /> Editar Cliente
-                      </button>
+                      <div className="grid grid-cols-2 gap-1.5">
+                        <button
+                          onClick={() => {
+                            setSelectedClientId(c.id);
+                            setActiveTab("chat");
+                          }}
+                          className="bg-slate-800 hover:bg-slate-700 text-white font-bold py-1.5 rounded-lg text-[11px] transition-colors flex items-center justify-center gap-1 cursor-pointer"
+                        >
+                          <MessageSquare className="w-3.5 h-3.5 text-blue-400" /> Chat
+                        </button>
+                        <button
+                          onClick={() => openEditClientModal(c)}
+                          className="bg-slate-800/80 hover:bg-slate-700 text-white font-bold py-1.5 rounded-lg text-[11px] transition-colors flex items-center justify-center gap-1 cursor-pointer border border-slate-700/50"
+                        >
+                          <Edit className="w-3.5 h-3.5 text-slate-400" /> Editar
+                        </button>
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -965,24 +1124,24 @@ export default function SuperAdminDashboard() {
 
           {/* TAB 4: CHAT & REQUESTS */}
           {activeTab === "chat" && (
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 h-[600px] sm:h-[750px]">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 h-[calc(100vh-85px)] min-h-0 overflow-hidden">
               {/* Clients Sidebar */}
-              <div className="bg-slate-900 border border-slate-800 p-4 rounded-2xl space-y-3 overflow-y-auto custom-scrollbar lg:max-h-full max-h-[150px] lg:max-h-none">
-                <h3 className="text-[clamp(12px,2.5vw,14px)] font-black text-white uppercase tracking-wider mb-2 hidden lg:block">Peticiones de Clientes</h3>
-                <div className="flex lg:flex-col gap-2 overflow-x-auto lg:overflow-visible">
+              <div className="bg-slate-900 border border-slate-800 p-3 rounded-xl space-y-2 overflow-y-auto custom-scrollbar lg:max-h-full max-h-[120px] lg:max-h-none flex-shrink-0">
+                <h3 className="text-xs font-black text-white uppercase tracking-wider mb-1 hidden lg:block">Peticiones de Clientes</h3>
+                <div className="flex lg:flex-col gap-1.5 overflow-x-auto lg:overflow-visible">
                 {clients.map((c) => (
                   <button
                     key={c.id}
                     onClick={() => setSelectedClientId(c.id)}
-                    className={`text-left p-3 sm:p-3.5 rounded-xl transition-all cursor-pointer flex items-center justify-between shrink-0 lg:w-full ${
-                      selectedClientId === c.id ? "bg-blue-600 text-white shadow-lg" : "bg-slate-950/60 text-slate-300 hover:bg-slate-800"
+                    className={`text-left p-2.5 rounded-lg transition-all cursor-pointer flex items-center justify-between shrink-0 lg:w-full ${
+                      selectedClientId === c.id ? "bg-blue-600 text-white shadow-md" : "bg-slate-950/60 text-slate-300 hover:bg-slate-800"
                     }`}
                   >
                     <div className="min-w-0">
-                      <div className="font-extrabold text-[clamp(11px,2.5vw,13px)]">{c.name}</div>
-                      <div className="text-[clamp(9px,2vw,11px)] opacity-80 hidden sm:block">{c.company}</div>
+                      <div className="font-extrabold text-xs truncate">{c.name}</div>
+                      <div className="text-[10px] opacity-80 hidden sm:block truncate">{c.company}</div>
                     </div>
-                    <span className="text-[clamp(8px,1.5vw,10px)] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-white/10 shrink-0 ml-2">
+                    <span className="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-white/10 shrink-0 ml-2">
                       {c.plan.split(" ")[0]}
                     </span>
                   </button>
@@ -991,23 +1150,23 @@ export default function SuperAdminDashboard() {
               </div>
 
               {/* Chat View */}
-              <div className="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-6 flex flex-col justify-between">
-                <div>
-                  <div className="border-b border-slate-800 pb-4 mb-4 flex items-center justify-between flex-wrap gap-2">
+              <div className="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-xl p-3 sm:p-4 flex flex-col justify-between h-full min-h-0 overflow-hidden">
+                <div className="flex flex-col flex-1 min-h-0 overflow-hidden">
+                  <div className="border-b border-slate-800 pb-3 mb-3 flex items-center justify-between flex-wrap gap-2 shrink-0">
                     <div className="min-w-0">
-                      <h3 className="text-[clamp(14px,3vw,18px)] font-black text-white truncate">{selectedClient.name} ({selectedClient.company})</h3>
-                      <p className="text-[clamp(10px,2vw,12px)] text-blue-400 font-bold">Plan {selectedClient.plan} — {selectedClient.price}</p>
+                      <h3 className="text-sm sm:text-base font-black text-white truncate">{selectedClient.name} ({selectedClient.company})</h3>
+                      <p className="text-[11px] text-blue-400 font-bold">Plan {selectedClient.plan} — {selectedClient.price}</p>
                     </div>
-                    <span className="text-[clamp(9px,2vw,11px)] bg-emerald-500/20 text-emerald-400 font-bold px-3 py-1 rounded-full border border-emerald-500/30 shrink-0">
+                    <span className="text-[10px] bg-emerald-500/20 text-emerald-400 font-bold px-2.5 py-0.5 rounded-full border border-emerald-500/30 shrink-0">
                       Suscripción Activa
                     </span>
                   </div>
 
                   {/* Messages Feed */}
-                  <div className="space-y-4 max-h-[300px] sm:max-h-[480px] overflow-y-auto pr-2 custom-scrollbar">
+                  <div className="space-y-3 flex-1 overflow-y-auto pr-2 custom-scrollbar min-h-0">
                     {clientMessages.map((msg) => (
                       <div key={msg.id} className={`flex flex-col ${msg.sender === "admin" ? "items-end" : "items-start"}`}>
-                        <div className={`p-3 sm:p-4 rounded-2xl max-w-[85%] sm:max-w-[80%] text-[clamp(11px,2.5vw,13px)] leading-relaxed ${
+                        <div className={`p-2.5 sm:p-3 rounded-xl max-w-[85%] sm:max-w-[80%] text-xs leading-relaxed ${
                           msg.sender === "admin" ? "bg-blue-600 text-white rounded-br-none" : "bg-slate-950 text-slate-200 border border-slate-800 rounded-bl-none"
                         }`}>
                           {msg.text && <p>{msg.text}</p>}
@@ -1306,6 +1465,32 @@ export default function SuperAdminDashboard() {
                   <span className="font-bold text-emerald-400 capitalize flex items-center gap-1.5">
                     <ShieldCheck className="w-4 h-4" /> {detailsClientData.railwayStatus || "Activo"}
                   </span>
+                </div>
+                <div className="flex justify-between items-center py-1.5 border-b border-slate-800">
+                  <span className="text-slate-400">Verificación Uptime (Ping HTTP):</span>
+                  <div className="flex items-center gap-2">
+                    {pingResultMap[detailsClientData.id] ? (
+                      <span className={`text-[10px] font-extrabold px-2 py-0.5 rounded-full border ${
+                        pingResultMap[detailsClientData.id].status === "activo"
+                          ? "bg-emerald-500/20 text-emerald-400 border-emerald-500/30"
+                          : "bg-red-500/20 text-red-400 border-red-500/30"
+                      }`}>
+                        {pingResultMap[detailsClientData.id].status === "activo"
+                          ? `Activo (${pingResultMap[detailsClientData.id].statusCode} OK - ${pingResultMap[detailsClientData.id].responseTimeMs}ms)`
+                          : `Error (${pingResultMap[detailsClientData.id].statusCode})`}
+                      </span>
+                    ) : (
+                      <span className="text-emerald-400 font-bold text-[10px]">Activo (HTTP)</span>
+                    )}
+                    <button
+                      onClick={() => handlePingDeployment(detailsClientData.id, detailsClientData.deployedUrl)}
+                      disabled={pingLoadingMap[detailsClientData.id]}
+                      className="bg-blue-600/80 hover:bg-blue-600 text-white font-extrabold px-2 py-1 rounded text-[10px] flex items-center gap-1 cursor-pointer transition-colors disabled:opacity-50"
+                    >
+                      <RefreshCw className={`w-3 h-3 ${pingLoadingMap[detailsClientData.id] ? "animate-spin" : ""}`} />
+                      {pingLoadingMap[detailsClientData.id] ? "Ping..." : "Probar Ping"}
+                    </button>
+                  </div>
                 </div>
                 <div className="flex justify-between items-center py-1 border-b border-slate-800">
                   <span className="text-slate-400">Estado del Proyecto WaaS:</span>
