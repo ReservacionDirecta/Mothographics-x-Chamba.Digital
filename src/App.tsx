@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect, FormEvent, useRef } from "react";
-import { BrowserRouter, Routes, Route, Navigate, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, Link, useLocation } from "react-router-dom";
 import HotelsLandingPage from "./pages/LandingPage/Hotels.tsx";
 import EcommerceLandingPage from "./pages/LandingPage/ECommerce.tsx";
 import ServiceBusinessesLandingPage from "./pages/LandingPage/ServiceBusinesses.tsx";
@@ -2835,6 +2835,18 @@ const AllianceContent = ({ onOpenModal }: any) => {
 };
 
 export default function App() {
+  return (
+    <BrowserRouter>
+      <AppRoutes />
+    </BrowserRouter>
+  );
+}
+
+function AppRoutes() {
+  const location = useLocation();
+  const path = location.pathname;
+  const isPortalRoute = path.startsWith("/admin") || path.startsWith("/dashboard") || path.startsWith("/login") || path.startsWith("/registro") || path.startsWith("/portal") || path.startsWith("/perfil") || path.startsWith("/superadmin");
+
   const [modalData, setModalData] = useState({
     isOpen: false,
     title: "",
@@ -2850,7 +2862,7 @@ export default function App() {
   };
 
   return (
-    <BrowserRouter>
+    <>
       <Routes>
         <Route path="/" element={<ChambaContent onOpenModal={openModal} />} />
         <Route
@@ -2889,25 +2901,29 @@ export default function App() {
         <Route path="/sorteo" element={<RafflePage />} />
         <Route path="/raffle" element={<RafflePage />} />
       </Routes>
-      <Modal
-        isOpen={modalData.isOpen}
-        onClose={closeModal}
-        title={modalData.title}
-        content={modalData.content}
-      />
-      <Chatbot />
-      <motion.a
-        initial={{ opacity: 0, scale: 0.5 }}
-        animate={{ opacity: 1, scale: 1 }}
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
-        href="https://wa.me/51904060670?text=Hola,%20vengo%20de%20la%20web%20y%20quisiera%20más%20información."
-        target="_blank"
-        rel="noopener noreferrer"
-        className="fixed bottom-6 right-6 z-[150] w-14 h-14 bg-[#25D366] rounded-full flex items-center justify-center shadow-[0_10px_30px_rgba(37,211,102,0.4)] border border-white/20 p-3.5"
-      >
-        <WhatsAppIcon className="w-full h-full text-white" />
-      </motion.a>
-    </BrowserRouter>
+      {!isPortalRoute && (
+        <>
+          <Modal
+            isOpen={modalData.isOpen}
+            onClose={closeModal}
+            title={modalData.title}
+            content={modalData.content}
+          />
+          <Chatbot />
+          <motion.a
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            href="https://wa.me/51904060670?text=Hola,%20vengo%20de%20la%20web%20y%20quisiera%20m%C3%A1s%20informaci%C3%B3n."
+            target="_blank"
+            rel="noopener noreferrer"
+            className="fixed bottom-6 right-6 z-[150] w-14 h-14 bg-[#25D366] rounded-full flex items-center justify-center shadow-[0_10px_30px_rgba(37,211,102,0.4)] border border-white/20 p-3.5"
+          >
+            <WhatsAppIcon className="w-full h-full text-white" />
+          </motion.a>
+        </>
+      )}
+    </>
   );
 }
