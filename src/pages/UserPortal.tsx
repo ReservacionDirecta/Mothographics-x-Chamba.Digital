@@ -21,7 +21,9 @@ import {
   Image,
   Video,
   FileAudio,
-  File
+  File,
+  MonitorPlay,
+  ExternalLink
 } from "lucide-react";
 import { ChambaNavbar, ChambaFooter } from "../App";
 
@@ -55,6 +57,7 @@ export default function UserPortal() {
     githubRepo: "",
   });
   const [savingProject, setSavingProject] = useState(false);
+  const [capturingThumbnail, setCapturingThumbnail] = useState(false);
 
   // File upload state for chat
   const [uploading, setUploading] = useState(false);
@@ -375,6 +378,38 @@ export default function UserPortal() {
     await saveProjectInfo();
   };
 
+  const captureThumbnail = async () => {
+    const deployedUrl = user?.deployedUrl?.trim();
+    if (!deployedUrl) {
+      alert("Primero ingresa la URL del sitio desplegado y guarda los cambios.");
+      return;
+    }
+    setCapturingThumbnail(true);
+    try {
+      const token = localStorage.getItem("chamba_user_token");
+      const res = await fetch("/api/capture-thumbnail", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ url: deployedUrl }),
+      });
+      const data = await res.json();
+      if (res.ok && data.thumbnailUrl) {
+        setUser(prev => prev ? { ...prev, thumbnailUrl: data.thumbnailUrl } : null);
+        await saveProjectInfo(); // persist to backend
+        alert("¡Miniatura capturada y guardada!");
+      } else {
+        alert(data.error || "Error capturando miniatura");
+      }
+    } catch (err: any) {
+      alert("Error de conexión: " + err.message);
+    } finally {
+      setCapturingThumbnail(false);
+    }
+  };
+
   return (
     <div className="bg-white text-slate-900 selection:bg-accent selection:text-white min-h-screen flex flex-col">
       <ChambaNavbar />
@@ -550,24 +585,57 @@ export default function UserPortal() {
 
                   <div>
                     <label className="block text-[clamp(10px,2vw,11px)] font-extrabold text-slate-700 uppercase mb-1">URL del Sitio Desplegado</label>
-                    <input
-                      type="url"
-                      value={user?.deployedUrl || ""}
-                      onChange={(e) => setUser(prev => prev ? { ...prev, deployedUrl: e.target.value } : null)}
-                      className="w-full bg-slate-50 border border-slate-200 focus:border-accent rounded-xl px-4 py-3 text-[clamp(13px,2.5vw,13px)] text-slate-900 outline-none"
-                      placeholder="https://tusitio.com"
-                    />
+                    <div className="flex gap-2">
+                      <input
+                        type="url"
+                        value={user?.deployedUrl || ""}
+                        onChange={(e) => setUser(prev => prev ? { ...prev, deployedUrl: e.target.value } : null)}
+                        className="flex-1 bg-slate-50 border border-slate-200 focus:border-accent rounded-xl px-4 py-3 text-[clamp(13px,2.5vw,13px)] text-slate-900 outline-none"
+                        placeholder="https://tusitio.com"
+                      />
+                      {user?.deployedUrl && (
+                        <button
+                          type="button"
+                          onClick={captureThumbnail}
+                          disabled={capturingThumbnail}
+                          className="bg-amber-500 hover:bg-amber-600 text-white px-4 py-3 rounded-xl text-[clamp(11px,2.5vw,12px)] font-bold transition-colors cursor-pointer disabled:opacity-50 flex items-center gap-2 shrink-0"
+                          title="Capturar miniatura en vivo"
+                        >
+                          {capturingThumbnail ? (
+                            <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                          ) : (
+                            <>
+                              <MonitorPlay className="w-4 h-4" />
+                              Capturar
+                            </>
+                          )}
+                        </button>
+                      )}
+                    </div>
                   </div>
 
                   <div>
                     <label className="block text-[clamp(10px,2vw,11px)] font-extrabold text-slate-700 uppercase mb-1">URL Miniatura / Thumbnail (opcional)</label>
-                    <input
-                      type="url"
-                      value={user?.thumbnailUrl || ""}
-                      onChange={(e) => setUser(prev => prev ? { ...prev, thumbnailUrl: e.target.value } : null)}
-                      className="w-full bg-slate-50 border border-slate-200 focus:border-accent rounded-xl px-4 py-3 text-[clamp(13px,2.5vw,13px)] text-slate-900 outline-none"
-                      placeholder="https://tusitio.com/og-image.jpg"
-                    />
+                    <div className="flex gap-2">
+                      <input
+                        type="url"
+                        value={user?.thumbnailUrl || ""}
+                        onChange={(e) => setUser(prev => prev ? { ...prev, thumbnailUrl: e.target.value } : null)}
+                        className="flex-1 bg-slate-50 border border-slate-200 focus:border-accent rounded-xl px-4 py-3 text-[clamp(13px,2.5vw,13px)] text-slate-900 outline-none"
+                        placeholder="https://tusitio.com/og-image.jpg"
+                      />
+                      {user?.thumbnailUrl && (
+                        <a
+                          href={user.thumbnailUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="bg-slate-200 hover:bg-slate-300 text-slate-700 px-4 py-3 rounded-xl text-[clamp(11px,2.5vw,12px)] font-bold transition-colors cursor-pointer flex items-center gap-2 shrink-0"
+                          title="Ver miniatura actual"
+                        >
+                          <ExternalLink className="w-4 h-4" /> Ver
+                        </a>
+                      )}
+                    </div>
                   </div>
 
                   <div>

@@ -386,6 +386,72 @@ async function startServer() {
     }
   });
 
+  // API: Capture live thumbnail from deployed URL
+  app.post("/api/capture-thumbnail", requireAuth, async (req: any, res) => {
+    try {
+      const { url } = req.body;
+      if (!url || !/^https?:\/\//.test(url)) {
+        return res.status(400).json({ error: "URL inválida. Debe empezar con http:// o https://" });
+      }
+
+      // Import Playwright dynamically (only when needed)
+      const { chromium } = await import("playwright");
+      
+      const browser = await chromium.launch({ 
+        headless: true,
+        args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
+      });
+      
+      const page = await browser.newPage({
+        viewport: { width: 1280, height: 720 },
+        deviceScaleFactor: 1,
+      });
+
+      // Set a reasonable timeout
+      await page.goto(url, { 
+        waitUntil: 'networkidle', 
+        timeout: 30000 
+      });
+
+      // Wait a bit for dynamic content
+      await page.waitForTimeout(1500);
+
+      // Take screenshot
+      const filename = `thumb_${Date.now()}_${Math.random().toString(36).slice(2, 8)}.png`;
+      const filepath = path.join(uploadsDir, filename);
+      
+      await page.screenshot({ 
+        path: filepath, 
+        fullPage: false,
+        clip: { x: 0, y: 0, width: 1280, height: 720 }
+      });
+
+      await browser.close();
+
+      const fileUrl = `/uploads/${filename}`;
+      
+      // Update user's thumbnailUrl in database
+      const userId = req.user.userId;
+      if (isMongoConnected) {
+        await UserModel.findByIdAndUpdate(userId, { thumbnailUrl: fileUrl });
+      } else if (inMemoryUsers[userId]) {
+        inMemoryUsers[userId].thumbnailUrl = fileUrl;
+      }
+
+      res.json({ 
+        success: true, 
+        thumbnailUrl: fileUrl,
+        message: "Miniatura capturada correctamente" 
+      });
+    } catch (e: any) {
+      console.error("Thumbnail capture error:", e);
+      res.status(500).json({ 
+        error: "Error capturando miniatura", 
+        details: e.message 
+      });
+    }
+  });
+
   // PUT /api/users/:id/project-info - Client updates their project context
   app.put("/api/users/:id/project-info", requireAuth, async (req: any, res) => {
     try {
