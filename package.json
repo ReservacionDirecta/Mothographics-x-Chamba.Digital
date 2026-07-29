@@ -8,7 +8,7 @@
     "preinstall": "npx only-allow pnpm",
     "dev": "tsx server.ts",
     "start": "NODE_ENV=production tsx server.ts",
-    "build": "vite build",
+    "build": "pnpm exec playwright install chromium --with-deps && vite build",
     "preview": "vite preview",
     "clean": "rm -rf dist",
     "lint": "tsc --noEmit",
