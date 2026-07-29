@@ -373,35 +373,6 @@ export default function SuperAdminDashboard() {
     }
 };
 
-  // Login admin via /api/admin/login (issues JWT with role=admin)
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setAuthLoading(true);
-    setAuthError("");
-    try {
-      const res = await fetch("/api/admin/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: adminEmailInput, password: passwordInput }),
-      });
-      const data = await res.json();
-      if (res.ok && data.token) {
-        localStorage.setItem("chamba_admin_token", data.token);
-        localStorage.setItem("chamba_admin_email", data.admin.email);
-        setAdminEmail(data.admin.email);
-        setIsAuthenticated(true);
-        setPasswordInput("");
-        fetchAdminData();
-      } else {
-        setAuthError(data.error || "Credenciales inválidas.");
-      }
-    } catch {
-      setAuthError("Error de conexión.");
-    } finally {
-      setAuthLoading(false);
-    }
-  };
-
   const selectedClient = clients.find(c => c.id === selectedClientId) || clients[0];
   const clientMessages = messages.filter(m => m.clientId === selectedClientId);
 
