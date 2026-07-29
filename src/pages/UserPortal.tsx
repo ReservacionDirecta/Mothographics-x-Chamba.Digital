@@ -368,10 +368,10 @@ export default function UserPortal() {
   };
 
   return (
-    <div className="bg-white text-slate-900 selection:bg-accent selection:text-white min-h-screen flex flex-col justify-between">
-      <ChambaNavbar />
+    <div className="bg-white text-slate-900 selection:bg-accent selection:text-white min-h-screen flex flex-col">
+      {view !== "dashboard" && <ChambaNavbar />}
 
-      <main className="pt-[100px] pb-20 px-6 max-w-[1100px] mx-auto w-full flex-grow flex items-center justify-center">
+      <main className={`${view === "dashboard" ? "pt-6" : "pt-[100px] pb-20"} px-6 max-w-[1100px] mx-auto w-full flex-grow flex items-center justify-center`}>
         {/* DASHBOARD VISTA CLIENTE */}
         {view === "dashboard" && user ? (
           <div className="w-full space-y-8">
@@ -868,8 +868,6 @@ export default function UserPortal() {
           </div>
         )}
       </main>
-
-      <ChambaFooter />
     </div>
   );
 }

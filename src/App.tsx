@@ -59,6 +59,8 @@ import {
   Flame,
   Star,
   Sparkles,
+  Layers,
+  LogOut,
 } from "lucide-react";
 
 // --- Components for Conversion & Lead Flow (Phase 3) ---
@@ -1835,12 +1837,44 @@ const Footer = () => (
 export const ChambaNavbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [userDropdownOpen, setUserDropdownOpen] = useState(false);
+  const [loggedUser, setLoggedUser] = useState<any>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Check auth state
+  useEffect(() => {
+    const token = localStorage.getItem("chamba_user_token");
+    if (token) {
+      fetch("/api/auth/me", { headers: { Authorization: `Bearer ${token}` } })
+        .then(res => res.json())
+        .then(data => { if (data.user) setLoggedUser(data.user); })
+        .catch(() => {});
+    }
+  }, []);
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    const handleClick = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setUserDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("chamba_user_token");
+    setLoggedUser(null);
+    setUserDropdownOpen(false);
+    window.location.href = "/";
+  };
 
   const navLinks = [
     { name: "Inicio", path: "/" },
@@ -1866,7 +1900,7 @@ export const ChambaNavbar = () => {
           {navLinks.map((link) => (
             <Link
               key={link.path}
-              to={link.path.startsWith("/") ? link.path : link.path}
+              to={link.path}
               className={`text-[12px] font-black uppercase tracking-[0.2em] transition-all relative group py-2 ${
                 scrolled ? "text-white hover:text-amber-400" : "text-slate-700 hover:text-accent"
               }`}
@@ -1879,34 +1913,87 @@ export const ChambaNavbar = () => {
       </div>
 
       <div className="flex items-center gap-3 md:gap-4">
-        {/* Login Button */}
-        <Link
-          to="/login"
-          className={`text-[12px] font-black uppercase tracking-[0.15em] transition-all px-4 py-2 rounded-xl flex items-center gap-1.5 border ${
-            scrolled
-              ? "text-white hover:text-amber-400 border-slate-700 bg-slate-800/80 hover:bg-slate-800"
-              : "text-slate-800 hover:text-accent border-slate-200 bg-slate-100 hover:bg-slate-200"
-          }`}
-        >
-          <User className="w-3.5 h-3.5" />
-          <span>Login</span>
-        </Link>
+        {loggedUser ? (
+          /* Logged in: Profile dropdown */
+          <div ref={dropdownRef} className="relative">
+            <button
+              onClick={() => setUserDropdownOpen(!userDropdownOpen)}
+              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-[12px] font-black uppercase tracking-[0.15em] transition-all border cursor-pointer ${
+                scrolled
+                  ? "text-white hover:text-amber-400 border-slate-700 bg-slate-800/80 hover:bg-slate-800"
+                  : "text-slate-800 hover:text-accent border-slate-200 bg-slate-100 hover:bg-slate-200"
+              }`}
+            >
+              <div className="w-7 h-7 rounded-full bg-accent text-white flex items-center justify-center text-[11px] font-black">
+                {loggedUser.name?.charAt(0)?.toUpperCase() || "U"}
+              </div>
+              <span className="hidden sm:inline">{loggedUser.name?.split(" ")[0]}</span>
+              <svg className={`w-3 h-3 transition-transform ${userDropdownOpen ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" /></svg>
+            </button>
 
-        <motion.a
-          whileHover={{ scale: 1.05, y: -2 }}
-          whileTap={{ scale: 0.95 }}
-          href="https://wa.me/51904060670"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hidden lg:flex bg-accent text-white px-5 py-2.5 rounded-xl text-[11px] font-black uppercase tracking-wider transition-all shadow-[0_4px_12px_rgba(37,99,235,0.35)] hover:shadow-[0_6px_18px_rgba(37,99,235,0.5)] border border-white/10 smooth-gpu shrink-0"
-        >
-          Iniciar Proyecto
-        </motion.a>
+            {userDropdownOpen && (
+              <div className="absolute right-0 top-full mt-2 w-56 bg-white border border-slate-200 rounded-2xl shadow-2xl overflow-hidden z-[110]">
+                <div className="p-4 border-b border-slate-100 bg-slate-50">
+                  <p className="text-[13px] font-black text-slate-900">{loggedUser.name}</p>
+                  <p className="text-[11px] text-slate-500 font-medium">{loggedUser.email}</p>
+                </div>
+                <div className="p-2">
+                  <Link
+                    to="/perfil"
+                    onClick={() => setUserDropdownOpen(false)}
+                    className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-bold text-slate-700 hover:bg-slate-100 hover:text-accent transition-colors"
+                  >
+                    <User className="w-4 h-4" /> Ver Perfil
+                  </Link>
+                  <Link
+                    to="/portal"
+                    onClick={() => setUserDropdownOpen(false)}
+                    className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-bold text-slate-700 hover:bg-slate-100 hover:text-accent transition-colors"
+                  >
+                    <Layers className="w-4 h-4" /> Mi Portal
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-bold text-red-600 hover:bg-red-50 transition-colors cursor-pointer"
+                  >
+                    <LogOut className="w-4 h-4" /> Cerrar Sesión
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        ) : (
+          <>
+            {/* Login Button */}
+            <Link
+              to="/login"
+              className={`text-[12px] font-black uppercase tracking-[0.15em] transition-all px-4 py-2 rounded-xl flex items-center gap-1.5 border ${
+                scrolled
+                  ? "text-white hover:text-amber-400 border-slate-700 bg-slate-800/80 hover:bg-slate-800"
+                  : "text-slate-800 hover:text-accent border-slate-200 bg-slate-100 hover:bg-slate-200"
+              }`}
+            >
+              <User className="w-3.5 h-3.5" />
+              <span>Login</span>
+            </Link>
+
+            <motion.a
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}
+              href="https://wa.me/51904060670"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden lg:flex bg-accent text-white px-5 py-2.5 rounded-xl text-[11px] font-black uppercase tracking-wider transition-all shadow-[0_4px_12px_rgba(37,99,235,0.35)] hover:shadow-[0_6px_18px_rgba(37,99,235,0.5)] border border-white/10 smooth-gpu shrink-0"
+            >
+              Iniciar Proyecto
+            </motion.a>
+          </>
+        )}
 
         {/* Mobile / Tablet Toggle */}
         <button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          aria-label="Abrir menú"
+          aria-label="Abrir menu"
           className={`lg:hidden p-2.5 md:p-3 rounded-xl border transition-colors flex items-center gap-2 ${
             scrolled
               ? "bg-slate-800 text-white border-slate-700 hover:bg-slate-700"
@@ -1918,7 +2005,7 @@ export const ChambaNavbar = () => {
           ) : (
             <>
               <Menu className="w-5 h-5 md:w-6 md:h-6" />
-              <span className="text-[11px] font-bold uppercase tracking-wider hidden sm:inline-block md:hidden">Menú</span>
+              <span className="text-[11px] font-bold uppercase tracking-wider hidden sm:inline-block md:hidden">Menu</span>
             </>
           )}
         </button>
@@ -1947,7 +2034,7 @@ export const ChambaNavbar = () => {
 
             <div className="flex flex-col gap-5 my-auto py-6">
               <span className="text-[11px] font-black uppercase tracking-[0.3em] text-accent mb-2">
-                Menú de Navegación
+                Menu de Navegacion
               </span>
               {navLinks.map((link, i) => (
                 <motion.div
@@ -1966,19 +2053,30 @@ export const ChambaNavbar = () => {
                 </motion.div>
               ))}
 
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: navLinks.length * 0.08 }}
-              >
-                <Link
-                  to="/login"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-[28px] sm:text-[36px] font-black tracking-tight text-amber-400 hover:text-white transition-colors flex items-center gap-3 pt-2 border-t border-white/10"
-                >
-                  <User className="w-8 h-8" /> Login Cliente
-                </Link>
-              </motion.div>
+              {loggedUser ? (
+                <>
+                  <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: navLinks.length * 0.08 }}>
+                    <Link to="/portal" onClick={() => setIsMobileMenuOpen(false)} className="text-[28px] sm:text-[36px] font-black tracking-tight text-amber-400 hover:text-white transition-colors flex items-center gap-3 pt-2 border-t border-white/10">
+                      <Layers className="w-8 h-8" /> Mi Portal
+                    </Link>
+                  </motion.div>
+                  <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: (navLinks.length + 1) * 0.08 }}>
+                    <button onClick={() => { handleLogout(); setIsMobileMenuOpen(false); }} className="text-[28px] sm:text-[36px] font-black tracking-tight text-red-400 hover:text-white transition-colors flex items-center gap-3 cursor-pointer">
+                      <LogOut className="w-8 h-8" /> Cerrar Sesion
+                    </button>
+                  </motion.div>
+                </>
+              ) : (
+                <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: navLinks.length * 0.08 }}>
+                  <Link
+                    to="/login"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="text-[28px] sm:text-[36px] font-black tracking-tight text-amber-400 hover:text-white transition-colors flex items-center gap-3 pt-2 border-t border-white/10"
+                  >
+                    <User className="w-8 h-8" /> Login Cliente
+                  </Link>
+                </motion.div>
+              )}
             </div>
 
             <div className="mt-auto space-y-6 pt-6 border-t border-white/10">
