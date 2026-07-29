@@ -1332,6 +1332,147 @@ async function startServer() {
     }
   });
 
+  // ==========================================
+  // CHAT MESSAGING & AI ASSISTANT SYSTEM
+  // ==========================================
+  const generateContextualSupportReply = async (clientUser: any, userText: string) => {
+    try {
+      const apiKey = process.env.GEMINI_API_KEY;
+      if (apiKey) {
+        const ai = new GoogleGenAI({ apiKey });
+        const prompt = `Eres el Asistente Técnico Inteligente WaaS de Chamba Digital.
+Cliente: ${clientUser?.name || "Cliente"} (${clientUser?.company || "Empresa"})
+Plan Contratado: ${clientUser?.plan || "Web Tradicional"}
+Sitio Web / URL: ${clientUser?.deployedUrl || "En desarrollo"}
+Mensaje del cliente: "${userText}"
+
+Responde en español de forma profesional, empática, ágil y totalmente contextualizada. Confírmale que su requerimiento ha sido registrado en nuestro sistema Kanban WaaS para que nuestro equipo lo ejecute. No uses frases prefabricadas o genéricas. Sé conciso y claro (máximo 3 párrafos cortos).`;
+
+        const response = await ai.models.generateContent({
+          model: "gemini-2.5-flash",
+          contents: prompt,
+        });
+
+        const replyText = response.text?.trim();
+        if (replyText) return replyText;
+      }
+    } catch (err: any) {
+      console.warn("[Gemini AI Support Response Warning]:", err.message);
+    }
+
+    return `¡Hola ${clientUser?.name || "Estimado cliente"}! Hemos registrado tu solicitud sobre "${userText.slice(0, 60)}${userText.length > 60 ? "..." : ""}" en nuestro tablero Kanban de desarrollo. Tu requerimiento será atendido por el equipo técnico según los tiempos de atención de tu plan (${clientUser?.plan || "Web Tradicional"}). Te notificaremos por este medio ante cualquier actualización.`;
+  };
+
+  // API: Get Chat Messages for Client
+  app.get("/api/messages/:clientId", requireAuth, async (req: any, res) => {
+    try {
+      const { clientId } = req.params;
+      let messages: any[] = [];
+      if (isMongoConnected) {
+        messages = await MessageModel.find({ clientId, isDeleted: { $ne: true } }).sort({ createdAt: 1 });
+      } else {
+        messages = inMemoryMessages.filter((m: any) => m.clientId === clientId && !m.isDeleted);
+      }
+      res.json({ success: true, messages });
+    } catch (e: any) {
+      res.status(500).json({ error: "Error obteniendo mensajes.", details: e.message });
+    }
+  });
+
+  // API: Send Chat Message & Trigger AI Response
+  app.post("/api/messages", requireAuth, async (req: any, res) => {
+    try {
+      const { clientId, sender, text, fileUrl, fileType, fileName } = req.body || {};
+      const targetClientId = clientId || req.user?.userId || req.user?.id;
+      if (!targetClientId || (!text && !fileUrl)) {
+        return res.status(400).json({ error: "clientId y contenido del mensaje son requeridos." });
+      }
+
+      const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+      const userMessageData = {
+        clientId: targetClientId,
+        sender: sender || "client",
+        text: text || "",
+        fileUrl: fileUrl || "",
+        fileType: fileType || "",
+        fileName: fileName || "",
+        timestamp,
+        createdAt: new Date()
+      };
+
+      let savedUserMessage: any;
+      if (isMongoConnected) {
+        savedUserMessage = await MessageModel.create(userMessageData);
+      } else {
+        savedUserMessage = { id: `m_${Date.now()}`, ...userMessageData };
+        inMemoryMessages.push(savedUserMessage);
+      }
+
+      // Fetch client profile for rich context
+      let clientUser: any = null;
+      if (isMongoConnected) {
+        clientUser = await UserModel.findById(targetClientId);
+      } else {
+        clientUser = Object.values(inMemoryUsers).find((u: any) => u._id === targetClientId || u.id === targetClientId || u.email === "demo@chamba.digital");
+      }
+
+      // If message is from client, trigger task creation + email alert + AI Assistant reply
+      if (sender === "client" || !sender) {
+        const taskText = text || `[Archivo] ${fileName}`;
+        const newTaskData = {
+          clientId: targetClientId,
+          title: taskText.length > 50 ? taskText.slice(0, 50) + "..." : taskText,
+          description: taskText,
+          status: "backlog",
+          priority: "media",
+          createdAt: new Date().toLocaleString(),
+          requestOrigin: "Chat del Cliente"
+        };
+
+        if (isMongoConnected) {
+          await TaskModel.create(newTaskData);
+        } else {
+          inMemoryTasks.push({ id: `t_${Date.now()}`, ...newTaskData });
+        }
+
+        // Send email alert to admin (contacto@chamba.digital)
+        sendPageChangeRequestEmail({
+          clientName: clientUser?.name || req.user?.name || "Cliente WaaS",
+          clientEmail: clientUser?.email || req.user?.email || "contacto@chamba.digital",
+          company: clientUser?.company,
+          taskTitle: newTaskData.title,
+          description: taskText,
+          requestOrigin: "Chat del Cliente"
+        }).catch(err => console.warn("[Message Email Alert Warning]:", err.message));
+
+        // Generate contextual AI response (avoiding canned replies!)
+        const replyContent = await generateContextualSupportReply(clientUser, taskText);
+        const aiReplyData = {
+          clientId: targetClientId,
+          sender: "admin",
+          text: replyContent,
+          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          createdAt: new Date()
+        };
+
+        let savedReply: any;
+        if (isMongoConnected) {
+          savedReply = await MessageModel.create(aiReplyData);
+        } else {
+          savedReply = { id: `m_reply_${Date.now()}`, ...aiReplyData };
+          inMemoryMessages.push(savedReply);
+        }
+
+        return res.json({ success: true, message: savedUserMessage, reply: savedReply });
+      }
+
+      res.json({ success: true, message: savedUserMessage });
+    } catch (e: any) {
+      res.status(500).json({ error: "Error enviando mensaje.", details: e.message });
+    }
+  });
+
   // API: Capture live thumbnail from deployed URL
   app.post("/api/capture-thumbnail", requireAuth, captureLimiter, async (req: any, res) => {
     try {

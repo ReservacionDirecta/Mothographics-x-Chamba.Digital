@@ -377,23 +377,15 @@ export default function UserPortal() {
     };
 
     setChatMessages(prev => [...prev, userMsg]);
+    const currentText = newMessageText;
     setNewMessageText("");
     setPendingFile(null);
 
-    const taskText = newMessageText.trim() || `[Archivo] ${fileName}`;
-    const newTask = {
-      id: `t_${Date.now()}`,
-      title: taskText.length > 50 ? taskText.slice(0, 50) + "..." : taskText,
-      description: taskText,
-      status: "backlog",
-      priority: "media",
-      date: "Ahora"
-    };
-    setClientTasks(prev => [newTask, ...prev]);
+    const taskText = currentText.trim() || `[Archivo] ${fileName}`;
 
     try {
       if (token && token !== "mock_demo_jwt_token") {
-        await fetch("/api/messages", {
+        const res = await fetch("/api/messages", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -402,12 +394,26 @@ export default function UserPortal() {
           body: JSON.stringify({
             clientId: user?.id,
             sender: "client",
-            text: newMessageText,
+            text: currentText,
             fileUrl,
             fileType,
             fileName,
           }),
         });
+        const data = await res.json();
+        if (data.reply) {
+          setChatMessages(prev => [
+            ...prev,
+            {
+              id: data.reply.id || `m_reply_${Date.now()}`,
+              sender: "admin",
+              text: data.reply.text,
+              time: data.reply.timestamp || new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            }
+          ]);
+          if (user?.id) fetchClientData(user.id);
+          return;
+        }
       }
     } catch (err) {
       console.warn("Failed to send message to API:", err);
@@ -419,11 +425,11 @@ export default function UserPortal() {
         {
           id: `m_reply_${Date.now()}`,
           sender: "admin",
-          text: "Solicitud recibida! Se ha generado automaticamente una tarea en el panel Super Admin para que nuestro equipo la ejecute.",
+          text: `¡Hola ${user?.name || "Cliente"}! Hemos registrado tu solicitud "${taskText.slice(0, 40)}${taskText.length > 40 ? "..." : ""}" en nuestro flujo Kanban WaaS. Un desarrollador la atenderá según la prioridad de tu plan ${user?.plan || "Web Tradicional"}.`,
           time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
         }
       ]);
-    }, 1000);
+    }, 800);
   };
 
   const handleSaveProjectInfo = async (e: React.FormEvent) => {
@@ -786,7 +792,48 @@ export default function UserPortal() {
 
             {/* TAB 3: LIVE CHAT */}
             {activeTab === "chat" && (
-              <div className="bg-white border border-slate-200 rounded-2xl shadow-xl overflow-hidden flex flex-col h-[480px] sm:h-[500px]">
+              <div className="space-y-4">
+                {/* Live Support Metrics & SLA Banner */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-slate-900 text-white p-3.5 sm:p-4 rounded-2xl border border-slate-800 shadow-md">
+                  <div className="flex items-center gap-2.5">
+                    <div className="p-2 bg-blue-500/20 text-blue-400 rounded-xl">
+                      <Zap className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <span className="text-[10px] font-bold text-slate-400 uppercase block">Respuesta SLA</span>
+                      <span className="text-xs sm:text-sm font-black text-emerald-400">&lt; 15 min</span>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2.5">
+                    <div className="p-2 bg-purple-500/20 text-purple-400 rounded-xl">
+                      <CheckCircle2 className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <span className="text-[10px] font-bold text-slate-400 uppercase block">Resolución WaaS</span>
+                      <span className="text-xs sm:text-sm font-black text-white">98.5% Éxito</span>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2.5">
+                    <div className="p-2 bg-amber-500/20 text-amber-400 rounded-xl">
+                      <MessageSquare className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <span className="text-[10px] font-bold text-slate-400 uppercase block">Interacciones</span>
+                      <span className="text-xs sm:text-sm font-black text-white">{chatMessages.length} Mensajes</span>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2.5">
+                    <div className="p-2 bg-emerald-500/20 text-emerald-400 rounded-xl">
+                      <Clock className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <span className="text-[10px] font-bold text-slate-400 uppercase block">Prioridad Plan</span>
+                      <span className="text-xs sm:text-sm font-black text-amber-400 uppercase truncate">{user.plan}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-white border border-slate-200 rounded-2xl shadow-xl overflow-hidden flex flex-col h-[480px] sm:h-[500px]">
                 <div className="bg-slate-900 text-white p-4 px-4 sm:px-6 flex items-center justify-between">
                   <div className="flex items-center gap-3 min-w-0">
                     <div className="relative shrink-0">
@@ -870,7 +917,8 @@ export default function UserPortal() {
                   </button>
                 </form>
               </div>
-            )}
+            </div>
+          )}
           </div>
         ) : view === "select_plan" ? (
           /* VISTA INTERCEPTOR DE PAGO / SELECTOR DE PLAN POLAR */
