@@ -16,7 +16,12 @@ import {
   Sparkles,
   Server,
   Layers,
-  MessageSquare
+  MessageSquare,
+  Paperclip,
+  Image,
+  Video,
+  FileAudio,
+  File
 } from "lucide-react";
 import { ChambaNavbar, ChambaFooter } from "../App";
 
@@ -50,6 +55,11 @@ export default function UserPortal() {
     githubRepo: "",
   });
   const [savingProject, setSavingProject] = useState(false);
+
+  // File upload state for chat
+  const [uploading, setUploading] = useState(false);
+  const [pendingFile, setPendingFile] = useState<{ url: string; type: string; name: string } | null>(null);
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
 
   const navigate = useNavigate();
 
@@ -93,6 +103,9 @@ export default function UserPortal() {
           id: m.id || m._id,
           sender: m.sender,
           text: m.text,
+          fileUrl: m.fileUrl || "",
+          fileType: m.fileType || "",
+          fileName: m.fileName || "",
           time: m.timestamp,
         })));
       }
@@ -100,8 +113,9 @@ export default function UserPortal() {
         setClientTasks(taskData.tasks.map((t: any) => ({
           id: t.id || t._id,
           title: t.title,
-          status: t.status === "en_progreso" ? "en_progreso" : t.status === "completado" ? "completado" : "en_progreso",
-          priority: t.priority,
+          description: t.description || "",
+          status: t.status,
+          priority: t.priority || "media",
           date: t.createdAt,
         })));
       }
@@ -252,32 +266,67 @@ export default function UserPortal() {
 
   // (chat/tasks/activeTab state is declared at the top of the component to avoid hoisting issues)
 
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    const token = localStorage.getItem("chamba_user_token");
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        headers: token && token !== "mock_demo_jwt_token" ? { Authorization: `Bearer ${token}` } : {},
+        body: formData,
+      });
+      const data = await res.json();
+      if (res.ok && data.file) {
+        setPendingFile(data.file);
+      } else {
+        alert(data.error || "Error subiendo archivo");
+      }
+    } catch {
+      alert("Error de conexion al subir archivo");
+    } finally {
+      setUploading(false);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    }
+  };
+
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newMessageText.trim()) return;
+    if (!newMessageText.trim() && !pendingFile) return;
 
     const token = localStorage.getItem("chamba_user_token");
-    const userMsg = {
+    const fileUrl = pendingFile?.url || "";
+    const fileType = pendingFile?.type || "";
+    const fileName = pendingFile?.name || "";
+
+    const userMsg: any = {
       id: `m_${Date.now()}`,
       sender: "client",
       text: newMessageText,
+      fileUrl,
+      fileType,
+      fileName,
       time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     };
 
     setChatMessages(prev => [...prev, userMsg]);
     setNewMessageText("");
+    setPendingFile(null);
 
-    // Create automatically a new pending task for client
+    const taskText = newMessageText.trim() || `[Archivo] ${fileName}`;
     const newTask = {
       id: `t_${Date.now()}`,
-      title: newMessageText.length > 50 ? newMessageText.slice(0, 50) + "..." : newMessageText,
-      status: "en_progreso",
-      priority: "alta",
+      title: taskText.length > 50 ? taskText.slice(0, 50) + "..." : taskText,
+      description: taskText,
+      status: "backlog",
+      priority: "media",
       date: "Ahora"
     };
     setClientTasks(prev => [newTask, ...prev]);
 
-    // Send to backend API
     try {
       if (token && token !== "mock_demo_jwt_token") {
         await fetch("/api/messages", {
@@ -290,6 +339,9 @@ export default function UserPortal() {
             clientId: user?.id,
             sender: "client",
             text: newMessageText,
+            fileUrl,
+            fileType,
+            fileName,
           }),
         });
       }
@@ -297,14 +349,13 @@ export default function UserPortal() {
       console.warn("Failed to send message to API:", err);
     }
 
-    // Simulated Auto-response from Admin
     setTimeout(() => {
       setChatMessages(prev => [
         ...prev,
         {
           id: `m_reply_${Date.now()}`,
           sender: "admin",
-          text: "¡Solicitud recibida! Se ha generado automáticamente una tarea en el panel Super Admin para que nuestro equipo la ejecute.",
+          text: "Solicitud recibida! Se ha generado automaticamente una tarea en el panel Super Admin para que nuestro equipo la ejecute.",
           time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
         }
       ]);
@@ -604,95 +655,6 @@ export default function UserPortal() {
               </div>
             )}
 
-            {/* TAB: PROJECT INFO */}
-            {activeTab === "project" && (
-              <div className="bg-white border border-slate-200 rounded-[24px] p-6 sm:p-8 space-y-6 shadow-md">
-                <div className="flex justify-between items-center">
-                  <div>
-                    <h2 className="text-[20px] font-black text-slate-900">Información del Proyecto</h2>
-                    <p className="text-[13px] text-slate-500">Mantén actualizado el contexto técnico de tu sitio para que el equipo pueda trabajar eficientemente.</p>
-                  </div>
-                </div>
-
-                <form onSubmit={handleSaveProjectInfo} className="space-y-5">
-                  <div>
-                    <label className="block text-[11px] font-extrabold text-slate-700 uppercase mb-1">Descripción del Proyecto</label>
-                    <textarea
-                      value={user?.projectDescription || ""}
-                      onChange={(e) => setUser(prev => prev ? { ...prev, projectDescription: e.target.value } : null)}
-                      rows={4}
-                      className="w-full bg-slate-50 border border-slate-200 focus:border-accent rounded-xl px-4 py-3 text-[13px] text-slate-900 outline-none"
-                      placeholder="Describe tu proyecto: objetivos, funcionalidades clave, público objetivo..."
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-[11px] font-extrabold text-slate-700 uppercase mb-1">URL del Sitio Desplegado</label>
-                    <input
-                      type="url"
-                      value={user?.deployedUrl || ""}
-                      onChange={(e) => setUser(prev => prev ? { ...prev, deployedUrl: e.target.value } : null)}
-                      className="w-full bg-slate-50 border border-slate-200 focus:border-accent rounded-xl px-4 py-3 text-[13px] text-slate-900 outline-none"
-                      placeholder="https://tusitio.com"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-[11px] font-extrabold text-slate-700 uppercase mb-1">URL Miniatura / Thumbnail (opcional)</label>
-                    <input
-                      type="url"
-                      value={user?.thumbnailUrl || ""}
-                      onChange={(e) => setUser(prev => prev ? { ...prev, thumbnailUrl: e.target.value } : null)}
-                      className="w-full bg-slate-50 border border-slate-200 focus:border-accent rounded-xl px-4 py-3 text-[13px] text-slate-900 outline-none"
-                      placeholder="https://tusitio.com/og-image.jpg (para preview en panel admin)"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-[11px] font-extrabold text-slate-700 uppercase mb-1">Stack Tecnológico</label>
-                    <input
-                      type="text"
-                      value={user?.techStack || ""}
-                      onChange={(e) => setUser(prev => prev ? { ...prev, techStack: e.target.value } : null)}
-                      className="w-full bg-slate-50 border border-slate-200 focus:border-accent rounded-xl px-4 py-3 text-[13px] text-slate-900 outline-none"
-                      placeholder="React, Node.js, PostgreSQL, Tailwind, Railway..."
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-[11px] font-extrabold text-slate-700 uppercase mb-1">Repositorio GitHub (opcional)</label>
-                    <input
-                      type="url"
-                      value={user?.githubRepo || ""}
-                      onChange={(e) => setUser(prev => prev ? { ...prev, githubRepo: e.target.value } : null)}
-                      className="w-full bg-slate-50 border border-slate-200 focus:border-accent rounded-xl px-4 py-3 text-[13px] text-slate-900 outline-none"
-                      placeholder="https://github.com/tu-usuario/tu-repo"
-                    />
-                  </div>
-
-                  {user?.thumbnailUrl && (
-                    <div className="p-4 bg-slate-50 rounded-xl border border-slate-200">
-                      <p className="text-[11px] font-bold text-slate-700 mb-2">Vista previa miniatura:</p>
-                      <img
-                        src={user.thumbnailUrl}
-                        alt="Thumbnail"
-                        className="max-w-xs h-auto rounded-lg border border-slate-200 shadow-sm"
-                        onError={(e) => { e.currentTarget.style.display = 'none'; }}
-                      />
-                    </div>
-                  )}
-
-                  <button
-                    type="submit"
-                    disabled={savingProject}
-                    className="w-full bg-slate-900 hover:bg-slate-800 text-white font-black py-3 rounded-xl text-[13px] uppercase tracking-wider transition-all shadow-md cursor-pointer disabled:opacity-50"
-                  >
-                    {savingProject ? "Guardando..." : "Guardar Cambios"}
-                  </button>
-                </form>
-              </div>
-            )}
-
             {/* TAB 3: LIVE CHAT */}
             {activeTab === "chat" && (
               <div className="bg-white border border-slate-200 rounded-[24px] shadow-xl overflow-hidden flex flex-col h-[500px]">
@@ -705,8 +667,8 @@ export default function UserPortal() {
                       <span className="w-2.5 h-2.5 bg-emerald-500 border-2 border-slate-900 rounded-full absolute bottom-0 right-0" />
                     </div>
                     <div>
-                      <h4 className="font-bold text-[14px] leading-tight">Soporte Técnico Chamba Digital</h4>
-                      <p className="text-[11px] text-slate-300">Respuesta en menos de 1 hora · WaaS Activo</p>
+                      <h4 className="font-bold text-[14px] leading-tight">Soporte Tecnico Chamba Digital</h4>
+                      <p className="text-[11px] text-slate-300">Respuesta en menos de 1 hora - WaaS Activo</p>
                     </div>
                   </div>
                   <span className="bg-emerald-500/20 text-emerald-300 text-[10px] font-black uppercase px-2.5 py-1 rounded-full border border-emerald-500/30">
@@ -715,36 +677,65 @@ export default function UserPortal() {
                 </div>
 
                 <div className="flex-1 p-6 overflow-y-auto space-y-4 bg-slate-50">
-                  {chatMessages.map((msg) => (
+                  {chatMessages.map((msg: any) => (
                     <div
                       key={msg.id}
                       className={`flex flex-col ${msg.sender === "client" ? "items-end" : "items-start"}`}
                     >
                       <div
-                        className={`max-w-[80%] p-4 rounded-2xl text-[13px] leading-relaxed font-medium shadow-sm ${
+                        className={`max-w-[80%] rounded-2xl text-[13px] leading-relaxed font-medium shadow-sm ${
                           msg.sender === "client"
                             ? "bg-accent text-white rounded-br-none"
                             : "bg-white text-slate-800 border border-slate-200 rounded-bl-none"
                         }`}
                       >
-                        {msg.text}
+                        {msg.text && <div className="p-4">{msg.text}</div>}
+                        {msg.fileUrl && (
+                          <div className={msg.text ? "border-t border-current/10 px-4 py-2" : "p-4"}>
+                            {msg.fileType?.startsWith("image/") ? (
+                              <img src={msg.fileUrl} alt={msg.fileName} className="max-w-[200px] max-h-[200px] rounded-lg object-cover cursor-pointer" onClick={() => window.open(msg.fileUrl, "_blank")} />
+                            ) : msg.fileType?.startsWith("video/") ? (
+                              <video src={msg.fileUrl} controls className="max-w-[200px] max-h-[200px] rounded-lg" />
+                            ) : msg.fileType?.startsWith("audio/") ? (
+                              <audio src={msg.fileUrl} controls className="w-[180px]" />
+                            ) : (
+                              <a href={msg.fileUrl} target="_blank" rel="noopener noreferrer" className={`flex items-center gap-2 underline ${msg.sender === "client" ? "text-white" : "text-accent"}`}>
+                                <File className="w-4 h-4" /> {msg.fileName || "Archivo"}
+                              </a>
+                            )}
+                          </div>
+                        )}
+                        {!msg.text && !msg.fileUrl && <div className="p-4">[mensaje vacio]</div>}
                       </div>
                       <span className="text-[10px] text-slate-400 font-bold mt-1 px-1">{msg.time}</span>
                     </div>
                   ))}
                 </div>
 
-                <form onSubmit={handleSendMessage} className="p-4 bg-white border-t border-slate-200 flex gap-3">
+                {pendingFile && (
+                  <div className="px-4 py-2 bg-accent/5 border-t border-slate-200 flex items-center gap-2">
+                    <Paperclip className="w-3.5 h-3.5 text-accent" />
+                    <span className="text-[12px] text-slate-700 font-medium truncate">{pendingFile.name}</span>
+                    <button type="button" onClick={() => setPendingFile(null)} className="text-red-500 text-[11px] font-bold ml-auto cursor-pointer">x</button>
+                  </div>
+                )}
+
+                <form onSubmit={handleSendMessage} className="p-4 bg-white border-t border-slate-200 flex gap-3 items-center">
+                  <input ref={fileInputRef} type="file" accept="image/*,video/*,audio/*,.pdf" className="hidden" onChange={handleFileUpload} />
+                  <button type="button" onClick={() => fileInputRef.current?.click()} disabled={uploading} className="p-3 text-slate-400 hover:text-accent transition-colors cursor-pointer disabled:opacity-50" title="Adjuntar archivo">
+                    {uploading ? <span className="w-4 h-4 border-2 border-accent border-t-transparent rounded-full animate-spin inline-block" /> : <Paperclip className="w-4 h-4" />}
+                  </button>
                   <input
                     type="text"
-                    placeholder="Escribe tu solicitud o cambio técnico..."
+                    placeholder="Escribe tu solicitud o cambio tecnico..."
                     value={newMessageText}
                     onChange={(e) => setNewMessageText(e.target.value)}
                     className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-[13px] outline-none focus:border-accent"
                   />
                   <button
                     type="submit"
-                    className="bg-accent hover:bg-accent/90 text-white px-6 py-3 rounded-xl font-bold text-[13px] uppercase tracking-wider cursor-pointer transition-all shadow-md shrink-0"
+                    disabled={!newMessageText.trim() && !pendingFile}
+                    className="bg-accent hover:bg-accent/90 text-white px-6 py-3 rounded-xl font-bold text-[13px] uppercase tracking-wider cursor-pointer transition-all shadow-md shrink-0 disabled:opacity-50"
                   >
                     Enviar
                   </button>

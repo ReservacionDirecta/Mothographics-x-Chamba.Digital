@@ -1,0 +1,202 @@
+version: "2"
+type: frontend
+tech_stack:
+  - language: TypeScript
+  - framework: React 19
+  - ui_library: Tailwind CSS 4
+  - build_tool: Vite 6
+  - routing: React Router DOM 7
+  - animation: Motion (Framer Motion) 12
+  - icons: Lucide React
+  - api_client: fetch API
+  - ai: Google GenAI (Gemini 2.5 Flash Lite)
+routes:
+  - path: /
+    file: src/App.tsx
+    auth_required: false
+    description: Landing page with Hero, Services, Portfolio, Pricing, FAQ, Chatbot
+  - path: /hotels
+    file: src/pages/LandingPage/Hotels.tsx
+    auth_required: false
+    description: Hospitality-focused landing page with Sirvoy PMS integration
+  - path: /ecommerce
+    file: src/pages/LandingPage/ECommerce.tsx
+    auth_required: false
+    description: E-commerce landing page with ROAS metrics
+  - path: /servicebusinesses
+    file: src/pages/LandingPage/ServiceBusinesses.tsx
+    auth_required: false
+    description: B2B service businesses landing page
+  - path: /hospitality-solutions
+    file: src/pages/LandingPage/HospitalitySolutions.tsx
+    auth_required: false
+    description: Deep-dive hospitality page with ROI calculator
+  - path: /sorteo
+    file: src/pages/RaffleLandingPage/RafflePage.tsx
+    auth_required: false
+    description: Raffle landing page with prizes, Google Maps, WhatsApp form
+  - path: /raffle
+    file: src/pages/RaffleLandingPage/RafflePage.tsx
+    auth_required: false
+    description: English version of raffle page
+  - path: /portfolio
+    file: src/pages/PortfolioPage.tsx
+    auth_required: false
+    description: Portfolio page with case studies
+  - path: /services
+    file: src/pages/ServicesPage.tsx
+    auth_required: false
+    description: Services overview page
+  - path: /methodology
+    file: src/pages/MethodologyPage.tsx
+    auth_required: false
+    description: Methodology page
+  - path: /terms
+    file: src/pages/TermsPage.tsx
+    auth_required: false
+    description: Terms of service
+  - path: /privacy
+    file: src/pages/PrivacyPage.tsx
+    auth_required: false
+    description: Privacy policy
+  - path: /dashboard
+    file: src/pages/UserPortal.tsx
+    auth_required: true
+    description: User portal with Overview, Project Context, Requests, Chat tabs
+  - path: /admin
+    file: src/pages/SuperAdminDashboard.tsx
+    auth_required: true
+    description: Super Admin dashboard with Overview, Clients, Kanban, Chat tabs
+features:
+  - name: AI Chatbot
+    description: Floating chatbot powered by Gemini 2.5 Flash Lite with WhatsApp deep linking
+    files:
+      - src/App.tsx (Chatbot component)
+      - server.ts (/api/chat endpoint)
+    entry_route: /
+    user_interactions:
+      - Click floating action button to open chat modal
+      - Type message in input field
+      - Send message via Enter or Send button
+      - Click WhatsApp CTA to continue conversation on WhatsApp
+    api_calls:
+      - method: POST
+        endpoint: /api/chat
+    auth_required: false
+  - name: Raffle Landing Page
+    description: Raffle page with 3 prizes, countdown, Google Maps, WhatsApp form, JSON-LD schema
+    files:
+      - src/pages/RaffleLandingPage/RafflePage.tsx
+    entry_route: /sorteo
+    user_interactions:
+      - View hero section with countdown timer
+      - Read prize cards (Landing Page, 50% discount, 1hr consultation)
+      - View terms and conditions
+      - Click Google Maps link
+      - Fill WhatsApp form with name, email, phone
+      - Submit form via WhatsApp deep link
+    api_calls: []
+    auth_required: false
+  - name: User Portal (Client Dashboard)
+    description: Authenticated client area with project context, requests, and chat with admin
+    files:
+      - src/pages/UserPortal.tsx
+    entry_route: /dashboard
+    user_interactions:
+      - Login with email/password (demo@chamba.digital / demo123456)
+      - View Overview tab with project stats
+      - Edit Project Context: description, deployed URL, thumbnail, tech stack, GitHub repo
+      - Save project info (calls PUT /api/users/:id/project-info)
+      - View Requests tab with Kanban board
+      - Chat with admin in Chat tab (sends messages via POST /api/messages)
+    api_calls:
+      - method: GET
+        endpoint: /api/auth/me
+      - method: GET
+        endpoint: /api/messages/:clientId
+      - method: POST
+        endpoint: /api/messages
+      - method: PUT
+        endpoint: /api/users/:id/project-info
+      - method: GET
+        endpoint: /api/tasks/:clientId
+      - method: PATCH
+        endpoint: /api/tasks/:id/status
+    auth_required: true
+  - name: Super Admin Dashboard
+    description: Admin panel to manage clients, tasks, and chat
+    files:
+      - src/pages/SuperAdminDashboard.tsx
+    entry_route: /admin
+    user_interactions:
+      - Login with password (chamba2026 or admin)
+      - View Overview tab with metrics
+      - View Clients tab with client cards (edit button opens modal)
+      - Edit client details including project context fields
+      - View Kanban board with drag-and-drop task management
+      - Chat with clients in Chat tab
+      - Create tasks from chat messages
+      - Move tasks between columns (Backlog, In Progress, Review, Done)
+    api_calls:
+      - method: POST
+        endpoint: /api/auth/login
+      - method: GET
+        endpoint: /api/admin/clients
+      - method: GET
+        endpoint: /api/admin/clients/:id
+      - method: PUT
+        endpoint: /api/admin/clients/:id
+      - method: GET
+        endpoint: /api/messages/:clientId
+      - method: POST
+        endpoint: /api/messages
+      - method: GET
+        endpoint: /api/tasks
+      - method: POST
+        endpoint: /api/tasks
+      - method: PATCH
+        endpoint: /api/tasks/:id/status
+    auth_required: true
+  - name: Lead Capture (Checklist)
+    description: Exit-intent modal offering PDF checklist in exchange for email
+    files:
+      - src/App.tsx (ExitIntentModal component)
+      - server.ts (/api/send-checklist endpoint)
+    entry_route: /
+    user_interactions:
+      - Modal triggers on exit intent
+      - Enter email address
+      - Submit form
+      - Download PDF checklist
+      - Click WhatsApp CTA
+    api_calls:
+      - method: POST
+        endpoint: /api/send-checklist
+    auth_required: false
+  - name: Hospitality ROI Calculator
+    description: Interactive ROI calculator with sliders for rooms, occupancy, ADR
+    files:
+      - src/pages/LandingPage/HospitalitySolutions.tsx
+    entry_route: /hospitality-solutions
+    user_interactions:
+      - Adjust sliders for rooms, occupancy rate, ADR
+      - View calculated metrics: monthly revenue, annual revenue, ROI
+      - View case study cards
+    api_calls: []
+    auth_required: false
+known_limitations:
+  - issue: MongoDB connection string not configured (uses in-memory fallback)
+    location: server.ts
+    impact: Auth and data persistence may not work in production without MongoDB URI
+  - issue: Admin authentication uses simple password check, not JWT
+    location: src/pages/SuperAdminDashboard.tsx
+    impact: Less secure for production use
+  - issue: No automated tests (unit, integration, or e2e)
+    location: N/A
+    impact: Cannot verify regressions automatically
+  - issue: Large bundle size (~900KB JS)
+    location: vite.config.ts / build output
+    impact: May affect initial load performance
+  - issue: Demo credentials hardcoded in multiple places
+    location: src/pages/UserPortal.tsx, src/pages/SuperAdminDashboard.tsx, server.ts
+    impact: Security risk if deployed without changing credentials

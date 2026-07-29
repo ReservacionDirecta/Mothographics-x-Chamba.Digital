@@ -1,0 +1,19 @@
+{
+  "status": "commited",
+  "type": "frontend",
+  "scope": "codebase",
+  "localEndpoint": "http://localhost:3000/login",
+  "loginUser": "demo@chamba.digital",
+  "loginPassword": "demo123456",
+  "executionArgs": {
+    "projectName": "Chamba.Digital",
+    "projectPath": "C:\\Users\\yerct\\Chamba.Digital",
+    "testIds": [],
+    "additionalInstruction": "Test landing page navigation, raffle page, user portal login, admin dashboard login, chat functionality",
+    "serverMode": "development",
+    "envs": {
+      "API_KEY": "sk-user-GzYe1fPAwgfwkN6TJ_N4qepM9xv4aF01Pj3dFu7YwPgbD9oDR8bHW2rS_Y75t43RQgz49ZMsvAMySrP4JHxfCeHk2UiuTMBvAMKSLX89ldO9VplZsY7WJ_wnTtygo7h2JUU"
+    }
+  },
+  "serverPort": 58328
+}

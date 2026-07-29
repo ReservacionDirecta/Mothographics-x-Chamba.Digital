@@ -29,7 +29,9 @@ import {
   ExternalLink,
   Lock,
   LogOut,
-  Sparkles
+  Sparkles,
+  Paperclip,
+  File
 } from "lucide-react";
 
 // --- Types ---
@@ -64,6 +66,9 @@ export interface ChatMessage {
   clientId: string;
   sender: "client" | "admin" | "system";
   text: string;
+  fileUrl?: string;
+  fileType?: string;
+  fileName?: string;
   timestamp: string;
 }
 
@@ -167,9 +172,18 @@ export default function SuperAdminDashboard() {
   const [newTaskTitle, setNewTaskTitle] = useState("");
   const [showTaskModal, setShowTaskModal] = useState(false);
   const [showEditClientModal, setShowEditClientModal] = useState(false);
-  const [editingClient, setEditingClient] = useState<any>(null);
   const [editClientData, setEditClientData] = useState<any>(null);
   const [savingClient, setSavingClient] = useState(false);
+
+  // File upload state
+  const [adminUploading, setAdminUploading] = useState(false);
+  const [adminPendingFile, setAdminPendingFile] = useState<{ url: string; type: string; name: string } | null>(null);
+  const adminFileRef = React.useRef<HTMLInputElement>(null);
+
+  // Task modal state (enhanced)
+  const [newTaskDescription, setNewTaskDescription] = useState("");
+  const [newTaskPriority, setNewTaskPriority] = useState<"alta" | "media" | "baja">("media");
+  const [newTaskClientId, setNewTaskClientId] = useState("cli_1");
 
   // Simple admin token (kept in localStorage) to authenticate against backend endpoints
   const getAdminHeaders = (): HeadersInit => {
@@ -264,6 +278,9 @@ export default function SuperAdminDashboard() {
           clientId: m.clientId,
           sender: m.sender,
           text: m.text,
+          fileUrl: m.fileUrl || "",
+          fileType: m.fileType || "",
+          fileName: m.fileName || "",
           timestamp: m.timestamp,
         }));
         setMessages((prev) => {
@@ -300,20 +317,54 @@ export default function SuperAdminDashboard() {
     }
   }, [selectedClientId, isAuthenticated]);
 
+  const handleAdminFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setAdminUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        headers: getAdminHeaders(),
+        body: formData,
+      });
+      const data = await res.json();
+      if (res.ok && data.file) {
+        setAdminPendingFile(data.file);
+      } else {
+        alert(data.error || "Error subiendo archivo");
+      }
+    } catch {
+      alert("Error de conexion al subir archivo");
+    } finally {
+      setAdminUploading(false);
+      if (adminFileRef.current) adminFileRef.current.value = "";
+    }
+  };
+
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!chatInput.trim()) return;
-    const newMsg: ChatMessage = {
+    if (!chatInput.trim() && !adminPendingFile) return;
+
+    const fileUrl = adminPendingFile?.url || "";
+    const fileType = adminPendingFile?.type || "";
+    const fileName = adminPendingFile?.name || "";
+
+    const newMsg: any = {
       id: `msg_${Date.now()}`,
       clientId: selectedClientId,
       sender: "admin",
       text: chatInput,
+      fileUrl,
+      fileType,
+      fileName,
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     };
     setMessages([...messages, newMsg]);
     setChatInput("");
+    setAdminPendingFile(null);
 
-    // Send to backend
     const headers = getAdminHeaders();
     try {
       await fetch("/api/messages", {
@@ -323,6 +374,9 @@ export default function SuperAdminDashboard() {
           clientId: selectedClientId,
           sender: "admin",
           text: chatInput,
+          fileUrl,
+          fileType,
+          fileName,
         }),
       });
     } catch (err) {
@@ -374,34 +428,6 @@ export default function SuperAdminDashboard() {
       });
     } catch (err) {
       console.warn("Failed to update task status on backend:", err);
-    }
-  };
-
-  const handleSaveClient = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!editingClient) return;
-    setSavingClient(true);
-    const headers = getAdminHeaders();
-    try {
-      const res = await fetch(`/api/admin/clients/${editingClient.id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json", ...headers },
-        body: JSON.stringify(editingClient),
-      });
-      const data = await res.json();
-      if (res.ok && data.client) {
-        setClients(clients.map(c => c.id === editingClient.id ? data.client : c));
-        setShowEditClientModal(false);
-        setEditingClient(null);
-        alert("Cliente actualizado ✓");
-      } else {
-        alert(data.error || "Error actualizando cliente");
-      }
-    } catch (err) {
-      console.error(err);
-      alert("Error de conexión");
-    } finally {
-      setSavingClient(false);
     }
   };
 
@@ -686,27 +712,44 @@ export default function SuperAdminDashboard() {
                     <div className="space-y-3 flex-grow">
                       {tasks.filter(t => t.status === col.id).map((task) => {
                         const clientObj = clients.find(c => c.id === task.clientId);
+                        const priorityColor = task.priority === "alta" ? "text-red-400 bg-red-500/10" : task.priority === "baja" ? "text-emerald-400 bg-emerald-500/10" : "text-amber-400 bg-amber-500/10";
                         return (
                           <div key={task.id} className="bg-slate-950 border border-slate-800 p-4 rounded-xl space-y-2 hover:border-slate-700 transition-all shadow-md">
-                            <span className="text-[10px] font-bold text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded-full">
-                              {clientObj?.company || "Cliente"}
-                            </span>
+                            <div className="flex items-center justify-between">
+                              <span className="text-[10px] font-bold text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded-full">
+                                {clientObj?.company || "Cliente"}
+                              </span>
+                              <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${priorityColor}`}>
+                                {task.priority}
+                              </span>
+                            </div>
                             <h4 className="text-[13px] font-black text-white leading-tight">{task.title}</h4>
                             <p className="text-[11px] text-slate-400 leading-relaxed">{task.description}</p>
                             
-                            {/* Move controls */}
+                            {/* Move controls + Delete */}
                             <div className="pt-2 border-t border-slate-800/60 flex items-center justify-between text-[10px]">
                               <span className="text-slate-500">{task.createdAt}</span>
-                              <select
-                                value={task.status}
-                                onChange={(e) => handleMoveTaskStatus(task.id, e.target.value as any)}
-                                className="bg-slate-900 border border-slate-700 text-slate-300 rounded px-1.5 py-0.5 outline-none text-[10px]"
-                              >
-                                <option value="backlog">Backlog</option>
-                                <option value="en_progreso">En Progreso</option>
-                                <option value="revision">Revisión</option>
-                                <option value="completado">Completado</option>
-                              </select>
+                              <div className="flex items-center gap-2">
+                                <select
+                                  value={task.status}
+                                  onChange={(e) => handleMoveTaskStatus(task.id, e.target.value as any)}
+                                  className="bg-slate-900 border border-slate-700 text-slate-300 rounded px-1.5 py-0.5 outline-none text-[10px] cursor-pointer"
+                                >
+                                  <option value="backlog">Backlog</option>
+                                  <option value="en_progreso">En Progreso</option>
+                                  <option value="revision">Revision</option>
+                                  <option value="completado">Completado</option>
+                                </select>
+                                <button
+                                  onClick={() => {
+                                    setTasks(tasks.filter(t => t.id !== task.id));
+                                  }}
+                                  className="text-red-500/50 hover:text-red-400 transition-colors cursor-pointer"
+                                  title="Eliminar tarea"
+                                >
+                                  <Trash2 className="w-3.5 h-3.5" />
+                                </button>
+                              </div>
                             </div>
                           </div>
                         );
@@ -763,13 +806,29 @@ export default function SuperAdminDashboard() {
                         <div className={`p-4 rounded-2xl max-w-[80%] text-[13px] leading-relaxed ${
                           msg.sender === "admin" ? "bg-blue-600 text-white rounded-br-none" : "bg-slate-950 text-slate-200 border border-slate-800 rounded-bl-none"
                         }`}>
-                          {msg.text}
+                          {msg.text && <p>{msg.text}</p>}
+                          {(msg as any).fileUrl && (msg as any).fileType?.startsWith("image") && (
+                            <a href={(msg as any).fileUrl} target="_blank" rel="noopener noreferrer" className="block mt-2">
+                              <img src={(msg as any).fileUrl} alt={(msg as any).fileName || "image"} className="max-w-[280px] max-h-[200px] rounded-lg object-cover" />
+                            </a>
+                          )}
+                          {(msg as any).fileUrl && (msg as any).fileType?.startsWith("video") && (
+                            <video src={(msg as any).fileUrl} controls className="max-w-[280px] max-h-[200px] rounded-lg mt-2" />
+                          )}
+                          {(msg as any).fileUrl && (msg as any).fileType?.startsWith("audio") && (
+                            <audio src={(msg as any).fileUrl} controls className="w-full mt-2" />
+                          )}
+                          {(msg as any).fileUrl && !(msg as any).fileType?.startsWith("image") && !(msg as any).fileType?.startsWith("video") && !(msg as any).fileType?.startsWith("audio") && (
+                            <a href={(msg as any).fileUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 mt-2 text-blue-300 hover:underline text-[12px]">
+                              <File className="w-4 h-4" /> {(msg as any).fileName || "Archivo adjunto"}
+                            </a>
+                          )}
                           {msg.sender === "client" && (
                             <button
                               onClick={() => handleCreateTaskFromChat(msg.text)}
                               className="mt-3 flex items-center gap-1.5 text-[10px] font-bold text-amber-400 hover:underline bg-amber-400/10 px-2 py-1 rounded-md"
                             >
-                              <Plus className="w-3 h-3" /> Crear Tarea Kanban de esta Petición
+                              <Plus className="w-3 h-3" /> Crear Tarea Kanban de esta Peticion
                             </button>
                           )}
                         </div>
@@ -780,17 +839,42 @@ export default function SuperAdminDashboard() {
                 </div>
 
                 {/* Input Area */}
-                <form onSubmit={handleSendMessage} className="mt-4 pt-4 border-t border-slate-800 flex gap-3">
-                  <input
-                    type="text"
-                    placeholder="Escribe una respuesta o instrucción WaaS..."
-                    value={chatInput}
-                    onChange={(e) => setChatInput(e.target.value)}
-                    className="flex-grow bg-slate-950 border border-slate-800 focus:border-blue-500 rounded-xl px-4 py-3 text-[13px] text-white outline-none"
-                  />
-                  <button type="submit" className="bg-blue-600 hover:bg-blue-500 text-white font-bold px-5 py-3 rounded-xl flex items-center gap-2 cursor-pointer">
-                    <Send className="w-4 h-4" />
-                  </button>
+                <form onSubmit={handleSendMessage} className="mt-4 pt-4 border-t border-slate-800 space-y-3">
+                  {adminPendingFile && (
+                    <div className="flex items-center gap-3 bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-[12px] text-slate-300">
+                      <Paperclip className="w-4 h-4 text-blue-400" />
+                      <span className="truncate flex-1">{adminPendingFile.name}</span>
+                      <button type="button" onClick={() => setAdminPendingFile(null)} className="text-red-400 hover:text-red-300 font-bold cursor-pointer">x</button>
+                    </div>
+                  )}
+                  <div className="flex gap-3">
+                    <input
+                      ref={adminFileRef}
+                      type="file"
+                      accept="image/*,video/*,audio/*,.pdf"
+                      onChange={handleAdminFileUpload}
+                      className="hidden"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => adminFileRef.current?.click()}
+                      disabled={adminUploading}
+                      className="bg-slate-800 hover:bg-slate-700 text-white p-3 rounded-xl cursor-pointer disabled:opacity-50"
+                      title="Adjuntar archivo"
+                    >
+                      <Paperclip className="w-4 h-4" />
+                    </button>
+                    <input
+                      type="text"
+                      placeholder="Escribe una respuesta o instruccion WaaS..."
+                      value={chatInput}
+                      onChange={(e) => setChatInput(e.target.value)}
+                      className="flex-grow bg-slate-950 border border-slate-800 focus:border-blue-500 rounded-xl px-4 py-3 text-[13px] text-white outline-none"
+                    />
+                    <button type="submit" className="bg-blue-600 hover:bg-blue-500 text-white font-bold px-5 py-3 rounded-xl flex items-center gap-2 cursor-pointer">
+                      <Send className="w-4 h-4" />
+                    </button>
+                  </div>
                 </form>
               </div>
             </div>
@@ -798,39 +882,147 @@ export default function SuperAdminDashboard() {
         </main>
       </div>
 
-      {/* Simple Task Modal */}
+      {/* Enhanced Task Modal */}
       {showTaskModal && (
         <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4">
           <div className="bg-slate-900 border border-slate-800 p-6 rounded-2xl max-w-md w-full space-y-4">
             <h3 className="text-[18px] font-black text-white">Nueva Tarea WaaS</h3>
             <input
               type="text"
-              placeholder="Título de la tarea..."
+              placeholder="Titulo de la tarea..."
               value={newTaskTitle}
               onChange={(e) => setNewTaskTitle(e.target.value)}
               className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-[13px] text-white outline-none"
             />
+            <textarea
+              placeholder="Descripcion (opcional)..."
+              value={newTaskDescription}
+              onChange={(e) => setNewTaskDescription(e.target.value)}
+              rows={3}
+              className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-[13px] text-white outline-none resize-none"
+            />
+            <div className="flex gap-3">
+              <div className="flex-1">
+                <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Prioridad</label>
+                <select
+                  value={newTaskPriority}
+                  onChange={(e) => setNewTaskPriority(e.target.value as "alta" | "media" | "baja")}
+                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-[13px] text-white outline-none mt-1 cursor-pointer"
+                >
+                  <option value="alta">Alta</option>
+                  <option value="media">Media</option>
+                  <option value="baja">Baja</option>
+                </select>
+              </div>
+              <div className="flex-1">
+                <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Cliente</label>
+                <select
+                  value={newTaskClientId}
+                  onChange={(e) => setNewTaskClientId(e.target.value)}
+                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-[13px] text-white outline-none mt-1 cursor-pointer"
+                >
+                  {clients.map((c) => (
+                    <option key={c.id} value={c.id}>{c.name}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
             <div className="flex justify-end gap-3 pt-2">
-              <button onClick={() => setShowTaskModal(false)} className="text-slate-400 hover:text-white text-[12px] font-bold px-4 py-2">Cancelar</button>
+              <button onClick={() => { setShowTaskModal(false); setNewTaskTitle(""); setNewTaskDescription(""); }} className="text-slate-400 hover:text-white text-[12px] font-bold px-4 py-2 cursor-pointer">Cancelar</button>
               <button
                 onClick={() => {
                   if (newTaskTitle.trim()) {
-                    setTasks([...tasks, {
+                    const task: TaskItem = {
                       id: `task_${Date.now()}`,
-                      clientId: selectedClientId,
+                      clientId: newTaskClientId,
                       title: newTaskTitle,
-                      description: "Tarea manual creada desde el Dashboard Super Admin.",
+                      description: newTaskDescription || "Tarea creada desde el Dashboard Super Admin.",
                       status: "backlog",
-                      priority: "media",
-                      createdAt: new Date().toLocaleTimeString()
-                    }]);
+                      priority: newTaskPriority,
+                      createdAt: new Date().toLocaleString()
+                    };
+                    setTasks([...tasks, task]);
                     setNewTaskTitle("");
+                    setNewTaskDescription("");
                     setShowTaskModal(false);
                   }
                 }}
-                className="bg-blue-600 hover:bg-blue-500 text-white font-bold px-4 py-2 rounded-xl text-[12px]"
+                className="bg-blue-600 hover:bg-blue-500 text-white font-bold px-4 py-2 rounded-xl text-[12px] cursor-pointer"
               >
                 Crear Tarea
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Client Modal */}
+      {showEditClientModal && editClientData && (
+        <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4">
+          <div className="bg-slate-900 border border-slate-800 p-6 rounded-2xl max-w-lg w-full space-y-4 max-h-[90vh] overflow-y-auto">
+            <h3 className="text-[18px] font-black text-white">Editar Cliente</h3>
+            {editClientData.thumbnailUrl && (
+              <img src={editClientData.thumbnailUrl} alt="Preview" className="w-full h-32 object-cover rounded-xl mb-2" />
+            )}
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="text-[11px] font-bold text-slate-400 uppercase">Nombre</label>
+                <input type="text" value={editClientData.name} onChange={(e) => setEditClientData({ ...editClientData, name: e.target.value })} className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-[13px] text-white outline-none mt-1" />
+              </div>
+              <div>
+                <label className="text-[11px] font-bold text-slate-400 uppercase">Empresa</label>
+                <input type="text" value={editClientData.company} onChange={(e) => setEditClientData({ ...editClientData, company: e.target.value })} className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-[13px] text-white outline-none mt-1" />
+              </div>
+              <div>
+                <label className="text-[11px] font-bold text-slate-400 uppercase">Email</label>
+                <input type="email" value={editClientData.email} onChange={(e) => setEditClientData({ ...editClientData, email: e.target.value })} className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-[13px] text-white outline-none mt-1" />
+              </div>
+              <div>
+                <label className="text-[11px] font-bold text-slate-400 uppercase">Telefono</label>
+                <input type="tel" value={editClientData.phone || ""} onChange={(e) => setEditClientData({ ...editClientData, phone: e.target.value })} className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-[13px] text-white outline-none mt-1" />
+              </div>
+              <div>
+                <label className="text-[11px] font-bold text-slate-400 uppercase">Plan</label>
+                <select value={editClientData.plan} onChange={(e) => setEditClientData({ ...editClientData, plan: e.target.value })} className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-[13px] text-white outline-none mt-1 cursor-pointer">
+                  <option value="Landing Page">Landing Page</option>
+                  <option value="Business">Business</option>
+                  <option value="Elite + IA">Elite + IA</option>
+                  <option value="Plan Hoteles">Plan Hoteles</option>
+                </select>
+              </div>
+              <div>
+                <label className="text-[11px] font-bold text-slate-400 uppercase">Precio</label>
+                <input type="text" value={editClientData.price} onChange={(e) => setEditClientData({ ...editClientData, price: e.target.value })} className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-[13px] text-white outline-none mt-1" />
+              </div>
+              <div>
+                <label className="text-[11px] font-bold text-slate-400 uppercase">Estado del Proyecto</label>
+                <select value={editClientData.projectStatus || "pendiente"} onChange={(e) => setEditClientData({ ...editClientData, projectStatus: e.target.value })} className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-[13px] text-white outline-none mt-1 cursor-pointer">
+                  <option value="pendiente">Pendiente</option>
+                  <option value="en_progreso">En Progreso</option>
+                  <option value="completado">Completado</option>
+                </select>
+              </div>
+              <div>
+                <label className="text-[11px] font-bold text-slate-400 uppercase">URL Desplegue</label>
+                <input type="url" value={editClientData.deployedUrl || ""} onChange={(e) => setEditClientData({ ...editClientData, deployedUrl: e.target.value })} className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-[13px] text-white outline-none mt-1" placeholder="https://..." />
+              </div>
+            </div>
+            <div>
+              <label className="text-[11px] font-bold text-slate-400 uppercase">URL Thumbnail</label>
+              <input type="url" value={editClientData.thumbnailUrl || ""} onChange={(e) => setEditClientData({ ...editClientData, thumbnailUrl: e.target.value })} className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-[13px] text-white outline-none mt-1" placeholder="https://..." />
+            </div>
+            <div>
+              <label className="text-[11px] font-bold text-slate-400 uppercase">Descripcion del Proyecto</label>
+              <textarea value={editClientData.projectDescription || ""} onChange={(e) => setEditClientData({ ...editClientData, projectDescription: e.target.value })} rows={3} className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-[13px] text-white outline-none mt-1 resize-none" />
+            </div>
+            <div className="flex justify-end gap-3 pt-2">
+              <button onClick={() => { setShowEditClientModal(false); setEditClientData(null); }} className="text-slate-400 hover:text-white text-[12px] font-bold px-4 py-2 cursor-pointer">Cancelar</button>
+              <button
+                onClick={saveEditClient}
+                disabled={savingClient}
+                className="bg-blue-600 hover:bg-blue-500 text-white font-bold px-4 py-2 rounded-xl text-[12px] disabled:opacity-50 cursor-pointer"
+              >
+                {savingClient ? "Guardando..." : "Guardar Cambios"}
               </button>
             </div>
           </div>

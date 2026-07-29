@@ -13,6 +13,8 @@ import Redis from "ioredis";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
+import multer from "multer";
+
 dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
@@ -74,7 +76,10 @@ const UserModel = User as any;
 const messageSchema = new mongoose.Schema({
   clientId: { type: String, required: true },
   sender: { type: String, enum: ["client", "admin", "system"], required: true },
-  text: { type: String, required: true },
+  text: { type: String, default: "" },
+  fileUrl: { type: String, default: "" },
+  fileType: { type: String, default: "" },
+  fileName: { type: String, default: "" },
   timestamp: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
 });
@@ -160,6 +165,31 @@ async function startServer() {
   const PORT = Number(process.env.PORT || 3000);
 
   app.use(express.json());
+
+  // File upload setup
+  const uploadsDir = path.join(__dirname, "public", "uploads");
+  if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
+  app.use("/uploads", express.static(uploadsDir));
+
+  const storage = multer.diskStorage({
+    destination: (_req, _file, cb) => cb(null, uploadsDir),
+    filename: (_req, file, cb) => {
+      const ext = path.extname(file.originalname);
+      cb(null, `${Date.now()}_${Math.random().toString(36).slice(2, 8)}${ext}`);
+    },
+  });
+  const upload = multer({
+    storage,
+    limits: { fileSize: 50 * 1024 * 1024 },
+    fileFilter: (_req, file, cb) => {
+      const allowed = /^(image|video|audio|application\/pdf|text)/;
+      if (allowed.test(file.mimetype) || file.mimetype === "application/octet-stream") {
+        cb(null, true);
+      } else {
+        cb(new Error("Tipo de archivo no soportado."));
+      }
+    },
+  });
 
   // AUTH API: Register
   app.post("/api/auth/register", async (req, res) => {
@@ -337,6 +367,25 @@ async function startServer() {
     }
   };
 
+  // API: Upload file for chat
+  app.post("/api/upload", requireAuth, upload.single("file"), async (req: any, res) => {
+    try {
+      if (!req.file) return res.status(400).json({ error: "No se proporciono archivo." });
+      const fileUrl = `/uploads/${req.file.filename}`;
+      res.json({
+        success: true,
+        file: {
+          url: fileUrl,
+          type: req.file.mimetype,
+          name: req.file.originalname,
+          size: req.file.size,
+        },
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: "Error subiendo archivo.", details: e.message });
+    }
+  });
+
   // PUT /api/users/:id/project-info - Client updates their project context
   app.put("/api/users/:id/project-info", requireAuth, async (req: any, res) => {
     try {
@@ -495,17 +544,20 @@ async function startServer() {
   // API: Send a message (client or admin)
   app.post("/api/messages", requireAuth, async (req: any, res) => {
     try {
-      const { clientId, sender, text } = req.body;
+      const { clientId, sender, text, fileUrl, fileType, fileName } = req.body;
       const cId = clientId || req.user.userId;
       const senderRole = sender || "client";
-      if (!text || !text.trim()) {
-        return res.status(400).json({ error: "El texto del mensaje es obligatorio." });
+      if (!text?.trim() && !fileUrl) {
+        return res.status(400).json({ error: "El texto o archivo del mensaje es obligatorio." });
       }
 
       const newMsg: any = {
         clientId: cId,
         sender: senderRole,
-        text: text.trim(),
+        text: text?.trim() || "",
+        fileUrl: fileUrl || "",
+        fileType: fileType || "",
+        fileName: fileName || "",
         timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
       };
 
@@ -619,6 +671,22 @@ async function startServer() {
       res.json({ success: true, task: newTask });
     } catch (e: any) {
       res.status(500).json({ error: "Error creando tarea.", details: e.message });
+    }
+  });
+
+  // API: Admin - Delete a task
+  app.delete("/api/tasks/:taskId", requireAuth, async (req: any, res) => {
+    try {
+      const { taskId } = req.params;
+      if (isMongoConnected) {
+        await TaskModel.findByIdAndDelete(taskId);
+      } else {
+        const idx = inMemoryTasks.findIndex((t: any) => t.id === taskId);
+        if (idx !== -1) inMemoryTasks.splice(idx, 1);
+      }
+      res.json({ success: true });
+    } catch (e: any) {
+      res.status(500).json({ error: "Error eliminando tarea.", details: e.message });
     }
   });
 

@@ -1,0 +1,1250 @@
+[
+  {
+    "id": "TC001",
+    "title": "Log in and access the super admin dashboard",
+    "description": "This verifies that a super admin can log in and reach the admin overview with management controls.",
+    "category": "Super Admin Dashboard",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Open /admin"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the admin overview is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify client management controls are displayed"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC002",
+    "title": "Start a chatbot conversation from the landing page",
+    "description": "This verifies that a public visitor can open the chatbot, ask a question, and see an AI response in the chat window.",
+    "category": "AI Chatbot",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Click the chat assistant launcher"
+      },
+      {
+        "type": "action",
+        "description": "Type a question into the chat input"
+      },
+      {
+        "type": "action",
+        "description": "Send the message"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the chat conversation shows the user message and an AI response"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC003",
+    "title": "Log in and review the client dashboard overview",
+    "description": "This verifies that an authenticated client can log in and access the dashboard overview with project stats.",
+    "category": "Client Dashboard",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Open /dashboard"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the dashboard overview is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify project stats are displayed"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC004",
+    "title": "Open the chatbot and start a conversation from the homepage",
+    "description": "This verifies that a public visitor can open the AI chatbot on the homepage and send an initial question.",
+    "category": "Public Marketing Pages",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Open the chatbot"
+      },
+      {
+        "type": "action",
+        "description": "Type a question into the chatbot input"
+      },
+      {
+        "type": "action",
+        "description": "Send the chatbot message"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the conversation thread updates with the new message"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC005",
+    "title": "Access the admin overview after signing in",
+    "description": "This verifies an authenticated super admin can sign in and reach the overview dashboard with summary metrics visible.",
+    "category": "Super Admin Dashboard",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /admin"
+      },
+      {
+        "type": "action",
+        "description": "Enter the admin password with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the sign-in form"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the admin overview dashboard is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify summary metrics are visible"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC006",
+    "title": "Log in and update project context in the client portal",
+    "description": "This verifies that an authenticated client can access the dashboard and save updated project context successfully.",
+    "category": "Client Dashboard",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Navigate to /dashboard"
+      },
+      {
+        "type": "action",
+        "description": "Open the project context section"
+      },
+      {
+        "type": "action",
+        "description": "Update the project context details"
+      },
+      {
+        "type": "action",
+        "description": "Save the changes"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the updated project context is shown"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC007",
+    "title": "Send a message from the client dashboard chat",
+    "description": "This verifies that an authenticated client can send a message in the dashboard chat and see it appear in the conversation thread.",
+    "category": "Client Dashboard",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Open /dashboard"
+      },
+      {
+        "type": "action",
+        "description": "Open the chat area"
+      },
+      {
+        "type": "action",
+        "description": "Type a message into the chat input"
+      },
+      {
+        "type": "action",
+        "description": "Send the chat message"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the conversation thread updates with the new message"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC008",
+    "title": "Edit a client and move a task on the admin dashboard",
+    "description": "This verifies that a super admin can access the admin area, update a client, and move a task on the Kanban board.",
+    "category": "Super Admin Dashboard",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Navigate to /admin"
+      },
+      {
+        "type": "action",
+        "description": "Open the clients section"
+      },
+      {
+        "type": "action",
+        "description": "Edit a client detail"
+      },
+      {
+        "type": "action",
+        "description": "Save the client changes"
+      },
+      {
+        "type": "action",
+        "description": "Open the Kanban board"
+      },
+      {
+        "type": "action",
+        "description": "Move a task to a different status"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the updated client details and task position are shown"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC009",
+    "title": "Calculate hospitality revenue and ROI",
+    "description": "This verifies that a prospective hospitality client can adjust the calculator inputs and review updated revenue and ROI results.",
+    "category": "Hospitality ROI Calculator",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /hospitality-solutions"
+      },
+      {
+        "type": "action",
+        "description": "Adjust the rooms, occupancy, and ADR inputs to valid values"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the monthly revenue result is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the annual revenue and ROI results are displayed"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC010",
+    "title": "Update project context from the client dashboard",
+    "description": "This verifies that an authenticated client can edit project details in the dashboard and see the updated project information afterward.",
+    "category": "Client Dashboard",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Open /dashboard"
+      },
+      {
+        "type": "action",
+        "description": "Open the project context area"
+      },
+      {
+        "type": "action",
+        "description": "Update the project description with new valid content"
+      },
+      {
+        "type": "action",
+        "description": "Save the project context changes"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the updated project information is displayed"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC011",
+    "title": "Reply to a client in admin chat",
+    "description": "This verifies a super admin can send a message in client chat and see the conversation update with the new reply.",
+    "category": "Super Admin Dashboard",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /admin"
+      },
+      {
+        "type": "action",
+        "description": "Enter the admin password with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the sign-in form"
+      },
+      {
+        "type": "action",
+        "description": "Open the chat area"
+      },
+      {
+        "type": "action",
+        "description": "Select a client conversation"
+      },
+      {
+        "type": "action",
+        "description": "Type a reply into the message field"
+      },
+      {
+        "type": "action",
+        "description": "Send the message"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the conversation updates with the sent reply"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the latest message is visible in the chat thread"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC012",
+    "title": "Respond to a client message from the admin chat",
+    "description": "This verifies that a super admin can open the chat area, reply to a client message, and see the updated conversation thread.",
+    "category": "Super Admin Dashboard",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Open /admin"
+      },
+      {
+        "type": "action",
+        "description": "Open the chat area"
+      },
+      {
+        "type": "action",
+        "description": "Type a reply into the chat input"
+      },
+      {
+        "type": "action",
+        "description": "Send the chat message"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the conversation thread updates with the reply"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC013",
+    "title": "Continue a chatbot conversation on WhatsApp",
+    "description": "This verifies that a public visitor can move from the chatbot to the WhatsApp handoff after starting a conversation.",
+    "category": "AI Chatbot",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Click the chat assistant launcher"
+      },
+      {
+        "type": "action",
+        "description": "Type a question into the chat input"
+      },
+      {
+        "type": "action",
+        "description": "Send the message"
+      },
+      {
+        "type": "action",
+        "description": "Click the WhatsApp option"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the WhatsApp handoff is initiated"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC014",
+    "title": "Move a task on the admin Kanban board",
+    "description": "This verifies that a super admin can move a task between Kanban columns and see the task in its new status.",
+    "category": "Super Admin Dashboard",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Open /admin"
+      },
+      {
+        "type": "action",
+        "description": "Open the Kanban board"
+      },
+      {
+        "type": "action",
+        "description": "Move a task to a different status column"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the task is displayed in the new column"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC015",
+    "title": "Edit a client from the admin dashboard",
+    "description": "This verifies that a super admin can open a client record, update its details, and see the edited information persist in the admin view.",
+    "category": "Super Admin Dashboard",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Open /admin"
+      },
+      {
+        "type": "action",
+        "description": "Open the clients area"
+      },
+      {
+        "type": "action",
+        "description": "Edit a client with valid changes"
+      },
+      {
+        "type": "action",
+        "description": "Save the client changes"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the updated client details are displayed"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC016",
+    "title": "Review requests on the client dashboard",
+    "description": "This verifies that an authenticated client can open the requests area and review the tasks shown on the board.",
+    "category": "Client Dashboard",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Open /dashboard"
+      },
+      {
+        "type": "action",
+        "description": "Open the requests area"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify tasks are displayed on the board"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC017",
+    "title": "Adjust hospitality inputs to review updated ROI results",
+    "description": "This verifies that a prospective hospitality client can change the calculator inputs and see the revenue and ROI metrics update accordingly.",
+    "category": "Hospitality ROI Calculator",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /hospitality-solutions"
+      },
+      {
+        "type": "action",
+        "description": "Adjust the rooms slider to a different valid value"
+      },
+      {
+        "type": "action",
+        "description": "Adjust the occupancy rate slider to a different valid value"
+      },
+      {
+        "type": "action",
+        "description": "Adjust the ADR slider to a different valid value"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify updated monthly revenue, annual revenue, and ROI metrics are displayed"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC018",
+    "title": "Edit a client and save project context",
+    "description": "This verifies a super admin can open a client, update client details and project context, and see the refreshed client information after saving.",
+    "category": "Super Admin Dashboard",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /admin"
+      },
+      {
+        "type": "action",
+        "description": "Enter the admin password with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the sign-in form"
+      },
+      {
+        "type": "action",
+        "description": "Open the clients area"
+      },
+      {
+        "type": "action",
+        "description": "Select a client to edit"
+      },
+      {
+        "type": "action",
+        "description": "Update the client details and project context"
+      },
+      {
+        "type": "action",
+        "description": "Save the changes"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the updated client information is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the edited project context is reflected"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC019",
+    "title": "Submit a raffle entry and continue via WhatsApp",
+    "description": "This verifies that a raffle participant can fill in the entry form and proceed through the WhatsApp handoff.",
+    "category": "Raffle Landing Page",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /raffle"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the name field with a valid name"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with a valid email address"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the phone number field with a valid phone number"
+      },
+      {
+        "type": "action",
+        "description": "Submit the form"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the WhatsApp continuation state is visible"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC020",
+    "title": "Review requests and send a message in the client portal",
+    "description": "This verifies that an authenticated client can review requests in the dashboard and send a message to the admin.",
+    "category": "Client Dashboard",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /login"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with {{LOGIN_USER}}"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the password field with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the login form"
+      },
+      {
+        "type": "action",
+        "description": "Navigate to /dashboard"
+      },
+      {
+        "type": "action",
+        "description": "Open the requests section"
+      },
+      {
+        "type": "action",
+        "description": "Open the chat section"
+      },
+      {
+        "type": "action",
+        "description": "Type a message to the admin"
+      },
+      {
+        "type": "action",
+        "description": "Send the message"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the sent message appears in the chat"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC021",
+    "title": "Explore the homepage hero and core marketing sections",
+    "description": "This verifies that a public visitor can browse the homepage hero, services, portfolio, pricing, and FAQ sections.",
+    "category": "Public Marketing Pages",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Scroll to the services section"
+      },
+      {
+        "type": "action",
+        "description": "Scroll to the portfolio section"
+      },
+      {
+        "type": "action",
+        "description": "Scroll to the pricing section"
+      },
+      {
+        "type": "action",
+        "description": "Scroll to the FAQ section"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the services, portfolio, pricing, and FAQ content are displayed"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC022",
+    "title": "Create a task from a client message",
+    "description": "This verifies a super admin can open client chat, create a task from a message, and see the task appear on the workflow board.",
+    "category": "Super Admin Dashboard",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /admin"
+      },
+      {
+        "type": "action",
+        "description": "Enter the admin password with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the sign-in form"
+      },
+      {
+        "type": "action",
+        "description": "Open the chat area"
+      },
+      {
+        "type": "action",
+        "description": "Select a client conversation"
+      },
+      {
+        "type": "action",
+        "description": "Create a task from a client message"
+      },
+      {
+        "type": "action",
+        "description": "Open the Kanban area"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the new task is visible on the workflow board"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC023",
+    "title": "View raffle prizes and terms on the raffle landing page",
+    "description": "This verifies that a visitor can review the raffle countdown, prizes, terms, and map access on the Spanish raffle page.",
+    "category": "Raffle Landing Page",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /sorteo"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the countdown timer is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the prize information is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the terms and conditions are visible"
+      },
+      {
+        "type": "action",
+        "description": "Click the map link"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC024",
+    "title": "Move a task to a different workflow column",
+    "description": "This verifies a super admin can change a task's workflow status on the Kanban board and see it remain in the new column.",
+    "category": "Super Admin Dashboard",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /admin"
+      },
+      {
+        "type": "action",
+        "description": "Enter the admin password with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the sign-in form"
+      },
+      {
+        "type": "action",
+        "description": "Open the Kanban area"
+      },
+      {
+        "type": "action",
+        "description": "Move a task to a different workflow column"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the task appears in the new workflow column"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the task status is updated"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC025",
+    "title": "Browse the portfolio case studies",
+    "description": "This verifies that a public visitor can open the portfolio page and review project examples and outcomes.",
+    "category": "Public Marketing Pages",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /portfolio"
+      },
+      {
+        "type": "action",
+        "description": "Scroll through the case study content"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify case studies are displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify project outcome information is displayed"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC026",
+    "title": "Review the services overview and delivery approach",
+    "description": "This verifies that a public visitor can inspect the services page and understand what the studio offers and how it works.",
+    "category": "Public Marketing Pages",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /services"
+      },
+      {
+        "type": "action",
+        "description": "Scroll through the service descriptions"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify available services are displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify delivery approach information is displayed"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC027",
+    "title": "Capture an email for the checklist offer",
+    "description": "This verifies that a public visitor can trigger the lead capture modal, submit an email, and receive the checklist delivery state.",
+    "category": "Lead Capture Checklist",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Trigger the exit-intent offer"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with a valid email address"
+      },
+      {
+        "type": "action",
+        "description": "Submit the form"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the checklist delivery confirmation is visible"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC028",
+    "title": "Submit the raffle form and hand off to WhatsApp",
+    "description": "This verifies that a raffle participant can complete the raffle entry flow and continue through the WhatsApp handoff path.",
+    "category": "Public Marketing Pages",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /raffle"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the required raffle entry fields with valid information"
+      },
+      {
+        "type": "action",
+        "description": "Submit the raffle form"
+      },
+      {
+        "type": "action",
+        "description": "Use the WhatsApp handoff from the raffle flow"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the raffle submission confirmation is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the WhatsApp continuation option is displayed"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC029",
+    "title": "Sign in with the alternate admin password",
+    "description": "This verifies the admin login accepts the available admin password and grants access to the dashboard.",
+    "category": "Super Admin Dashboard",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /admin"
+      },
+      {
+        "type": "action",
+        "description": "Enter the admin password with {{LOGIN_PASSWORD}}"
+      },
+      {
+        "type": "action",
+        "description": "Submit the sign-in form"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the admin dashboard is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the authenticated admin areas are accessible"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC030",
+    "title": "Compare hospitality case studies after changing calculator inputs",
+    "description": "This verifies that a prospective hospitality client can review the calculator results alongside the case study cards on the same page.",
+    "category": "Hospitality ROI Calculator",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /hospitality-solutions"
+      },
+      {
+        "type": "action",
+        "description": "Adjust the calculator inputs to new valid values"
+      },
+      {
+        "type": "action",
+        "description": "Scroll to the case study cards"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify case study cards are displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify ROI outcome information is displayed alongside the case studies"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC031",
+    "title": "Show the exit-intent checklist modal and submit an email",
+    "description": "This verifies that a public visitor can trigger the checklist modal, provide an email, and proceed toward the checklist delivery flow.",
+    "category": "Public Marketing Pages",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Trigger the exit-intent checklist modal"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with a valid email address"
+      },
+      {
+        "type": "action",
+        "description": "Submit the checklist form"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the checklist delivery confirmation is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the PDF checklist offer is displayed"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC032",
+    "title": "Read the methodology overview",
+    "description": "This verifies that a public visitor can open the methodology page and understand the studio’s delivery approach.",
+    "category": "Public Marketing Pages",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /methodology"
+      },
+      {
+        "type": "action",
+        "description": "Scroll through the methodology content"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the methodology overview is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify delivery approach details are displayed"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC033",
+    "title": "Review the hospitality landing page messaging",
+    "description": "This verifies that a public visitor can open the hospitality landing page and view the PMS-focused positioning.",
+    "category": "Public Marketing Pages",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /hotels"
+      },
+      {
+        "type": "action",
+        "description": "Scroll through the hospitality offering content"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify hospitality-focused messaging is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify integrated PMS messaging is displayed"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC034",
+    "title": "Review the e-commerce landing page messaging",
+    "description": "This verifies that a public visitor can open the e-commerce landing page and view the ROAS-oriented positioning.",
+    "category": "Public Marketing Pages",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /ecommerce"
+      },
+      {
+        "type": "action",
+        "description": "Scroll through the e-commerce offering content"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify e-commerce-focused messaging is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify ROAS-oriented messaging is displayed"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC035",
+    "title": "Review the service business landing page messaging",
+    "description": "This verifies that a public visitor can open the service-businesses page and view the positioning for B2B service companies.",
+    "category": "Public Marketing Pages",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /servicebusinesses"
+      },
+      {
+        "type": "action",
+        "description": "Scroll through the service-business content"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify service-business positioning is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify B2B service messaging is displayed"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC036",
+    "title": "Show validation for an invalid email in the checklist form",
+    "description": "This verifies that the lead capture form prevents submission when the email address is invalid and shows validation feedback.",
+    "category": "Lead Capture Checklist",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Trigger the exit-intent offer"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the email field with an invalid email address"
+      },
+      {
+        "type": "action",
+        "description": "Submit the form"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify an email validation error is visible"
+      }
+    ],
+    "priority": "Low"
+  }
+]

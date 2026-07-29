@@ -2716,10 +2716,10 @@ export const ChambaFooter = () => (
             Hacemos webs que venden. Desde Lima, Perú para el mundo.
           </p>
           <div className="flex gap-4">
-            <motion.a whileHover={{ y: -3, color: "#3B82F6" }} href="https://instagram.com" target="_blank" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-muted transition-colors">
+            <motion.a whileHover={{ y: -3, color: "#3B82F6" }} href="https://instagram.com/chamba.digital" target="_blank" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-muted transition-colors">
               <Instagram className="w-5 h-5" />
             </motion.a>
-            <motion.a whileHover={{ y: -3, color: "#3B82F6" }} href="https://linkedin.com" target="_blank" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-muted transition-colors">
+            <motion.a whileHover={{ y: -3, color: "#3B82F6" }} href="https://linkedin.com/company/chamba-digital" target="_blank" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-muted transition-colors">
               <Linkedin className="w-5 h-5" />
             </motion.a>
           </div>
