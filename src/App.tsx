@@ -490,9 +490,11 @@ const ExitIntentModal = ({
 export const Logo = ({
   className = "",
   textColor = "text-slate-900",
+  compact = false,
 }: {
   className?: string;
   textColor?: string;
+  compact?: boolean;
 }) => (
   <Link to="/">
     <motion.div
@@ -500,10 +502,10 @@ export const Logo = ({
       className={`flex items-center gap-2 sm:gap-3 cursor-pointer ${className}`}
     >
       <div className="flex flex-col sm:flex-row sm:items-center leading-[0.9] sm:leading-none">
-        <span className={`text-[16px] sm:text-[22px] font-black tracking-tighter transition-colors duration-300 ${textColor}`}>
+        <span className={`font-black tracking-tighter transition-colors duration-300 ${textColor} ${compact ? "text-[14px]" : "text-[16px] sm:text-[22px]"}`}>
           Chamba
         </span>
-        <span className="text-[14px] sm:text-[22px] font-bold sm:font-black tracking-tighter text-accent">
+        <span className={`font-bold sm:font-black tracking-tighter text-accent ${compact ? "text-[14px]" : "text-[14px] sm:text-[22px]"}`}>
           .Digital
         </span>
       </div>
@@ -1896,47 +1898,57 @@ export const ChambaNavbar = () => {
     { name: "Hotelería", path: "/hospitality" },
   ];
 
+  const isPortalRoute = location.pathname.startsWith("/portal") || location.pathname.startsWith("/perfil") || location.pathname.startsWith("/login") || location.pathname.startsWith("/registro");
+
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 px-6 md:px-10 flex items-center justify-between smooth-gpu ${
-        scrolled
-          ? "h-[70px] bg-slate-900/95 backdrop-blur-xl border-b border-slate-800 shadow-[0_10px_30px_rgba(15,23,42,0.4)]"
-          : "h-[90px] bg-transparent"
+      className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 flex items-center justify-between smooth-gpu ${
+        isPortalRoute
+          ? "h-[52px] bg-slate-900/98 backdrop-blur-xl border-b border-slate-800 px-4 md:px-6 shadow-md"
+          : scrolled
+            ? "h-[70px] bg-slate-900/95 backdrop-blur-xl border-b border-slate-800 shadow-[0_10px_30px_rgba(15,23,42,0.4)] px-6 md:px-10"
+            : "h-[90px] bg-transparent px-6 md:px-10"
       }`}
     >
-      <div className="flex items-center gap-12">
-        <Logo textColor={scrolled ? "text-white" : "text-slate-900"} />
+      <div className={`flex items-center ${isPortalRoute ? "gap-6" : "gap-12"}`}>
+        <Logo textColor={isPortalRoute || scrolled ? "text-white" : "text-slate-900"} compact={isPortalRoute} />
 
-        {/* Desktop Nav */}
-        <div className="hidden lg:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <Link
-              key={link.path}
-              to={link.path}
-              className={`text-[12px] font-black uppercase tracking-[0.2em] transition-all relative group py-2 ${
-                scrolled ? "text-white hover:text-amber-400" : "text-slate-700 hover:text-accent"
-              }`}
-            >
-              {link.name}
-              <span className={`absolute bottom-0 left-0 w-0 h-[2px] transition-all duration-300 group-hover:w-full ${scrolled ? "bg-amber-400" : "bg-accent"}`} />
-            </Link>
-          ))}
-        </div>
+        {/* Desktop Nav - hidden on portal routes */}
+        {!isPortalRoute && (
+          <div className="hidden lg:flex items-center gap-8">
+            {navLinks.map((link) => (
+              <Link
+                key={link.path}
+                to={link.path}
+                className={`text-[12px] font-black uppercase tracking-[0.2em] transition-all relative group py-2 ${
+                  scrolled ? "text-white hover:text-amber-400" : "text-slate-700 hover:text-accent"
+                }`}
+              >
+                {link.name}
+                <span className={`absolute bottom-0 left-0 w-0 h-[2px] transition-all duration-300 group-hover:w-full ${scrolled ? "bg-amber-400" : "bg-accent"}`} />
+              </Link>
+            ))}
+          </div>
+        )}
       </div>
 
-      <div className="flex items-center gap-3 md:gap-4">
+      <div className={`flex items-center ${isPortalRoute ? "gap-2" : "gap-3 md:gap-4"}`}>
         {loggedUser ? (
           /* Logged in: Profile dropdown */
           <div ref={dropdownRef} className="relative">
             <button
               onClick={() => setUserDropdownOpen(!userDropdownOpen)}
-              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-[12px] font-black uppercase tracking-[0.15em] transition-all border cursor-pointer ${
-                scrolled
-                  ? "text-white hover:text-amber-400 border-slate-700 bg-slate-800/80 hover:bg-slate-800"
-                  : "text-slate-800 hover:text-accent border-slate-200 bg-slate-100 hover:bg-slate-200"
+              className={`flex items-center gap-2 rounded-xl font-black transition-all border cursor-pointer ${
+                isPortalRoute
+                  ? "text-white/90 hover:text-white border-slate-700/50 bg-slate-800/60 hover:bg-slate-800 px-2.5 py-1.5 text-[11px]"
+                  : `px-4 py-2 text-[12px] uppercase tracking-[0.15em] ${
+                    scrolled
+                      ? "text-white hover:text-amber-400 border-slate-700 bg-slate-800/80 hover:bg-slate-800"
+                      : "text-slate-800 hover:text-accent border-slate-200 bg-slate-100 hover:bg-slate-200"
+                  }`
               }`}
             >
-              <div className="w-7 h-7 rounded-full bg-accent text-white flex items-center justify-center text-[11px] font-black">
+              <div className={`${isPortalRoute ? "w-6 h-6 text-[10px]" : "w-7 h-7 text-[11px]"} rounded-full bg-accent text-white flex items-center justify-center font-black`}>
                 {loggedUser.name?.charAt(0)?.toUpperCase() || "U"}
               </div>
               <span className="hidden sm:inline">{loggedUser.name?.split(" ")[0]}</span>

@@ -379,7 +379,7 @@ export default function UserPortal() {
     <div className="bg-white text-slate-900 selection:bg-accent selection:text-white min-h-screen flex flex-col">
       <ChambaNavbar />
 
-      <main className={`${view === "dashboard" ? "pt-[90px] pb-12" : "pt-[100px] pb-20 items-center"} px-6 max-w-[1100px] mx-auto w-full flex-grow flex justify-center`}>
+      <main className={`${view === "dashboard" ? "pt-[60px] pb-12" : "pt-[100px] pb-20 items-center"} px-6 max-w-[1100px] mx-auto w-full flex-grow flex justify-center`}>
         {/* DASHBOARD VISTA CLIENTE */}
         {view === "dashboard" && user ? (
           <div className="w-full space-y-8">
