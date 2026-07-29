@@ -75,22 +75,22 @@ export const Chatbot: React.FC = () => {
             className="fixed bottom-4 right-4 z-[200] w-[calc(100vw-32px)] sm:w-[380px] glass rounded-2xl border-accent/20 overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.4)] flex flex-col h-[520px] max-h-[80vh]"
           >
             {/* Header */}
-            <div className="bg-accent p-6 flex items-center justify-between shrink-0">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-md">
-                  <Bot className="w-6 h-6 text-white" />
+            <div className="bg-accent p-3.5 sm:p-4 flex items-center justify-between shrink-0">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 sm:w-9 sm:h-9 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-md">
+                  <Bot className="w-5 h-5 text-white" />
                 </div>
                 <div>
-                  <h4 className="text-white font-black text-[15px] leading-none">Chamba AI</h4>
+                  <h4 className="text-white font-black text-sm leading-none">Chamba AI</h4>
                   <div className="flex items-center gap-1.5 mt-1">
                     <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
-                    <span className="text-white/60 text-[10px] font-bold uppercase tracking-widest">IA Activa</span>
+                    <span className="text-white/70 text-[9px] font-bold uppercase tracking-widest">Asistente Virtual WaaS</span>
                   </div>
                 </div>
               </div>
               <button
                 onClick={() => setIsOpen(false)}
-                className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors"
+                className="w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors cursor-pointer"
                 aria-label="Cerrar chat"
               >
                 <X className="w-4 h-4" />
@@ -98,28 +98,28 @@ export const Chatbot: React.FC = () => {
             </div>
 
             {/* Messages Area */}
-            <div ref={scrollRef} className="flex-1 p-6 overflow-y-auto space-y-4 font-sans text-sm">
+            <div ref={scrollRef} className="flex-1 p-3.5 sm:p-4 overflow-y-auto space-y-3 font-sans text-xs sm:text-sm custom-scrollbar">
               {messages.map((msg, idx) => (
                 <div
                   key={idx}
                   className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
                 >
                   <div
-                    className={`max-w-[85%] p-4 rounded-2xl ${
+                    className={`max-w-[88%] p-3 sm:p-3.5 rounded-2xl ${
                       msg.role === 'user'
                         ? 'bg-accent text-white rounded-br-none shadow-md'
-                        : 'bg-surface/80 border border-white/10 text-white/90 rounded-bl-none shadow-inner'
+                        : 'bg-slate-900/90 border border-slate-800 text-slate-100 rounded-bl-none shadow-inner'
                     }`}
                   >
-                    <p className="whitespace-pre-wrap leading-relaxed">{msg.content}</p>
+                    <p className="whitespace-pre-wrap leading-relaxed text-[12px] sm:text-[13px] font-medium">{msg.content}</p>
                     {msg.content.includes("wa.me") && (
                       <a
                         href="https://wa.me/51904060670"
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex items-center gap-2 mt-3 px-3 py-1.5 bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-bold rounded-lg transition-colors"
+                        className="inline-flex items-center gap-1.5 mt-2.5 px-3 py-1.5 bg-emerald-500 hover:bg-emerald-600 text-white text-[11px] font-extrabold rounded-lg transition-colors shadow-sm"
                       >
-                        <MessageCircle className="w-4 h-4" /> Abrir WhatsApp Directo
+                        <MessageCircle className="w-3.5 h-3.5" /> Abrir WhatsApp Directo
                       </a>
                     )}
                   </div>
@@ -127,26 +127,26 @@ export const Chatbot: React.FC = () => {
               ))}
               {isTyping && (
                 <div className="flex justify-start">
-                  <div className="bg-surface/80 border border-white/10 p-4 rounded-2xl rounded-bl-none text-white/50 flex items-center gap-2">
-                    <div className="w-2 h-2 bg-accent rounded-full animate-bounce" />
-                    <div className="w-2 h-2 bg-accent rounded-full animate-bounce [animation-delay:0.2s]" />
-                    <div className="w-2 h-2 bg-accent rounded-full animate-bounce [animation-delay:0.4s]" />
+                  <div className="bg-slate-900/90 border border-slate-800 p-3 rounded-2xl rounded-bl-none text-slate-400 flex items-center gap-1.5">
+                    <div className="w-1.5 h-1.5 bg-accent rounded-full animate-bounce" />
+                    <div className="w-1.5 h-1.5 bg-accent rounded-full animate-bounce [animation-delay:0.2s]" />
+                    <div className="w-1.5 h-1.5 bg-accent rounded-full animate-bounce [animation-delay:0.4s]" />
                   </div>
                 </div>
               )}
             </div>
 
             {/* Quick Actions */}
-            <div className="px-6 py-2 flex gap-2 overflow-x-auto no-scrollbar shrink-0 border-t border-white/5 bg-black/20">
+            <div className="px-3.5 py-2 flex gap-1.5 overflow-x-auto no-scrollbar shrink-0 border-t border-white/5 bg-slate-950/60">
               <button
                 onClick={() => handleSend("¿Cuáles son sus planes WaaS?")}
-                className="text-[11px] font-medium bg-white/5 hover:bg-white/10 border border-white/10 text-white/70 px-3 py-1.5 rounded-full shrink-0 transition-colors"
+                className="text-[10px] font-bold bg-white/5 hover:bg-white/10 border border-white/10 text-white/80 px-2.5 py-1 rounded-full shrink-0 transition-colors cursor-pointer"
               >
                 💡 Ver Planes WaaS
               </button>
               <button
                 onClick={() => handleSend("Quiero agendar una asesoría técnica")}
-                className="text-[11px] font-medium bg-white/5 hover:bg-white/10 border border-white/10 text-white/70 px-3 py-1.5 rounded-full shrink-0 transition-colors"
+                className="text-[10px] font-bold bg-white/5 hover:bg-white/10 border border-white/10 text-white/80 px-2.5 py-1 rounded-full shrink-0 transition-colors cursor-pointer"
               >
                 📅 Agendar Asesoría
               </button>
@@ -158,19 +158,19 @@ export const Chatbot: React.FC = () => {
                 e.preventDefault();
                 handleSend(inputValue);
               }}
-              className="p-4 bg-black/40 border-t border-white/10 flex gap-2 shrink-0"
+              className="p-3 bg-slate-950 border-t border-white/10 flex gap-2 shrink-0"
             >
               <input
                 type="text"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
-                placeholder="Escribe tu mensaje..."
-                className="flex-1 bg-surface border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-accent transition-colors"
+                placeholder="Escribe tu consulta..."
+                className="flex-1 bg-slate-900 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-white placeholder:text-white/40 focus:outline-none focus:border-accent transition-colors min-w-0"
               />
               <button
                 type="submit"
                 disabled={!inputValue.trim() || isTyping}
-                className="bg-accent disabled:opacity-50 hover:bg-accent/80 text-white p-3 rounded-xl flex items-center justify-center transition-colors shrink-0"
+                className="bg-accent disabled:opacity-50 hover:bg-accent/80 text-white p-2.5 rounded-xl flex items-center justify-center transition-colors shrink-0 cursor-pointer"
               >
                 <Send className="w-4 h-4" />
               </button>
