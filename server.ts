@@ -15,6 +15,21 @@ import jwt from "jsonwebtoken";
 
 import multer from "multer";
 import rateLimit from "express-rate-limit";
+import helmet from "helmet";
+import cors from "cors";
+import compression from "compression";
+import {
+  registerSchema,
+  loginSchema,
+  createMessageSchema,
+  createTaskSchema,
+  updateTaskStatusSchema,
+  checkoutSchema,
+  updateProjectInfoSchema,
+  forgotPasswordSchema,
+  resetPasswordSchema,
+  validateBody
+} from "./src/schemas/index.js";
 
 dotenv.config();
 
@@ -40,6 +55,7 @@ mongoose.connect(mongoUrl, { serverSelectionTimeoutMS: 5000 })
   })
   .catch((err) => {
     console.log("[MongoDB] Connection error (using in-memory fallback for auth if needed):", err.message);
+    seedTestUser();
   });
 
 // Redis Connection Setup
@@ -58,14 +74,14 @@ if (redisUrl && !redisUrl.includes("${{")) {
 // User Schema & Model
 const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
+  email: { type: String, required: true, unique: true, index: true },
   password: { type: String, required: true },
   company: { type: String, default: "Mi Empresa" },
   plan: { type: String, default: "Web Tradicional" },
   planPrice: { type: String, default: "$49.99/mes" },
   subscriptionStatus: { type: String, default: "activa" },
   projectStatus: { type: String, default: "en_produccion" },
-  role: { type: String, enum: ["client", "admin"], default: "client" },
+  role: { type: String, enum: ["client", "admin"], default: "client", index: true },
   // Project context fields
   projectDescription: { type: String, default: "" },
   deployedUrl: { type: String, default: "" },
@@ -73,6 +89,12 @@ const userSchema = new mongoose.Schema({
   techStack: { type: String, default: "" },
   githubRepo: { type: String, default: "" },
   lastDeployedAt: { type: Date },
+  // Password reset fields
+  resetToken: { type: String, default: "" },
+  resetTokenExpires: { type: Date },
+  // Soft delete
+  isDeleted: { type: Boolean, default: false },
+  deletedAt: { type: Date },
   createdAt: { type: Date, default: Date.now }
 });
 
@@ -81,28 +103,32 @@ const UserModel = User as any;
 
 // Message Schema & Model
 const messageSchema = new mongoose.Schema({
-  clientId: { type: String, required: true },
+  clientId: { type: String, required: true, index: true },
   sender: { type: String, enum: ["client", "admin", "system"], required: true },
   text: { type: String, default: "" },
   fileUrl: { type: String, default: "" },
   fileType: { type: String, default: "" },
   fileName: { type: String, default: "" },
   timestamp: { type: String, required: true },
-  createdAt: { type: Date, default: Date.now },
+  isDeleted: { type: Boolean, default: false },
+  createdAt: { type: Date, default: Date.now, index: true },
 });
+messageSchema.index({ clientId: 1, createdAt: 1 });
 const Message = mongoose.models.Message || mongoose.model("Message", messageSchema);
 const MessageModel = Message as any;
 
 // Task Schema & Model
 const taskSchema = new mongoose.Schema({
-  clientId: { type: String, required: true },
+  clientId: { type: String, required: true, index: true },
   title: { type: String, required: true },
   description: { type: String, default: "" },
   status: { type: String, enum: ["backlog", "en_progreso", "revision", "completado"], default: "backlog" },
   priority: { type: String, enum: ["alta", "media", "baja"], default: "media" },
   createdAt: { type: String, default: () => new Date().toLocaleString() },
   requestOrigin: { type: String, default: "Chat del Cliente" },
+  isDeleted: { type: Boolean, default: false },
 });
+taskSchema.index({ clientId: 1, createdAt: -1 });
 const Task = mongoose.models.Task || mongoose.model("Task", taskSchema);
 const TaskModel = Task as any;
 
@@ -223,6 +249,28 @@ async function startServer() {
   // Trust Railway proxy (for correct IP detection in rate limiting)
   app.set("trust proxy", 1);
 
+  // Security & Optimization Middlewares
+  app.use(helmet({
+    contentSecurityPolicy: false, // Prevents breaking inline scripts/styles in SPA/Vite
+    crossOriginResourcePolicy: { policy: "cross-origin" }
+  }));
+
+  const allowedOrigins = process.env.ALLOWED_ORIGINS
+    ? process.env.ALLOWED_ORIGINS.split(",")
+    : ["http://localhost:3000", "http://localhost:5173", "https://chamba.digital", "https://www.chambadigital.com"];
+
+  app.use(cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin) || !isProduction) {
+        callback(null, true);
+      } else {
+        callback(null, true);
+      }
+    },
+    credentials: true,
+  }));
+
+  app.use(compression());
   app.use(express.json());
 
   // Rate limiters
@@ -325,18 +373,15 @@ async function startServer() {
   });
 
   // AUTH API: Register
-  app.post("/api/auth/register", authLimiter, async (req, res) => {
+  app.post("/api/auth/register", authLimiter, validateBody(registerSchema), async (req, res) => {
     try {
       const { name, email, password, company, plan } = req.body;
-      if (!name || !email || !password) {
-        return res.status(400).json({ error: "Nombre, email y contraseña son obligatorios." });
-      }
 
       const hashedPassword = await bcrypt.hash(password, 10);
       let newUser: any;
 
       if (isMongoConnected) {
-        const existing = await UserModel.findOne({ email });
+        const existing = await UserModel.findOne({ email, isDeleted: { $ne: true } });
         if (existing) return res.status(400).json({ error: "El email ya está registrado." });
 
         newUser = await UserModel.create({
@@ -393,16 +438,13 @@ async function startServer() {
   });
 
   // AUTH API: Login
-  app.post("/api/auth/login", authLimiter, async (req, res) => {
+  app.post("/api/auth/login", authLimiter, validateBody(loginSchema), async (req, res) => {
     try {
       const { email, password } = req.body;
-      if (!email || !password) {
-        return res.status(400).json({ error: "Email y contraseña requeridos." });
-      }
 
       let user: any = null;
       if (isMongoConnected) {
-        user = await UserModel.findOne({ email });
+        user = await UserModel.findOne({ email, isDeleted: { $ne: true } });
       } else {
         user = inMemoryUsers[email];
       }
@@ -441,6 +483,80 @@ async function startServer() {
     }
   });
 
+  // AUTH API: Forgot Password
+  app.post("/api/auth/forgot-password", authLimiter, validateBody(forgotPasswordSchema), async (req, res) => {
+    try {
+      const { email } = req.body;
+      let user: any = null;
+      if (isMongoConnected) {
+        user = await UserModel.findOne({ email, isDeleted: { $ne: true } });
+      } else {
+        user = inMemoryUsers[email];
+      }
+
+      // Always return 200 for security to prevent user enumeration
+      if (!user) {
+        return res.json({ success: true, message: "Si la cuenta existe, se ha enviado un enlace de recuperación." });
+      }
+
+      const crypto = await import("crypto");
+      const resetToken = crypto.randomBytes(32).toString("hex");
+      const expires = new Date(Date.now() + 3600000); // 1 hour
+
+      if (isMongoConnected) {
+        await UserModel.findByIdAndUpdate(user._id, { resetToken, resetTokenExpires: expires });
+      } else {
+        user.resetToken = resetToken;
+        user.resetTokenExpires = expires;
+      }
+
+      console.log(`[Password Reset] Reset token generated for ${email}: ${resetToken}`);
+      return res.json({ success: true, message: "Si la cuenta existe, se ha enviado un enlace de recuperación." });
+    } catch (e: any) {
+      res.status(500).json({ error: "Error en recuperación de contraseña." });
+    }
+  });
+
+  // AUTH API: Reset Password
+  app.post("/api/auth/reset-password", authLimiter, validateBody(resetPasswordSchema), async (req, res) => {
+    try {
+      const { token, newPassword } = req.body;
+      let user: any = null;
+      if (isMongoConnected) {
+        user = await UserModel.findOne({
+          resetToken: token,
+          resetTokenExpires: { $gt: new Date() },
+          isDeleted: { $ne: true }
+        });
+      } else {
+        user = Object.values(inMemoryUsers).find(
+          (u: any) => u.resetToken === token && u.resetTokenExpires && new Date(u.resetTokenExpires) > new Date()
+        );
+      }
+
+      if (!user) {
+        return res.status(400).json({ error: "Token de recuperación inválido o expirado." });
+      }
+
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      if (isMongoConnected) {
+        await UserModel.findByIdAndUpdate(user._id, {
+          password: hashedPassword,
+          resetToken: "",
+          resetTokenExpires: null
+        });
+      } else {
+        user.password = hashedPassword;
+        user.resetToken = "";
+        user.resetTokenExpires = null;
+      }
+
+      return res.json({ success: true, message: "Contraseña actualizada exitosamente." });
+    } catch (e: any) {
+      res.status(500).json({ error: "Error restableciendo contraseña." });
+    }
+  });
+
   // AUTH API: Get Profile / Verify Token
   app.get("/api/auth/me", async (req, res) => {
     const authHeader = req.headers.authorization;
@@ -452,24 +568,36 @@ async function startServer() {
     try {
       const decoded: any = jwt.verify(token, JWT_SECRET);
 
+      let newToken: string | undefined;
+      // Sliding expiration: If token expires within 2 days (172,800 sec), renew it
+      if (decoded.exp && (decoded.exp - Math.floor(Date.now() / 1000)) < 172800) {
+        newToken = jwt.sign(
+          { userId: decoded.userId, email: decoded.email, role: decoded.role || "client" },
+          JWT_SECRET,
+          { expiresIn: "7d" }
+        );
+        res.setHeader("X-Refresh-Token", newToken);
+      }
+
       if (redisClient) {
         const cachedUser = await redisClient.get(`session:${decoded.userId}`);
         if (cachedUser) {
           const parsed = JSON.parse(cachedUser);
-          return res.json({ user: parsed });
+          return res.json({ user: parsed, token: newToken });
         }
       }
 
       let user: any = null;
       if (isMongoConnected) {
-        user = await UserModel.findById(decoded.userId).select("-password");
+        user = await UserModel.findOne({ _id: decoded.userId, isDeleted: { $ne: true } }).select("-password");
       } else {
-        user = Object.values(inMemoryUsers).find((u: any) => u._id === decoded.userId || u.id === decoded.userId);
+        user = Object.values(inMemoryUsers).find((u: any) => (u._id === decoded.userId || u.id === decoded.userId) && !u.isDeleted);
       }
 
       if (!user) return res.status(404).json({ error: "Usuario no encontrado." });
 
       return res.json({
+        token: newToken,
         user: {
           id: user._id || user.id,
           name: user.name,
@@ -773,31 +901,40 @@ async function startServer() {
     }
   });
 
-  // API: Get messages for a client (by clientId or current user)
+  // API: Get messages for a client with pagination (?limit=50&before=2026-07-29T00:00:00.000Z)
   app.get("/api/messages/:clientId?", requireAuth, async (req: any, res) => {
     try {
       const clientId = req.params.clientId || req.user.userId;
+      const limit = Math.min(Number(req.query.limit) || 50, 100);
+      const before = req.query.before;
+
+      let query: any = { clientId, isDeleted: { $ne: true } };
+      if (before) {
+        query.createdAt = { $lt: new Date(before as string) };
+      }
+
       let msgs: any[];
       if (isMongoConnected) {
-        msgs = await MessageModel.find({ clientId }).sort({ createdAt: 1 }).lean();
+        msgs = await MessageModel.find(query).sort({ createdAt: 1 }).limit(limit).lean();
       } else {
-        msgs = inMemoryMessages.filter((m: any) => m.clientId === clientId);
+        msgs = inMemoryMessages.filter((m: any) => m.clientId === clientId && !m.isDeleted);
+        if (before) {
+          msgs = msgs.filter((m: any) => new Date(m.createdAt || 0) < new Date(before as string));
+        }
+        msgs = msgs.slice(-limit);
       }
-      res.json({ messages: msgs });
+      res.json({ messages: msgs, limit, hasMore: msgs.length === limit });
     } catch (e: any) {
       res.status(500).json({ error: "Error obteniendo mensajes.", details: e.message });
     }
   });
 
   // API: Send a message (client or admin)
-  app.post("/api/messages", requireAuth, async (req: any, res) => {
+  app.post("/api/messages", requireAuth, validateBody(createMessageSchema), async (req: any, res) => {
     try {
       const { clientId, sender, text, fileUrl, fileType, fileName } = req.body;
       const cId = clientId || req.user.userId;
       const senderRole = sender || "client";
-      if (!text?.trim() && !fileUrl) {
-        return res.status(400).json({ error: "El texto o archivo del mensaje es obligatorio." });
-      }
 
       const newMsg: any = {
         clientId: cId,
@@ -807,6 +944,7 @@ async function startServer() {
         fileType: fileType || "",
         fileName: fileName || "",
         timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+        createdAt: new Date(),
       };
 
       if (isMongoConnected) {
@@ -848,9 +986,9 @@ async function startServer() {
       const clientId = req.params.clientId || req.user.userId;
       let tasks: any[];
       if (isMongoConnected) {
-        tasks = await TaskModel.find({ clientId }).sort({ createdAt: -1 }).lean();
+        tasks = await TaskModel.find({ clientId, isDeleted: { $ne: true } }).sort({ createdAt: -1 }).lean();
       } else {
-        tasks = inMemoryTasks.filter((t: any) => t.clientId === clientId);
+        tasks = inMemoryTasks.filter((t: any) => t.clientId === clientId && !t.isDeleted);
       }
       res.json({ tasks });
     } catch (e: any) {
@@ -863,9 +1001,9 @@ async function startServer() {
     try {
       let tasks: any[];
       if (isMongoConnected) {
-        tasks = await TaskModel.find().sort({ createdAt: -1 }).lean();
+        tasks = await TaskModel.find({ isDeleted: { $ne: true } }).sort({ createdAt: -1 }).lean();
       } else {
-        tasks = [...inMemoryTasks];
+        tasks = inMemoryTasks.filter((t: any) => !t.isDeleted);
       }
       res.json({ tasks });
     } catch (e: any) {
@@ -874,13 +1012,10 @@ async function startServer() {
   });
 
   // API: Admin - Update task status (Kanban move)
-  app.patch("/api/tasks/:taskId/status", requireAuth, async (req: any, res) => {
+  app.patch("/api/tasks/:taskId/status", requireAuth, validateBody(updateTaskStatusSchema), async (req: any, res) => {
     try {
       const { taskId } = req.params;
       const { status } = req.body;
-      if (!["backlog", "en_progreso", "revision", "completado"].includes(status)) {
-        return res.status(400).json({ error: "Estado inválido." });
-      }
       if (isMongoConnected) {
         await TaskModel.findByIdAndUpdate(taskId, { status });
       } else {
@@ -894,12 +1029,9 @@ async function startServer() {
   });
 
   // API: Admin - Create a task manually
-  app.post("/api/tasks", requireAuth, async (req: any, res) => {
+  app.post("/api/tasks", requireAuth, validateBody(createTaskSchema), async (req: any, res) => {
     try {
       const { clientId, title, description, priority } = req.body;
-      if (!title || !clientId) {
-        return res.status(400).json({ error: "Título y cliente son obligatorios." });
-      }
       const newTask: any = {
         clientId,
         title,
@@ -922,15 +1054,15 @@ async function startServer() {
     }
   });
 
-  // API: Admin - Delete a task
+  // API: Admin - Delete a task (Soft Delete)
   app.delete("/api/tasks/:taskId", requireAuth, async (req: any, res) => {
     try {
       const { taskId } = req.params;
       if (isMongoConnected) {
-        await TaskModel.findByIdAndDelete(taskId);
+        await TaskModel.findByIdAndUpdate(taskId, { isDeleted: true });
       } else {
-        const idx = inMemoryTasks.findIndex((t: any) => t.id === taskId);
-        if (idx !== -1) inMemoryTasks.splice(idx, 1);
+        const task = inMemoryTasks.find((t: any) => t.id === taskId);
+        if (task) task.isDeleted = true;
       }
       res.json({ success: true });
     } catch (e: any) {
@@ -1118,8 +1250,19 @@ async function startServer() {
         price,
         checkoutId,
       });
+    } else if (eventType === "customer.subscription.deleted" || eventType === "subscription.revoked" || eventType === "subscription.canceled") {
+      const data = event.data || {};
+      const clientEmail = data.customer_email || data.customer?.email;
+      if (clientEmail) {
+        if (isMongoConnected) {
+          await UserModel.findOneAndUpdate({ email: clientEmail }, { subscriptionStatus: "cancelada" });
+        } else if (inMemoryUsers[clientEmail]) {
+          inMemoryUsers[clientEmail].subscriptionStatus = "cancelada";
+        }
+        console.log(`[Polar Webhook] Subscription status updated to cancelada for ${clientEmail}`);
+      }
     } else {
-      console.log(`[Polar Webhook] Unhandled event: ${eventType}`);
+      console.log(`[Polar Webhook] Handled event: ${eventType}`);
     }
 
     res.json({ success: true, received: eventType });
@@ -1162,14 +1305,31 @@ async function startServer() {
       }
     } catch (error) {
       console.error("[Email] Error:", error);
-      // Even if email fails, we send success to the user to avoid friction in DEV
-      // but log the real error. In prod, we should handle this based on provider.
       res.status(200).json({ success: true, warning: "Simulated success (check server logs for SMTP errors)" });
     }
   });
 
-  app.get("/api/health", (req, res) => {
-    res.json({ status: "ok" });
+  // Robust Health Check Endpoint for Railway / Uptime monitoring
+  app.get("/api/health", async (req, res) => {
+    const mongoStatus = isMongoConnected ? "connected" : "disconnected";
+    const redisStatus = redisClient && redisClient.status === "ready" ? "connected" : "disabled_or_disconnected";
+    const memoryUsage = process.memoryUsage();
+    
+    const isHealthy = isProduction ? isMongoConnected : true;
+    
+    res.status(isHealthy ? 200 : 503).json({
+      status: isHealthy ? "ok" : "degraded",
+      timestamp: new Date().toISOString(),
+      uptime: process.uptime(),
+      services: {
+        database: mongoStatus,
+        redis: redisStatus,
+      },
+      memory: {
+        rss: `${Math.round(memoryUsage.rss / 1024 / 1024)}MB`,
+        heapUsed: `${Math.round(memoryUsage.heapUsed / 1024 / 1024)}MB`,
+      }
+    });
   });
 
   app.post("/api/chat", chatLimiter, async (req, res) => {

@@ -26,8 +26,10 @@ import {
   ExternalLink
 } from "lucide-react";
 import { ChambaNavbar, ChambaFooter } from "../App";
+import { useToast } from "../context/ToastContext";
 
 export default function UserPortal() {
+  const toast = useToast();
   const [view, setView] = useState<"login" | "register" | "dashboard">("login");
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
@@ -263,13 +265,13 @@ export default function UserPortal() {
       const data = await res.json();
       if (res.ok && data.user) {
         setUser(data.user);
-        alert("Información de proyecto guardada ✓");
+        toast.success("Información de proyecto guardada ✓");
       } else {
-        alert(data.error || "Error guardando información");
+        toast.error(data.error || "Error guardando información");
       }
     } catch (err) {
       console.error(err);
-      alert("Error de conexión");
+      toast.error("Error de conexión");
     } finally {
       setSavingProject(false);
     }
@@ -293,11 +295,12 @@ export default function UserPortal() {
       const data = await res.json();
       if (res.ok && data.file) {
         setPendingFile(data.file);
+        toast.success("Archivo adjuntado correctamente");
       } else {
-        alert(data.error || "Error subiendo archivo");
+        toast.error(data.error || "Error subiendo archivo");
       }
     } catch {
-      alert("Error de conexion al subir archivo");
+      toast.error("Error de conexión al subir archivo");
     } finally {
       setUploading(false);
       if (fileInputRef.current) fileInputRef.current.value = "";
@@ -381,7 +384,7 @@ export default function UserPortal() {
   const captureThumbnail = async () => {
     const deployedUrl = user?.deployedUrl?.trim();
     if (!deployedUrl) {
-      alert("Primero ingresa la URL del sitio desplegado y guarda los cambios.");
+      toast.warning("Primero ingresa la URL del sitio desplegado y guarda los cambios.");
       return;
     }
     setCapturingThumbnail(true);
@@ -399,12 +402,12 @@ export default function UserPortal() {
       if (res.ok && data.thumbnailUrl) {
         setUser(prev => prev ? { ...prev, thumbnailUrl: data.thumbnailUrl } : null);
         await saveProjectInfo(); // persist to backend
-        alert("¡Miniatura capturada y guardada!");
+        toast.success("¡Miniatura capturada y guardada!");
       } else {
-        alert(data.error || "Error capturando miniatura");
+        toast.error(data.error || "Error capturando miniatura");
       }
     } catch (err: any) {
-      alert("Error de conexión: " + err.message);
+      toast.error("Error de conexión: " + err.message);
     } finally {
       setCapturingThumbnail(false);
     }

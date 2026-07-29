@@ -31,8 +31,10 @@ import {
   LogOut,
   Sparkles,
   Paperclip,
-  File
+  File,
+  Download
 } from "lucide-react";
+import { useToast } from "../context/ToastContext";
 
 // --- Types ---
 export interface ClientProfile {
@@ -43,7 +45,7 @@ export interface ClientProfile {
   company: string;
   plan: "Web Tradicional" | "Web App Advanced" | "Web App con IA";
   price: string;
-  subscriptionStatus: "active" | "pending" | "canceled";
+  subscriptionStatus: "active" | "activa" | "pending" | "canceled" | "cancelada";
   projectStatus: "en_desarrollo" | "en_revision" | "en_produccion" | "pausado";
   railwayStatus: "activo" | "configurando" | "inactivo";
   startDate: string;
@@ -168,10 +170,52 @@ export default function SuperAdminDashboard() {
   // Try restore session on mount
   useEffect(() => { restoreAdminSession().then(ok => { if (ok) fetchAdminData(); }); }, []);
 
+  const toast = useToast();
   const [activeTab, setActiveTab] = useState<"overview" | "clients" | "kanban" | "chat">("overview");
   const [clients, setClients] = useState<ClientProfile[]>(initialClients);
   const [tasks, setTasks] = useState<TaskItem[]>(initialTasks);
   const [messages, setMessages] = useState<ChatMessage[]>(initialMessages);
+
+  // Search and Filter states
+  const [clientSearchQuery, setClientSearchQuery] = useState("");
+  const [clientStatusFilter, setClientStatusFilter] = useState("todos");
+
+  const filteredClients = clients.filter((c) => {
+    const matchesSearch =
+      c.name.toLowerCase().includes(clientSearchQuery.toLowerCase()) ||
+      c.email.toLowerCase().includes(clientSearchQuery.toLowerCase()) ||
+      c.company.toLowerCase().includes(clientSearchQuery.toLowerCase()) ||
+      c.plan.toLowerCase().includes(clientSearchQuery.toLowerCase());
+    const matchesFilter =
+      clientStatusFilter === "todos" ||
+      (clientStatusFilter === "active" && (c.subscriptionStatus === "active" || c.subscriptionStatus === "activa")) ||
+      c.projectStatus === clientStatusFilter;
+    return matchesSearch && matchesFilter;
+  });
+
+  const exportClientsCSV = () => {
+    const headers = ["ID", "Nombre", "Email", "Empresa", "Plan", "Precio", "Estado Suscripcion", "Estado Proyecto", "Fecha Inicio"];
+    const rows = filteredClients.map((c) => [
+      c.id,
+      `"${c.name}"`,
+      `"${c.email}"`,
+      `"${c.company}"`,
+      `"${c.plan}"`,
+      `"${c.price}"`,
+      `"${c.subscriptionStatus}"`,
+      `"${c.projectStatus}"`,
+      `"${c.startDate}"`,
+    ]);
+    const csvContent = "data:text/csv;charset=utf-8," + [headers.join(","), ...rows.map((r) => r.join(","))].join("\n");
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `clientes_chamba_digital_${new Date().toISOString().slice(0, 10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    toast.success("Listado de clientes exportado a CSV ✓");
+  };
 
   const [selectedClientId, setSelectedClientId] = useState<string>("cli_1");
   const [chatInput, setChatInput] = useState("");
@@ -214,6 +258,36 @@ export default function SuperAdminDashboard() {
       return false;
     } catch {
       return false;
+    }
+  };
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setAuthLoading(true);
+    setAuthError("");
+    try {
+      const res = await fetch("/api/admin/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: adminEmailInput, password: passwordInput }),
+      });
+      const data = await res.json();
+      if (res.ok && data.token) {
+        localStorage.setItem("chamba_admin_token", data.token);
+        localStorage.setItem("chamba_admin_email", data.admin?.email || adminEmailInput);
+        setAdminEmail(data.admin?.email || adminEmailInput);
+        setIsAuthenticated(true);
+        toast.success("¡Bienvenido al Panel Super Admin!");
+        await fetchAdminData();
+      } else {
+        setAuthError(data.error || "Credenciales de administrador incorrectas.");
+        toast.error(data.error || "Credenciales incorrectas.");
+      }
+    } catch {
+      setAuthError("Error de conexión al servidor.");
+      toast.error("Error de conexión.");
+    } finally {
+      setAuthLoading(false);
     }
   };
 
@@ -353,11 +427,12 @@ export default function SuperAdminDashboard() {
       const data = await res.json();
       if (res.ok && data.file) {
         setAdminPendingFile(data.file);
+        toast.success("Archivo adjuntado ✓");
       } else {
-        alert(data.error || "Error subiendo archivo");
+        toast.error(data.error || "Error subiendo archivo");
       }
     } catch {
-      alert("Error de conexion al subir archivo");
+      toast.error("Error de conexión al subir archivo");
     } finally {
       setAdminUploading(false);
       if (adminFileRef.current) adminFileRef.current.value = "";
@@ -472,13 +547,13 @@ export default function SuperAdminDashboard() {
         setClients(clients.map(c => c.id === editClientData.id ? data.client : c));
         setShowEditClientModal(false);
         setEditClientData(null);
-        alert("Cliente actualizado ✓");
+        toast.success("Cliente actualizado ✓");
       } else {
-        alert(data.error || "Error actualizando cliente");
+        toast.error(data.error || "Error actualizando cliente");
       }
     } catch (err) {
       console.error(err);
-      alert("Error de conexión");
+      toast.error("Error de conexión");
     } finally {
       setSavingClient(false);
     }
@@ -656,15 +731,49 @@ export default function SuperAdminDashboard() {
           {/* TAB 2: CLIENTS & SUBSCRIPTIONS */}
           {activeTab === "clients" && (
             <div className="space-y-6">
-              <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
+              <div className="flex flex-col md:flex-row justify-between md:items-center gap-4">
                 <div>
                   <h2 className="text-[clamp(20px,4vw,26px)] font-black text-white tracking-tight">Perfiles de Clientes</h2>
                   <p className="text-slate-400 text-[clamp(12px,2.5vw,14px)]">Gestión de planes WaaS, estado del proyecto y Railway.</p>
                 </div>
+                <div className="flex flex-wrap items-center gap-3">
+                  <div className="relative flex-1 sm:w-64">
+                    <Search className="w-4 h-4 text-slate-500 absolute left-3 top-3.5" />
+                    <input
+                      type="text"
+                      placeholder="Buscar por cliente, email, plan..."
+                      value={clientSearchQuery}
+                      onChange={(e) => setClientSearchQuery(e.target.value)}
+                      className="w-full bg-slate-900 border border-slate-800 focus:border-blue-500 rounded-xl pl-9 pr-4 py-2.5 text-xs text-white outline-none transition-colors"
+                    />
+                  </div>
+                  <select
+                    value={clientStatusFilter}
+                    onChange={(e) => setClientStatusFilter(e.target.value)}
+                    className="bg-slate-900 border border-slate-800 text-xs text-white rounded-xl px-3 py-2.5 outline-none focus:border-blue-500 cursor-pointer"
+                  >
+                    <option value="todos">Todos los Estados</option>
+                    <option value="active">Suscripción Activa</option>
+                    <option value="en_produccion">En Producción</option>
+                    <option value="en_desarrollo">En Desarrollo</option>
+                    <option value="pausado">Pausado</option>
+                  </select>
+                  <button
+                    onClick={exportClientsCSV}
+                    className="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-extrabold px-4 py-2.5 rounded-xl flex items-center gap-2 transition-all cursor-pointer shadow-md"
+                  >
+                    <Download className="w-4 h-4" /> Exportar CSV
+                  </button>
+                </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-                {clients.map((c) => (
+              {filteredClients.length === 0 ? (
+                <div className="bg-slate-900 border border-slate-800 rounded-2xl p-8 text-center text-slate-400 font-medium">
+                  No se encontraron clientes que coincidan con la búsqueda.
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                  {filteredClients.map((c) => (
                   <div key={c.id} className="bg-slate-900 border border-slate-800 p-4 sm:p-6 rounded-2xl flex flex-col justify-between space-y-4">
                     <div>
                       <div className="flex justify-between items-start mb-4">
@@ -705,6 +814,7 @@ export default function SuperAdminDashboard() {
                   </div>
                 ))}
               </div>
+              )}
             </div>
           )}
 

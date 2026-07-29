@@ -33,6 +33,7 @@ import {
   XCircle
 } from 'lucide-react';
 import { SEO } from '../../components/SEO';
+import { SirvoyPmsDemo } from '../../components/SirvoyPmsDemo';
 
 const HospitalitySolutions: React.FC = () => {
   // Estado para la Calculadora de ROI / Discurso del Lápiz (Alex Dey Style)
@@ -253,6 +254,11 @@ const HospitalitySolutions: React.FC = () => {
               </div>
             </motion.div>
           </div>
+        </section>
+
+        {/* Demo Interactivo de Sirvoy PMS Channel Manager */}
+        <section className="px-6 md:px-10 max-w-[1280px] mx-auto">
+          <SirvoyPmsDemo />
         </section>
 
         {/* El Discurso de Contraste (Alex Dey Style: Dolor vs Placer) */}

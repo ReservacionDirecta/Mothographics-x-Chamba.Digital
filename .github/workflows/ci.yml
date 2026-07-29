@@ -1,0 +1,41 @@
+name: CI / CD Pipeline
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  lint-and-test:
+    name: Lint & Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 11
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Typecheck (TypeScript)
+        run: pnpm lint
+
+      - name: Run Unit Tests
+        run: pnpm test:unit
+
+      - name: Production Build
+        run: pnpm build
+        env:
+          JWT_SECRET: "ci_cd_dummy_jwt_secret_key_at_least_32_chars_long!"
