@@ -744,8 +744,8 @@ async function startServer() {
           company: company || "Mi Empresa",
           plan: plan || "Web Tradicional",
           planPrice: plan?.includes("Advanced") ? "$99.99/mes" : plan?.includes("IA") ? "$599.99/mes" : "$49.99/mes",
-          subscriptionStatus: "activa",
-          projectStatus: "en_desarrollo"
+          subscriptionStatus: "pending",
+          projectStatus: "sin_plan"
         });
       } else if (!isProduction) {
         if (inMemoryUsers[email]) return res.status(400).json({ error: "El email ya está registrado." });
@@ -757,8 +757,8 @@ async function startServer() {
           company: company || "Mi Empresa",
           plan: plan || "Web Tradicional",
           planPrice: "$49.99/mes",
-          subscriptionStatus: "activa",
-          projectStatus: "en_desarrollo"
+          subscriptionStatus: "pending",
+          projectStatus: "sin_plan"
         };
         inMemoryUsers[email] = newUser;
       } else {

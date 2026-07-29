@@ -30,7 +30,7 @@ import { useToast } from "../context/ToastContext";
 
 export default function UserPortal() {
   const toast = useToast();
-  const [view, setView] = useState<"login" | "register" | "dashboard">("login");
+  const [view, setView] = useState<"login" | "register" | "select_plan" | "dashboard">("login");
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   
@@ -141,6 +141,51 @@ export default function UserPortal() {
     }
   };
 
+  // Check existing session
+  useEffect(() => {
+    const token = localStorage.getItem("chamba_user_token");
+    if (token) {
+      fetch("/api/auth/me", {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.user) {
+            setUser(data.user);
+            if ((data.user.subscriptionStatus === "pending" || data.user.subscriptionStatus === "sin_plan") && data.user.email !== "demo@chamba.digital") {
+              setView("select_plan");
+            } else {
+              setView("dashboard");
+              fetchClientData(data.user.id);
+            }
+          }
+        })
+        .catch(() => localStorage.removeItem("chamba_user_token"));
+    }
+  }, []);
+
+  const handleCheckout = async (tier: string) => {
+    setLoading(true);
+    try {
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ tier })
+      });
+      const data = await res.json();
+      if (data.url) {
+        toast.info("Redirigiendo a la pasarela de pago seguro Polar.sh...");
+        window.location.href = data.url;
+      } else {
+        toast.error(data.error || "Error iniciando checkout con Polar.sh");
+      }
+    } catch {
+      toast.error("Error de conexión al procesar el pago");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -157,10 +202,15 @@ export default function UserPortal() {
       if (res.ok && data.token) {
         localStorage.setItem("chamba_user_token", data.token);
         setUser(data.user);
-        setView("dashboard");
-        fetchClientData(data.user.id);
         window.dispatchEvent(new Event("chamba-auth-change"));
-        navigate("/portal", { replace: true });
+        if ((data.user.subscriptionStatus === "pending" || data.user.subscriptionStatus === "sin_plan") && data.user.email !== "demo@chamba.digital") {
+          setView("select_plan");
+          toast.info("Debes seleccionar y activar tu plan WaaS para acceder al dashboard.");
+        } else {
+          setView("dashboard");
+          fetchClientData(data.user.id);
+          navigate("/portal", { replace: true });
+        }
       } else {
         // Dev / Fallback demo user
         if (email === "demo@chamba.digital" && (password === "demo123456" || password.length >= 4)) {
@@ -224,10 +274,10 @@ export default function UserPortal() {
       if (res.ok && data.token) {
         localStorage.setItem("chamba_user_token", data.token);
         setUser(data.user);
-        setView("dashboard");
-        fetchClientData(data.user.id);
         window.dispatchEvent(new Event("chamba-auth-change"));
-        navigate("/portal", { replace: true });
+        // Intercept new accounts without an active paid subscription
+        setView("select_plan");
+        toast.info("¡Cuenta creada exitosamente! Selecciona tu plan para activar tu servicio WaaS.");
       } else {
         setErrorMsg(data.error || "Error al registrar cuenta.");
       }
@@ -821,6 +871,137 @@ export default function UserPortal() {
                 </form>
               </div>
             )}
+          </div>
+        ) : view === "select_plan" ? (
+          /* VISTA INTERCEPTOR DE PAGO / SELECTOR DE PLAN POLAR */
+          <div className="w-full max-w-5xl mx-auto px-4 py-6">
+            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="space-y-6">
+              <div className="text-center max-w-2xl mx-auto space-y-2">
+                <span className="inline-block bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-[11px] font-black uppercase tracking-wider">
+                  Activación Obligatoria de Suscripción WaaS
+                </span>
+                <h1 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight">
+                  Selecciona tu Plan WaaS para Activar tu Cuenta
+                </h1>
+                <p className="text-slate-600 text-xs sm:text-sm font-medium">
+                  ¡Hola <strong>{user?.name || email}</strong>! Has registrado tu cuenta correctamente. Para acceder a tu panel y comenzar con el diseño de tu web, selecciona tu plan e inicia la suscripción en Polar.sh.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+                {/* CARD 1: Web Tradicional */}
+                <div className="bg-white border-2 border-slate-200 hover:border-accent rounded-3xl p-5 flex flex-col justify-between shadow-lg transition-all">
+                  <div>
+                    <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-1">Entry Level</span>
+                    <h3 className="text-lg font-extrabold text-slate-900">Web Tradicional</h3>
+                    <div className="my-3">
+                      <span className="text-3xl font-black text-slate-900">$49.99</span>
+                      <span className="text-xs font-bold text-slate-500"> / mes</span>
+                    </div>
+                    <ul className="space-y-1.5 text-xs text-slate-600 font-medium my-4">
+                      <li className="flex items-center gap-1.5">✓ Sitio Web Corporativo Full</li>
+                      <li className="flex items-center gap-1.5">✓ Dominio & SSL Incluidos</li>
+                      <li className="flex items-center gap-1.5">✓ Hosting WaaS en Railway</li>
+                      <li className="flex items-center gap-1.5">✓ Soporte & Cambios Ilimitados</li>
+                    </ul>
+                  </div>
+                  <button
+                    onClick={() => handleCheckout("49")}
+                    disabled={loading}
+                    className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 rounded-xl text-xs uppercase tracking-wider transition-all cursor-pointer shadow-md mt-4"
+                  >
+                    {loading ? "Cargando..." : "Activar por $49.99/mes"}
+                  </button>
+                </div>
+
+                {/* CARD 2: Web App Advanced (Popular) */}
+                <div className="bg-slate-900 text-white border-2 border-accent rounded-3xl p-5 flex flex-col justify-between shadow-2xl relative">
+                  <span className="absolute -top-3 right-5 bg-accent text-white text-[9px] font-black uppercase px-3 py-1 rounded-full tracking-widest shadow-md">
+                    Más Popular
+                  </span>
+                  <div>
+                    <span className="text-[10px] font-black uppercase tracking-widest text-blue-400 block mb-1">Advanced WaaS</span>
+                    <h3 className="text-lg font-extrabold text-white">Web App Advanced</h3>
+                    <div className="my-3">
+                      <span className="text-3xl font-black text-white">$99.99</span>
+                      <span className="text-xs font-bold text-slate-400"> / mes</span>
+                    </div>
+                    <ul className="space-y-1.5 text-xs text-slate-300 font-medium my-4">
+                      <li className="flex items-center gap-1.5">✓ Base de Datos MongoDB/Redis</li>
+                      <li className="flex items-center gap-1.5">✓ Panel de Control de Clientes</li>
+                      <li className="flex items-center gap-1.5">✓ Integración de Pagos Polar</li>
+                      <li className="flex items-center gap-1.5">✓ Soporte Prioritario 24/7</li>
+                    </ul>
+                  </div>
+                  <button
+                    onClick={() => handleCheckout("99")}
+                    disabled={loading}
+                    className="w-full bg-accent hover:bg-accent/90 text-white font-black py-3 rounded-xl text-xs uppercase tracking-wider transition-all cursor-pointer shadow-lg mt-4"
+                  >
+                    {loading ? "Cargando..." : "Activar por $99.99/mes"}
+                  </button>
+                </div>
+
+                {/* CARD 3: Plan Hoteles & Reservas */}
+                <div className="bg-white border-2 border-slate-200 hover:border-emerald-500 rounded-3xl p-5 flex flex-col justify-between shadow-lg transition-all">
+                  <div>
+                    <span className="text-[10px] font-black uppercase tracking-widest text-emerald-600 block mb-1">Especializado</span>
+                    <h3 className="text-lg font-extrabold text-slate-900">Plan Hoteles</h3>
+                    <div className="my-3">
+                      <span className="text-3xl font-black text-slate-900">$499.00</span>
+                      <span className="text-xs font-bold text-slate-500"> / mes</span>
+                    </div>
+                    <ul className="space-y-1.5 text-xs text-slate-600 font-medium my-4">
+                      <li className="flex items-center gap-1.5">✓ Motor de Reservas Directas</li>
+                      <li className="flex items-center gap-1.5">✓ Cero comisiones de terceros</li>
+                      <li className="flex items-center gap-1.5">✓ Integración Sirvoy / PMS</li>
+                      <li className="flex items-center gap-1.5">✓ Sync Airbnb & Booking</li>
+                    </ul>
+                  </div>
+                  <button
+                    onClick={() => handleCheckout("499")}
+                    disabled={loading}
+                    className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-xl text-xs uppercase tracking-wider transition-all cursor-pointer shadow-md mt-4"
+                  >
+                    {loading ? "Cargando..." : "Activar por $499.00/mes"}
+                  </button>
+                </div>
+
+                {/* CARD 4: Web App con IA */}
+                <div className="bg-white border-2 border-slate-200 hover:border-purple-500 rounded-3xl p-5 flex flex-col justify-between shadow-lg transition-all">
+                  <div>
+                    <span className="text-[10px] font-black uppercase tracking-widest text-purple-600 block mb-1">Enterprise IA</span>
+                    <h3 className="text-lg font-extrabold text-slate-900">Web App con IA</h3>
+                    <div className="my-3">
+                      <span className="text-3xl font-black text-slate-900">$599.99</span>
+                      <span className="text-xs font-bold text-slate-500"> / mes</span>
+                    </div>
+                    <ul className="space-y-1.5 text-xs text-slate-600 font-medium my-4">
+                      <li className="flex items-center gap-1.5">✓ Agente IA Personalizado</li>
+                      <li className="flex items-center gap-1.5">✓ Integración API Gemini/LLM</li>
+                      <li className="flex items-center gap-1.5">✓ Automatización de Flujos B2B</li>
+                      <li className="flex items-center gap-1.5">✓ Asesoría & Desarrollo VIP</li>
+                    </ul>
+                  </div>
+                  <button
+                    onClick={() => handleCheckout("599")}
+                    disabled={loading}
+                    className="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 rounded-xl text-xs uppercase tracking-wider transition-all cursor-pointer shadow-md mt-4"
+                  >
+                    {loading ? "Cargando..." : "Activar por $599.99/mes"}
+                  </button>
+                </div>
+              </div>
+
+              <div className="text-center pt-3">
+                <button
+                  onClick={handleLogout}
+                  className="text-xs font-bold text-slate-400 hover:text-slate-600 underline cursor-pointer"
+                >
+                  Cerrar sesión o probar con otra cuenta
+                </button>
+              </div>
+            </motion.div>
           </div>
         ) : (
           /* VISTA FORMULARIO LOGIN / REGISTRO */
