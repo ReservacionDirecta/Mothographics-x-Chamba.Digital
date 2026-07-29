@@ -39,7 +39,17 @@ export default function UserPortal() {
   const [chatMessages, setChatMessages] = useState<any[]>([]);
   const [newMessageText, setNewMessageText] = useState("");
   const [clientTasks, setClientTasks] = useState<any[]>([]);
-  const [activeTab, setActiveTab] = useState<"overview" | "requests" | "chat">("overview");
+  const [activeTab, setActiveTab] = useState<"overview" | "requests" | "chat" | "project">("overview");
+
+  // Project context state
+  const [projectInfo, setProjectInfo] = useState({
+    projectDescription: "",
+    deployedUrl: "",
+    thumbnailUrl: "",
+    techStack: "",
+    githubRepo: "",
+  });
+  const [savingProject, setSavingProject] = useState(false);
 
   const navigate = useNavigate();
 
@@ -69,12 +79,15 @@ export default function UserPortal() {
     const headers = { Authorization: `Bearer ${token}` };
 
     try {
-      const [msgRes, taskRes] = await Promise.all([
+      const [msgRes, taskRes, userRes] = await Promise.all([
         fetch(`/api/messages/${userId}`, { headers }),
         fetch(`/api/tasks/${userId}`, { headers }),
+        fetch(`/api/auth/me`, { headers }), // refresca info completa con campos proyecto
       ]);
       const msgData = await msgRes.json();
       const taskData = await taskRes.json();
+      const userData = await userRes.json();
+      
       if (msgData.messages) {
         setChatMessages(msgData.messages.map((m: any) => ({
           id: m.id || m._id,
@@ -91,6 +104,18 @@ export default function UserPortal() {
           priority: t.priority,
           date: t.createdAt,
         })));
+      }
+      if (userData.user) {
+        // Actualizar info de proyecto si viene del backend
+        setProjectInfo({
+          projectDescription: userData.user.projectDescription || "",
+          deployedUrl: userData.user.deployedUrl || "",
+          thumbnailUrl: userData.user.thumbnailUrl || "",
+          techStack: userData.user.techStack || "",
+          githubRepo: userData.user.githubRepo || "",
+        });
+        // Actualizar user state con campos proyecto
+        setUser(prev => prev ? { ...prev, ...userData.user } : null);
       }
     } catch (err) {
       console.warn("Failed to fetch client data:", err);
@@ -194,6 +219,37 @@ export default function UserPortal() {
     setView("login");
   };
 
+  const saveProjectInfo = async () => {
+    const token = localStorage.getItem("chamba_user_token");
+    if (!token || token === "mock_demo_jwt_token" || !user) return;
+    setSavingProject(true);
+    try {
+      const res = await fetch(`/api/users/${user.id}/project-info`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({
+          projectDescription: user.projectDescription || "",
+          deployedUrl: user.deployedUrl || "",
+          thumbnailUrl: user.thumbnailUrl || "",
+          techStack: user.techStack || "",
+          githubRepo: user.githubRepo || "",
+        }),
+      });
+      const data = await res.json();
+      if (res.ok && data.user) {
+        setUser(data.user);
+        alert("Información de proyecto guardada ✓");
+      } else {
+        alert(data.error || "Error guardando información");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Error de conexión");
+    } finally {
+      setSavingProject(false);
+    }
+  };
+
   // (chat/tasks/activeTab state is declared at the top of the component to avoid hoisting issues)
 
   const handleSendMessage = async (e: React.FormEvent) => {
@@ -255,6 +311,11 @@ export default function UserPortal() {
     }, 1000);
   };
 
+  const handleSaveProjectInfo = async (e: React.FormEvent) => {
+    e.preventDefault();
+    await saveProjectInfo();
+  };
+
   return (
     <div className="bg-white text-slate-900 selection:bg-accent selection:text-white min-h-screen flex flex-col justify-between">
       <ChambaNavbar />
@@ -294,6 +355,16 @@ export default function UserPortal() {
                 }`}
               >
                 <Layers className="w-4 h-4" /> Resumen del Proyecto
+              </button>
+              <button
+                onClick={() => setActiveTab("project")}
+                className={`pb-3 flex items-center gap-2 border-b-2 transition-all cursor-pointer ${
+                  activeTab === "project"
+                    ? "border-accent text-accent"
+                    : "border-transparent text-slate-500 hover:text-slate-900"
+                }`}
+              >
+                <Server className="w-4 h-4" /> Contexto del Proyecto
               </button>
               <button
                 onClick={() => setActiveTab("requests")}
@@ -396,6 +467,95 @@ export default function UserPortal() {
               </div>
             )}
 
+            {/* TAB: PROJECT INFO */}
+            {activeTab === "project" && (
+              <div className="bg-white border border-slate-200 rounded-[24px] p-6 sm:p-8 space-y-6 shadow-md">
+                <div className="flex justify-between items-center">
+                  <div>
+                    <h2 className="text-[20px] font-black text-slate-900">Información del Proyecto</h2>
+                    <p className="text-[13px] text-slate-500">Mantén actualizado el contexto técnico de tu sitio para que el equipo pueda trabajar eficientemente.</p>
+                  </div>
+                </div>
+
+                <form onSubmit={handleSaveProjectInfo} className="space-y-5">
+                  <div>
+                    <label className="block text-[11px] font-extrabold text-slate-700 uppercase mb-1">Descripción del Proyecto</label>
+                    <textarea
+                      value={user?.projectDescription || ""}
+                      onChange={(e) => setUser(prev => prev ? { ...prev, projectDescription: e.target.value } : null)}
+                      rows={4}
+                      className="w-full bg-slate-50 border border-slate-200 focus:border-accent rounded-xl px-4 py-3 text-[13px] text-slate-900 outline-none"
+                      placeholder="Describe tu proyecto: objetivos, funcionalidades clave, público objetivo..."
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] font-extrabold text-slate-700 uppercase mb-1">URL del Sitio Desplegado</label>
+                    <input
+                      type="url"
+                      value={user?.deployedUrl || ""}
+                      onChange={(e) => setUser(prev => prev ? { ...prev, deployedUrl: e.target.value } : null)}
+                      className="w-full bg-slate-50 border border-slate-200 focus:border-accent rounded-xl px-4 py-3 text-[13px] text-slate-900 outline-none"
+                      placeholder="https://tusitio.com"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] font-extrabold text-slate-700 uppercase mb-1">URL Miniatura / Thumbnail (opcional)</label>
+                    <input
+                      type="url"
+                      value={user?.thumbnailUrl || ""}
+                      onChange={(e) => setUser(prev => prev ? { ...prev, thumbnailUrl: e.target.value } : null)}
+                      className="w-full bg-slate-50 border border-slate-200 focus:border-accent rounded-xl px-4 py-3 text-[13px] text-slate-900 outline-none"
+                      placeholder="https://tusitio.com/og-image.jpg (para preview en panel admin)"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] font-extrabold text-slate-700 uppercase mb-1">Stack Tecnológico</label>
+                    <input
+                      type="text"
+                      value={user?.techStack || ""}
+                      onChange={(e) => setUser(prev => prev ? { ...prev, techStack: e.target.value } : null)}
+                      className="w-full bg-slate-50 border border-slate-200 focus:border-accent rounded-xl px-4 py-3 text-[13px] text-slate-900 outline-none"
+                      placeholder="React, Node.js, PostgreSQL, Tailwind, Railway..."
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] font-extrabold text-slate-700 uppercase mb-1">Repositorio GitHub (opcional)</label>
+                    <input
+                      type="url"
+                      value={user?.githubRepo || ""}
+                      onChange={(e) => setUser(prev => prev ? { ...prev, githubRepo: e.target.value } : null)}
+                      className="w-full bg-slate-50 border border-slate-200 focus:border-accent rounded-xl px-4 py-3 text-[13px] text-slate-900 outline-none"
+                      placeholder="https://github.com/tu-usuario/tu-repo"
+                    />
+                  </div>
+
+                  {user?.thumbnailUrl && (
+                    <div className="p-4 bg-slate-50 rounded-xl border border-slate-200">
+                      <p className="text-[11px] font-bold text-slate-700 mb-2">Vista previa miniatura:</p>
+                      <img
+                        src={user.thumbnailUrl}
+                        alt="Thumbnail"
+                        className="max-w-xs h-auto rounded-lg border border-slate-200 shadow-sm"
+                        onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                      />
+                    </div>
+                  )}
+
+                  <button
+                    type="submit"
+                    disabled={savingProject}
+                    className="w-full bg-slate-900 hover:bg-slate-800 text-white font-black py-3 rounded-xl text-[13px] uppercase tracking-wider transition-all shadow-md cursor-pointer disabled:opacity-50"
+                  >
+                    {savingProject ? "Guardando..." : "Guardar Cambios"}
+                  </button>
+                </form>
+              </div>
+            )}
+
             {/* TAB 2: REQUESTS / TASKS */}
             {activeTab === "requests" && (
               <div className="bg-white border border-slate-200 rounded-[24px] p-6 sm:p-8 space-y-6 shadow-md">
@@ -441,6 +601,95 @@ export default function UserPortal() {
                     </div>
                   ))}
                 </div>
+              </div>
+            )}
+
+            {/* TAB: PROJECT INFO */}
+            {activeTab === "project" && (
+              <div className="bg-white border border-slate-200 rounded-[24px] p-6 sm:p-8 space-y-6 shadow-md">
+                <div className="flex justify-between items-center">
+                  <div>
+                    <h2 className="text-[20px] font-black text-slate-900">Información del Proyecto</h2>
+                    <p className="text-[13px] text-slate-500">Mantén actualizado el contexto técnico de tu sitio para que el equipo pueda trabajar eficientemente.</p>
+                  </div>
+                </div>
+
+                <form onSubmit={handleSaveProjectInfo} className="space-y-5">
+                  <div>
+                    <label className="block text-[11px] font-extrabold text-slate-700 uppercase mb-1">Descripción del Proyecto</label>
+                    <textarea
+                      value={user?.projectDescription || ""}
+                      onChange={(e) => setUser(prev => prev ? { ...prev, projectDescription: e.target.value } : null)}
+                      rows={4}
+                      className="w-full bg-slate-50 border border-slate-200 focus:border-accent rounded-xl px-4 py-3 text-[13px] text-slate-900 outline-none"
+                      placeholder="Describe tu proyecto: objetivos, funcionalidades clave, público objetivo..."
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] font-extrabold text-slate-700 uppercase mb-1">URL del Sitio Desplegado</label>
+                    <input
+                      type="url"
+                      value={user?.deployedUrl || ""}
+                      onChange={(e) => setUser(prev => prev ? { ...prev, deployedUrl: e.target.value } : null)}
+                      className="w-full bg-slate-50 border border-slate-200 focus:border-accent rounded-xl px-4 py-3 text-[13px] text-slate-900 outline-none"
+                      placeholder="https://tusitio.com"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] font-extrabold text-slate-700 uppercase mb-1">URL Miniatura / Thumbnail (opcional)</label>
+                    <input
+                      type="url"
+                      value={user?.thumbnailUrl || ""}
+                      onChange={(e) => setUser(prev => prev ? { ...prev, thumbnailUrl: e.target.value } : null)}
+                      className="w-full bg-slate-50 border border-slate-200 focus:border-accent rounded-xl px-4 py-3 text-[13px] text-slate-900 outline-none"
+                      placeholder="https://tusitio.com/og-image.jpg (para preview en panel admin)"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] font-extrabold text-slate-700 uppercase mb-1">Stack Tecnológico</label>
+                    <input
+                      type="text"
+                      value={user?.techStack || ""}
+                      onChange={(e) => setUser(prev => prev ? { ...prev, techStack: e.target.value } : null)}
+                      className="w-full bg-slate-50 border border-slate-200 focus:border-accent rounded-xl px-4 py-3 text-[13px] text-slate-900 outline-none"
+                      placeholder="React, Node.js, PostgreSQL, Tailwind, Railway..."
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] font-extrabold text-slate-700 uppercase mb-1">Repositorio GitHub (opcional)</label>
+                    <input
+                      type="url"
+                      value={user?.githubRepo || ""}
+                      onChange={(e) => setUser(prev => prev ? { ...prev, githubRepo: e.target.value } : null)}
+                      className="w-full bg-slate-50 border border-slate-200 focus:border-accent rounded-xl px-4 py-3 text-[13px] text-slate-900 outline-none"
+                      placeholder="https://github.com/tu-usuario/tu-repo"
+                    />
+                  </div>
+
+                  {user?.thumbnailUrl && (
+                    <div className="p-4 bg-slate-50 rounded-xl border border-slate-200">
+                      <p className="text-[11px] font-bold text-slate-700 mb-2">Vista previa miniatura:</p>
+                      <img
+                        src={user.thumbnailUrl}
+                        alt="Thumbnail"
+                        className="max-w-xs h-auto rounded-lg border border-slate-200 shadow-sm"
+                        onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                      />
+                    </div>
+                  )}
+
+                  <button
+                    type="submit"
+                    disabled={savingProject}
+                    className="w-full bg-slate-900 hover:bg-slate-800 text-white font-black py-3 rounded-xl text-[13px] uppercase tracking-wider transition-all shadow-md cursor-pointer disabled:opacity-50"
+                  >
+                    {savingProject ? "Guardando..." : "Guardar Cambios"}
+                  </button>
+                </form>
               </div>
             )}
 

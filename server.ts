@@ -57,6 +57,13 @@ const userSchema = new mongoose.Schema({
   planPrice: { type: String, default: "$49.99/mes" },
   subscriptionStatus: { type: String, default: "activa" },
   projectStatus: { type: String, default: "en_produccion" },
+  // Project context fields
+  projectDescription: { type: String, default: "" },
+  deployedUrl: { type: String, default: "" },
+  thumbnailUrl: { type: String, default: "" },
+  techStack: { type: String, default: "" },
+  githubRepo: { type: String, default: "" },
+  lastDeployedAt: { type: Date },
   createdAt: { type: Date, default: Date.now }
 });
 
@@ -329,6 +336,96 @@ async function startServer() {
       return res.status(401).json({ error: "Token inválido o expirado." });
     }
   };
+
+  // PUT /api/users/:id/project-info - Client updates their project context
+  app.put("/api/users/:id/project-info", requireAuth, async (req: any, res) => {
+    try {
+      const { id } = req.params;
+      // Users can only update their own project info
+      if (req.user.userId !== id) {
+        return res.status(403).json({ error: "No autorizado para editar este perfil." });
+      }
+      const { projectDescription, deployedUrl, thumbnailUrl, techStack, githubRepo } = req.body;
+      const updateData: any = {};
+      if (projectDescription !== undefined) updateData.projectDescription = projectDescription;
+      if (deployedUrl !== undefined) updateData.deployedUrl = deployedUrl;
+      if (thumbnailUrl !== undefined) updateData.thumbnailUrl = thumbnailUrl;
+      if (techStack !== undefined) updateData.techStack = techStack;
+      if (githubRepo !== undefined) updateData.githubRepo = githubRepo;
+
+      let user: any = null;
+      if (isMongoConnected) {
+        user = await UserModel.findByIdAndUpdate(id, updateData, { new: true }).select("-password");
+      } else {
+        user = inMemoryUsers[id];
+        if (user) {
+          Object.assign(user, updateData);
+        }
+      }
+      if (!user) return res.status(404).json({ error: "Usuario no encontrado." });
+
+      return res.json({
+        user: {
+          id: user._id || user.id,
+          name: user.name,
+          email: user.email,
+          company: user.company,
+          plan: user.plan,
+          planPrice: user.planPrice,
+          subscriptionStatus: user.subscriptionStatus,
+          projectStatus: user.projectStatus,
+          projectDescription: user.projectDescription,
+          deployedUrl: user.deployedUrl,
+          thumbnailUrl: user.thumbnailUrl,
+          techStack: user.techStack,
+          githubRepo: user.githubRepo,
+          lastDeployedAt: user.lastDeployedAt
+        }
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: "Error actualizando info del proyecto.", details: e.message });
+    }
+  });
+
+  // GET /api/admin/clients/:id - Admin gets full client details including project fields
+  app.get("/api/admin/clients/:id", requireAuth, async (req: any, res) => {
+    try {
+      const { id } = req.params;
+      let user: any = null;
+      if (isMongoConnected) {
+        user = await UserModel.findById(id).select("-password");
+      } else {
+        user = inMemoryUsers[id];
+      }
+      if (!user) return res.status(404).json({ error: "Cliente no encontrado." });
+
+      return res.json({
+        client: {
+          id: user._id || user.id,
+          name: user.name,
+          email: user.email,
+          phone: user.phone || "—",
+          company: user.company,
+          plan: user.plan,
+          price: user.planPrice,
+          subscriptionStatus: user.subscriptionStatus === "activa" ? "active" : user.subscriptionStatus,
+          projectStatus: user.projectStatus,
+          railwayStatus: "activo",
+          startDate: user.createdAt ? String(user.createdAt).slice(0, 10) : "—",
+          notes: user.projectDescription || "Cliente WaaS activo",
+          // Project fields
+          projectDescription: user.projectDescription,
+          deployedUrl: user.deployedUrl,
+          thumbnailUrl: user.thumbnailUrl,
+          techStack: user.techStack,
+          githubRepo: user.githubRepo,
+          lastDeployedAt: user.lastDeployedAt
+        }
+      });
+    } catch (e: any) {
+      res.status(500).json({ error: "Error obteniendo cliente.", details: e.message });
+    }
+  });
 
   // API: Get messages for a client (by clientId or current user)
   app.get("/api/messages/:clientId?", requireAuth, async (req: any, res) => {
