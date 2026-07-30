@@ -18,7 +18,7 @@ export const SEO: React.FC<SEOProps> = ({
   keywords,
   ogTitle,
   ogDescription,
-  ogImage = "https://chamba.digital/og-image.png",
+  ogImage = "https://chamba.digital/og-image.webp",
   ogUrl,
   canonicalUrl,
   schema

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { ChambaNavbar, WhatsAppIcon, ChambaFooter } from "../App";
 import { Link } from "react-router-dom";
+import { SEO } from "../components/SEO";
 import { ProjectCardThumbnail } from "../components/common/ProjectCardThumbnail";
 import {
   ArrowRight, CheckCircle2, X, Zap, ExternalLink, MapPin,
@@ -121,7 +122,16 @@ export default function PortfolioPage() {
   const filteredWebs = filter === "all" ? webProjects : webProjects.filter(w => w.category === filter);
 
   return (
-    <div className="bg-white text-slate-900 selection:bg-accent selection:text-white min-h-screen">
+    <div className="bg-bg text-fg selection:bg-accent selection:text-white">
+      <SEO 
+        title="Portafolio de Proyectos | Chamba Digital"
+        description="Mira nuestros proyectos de desarrollo web, PMS hoteleros, e-commerce y automatización con IA. Casos de éxito reales."
+        keywords="Portafolio Desarrollo Web, Casos de Éxito, Proyectos Web Peru, Chamba Digital"
+        ogTitle="Portafolio de Proyectos | Chamba Digital"
+        ogDescription="Proyectos de desarrollo web, PMS hoteleros, e-commerce y automatización con IA."
+        ogImage="https://chamba.digital/og-image.webp"
+        canonicalUrl="https://chamba.digital/portafolio"
+      />
       <ChambaNavbar />
       <main className="pt-[70px]">
 

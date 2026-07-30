@@ -84,7 +84,7 @@ const HotelsLandingPage: React.FC = () => {
         keywords="Marketing Hotelero Perú, Motor de Reservas Hoteles, Sirvoy PMS Perú, Desarrollo Web Hoteles, Automatización Hotelera IA, Reservas Directas Hoteles, Agencia Marketing Hotelero Lima, Máncora Hoteles Marketing, Chamba Digital Hoteles"
         ogTitle="Marketing Hotelero y Motor de Reservas Directas | Chamba Digital"
         ogDescription="Recupera tus reservas directas y elimina comisiones de OTAs con nuestro ecosistema integral de marketing hotelero, PMS y automatización IA."
-        ogImage="https://chamba.digital/og-image.png"
+        ogImage="https://chamba.digital/og-image.webp"
         canonicalUrl="https://chamba.digital/hotels"
         schema={{
           "@context": "https://schema.org",

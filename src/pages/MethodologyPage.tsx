@@ -1,6 +1,7 @@
 import { motion } from "motion/react";
 import { ChambaNavbar, Logo, WhatsAppIcon, ChambaFooter } from "../App";
 import { Link } from "react-router-dom";
+import { SEO } from "../components/SEO";
 import {
   ArrowRight, CheckCircle2, Target, Palette, Code2, Zap,
   Clock, Repeat, Briefcase, Rocket, ShieldCheck, TrendingUp,
@@ -37,7 +38,16 @@ const steps = [
 
 export default function MethodologyPage() {
   return (
-    <div className="bg-bg text-fg selection:bg-accent selection:text-white">
+    <div className="bg-bg text-fg selection:bg-accent selection:text-white overflow-x-hidden">
+      <SEO 
+        title="Metodología de Trabajo | Chamba Digital"
+        description="Nuestro proceso de 4 pasos: estrategia, diseño, ingeniería y optimización. Metodología probada para proyectos web de alto rendimiento."
+        keywords="Metodología Desarrollo Web, Proceso Creativo Digital, Chamba Digital"
+        ogTitle="Metodología de Trabajo | Chamba Digital"
+        ogDescription="Proceso de 4 pasos: estrategia, diseño, ingeniería y optimización."
+        ogImage="https://chamba.digital/og-image.webp"
+        canonicalUrl="https://chamba.digital/metodologia"
+      />
       <ChambaNavbar />
       <main className="pt-[70px]">
 

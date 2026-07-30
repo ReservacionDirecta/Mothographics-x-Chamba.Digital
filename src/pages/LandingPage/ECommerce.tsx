@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { ChambaNavbar } from '../../App';
+import { SEO } from '../../components/SEO';
 import { 
   ShoppingCart, 
   BarChart3, 
@@ -26,6 +27,35 @@ import { Logo, ChambaFooter } from '../../App';
 const EcommerceLandingPage: React.FC = () => {
   return (
     <div className="bg-bg text-fg selection:bg-accent selection:text-white">
+      <SEO 
+        title="E-commerce y Performance Marketing | Chamba Digital"
+        description="E-commerce de alto rendimiento con optimización de conversión (CRO) y escalamiento rentable. Shopify, WooCommerce y soluciones a medida."
+        keywords="E-commerce Peru, Performance Marketing, CRO Optimization, Shopify Peru, WooCommerce, Chamba Digital"
+        ogTitle="E-commerce y Performance Marketing | Chamba Digital"
+        ogDescription="Tiendas digitales de alto rendimiento con optimización de conversión y escalamiento rentable."
+        ogImage="https://chamba.digital/og-image.webp"
+        canonicalUrl="https://chamba.digital/ecommerce"
+        schema={{
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "WebPage",
+              "@id": "https://chamba.digital/ecommerce#webpage",
+              "url": "https://chamba.digital/ecommerce",
+              "name": "E-commerce y Performance Marketing | Chamba Digital",
+              "isPartOf": { "@id": "https://chamba.digital/#website" }
+            },
+            {
+              "@type": "Service",
+              "@id": "https://chamba.digital/ecommerce#service",
+              "name": "E-commerce y Performance Marketing",
+              "provider": { "@id": "https://chamba.digital/#organization" },
+              "description": "Tiendas digitales de alto rendimiento con optimización de conversión y escalamiento rentable.",
+              "category": "E-commerce Development"
+            }
+          ]
+        }}
+      />
       <ChambaNavbar />
       
       <main className="pt-[70px]">

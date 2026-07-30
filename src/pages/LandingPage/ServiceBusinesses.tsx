@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { ChambaNavbar } from '../../App';
+import { SEO } from '../../components/SEO';
 import { 
   Briefcase, 
   MessageSquare, 
@@ -26,6 +27,35 @@ import { Logo, ChambaFooter } from '../../App';
 const ServiceBusinessesLandingPage: React.FC = () => {
   return (
     <div className="bg-bg text-fg selection:bg-accent selection:text-white">
+      <SEO 
+        title="Generación de Leads y Embudos B2B | Chamba Digital"
+        description="Embudos de captación, automatización de agendas y conversión B2B. Transformamos tráfico en clientes para servicios profesionales."
+        keywords="Lead Generation Peru, Embudo de Ventas B2B, Automatización de Agenda, Marketing Digital Servicios, Chamba Digital"
+        ogTitle="Generación de Leads y Embudos B2B | Chamba Digital"
+        ogDescription="Embudos de captación y automatización que transforman tráfico en clientes para servicios profesionales."
+        ogImage="https://chamba.digital/og-image.webp"
+        canonicalUrl="https://chamba.digital/servicebusinesses"
+        schema={{
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "WebPage",
+              "@id": "https://chamba.digital/servicebusinesses#webpage",
+              "url": "https://chamba.digital/servicebusinesses",
+              "name": "Generación de Leads y Embudos B2B | Chamba Digital",
+              "isPartOf": { "@id": "https://chamba.digital/#website" }
+            },
+            {
+              "@type": "Service",
+              "@id": "https://chamba.digital/servicebusinesses#service",
+              "name": "Generación de Leads y Embudos B2B",
+              "provider": { "@id": "https://chamba.digital/#organization" },
+              "description": "Embudos de captación y automatización para servicios profesionales B2B.",
+              "category": "Lead Generation"
+            }
+          ]
+        }}
+      />
       <ChambaNavbar />
       
       <main className="pt-[70px]">

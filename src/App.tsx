@@ -1936,10 +1936,10 @@ const ChambaHero = () => (
       <span className="label-editorial mx-auto">
         Web as a Service (WaaS)
       </span>
-      <h1 className="text-[36px] sm:text-[48px] md:text-[56px] max-w-[850px] leading-[1.1] md:leading-[1] mb-6 font-black tracking-tight text-slate-900">
+      <h2 className="text-[36px] sm:text-[48px] md:text-[56px] max-w-[850px] leading-[1.1] md:leading-[1] mb-6 font-black tracking-tight text-slate-900">
         Tu web a medida <br />
         <span className="text-accent">$49 al mes</span>.
-      </h1>
+      </h2>
       <p className="text-[16px] md:text-[18px] text-slate-600 font-medium leading-[1.6] max-w-[650px] mb-10 mx-auto px-4">
         Cambios e iteraciones ilimitadas. Mantenimiento y soporte continuo. Despliegue en Railway (hosting desde $5/mes y dominio a cuenta del cliente).
       </p>

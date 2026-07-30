@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { SEO } from "../../components/SEO";
 import {
   Phone,
   Gift,
@@ -282,6 +283,15 @@ const RafflePage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-bg text-fg selection:bg-accent selection:text-white overflow-x-hidden">
+      <SEO 
+        title="Sorteo Digital | Chamba Digital"
+        description="Participa en nuestro sorteo digital y gana un proyecto web completo. Regístrate gratis."
+        keywords="Sorteo Digital, Giveaway Web, Chamba Digital"
+        ogTitle="Sorteo Digital | Chamba Digital"
+        ogDescription="Participa y gana un proyecto web completo."
+        ogImage="https://chamba.digital/og-image.webp"
+        canonicalUrl="https://chamba.digital/sorteo"
+      />
       <ChambaNavbar />
       
       <main className="pt-[70px]">

@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { ChambaNavbar, WhatsAppIcon, ChambaFooter } from '../App';
 import { Link } from 'react-router-dom';
+import { SEO } from '../components/SEO';
 import { 
   Code2, 
   Bot, 
@@ -112,7 +113,36 @@ const ServicesPage: React.FC = () => {
   ];
 
   return (
-    <div className="bg-white text-slate-900 selection:bg-accent selection:text-white min-h-screen">
+    <div className="bg-bg text-fg selection:bg-accent selection:text-white">
+      <SEO 
+        title="Servicios de Desarrollo Web y Automatización | Chamba Digital"
+        description="Planes WaaS desde $49/mes. Desarrollo web a medida, e-commerce, automatización con IA y consultoría digital."
+        keywords="Desarrollo Web Peru, WaaS Web as a Service, Automatización IA, Consultoría Digital, Chamba Digital Servicios"
+        ogTitle="Servicios de Desarrollo Web y Automatización | Chamba Digital"
+        ogDescription="Planes WaaS desde $49/mes. Web a medida, e-commerce, automatización y consultoría digital."
+        ogImage="https://chamba.digital/og-image.webp"
+        canonicalUrl="https://chamba.digital/servicios"
+        schema={{
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "WebPage",
+              "@id": "https://chamba.digital/servicios#webpage",
+              "url": "https://chamba.digital/servicios",
+              "name": "Servicios de Desarrollo Web y Automatización | Chamba Digital",
+              "isPartOf": { "@id": "https://chamba.digital/#website" }
+            },
+            {
+              "@type": "Service",
+              "@id": "https://chamba.digital/servicios#service",
+              "name": "Servicios de Desarrollo Web y Automatización",
+              "provider": { "@id": "https://chamba.digital/#organization" },
+              "description": "Planes WaaS desde $49/mes. Desarrollo web a medida, e-commerce, automatización con IA.",
+              "category": "Web Development"
+            }
+          ]
+        }}
+      />
       <ChambaNavbar />
       
       <main className="pt-[90px] pb-24">
