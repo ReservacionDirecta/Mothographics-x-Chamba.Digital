@@ -1502,8 +1502,39 @@ Responde en español de forma profesional, empática, ágil y totalmente context
         timeout: 30000 
       });
 
-      // Wait a bit for dynamic content
-      await page.waitForTimeout(1500);
+      // Wait for loading screens to disappear and content to render
+      // Common loading selectors used by SPA builders, WordPress themes, etc.
+      await page.waitForFunction(() => {
+        const loadingSelectors = [
+          '[class*="loader"]', '[class*="loading"]', '[class*="spinner"]',
+          '[class*="preloader"]', '[id*="loader"]', '[id*="loading"]',
+          '[id*="preloader"]', '.pace', '#pace', '[class*="skeleton"]',
+          '[class*="placeholder"]', '[class*="splash"]'
+        ];
+        for (const sel of loadingSelectors) {
+          const el = document.querySelector(sel);
+          if (el && (el as HTMLElement).offsetParent !== null) return false;
+        }
+        // Also check if body has meaningful content
+        return document.body && document.body.innerText.length > 100;
+      }, { timeout: 15000 }).catch(() => {});
+
+      // Wait for images to load
+      await page.evaluate(() => {
+        return Promise.all(
+          Array.from(document.querySelectorAll('img')).map(img => {
+            if (img.complete) return Promise.resolve();
+            return new Promise<void>(resolve => {
+              img.onload = () => resolve();
+              img.onerror = () => resolve();
+              setTimeout(resolve, 3000);
+            });
+          })
+        );
+      });
+
+      // Extra settle time for animations
+      await page.waitForTimeout(1000);
 
       // Take screenshot
       const filename = `thumb_${Date.now()}_${Math.random().toString(36).slice(2, 8)}.png`;
