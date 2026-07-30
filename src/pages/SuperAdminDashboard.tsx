@@ -210,8 +210,8 @@ const initialClients: ClientProfile[] = [
     polarSubscriptionId: "sub_polar_pnegritos",
     autoRenew: true,
     notes: "Hotel eco-lodge frente al mar para practicantes de Kitesurf, Windsurf y Surf.",
-    deployedUrl: "https://puntanegritos.com",
-    thumbnailUrl: "https://s.wordpress.com/mshots/v1/https://puntanegritos.com?w=600",
+    deployedUrl: "https://puntanegritos.webflow.io",
+    thumbnailUrl: "https://s.wordpress.com/mshots/v1/https://puntanegritos.webflow.io?w=600",
     techStack: ["React", "Sirvoy PMS", "Polar.sh", "Express"],
   },
   {

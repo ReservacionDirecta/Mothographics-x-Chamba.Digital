@@ -1149,9 +1149,9 @@ const Portfolio = () => {
       thumb: "https://s.wordpress.com/mshots/v1/https://kabsa.pe?w=600",
     },
     {
-      url: "puntanegritos.com",
+      url: "puntanegritos.webflow.io",
       label: "Wind & Surf Hotel",
-      thumb: "https://s.wordpress.com/mshots/v1/https://puntanegritos.com?w=600",
+      thumb: "https://s.wordpress.com/mshots/v1/https://puntanegritos.webflow.io?w=600",
     },
     {
       url: "haciendadonvicente.com",
