@@ -1134,7 +1134,7 @@ const Portfolio = () => {
     {
       url: "penalindamancora.com",
       label: "Reserva Directa Hotelera",
-      thumb: "https://s.wordpress.com/mshots/v1/https://penalindamancora.com?w=600",
+      thumb: "https://s.wordpress.com/mshots/v1/https://penalindabungalows.up.railway.app?w=600",
     },
     {
       url: "www.dupla.work",

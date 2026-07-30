@@ -186,7 +186,7 @@ const PORTFOLIO_SEED = [
     projectStatus: "en_produccion",
     projectDescription: "Hotel de playa con sistema de reservaciones directas sin comisiones y motor de pagos.",
     deployedUrl: "https://penalindamancora.com",
-    thumbnailUrl: "https://s.wordpress.com/mshots/v1/https://penalindamancora.com?w=600",
+    thumbnailUrl: "https://s.wordpress.com/mshots/v1/https://penalindabungalows.up.railway.app?w=600",
     techStack: "React, Motor Sirvoy PMS, Polar.sh, Railway",
     role: "client",
   },
@@ -316,6 +316,8 @@ async function seedTestUser() {
           password: defaultPassword,
         });
         console.log(`[Seed] Client created in DB: ${item.email}`);
+      } else {
+        await UserModel.updateOne({ email: item.email }, { $set: { thumbnailUrl: item.thumbnailUrl, deployedUrl: item.deployedUrl } });
       }
     }
 

@@ -151,7 +151,7 @@ const initialClients: ClientProfile[] = [
     autoRenew: true,
     notes: "Hotel de playa con sistema de reservaciones directas sin comisiones y motor de pagos.",
     deployedUrl: "https://penalindamancora.com",
-    thumbnailUrl: "https://s.wordpress.com/mshots/v1/https://penalindamancora.com?w=600",
+    thumbnailUrl: "https://s.wordpress.com/mshots/v1/https://penalindabungalows.up.railway.app?w=600",
     techStack: ["React", "Sirvoy PMS", "Polar.sh", "Railway"],
   },
   {

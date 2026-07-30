@@ -20,7 +20,7 @@ const hotelClients = [
   {
     emoji: "🏝️", name: "Peña Linda Bungalows", location: "Máncora – Perú",
     category: "hotel", url: "penalindamancora.com",
-    thumb: "https://s.wordpress.com/mshots/v1/https://penalindamancora.com?w=600",
+    thumb: "https://s.wordpress.com/mshots/v1/https://penalindabungalows.up.railway.app?w=600",
     highlight: "+10 años operando juntos",
     tasks: ["PMS Integral", "Web Oficial WaaS", "Motor de Reservas Directas", "Atención WhatsApp e IA", "Soporte Continuo"],
     focus: "Ecosistema comercial autónomo con evolución y mantenimiento permanente.",
