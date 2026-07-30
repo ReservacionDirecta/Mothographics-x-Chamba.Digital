@@ -17,7 +17,7 @@ const hotelClients = [
     thumb: "/thumbs/pacificsurfschool.webp",
     highlight: "Suscripción WaaS Activa",
     tasks: ["Sitio Web WaaS a Medida", "Reserva de Clases Online", "Diseño UX Mobile-First", "Integración WhatsApp Directo", "Mantenimiento Continuo"],
-    focus: "Plataforma web de alto rendimiento sin inversión inicial masiva. Cambios e iteraciones ilimitadas.",
+    focus: "Plataforma web sin inversión inicial. Actualizaciones continuas.",
   },
   {
     emoji: "🏝️", name: "Peña Linda Bungalows", location: "Máncora – Perú",
@@ -25,15 +25,15 @@ const hotelClients = [
     thumb: "/thumbs/penalindamancora.webp",
     highlight: "+10 años operando juntos",
     tasks: ["PMS Integral", "Web Oficial WaaS", "Motor de Reservas Directas", "Atención WhatsApp e IA", "Soporte Continuo"],
-    focus: "Ecosistema comercial autónomo con evolución y mantenimiento permanente.",
+    focus: "Operación comercial autónoma con soporte continuo.",
   },
   {
     emoji: "🌿", name: "Fundo Achamaqui", location: "Chachapoyas – Perú",
     category: "hotel", url: "fundoachamaqui.com",
     thumb: "/thumbs/fundoachamaqui.webp",
-    highlight: "Producto turístico premium",
-    tasks: ["Plataforma Web", "Paquetes Turísticos Premium", "Estrategia Pricing", "Atención por WhatsApp"],
-    focus: "Transformación de hospedaje en producto turístico premium escalable.",
+    highlight: "Paquetes turísticos",
+    tasks: ["Plataforma Web", "Paquetes Turísticos", "Estrategia Pricing", "Atención por WhatsApp"],
+    focus: "Hospedaje convertido en paquete turístico con venta directa.",
   },
   {
     emoji: "🌊", name: "Punta Negritos | Wind & Surf", location: "Talara – Perú",
@@ -332,7 +332,7 @@ export default function PortfolioPage() {
                   <Zap className="w-8 h-8 text-amber-400" /> Hothelia SaaS
                 </h3>
                 <p className="text-[15px] text-slate-300 leading-relaxed mb-8 font-medium">
-                  Nuestra plataforma hotelera con Inteligencia Artificial integrada. Demuestra la capacidad técnica de Chamba Digital para crear productos escalables de alto nivel.
+                  Plataforma hotelera con IA integrada. Producto propio para gestionar reservas, guests y marketing.
                 </p>
                 <a href="https://hothelia.com" target="_blank" rel="noopener noreferrer"
                   className="inline-flex items-center gap-3 bg-amber-400 hover:bg-amber-300 text-slate-950 px-7 py-4 rounded-xl font-black text-[13px] uppercase tracking-wider transition-all shadow-lg">

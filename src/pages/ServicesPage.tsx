@@ -35,7 +35,7 @@ const ServicesPage: React.FC = () => {
       desc: "Web a medida para profesionales, tiendas, clínicas y negocios locales. Sin inversión inicial masiva.",
       features: [
         "Código 100% propio (sin plantillas)",
-        "Cambios ilimitados de contenido",
+        "Actualizaciones de contenido incluidas",
         "Mantenimiento técnico continuo",
         "Despliegue en Railway (desde $5/mes a tu cuenta)",
         "Certificado SSL & Dominio configurado",
@@ -95,7 +95,7 @@ const ServicesPage: React.FC = () => {
     {
       title: "Arquitectura Cloud & Railway",
       icon: Server,
-      desc: "Despliegue seguro en servidores cloud de alto rendimiento a un costo accesible.",
+      desc: "Despliegue en Railway con uptime del 99.9% y costo desde $5/mes.",
       features: ["Despliegue en Railway desde $5/mes", "Bases de Datos PostgreSQL / Redis", "Certificados SSL Automáticos", "Uptime de 99.9%"]
     },
     {

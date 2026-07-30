@@ -37,14 +37,14 @@ const HotelsLandingPage: React.FC = () => {
       name: "Peña Linda Bungalows",
       location: "Máncora – Perú",
       tasks: ["PMS Integral", "Web Oficial de Alta Conversión", "Motor de Reservas Directo", "Automatización IA", "Marketing Digital"],
-      focus: "Ecosistema comercial 100% autónomo."
+      focus: "Operación comercial 100% autónoma."
     },
     {
       emoji: "🌿",
       name: "Fundo Achamaqui",
       location: "Chachapoyas – Perú",
       tasks: ["PMS + Reservas", "Diseño de Paquetes Premium", "Pricing Estratégico", "Conversión IA"],
-      focus: "Transformación en producto turístico premium."
+      focus: "Hospedaje convertido en producto turístico."
     },
     {
       emoji: "🌊",
@@ -83,7 +83,7 @@ const HotelsLandingPage: React.FC = () => {
         description="Recupera tus reservas directas y elimina comisiones de OTAs (Booking, Airbnb). Especialistas en Marketing Hotelero, integración de Sirvoy PMS, motores de reservas de alta conversión y automatización con Inteligencia Artificial en Perú y Latinoamérica."
         keywords="Marketing Hotelero Perú, Motor de Reservas Hoteles, Sirvoy PMS Perú, Desarrollo Web Hoteles, Automatización Hotelera IA, Reservas Directas Hoteles, Agencia Marketing Hotelero Lima, Máncora Hoteles Marketing, Chamba Digital Hoteles"
         ogTitle="Marketing Hotelero y Motor de Reservas Directas | Chamba Digital"
-        ogDescription="Recupera tus reservas directas y elimina comisiones de OTAs con nuestro ecosistema integral de marketing hotelero, PMS y automatización IA."
+        ogDescription="Elimina comisiones de Booking y Airbnb. Marketing hotelero, PMS y automatización con IA."
         ogImage="https://chamba.digital/og-image.webp"
         canonicalUrl="https://chamba.digital/hotels"
         schema={{
@@ -94,7 +94,7 @@ const HotelsLandingPage: React.FC = () => {
               "@id": "https://chamba.digital/hotels#webpage",
               "url": "https://chamba.digital/hotels",
               "name": "Marketing Hotelero y Motor de Reservas Directas | Chamba Digital",
-              "description": "Recupera tus reservas directas y elimina comisiones de OTAs con nuestro ecosistema integral de marketing hotelero, PMS y automatización IA.",
+              "description": "Elimina comisiones de Booking y Airbnb. Marketing hotelero, PMS y automatización con IA.",
               "isPartOf": {
                 "@id": "https://chamba.digital/#website"
               }
@@ -102,11 +102,11 @@ const HotelsLandingPage: React.FC = () => {
             {
               "@type": "Service",
               "@id": "https://chamba.digital/hotels#service",
-              "name": "Ecosistema Digital Hotelero de Alta Conversión",
+              "name": "Marketing Hotelero y Motor de Reservas Directas",
               "provider": {
                 "@id": "https://chamba.digital/#organization"
               },
-              "description": "Implementación y gestión integral de Sirvoy PMS, desarrollo web premium para hoteles, integración de motor de reservas directas sin comisiones y automatización de atención con Inteligencia Artificial.",
+              "description": "PMS Sirvoy, web hotelera, reservas directas y atención automatizada con IA.",
               "category": "Marketing Hotelero y Tecnología PMS",
               "areaServed": [
                 { "@type": "Country", "name": "Perú" },
@@ -123,7 +123,7 @@ const HotelsLandingPage: React.FC = () => {
                     "itemOffered": {
                       "@type": "Service",
                       "name": "Plan Desarrollo Web para Hoteles ($999 USD)",
-                      "description": "Web premium, integración de PMS, agente de reservas básico conectado al motor y 2500 créditos/mes en Google Flow para videos e imágenes IA."
+                      "description": "Web hotelera, integración PMS, agente de reservas y 2500 créditos/mes para contenido IA."
                     },
                     "price": "999.00",
                     "priceCurrency": "USD"
@@ -405,12 +405,12 @@ const HotelsLandingPage: React.FC = () => {
         {/* Guarantees */}
         <section className="py-20 px-6 md:px-10 max-w-[1024px] mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-[24px] md:text-[32px] font-bold tracking-tight">Garantías que <span className="text-accent">respaldan</span> nuestro trabajo.</h2>
+            <h2 className="text-[24px] md:text-[32px] font-bold tracking-tight">Qué <span className="text-accent">garantizamos</span>.</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {[
               { icon: Clock, t: "En Plazo", d: "Devolvemos el 20% si fallamos." },
-              { icon: Code2, t: "Propio", d: "Sin plantillas. SEO de élite." },
+              { icon: Code2, t: "Propio", d: "Sin plantillas. SEO técnico." },
               { icon: Headphones, t: "Soporte", d: "30 días de ajustes gratuitos." },
             ].map((item, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }} className="glass rounded-[16px] p-6 border-white/5 group">
@@ -443,7 +443,7 @@ const HotelsLandingPage: React.FC = () => {
             <div className="flex flex-col gap-6">
               <Logo />
               <p className="text-[14px] text-muted leading-relaxed">
-                Ingeniería Digital de alto nivel para el sector Hospitality. Transformamos hoteles con tecnología y datos.
+                Desarrollo web y marketing para hoteles. Tecnología y datos para vender directo.
               </p>
               <div className="flex gap-4">
                 <Instagram className="w-5 h-5 text-muted hover:text-accent transition-colors cursor-pointer" />

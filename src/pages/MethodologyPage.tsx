@@ -16,7 +16,7 @@ const steps = [
   },
   {
     step: "02", title: "Diseño Liquid Glass", icon: Palette,
-    desc: "Prototipos premium aprobados por ti.",
+    desc: "Prototipos aprobados por ti.",
     accent: "bg-purple-500/10 text-purple-500"
   },
   {
@@ -41,7 +41,7 @@ export default function MethodologyPage() {
     <div className="bg-bg text-fg selection:bg-accent selection:text-white overflow-x-hidden">
       <SEO 
         title="Metodología de Trabajo | Chamba Digital"
-        description="Nuestro proceso de 4 pasos: estrategia, diseño, ingeniería y optimización. Metodología probada para proyectos web de alto rendimiento."
+        description="Estrategia, diseño, ingeniería y optimización. Proceso claro para proyectos web."
         keywords="Metodología Desarrollo Web, Proceso Creativo Digital, Chamba Digital"
         ogTitle="Metodología de Trabajo | Chamba Digital"
         ogDescription="Proceso de 4 pasos: estrategia, diseño, ingeniería y optimización."
@@ -62,13 +62,13 @@ export default function MethodologyPage() {
           >
             <div className="inline-flex items-center gap-2 bg-accent/10 text-accent px-4 py-1.5 rounded-full border border-accent/20 mb-6">
               <Sparkles className="w-3.5 h-3.5" />
-              <span className="text-[11px] font-black uppercase tracking-widest">Sistema de Alto Rendimiento</span>
+              <span className="text-[11px] font-black uppercase tracking-widest">Proceso de Desarrollo</span>
             </div>
             <h1 className="text-[40px] md:text-[72px] font-black tracking-tighter leading-[0.9] mb-6">
-              Tu visión, construida con <span className="text-accent">Ingeniería de Élite</span>.
+              Tu proyecto, construido con <span className="text-accent">código propio</span>.
             </h1>
             <p className="text-muted text-[17px] md:text-[20px] max-w-[650px] mx-auto leading-relaxed mb-10">
-              Transformamos ideas complejas en <strong className="text-fg">máquinas de conversión</strong> en tiempo récord. Enfócate en vender.
+              Convertimos ideas en productos web funcionales en tiempo récord. Tú te encargas de vender.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -81,7 +81,7 @@ export default function MethodologyPage() {
               </motion.a>
               <div className="flex items-center gap-2 text-muted text-[12px] font-bold">
                 <ShieldCheck className="w-4 h-4 text-green-500" />
-                Garantía de Satisfacción Total
+                Sin compromiso
               </div>
             </div>
           </motion.div>
@@ -90,7 +90,7 @@ export default function MethodologyPage() {
         {/* Dynamic Process Grid */}
         <section className="py-20 px-6 max-w-[1200px] mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-[28px] md:text-[40px] font-black tracking-tight mb-4">El camino al <span className="text-accent">éxito digital</span></h2>
+            <h2 className="text-[28px] md:text-[40px] font-black tracking-tight mb-4">Cómo <span className="text-accent">trabajamos</span></h2>
             <p className="text-muted text-[15px]">Pasos claros, entregas rápidas, resultados medibles.</p>
           </div>
 

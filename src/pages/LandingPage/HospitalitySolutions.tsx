@@ -32,7 +32,7 @@ const HospitalitySolutions: React.FC = () => {
         description="Vende tus habitaciones directamente desde tu web sin pagar comisiones a Booking o Airbnb. Sirvoy PMS, agentes IA y marketing hotelero."
         keywords="Sirvoy PMS Perú, Marketing Hotelero, Motor de Reservas Directas, Automatización IA Hoteles, Desarrollo Web Hoteles, Chamba Digital Hospitality"
         ogTitle="Soluciones Digitales para Hoteles | Chamba Digital"
-        ogDescription="Elimina comisiones de OTAs. Web premium, Sirvoy PMS e IA para hoteles que quieren vender directo."
+        ogDescription="Elimina comisiones de OTAs. Web, Sirvoy PMS e IA para hoteles que quieren vender directo."
         ogImage="https://chamba.digital/og-image.webp"
         canonicalUrl="https://chamba.digital/hospitality"
         schema={{
@@ -55,7 +55,7 @@ const HospitalitySolutions: React.FC = () => {
               "provider": {
                 "@id": "https://chamba.digital/#organization"
               },
-              "description": "Web premium, integración Sirvoy PMS, agentes de IA para reservas 24/7 y marketing hotelero.",
+              "description": "Web hotelera, integración Sirvoy PMS, agentes de IA y marketing hotelero.",
               "category": "Hospitality Technology",
               "areaServed": [
                 { "@type": "Country", "name": "Perú" },
@@ -71,7 +71,7 @@ const HospitalitySolutions: React.FC = () => {
                     "itemOffered": {
                       "@type": "Service",
                       "name": "Plan Web para Hoteles ($999 USD)",
-                      "description": "Web premium, integración PMS, agente IA de reservas y 2500 créditos/mes."
+                      "description": "Web, integración PMS, agente IA de reservas y 2500 créditos/mes."
                     },
                     "price": "999.00",
                     "priceCurrency": "USD"
@@ -105,7 +105,7 @@ const HospitalitySolutions: React.FC = () => {
             </h1>
             
             <p className="text-[17px] sm:text-[20px] text-muted max-w-[600px] leading-relaxed font-medium">
-              Web premium, motor de reservas y atención con IA para que tus huéspeds compren directo en tu sitio.
+              Web, motor de reservas y atención con IA para que tus huéspeds compren directo.
             </p>
 
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
@@ -456,7 +456,7 @@ const HospitalitySolutions: React.FC = () => {
                 {[
                   "Motor Sirvoy con disponibilidad en tiempo real",
                   "Asistente IA que cierra reservas por WhatsApp",
-                  "Diseño premium mobile-first",
+                  "Diseño mobile-first",
                   "Estrategia continua de marketing digital"
                 ].map((item, i) => (
                   <div key={i} className="flex items-center gap-3 text-[14px] font-bold text-fg/80">
@@ -570,7 +570,7 @@ const HospitalitySolutions: React.FC = () => {
                   </div>
                   <h3 className="text-[22px] font-black text-fg">Plan Hoteles — $999 USD</h3>
                   <p className="text-[15px] text-muted leading-relaxed">
-                    Web premium, Sirvoy PMS, agente IA y 2500 créditos. Todo listo para vender directo.
+                    Web, Sirvoy PMS, agente IA y 2500 créditos. Todo listo para vender directo.
                   </p>
                 </div>
                 <motion.a

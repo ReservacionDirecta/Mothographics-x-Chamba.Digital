@@ -194,7 +194,7 @@ const ServiceBusinessesLandingPage: React.FC = () => {
         {/* Guarantees */}
         <section className="py-20 px-6 md:px-10 max-w-[1024px] mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-[24px] md:text-[32px] font-bold tracking-tight">Garantías que <span className="text-accent">respaldan</span> nuestro trabajo.</h2>
+            <h2 className="text-[24px] md:text-[32px] font-bold tracking-tight">Qué <span className="text-accent">garantizamos</span>.</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {[

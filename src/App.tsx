@@ -626,10 +626,10 @@ const Opportunity = () => (
         </h3>
         <ul className="space-y-3">
           {[
-            "Cambios ilimitados de contenido.",
+            "Actualizaciones de contenido incluidas.",
             "Soporte directo por WhatsApp.",
             "Actualizaciones de seguridad.",
-            "Respaldos periódicos automáticos.",
+            "Respaldos automáticos.",
           ].map((item, i) => (
             <li
               key={i}
@@ -932,12 +932,12 @@ const Services = ({
         whatsappText="Hola! Me interesa la suscripción WaaS Web Tradicional ($49/mes). Quisiera más información."
         items={[
           { name: "Sitio Web Profesional 100% a medida", details: "Sin plantillas genéricas. Código propio." },
-          { name: "Cambios ilimitados de contenido", details: "Actualizamos tu web cuando lo necesites." },
+          { name: "Actualizaciones de contenido incluidas", details: "Cambios cuando los necesites, sin costo extra." },
           { name: "Despliegue Cloud en Railway", details: "Hosting ultra rápido en Railway (coste directo del cliente desde $5/mes)." },
           { name: "Integración con WhatsApp y Google", details: "Optimizada para recibir clientes de inmediato." },
           { name: "Soporte técnico continuo", details: "Atención rápida directa por WhatsApp." },
         ]}
-        onOpenDetails={() => onOpenModal("Web Tradicional WaaS", "Con nuestro plan de $49/mes obtienes tu sitio web totalmente profesional sin hacer un desembolso inicial de miles de dólares. Nos encargamos de todo: diseño, desarrollo, hosting cloud, certificado de seguridad SSL y soporte continuo con cambios ilimitados.")}
+        onOpenDetails={() => onOpenModal("Web Tradicional WaaS", "Sitio web profesional por $49/mes. Sin inversión inicial. Incluye diseño, desarrollo, hosting en Railway, SSL y soporte continuo.")}
       />
 
       {/* Plan $99/mes - Web App Advanced */}
@@ -959,7 +959,7 @@ const Services = ({
           { name: "Arquitectura Cloud en Railway + Backups", details: "Infraestructura en Railway (desde $5/mes a cuenta del cliente) y 99.9% uptime." },
           { name: "Soporte prioritario directo", details: "Contacto directo con el equipo de desarrollo." },
         ]}
-        onOpenDetails={() => onOpenModal("Web App Advanced WaaS", "Diseñado para negocios que necesitan gestionar contenido dinámico, usuarios, reservas o inventario. Incluye un panel administrativo simple e intutitivo, arquitectura escalable y soporte activo para mantener tu plataforma en constante evolución.")}
+        onOpenDetails={() => onOpenModal("Web App Advanced WaaS", "Para negocios con contenido dinámico, reservas o inventario. Incluye panel admin, base de datos y soporte activo.")}
       />
 
       {/* Plan $599/mes - Web App con IA */}
@@ -980,7 +980,7 @@ const Services = ({
           { name: "Infraestructura Cloud Dedicada", details: "Servidores preparados para alta concurrencia." },
           { name: "Consultoría y Evolución Mensual", details: "Optimización continua de tus sistemas con IA." },
         ]}
-        onOpenDetails={() => onOpenModal("Web App con IA WaaS", "Nuestra solución de máximo nivel para empresas que buscan transformar sus operaciones. Integramos IA en tus flujos de trabajo, automatizamos la atención de clientes y reducimos costos operativos significativamente por una tarifa mensual fija.")}
+        onOpenDetails={() => onOpenModal("Web App con IA WaaS", "IA integrada en tus flujos de trabajo. Automatización de atención al cliente y reducción de costos operativos. Pago mensual fijo.")}
       />
     </div>
 
@@ -1049,12 +1049,12 @@ const Portfolio = () => {
       location: "Chachapoyas – Perú",
       tasks: [
         "Implementación del PMS y estructura de reservas.",
-        "Desarrollo de paquetes turísticos premium.",
+        "Desarrollo de paquetes turísticos.",
         "Diseño de experiencias completas y pricing.",
         "Contenido emocional y narrativo.",
         "Automatización de atención y conversión.",
       ],
-      focus: "Transformación de alojamiento en producto turístico premium escalable.",
+      focus: "Hospedaje convertido en paquete turístico con venta directa.",
     },
     {
       emoji: "🌊",
@@ -1067,7 +1067,7 @@ const Portfolio = () => {
         "Configuración en OTAs (Booking, Airbnb).",
         "Construcción de presencia digital desde cero.",
       ],
-      focus: "Implementación total desde cero: infraestructura digital + canales de venta.",
+      focus: "Lanzamiento digital completo: infraestructura + canales de venta.",
     },
     {
       emoji: "🌴",
@@ -1509,11 +1509,11 @@ const BusinessModel = () => (
       <p className="text-[14px] text-muted leading-[1.6] mb-8 max-w-[700px]">
         Guido, tú ya tienes la agencia y la confianza de tus clientes. Chamba
         Digital entra como tu{" "}
-        <strong className="text-fg">brazo técnico estratégico</strong> para que
-        puedas escalar resultados sin aumentar tu carga operativa. Nuestro
-        modelo se basa en la{" "}
+        <strong className="text-fg">brazo técnico</strong> para que
+        puedas crecer sin aumentar tu equipo. Nuestro
+        modelo se basa en{" "}
         <strong className="text-accent">
-          justicia financiera y la equidad:
+          reparto justo:
         </strong>
       </p>
 
@@ -1542,10 +1542,8 @@ const BusinessModel = () => (
             <h4 className="text-[14px] font-bold">Repartición Equitativa</h4>
           </div>
           <p className="text-[12px] text-muted leading-[1.6]">
-            Si un proyecto requiere que nuestra labor sea el mayor porcentaje
-            del producto entregable, la estructura de ingresos se ajustará
-            proporcionalmente al nivel de esfuerzo y complejidad técnica
-            invertida.
+            Si un proyecto requiere más trabajo técnico de nuestra parte, el
+            reparto se ajusta proporcionalmente.
           </p>
         </motion.div>
 
@@ -1568,8 +1566,7 @@ const BusinessModel = () => (
       <div className="mt-8 p-4 bg-accent/5 rounded-lg border border-accent/10">
         <p className="text-[12px] text-accent font-medium text-center italic">
           "El objetivo es que Mothographics crezca en facturación y servicios,
-          mientras Chamba Digital garantiza la excelencia técnica detrás de cada
-          entrega."
+          mientras Chamba Digital ejecuta la parte técnica."
         </p>
       </div>
     </motion.div>
@@ -2083,7 +2080,7 @@ const StickyCtaBar = () => {
           className="fixed bottom-0 left-0 right-0 z-[90] bg-slate-900/95 backdrop-blur-xl border-t border-slate-800 py-3.5 px-6 flex items-center justify-center gap-4 sm:gap-6 shadow-[0_-10px_30px_rgba(15,23,42,0.3)]"
         >
           <span className="text-white font-extrabold text-[13px] sm:text-[14px] hidden sm:block tracking-wide">
-            Tu web desde <span className="text-amber-400 font-black">$49/mes</span> · Cambios ilimitados · Hosting Railway desde $5/mes
+            Tu web desde <span className="text-amber-400 font-black">$49/mes</span> · Actualizaciones incluidas · Hosting desde $5/mes
           </span>
           <a
             href="https://wa.me/51904060670?text=Hola%2C%20quiero%20m%C3%A1s%20informaci%C3%B3n%20sobre%20sus%20planes%20WaaS."
@@ -2178,7 +2175,7 @@ const FAQ = () => {
   const faqs = [
     {
       q: "¿Cómo funciona el servicio WaaS y la infraestructura?",
-      a: "Tu suscripción WaaS cubre el diseño, desarrollo a medida, cambios ilimitados de contenido, actualizaciones de seguridad y soporte por WhatsApp. La infraestructura y hosting se despliegan en Railway (con un costo directo desde $5 USD/mes) y el dominio es de tu propiedad.",
+      a: "Tu suscripción WaaS cubre diseño, desarrollo, actualizaciones de contenido, seguridad y soporte por WhatsApp. Hosting en Railway (desde $5 USD/mes, costo directo) y dominio de tu propiedad.",
     },
     {
       q: "¿Puedo cancelar en cualquier momento?",
@@ -2538,7 +2535,7 @@ const ProcessTimeline = () => (
 const Guarantees = () => (
   <section className="py-14 md:py-20 px-6 md:px-10 max-w-[1024px] mx-auto overflow-hidden">
     <div className="text-center mb-10 md:mb-16">
-      <span className="label-editorial mx-auto">Nuestro compromiso</span>
+      <span className="label-editorial mx-auto">Qué garantizamos</span>
       <h2 className="text-[32px] md:text-[48px] font-bold tracking-tight mb-4">
         Lo que <span className="text-accent">garantizamos</span> por escrito.
       </h2>

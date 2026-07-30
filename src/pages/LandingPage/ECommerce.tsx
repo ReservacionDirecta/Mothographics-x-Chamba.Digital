@@ -29,10 +29,10 @@ const EcommerceLandingPage: React.FC = () => {
     <div className="bg-bg text-fg selection:bg-accent selection:text-white">
       <SEO 
         title="E-commerce y Performance Marketing | Chamba Digital"
-        description="E-commerce de alto rendimiento con optimización de conversión (CRO) y escalamiento rentable. Shopify, WooCommerce y soluciones a medida."
+        description="Tiendas online con optimización de conversión (CRO). Shopify, WooCommerce y soluciones a medida."
         keywords="E-commerce Peru, Performance Marketing, CRO Optimization, Shopify Peru, WooCommerce, Chamba Digital"
         ogTitle="E-commerce y Performance Marketing | Chamba Digital"
-        ogDescription="Tiendas digitales de alto rendimiento con optimización de conversión y escalamiento rentable."
+        ogDescription="Tiendas online con CRO, Shopify, WooCommerce y soluciones a medida."
         ogImage="https://chamba.digital/og-image.webp"
         canonicalUrl="https://chamba.digital/ecommerce"
         schema={{
@@ -50,7 +50,7 @@ const EcommerceLandingPage: React.FC = () => {
               "@id": "https://chamba.digital/ecommerce#service",
               "name": "E-commerce y Performance Marketing",
               "provider": { "@id": "https://chamba.digital/#organization" },
-              "description": "Tiendas digitales de alto rendimiento con optimización de conversión y escalamiento rentable.",
+              "description": "Tiendas online con optimización de conversión y gestión de campañas.",
               "category": "E-commerce Development"
             }
           ]
@@ -70,10 +70,10 @@ const EcommerceLandingPage: React.FC = () => {
           >
             <span className="label-editorial mx-auto">E-commerce & Performance Marketing</span>
             <h1 className="text-[36px] md:text-[64px] font-black tracking-tight leading-[1.1] mb-6">
-              Maximiza tu ROAS con <span className="text-accent">E-commerce de Ingeniería</span>.
+              Tu tienda online con <span className="text-accent">CRO de ingeniería</span>.
             </h1>
             <p className="text-[16px] md:text-[18px] text-muted max-w-[700px] mx-auto mb-10 leading-relaxed">
-              Sistema orientado a performance marketing, optimización de conversión (CRO) y escalamiento rentable para tiendas digitales.
+              Shopify, WooCommerce o a medida. Optimización de conversión y tracking para que cada click cuente.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <motion.a
@@ -200,7 +200,7 @@ const EcommerceLandingPage: React.FC = () => {
         {/* Guarantees */}
         <section className="py-20 px-6 md:px-10 max-w-[1024px] mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-[24px] md:text-[32px] font-bold tracking-tight">Garantías que <span className="text-accent">respaldan</span> nuestro trabajo.</h2>
+            <h2 className="text-[24px] md:text-[32px] font-bold tracking-tight">Qué <span className="text-accent">garantizamos</span>.</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {[
@@ -219,8 +219,8 @@ const EcommerceLandingPage: React.FC = () => {
 
         {/* Dual CTA */}
         <section className="py-24 px-6 md:px-10 text-center max-w-[800px] mx-auto">
-          <h2 className="text-[32px] md:text-[48px] font-black mb-6">Tu tienda lista para escalar</h2>
-          <p className="text-muted mb-10 text-[16px]">Motor de conversión real. Más clientes, mejor retorno.</p>
+          <h2 className="text-[32px] md:text-[48px] font-black mb-6">¿Tu tienda convierte?</h2>
+          <p className="text-muted mb-10 text-[16px]">Auditoría gratuita. Te decimos qué mejorar.</p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <motion.a whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} href="https://wa.me/51904060670?text=Hola%2C%20quiero%20una%20auditor%C3%ADa%20de%20mi%20tienda%20online." target="_blank" className="w-full sm:w-auto bg-accent text-white px-6 py-3.5 rounded-lg font-bold text-[13px] shadow-[0_6px_20px_rgba(59,130,246,0.3)]">
               Auditar mi Tienda

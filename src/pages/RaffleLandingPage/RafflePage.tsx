@@ -519,9 +519,9 @@ const RafflePage: React.FC = () => {
               
               <div className="grid md:grid-cols-2 gap-12 items-center">
                 <div>
-                  <span className="label-editorial">Escala sin límites</span>
+                  <span className="label-editorial">Automatización</span>
                   <h2 className="text-[32px] md:text-[42px] font-black mb-6 leading-[1.1]">
-                    ¿Tu negocio está preparado para <span className="text-accent">crecer rápido</span>?
+                    ¿Tu negocio está preparado para <span className="text-accent">crecer sin contratar más gente</span>?
                   </h2>
                   <p className="text-muted text-[16px] mb-8 leading-relaxed">
                     Creamos <strong className="text-fg">sistemas automatizados que trabajan por ti</strong>. 
