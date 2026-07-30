@@ -1,0 +1,40 @@
+# Chamba Digital
+
+> Chamba Digital es una agencia de ingeniería digital especializada en desarrollo web de alto rendimiento, automatización con IA y soluciones hoteleras.
+
+## Servicios Principales
+
+- **Web as a Service (WaaS)**: Desarrollo web a medida por suscripción mensual desde $49/mes
+- **E-commerce**: Tiendas digitales de alto rendimiento (Shopify, WooCommerce, custom)
+- **Soluciones Hoteleras**: Web premium, Sirvoy PMS, agentes IA para reservas 24/7
+- **Generación de Leads B2B**: Embudos de captación y automatización de agendas
+- **Automatización con IA**: Chatbots, agentes virtuales, procesos automatizados
+
+## Stack Tecnológico
+
+- React 19, TypeScript, Vite, Tailwind CSS v4
+- Node.js, Express, MongoDB, Redis
+- Google Gemini AI, Playwright
+- Polar.sh (pagos), MailerLite (email)
+- Railway (deploy), Vercel (SPA fallback)
+
+## Precios
+
+- Plan Lanzamiento OnePage: $150 USD (pago único)
+- Plan Crecimiento Business: $500 USD (pago único)
+- Plan Dominio Elite & IA: $1,200+ USD (pago único)
+- Plan Hoteles: $999 USD (pago único, incluye PMS + IA)
+- Plan WaaS: Desde $49/mes (suscripción)
+
+## Contacto
+
+- WhatsApp: +51 904 060 670
+- Email: contacto@chamba.digital
+- Ubicación: Chorrillos, Lima, Perú
+- Web: https://chamba.digital
+
+## APIs Disponibles
+
+- `POST /api/send-checklist` - Envío de checklist por email
+- `POST /api/chat` - Chat con IA (Gemini)
+- `GET /api/health` - Health check del servidor

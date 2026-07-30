@@ -585,7 +585,7 @@ const HospitalitySolutions: React.FC = () => {
               </div>
             </div>
 
-            <div className="flex items-center justify-center gap-6 text-[11px] font-black uppercase tracking-[0.2em] text-muted/60 pt-6">
+            <div className="flex items-center justify-center gap-6 text-[11px] font-black uppercase tracking-[0.2em] text-muted pt-6">
               <span>Sirvoy Certified</span>
               <span className="w-1 h-1 bg-accent/40 rounded-full" />
               <span>IA Specialists</span>

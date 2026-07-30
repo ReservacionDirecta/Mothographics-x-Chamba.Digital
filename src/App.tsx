@@ -3,25 +3,26 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect, FormEvent, useRef } from "react";
+import React, { useState, useEffect, FormEvent, useRef, Suspense, lazy } from "react";
 import { BrowserRouter, Routes, Route, Navigate, Link, useLocation } from "react-router-dom";
-import HotelsLandingPage from "./pages/LandingPage/Hotels.tsx";
-import EcommerceLandingPage from "./pages/LandingPage/ECommerce.tsx";
-import ServiceBusinessesLandingPage from "./pages/LandingPage/ServiceBusinesses.tsx";
-import HospitalitySolutions from "./pages/LandingPage/HospitalitySolutions.tsx";
-import ProposalPage from "./pages/LandingPage/Proposal.tsx";
-import PortfolioPage from "./pages/PortfolioPage";
-import MethodologyPage from "./pages/MethodologyPage";
-import ServicesPage from "./pages/ServicesPage";
-import TermsPage from "./pages/TermsPage";
-import PrivacyPage from "./pages/PrivacyPage";
-import SuperAdminDashboard from "./pages/SuperAdminDashboard";
-import UserPortal from "./pages/UserPortal";
 import { motion, AnimatePresence } from "motion/react";
-import RafflePage from "./pages/RaffleLandingPage/RafflePage";
 import { HeroAnimation } from "./components/animations/HeroAnimation";
-import { Chatbot } from "./components/chat/Chatbot";
 import { ProjectCardThumbnail } from "./components/common/ProjectCardThumbnail";
+
+const Chatbot = lazy(() => import("./components/chat/Chatbot").then(m => ({ default: m.Chatbot })));
+const HotelsLandingPage = lazy(() => import("./pages/LandingPage/Hotels.tsx"));
+const EcommerceLandingPage = lazy(() => import("./pages/LandingPage/ECommerce.tsx"));
+const ServiceBusinessesLandingPage = lazy(() => import("./pages/LandingPage/ServiceBusinesses.tsx"));
+const HospitalitySolutions = lazy(() => import("./pages/LandingPage/HospitalitySolutions.tsx"));
+const ProposalPage = lazy(() => import("./pages/LandingPage/Proposal.tsx"));
+const PortfolioPage = lazy(() => import("./pages/PortfolioPage"));
+const MethodologyPage = lazy(() => import("./pages/MethodologyPage"));
+const ServicesPage = lazy(() => import("./pages/ServicesPage"));
+const TermsPage = lazy(() => import("./pages/TermsPage"));
+const PrivacyPage = lazy(() => import("./pages/PrivacyPage"));
+const SuperAdminDashboard = lazy(() => import("./pages/SuperAdminDashboard"));
+const UserPortal = lazy(() => import("./pages/UserPortal"));
+const RafflePage = lazy(() => import("./pages/RaffleLandingPage/RafflePage"));
 import {
   ArrowRight,
   Palette,
@@ -151,11 +152,11 @@ const ExitIntentModal = ({
                 </p>
                 <form onSubmit={handleSubmit} className="space-y-4 text-left">
                   <div className="space-y-1.5 px-1">
-                    <label className="text-[11px] font-black uppercase tracking-[0.2em] text-muted/60 ml-1">
+                    <label className="text-[11px] font-black uppercase tracking-[0.2em] text-muted ml-1">
                       Email Corporativo
                     </label>
                     <div className="relative">
-                      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted/50" />
+                      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted" />
                       <input
                         required
                         type="email"
@@ -170,11 +171,11 @@ const ExitIntentModal = ({
                   </div>
 
                   <div className="space-y-1.5 px-1">
-                    <label className="text-[11px] font-black uppercase tracking-[0.2em] text-muted/60 ml-1">
+                    <label className="text-[11px] font-black uppercase tracking-[0.2em] text-muted ml-1">
                       Número WhatsApp
                     </label>
                     <div className="relative">
-                      <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted/50" />
+                      <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted" />
                       <input
                         required
                         type="tel"
@@ -245,7 +246,7 @@ const ExitIntentModal = ({
                   </a>
                   <button
                     onClick={onClose}
-                    className="text-[12px] font-bold text-muted/60 py-2 hover:text-fg transition-colors mt-2"
+                    className="text-[12px] font-bold text-muted py-2 hover:text-fg transition-colors mt-2"
                   >
                     Cerrar ventana
                   </button>
@@ -1017,7 +1018,7 @@ const Services = ({
             <WhatsAppIcon className="w-5 h-5" />
             Agendar Auditoría Gratis
           </motion.a>
-          <span className="text-[11px] font-bold text-muted/60 uppercase tracking-[0.3em] text-center">Cupos limitados por semana</span>
+          <span className="text-[11px] font-bold text-muted uppercase tracking-[0.3em] text-center">Cupos limitados por semana</span>
         </div>
       </div>
     </motion.div>
@@ -1478,7 +1479,7 @@ const Portfolio = () => {
                   </Link>
                   <button
                     onClick={() => setSelectedHotel(null)}
-                    className="text-[11px] font-bold text-muted/50 uppercase tracking-widest"
+                    className="text-[11px] font-bold text-muted uppercase tracking-widest"
                   >
                     Volver al portafolio
                   </button>
@@ -2633,8 +2634,8 @@ export const ChambaFooter = () => (
           <Logo textColor="text-white" />
           <p className="text-sm text-slate-400">Hacemos webs que venden. Desde Lima para el mundo.</p>
           <div className="flex gap-2">
-            <a href="https://instagram.com/chamba.digital" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center text-slate-400 hover:text-accent hover:bg-slate-700 transition-colors"><Instagram className="w-4 h-4" /></a>
-            <a href="https://linkedin.com/company/chamba-digital" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center text-slate-400 hover:text-accent hover:bg-slate-700 transition-colors"><Linkedin className="w-4 h-4" /></a>
+            <a href="https://instagram.com/chamba.digital" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center text-slate-400 hover:text-accent hover:bg-slate-700 transition-colors"><Instagram className="w-4 h-4" /></a>
+            <a href="https://linkedin.com/company/chamba-digital" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center text-slate-400 hover:text-accent hover:bg-slate-700 transition-colors"><Linkedin className="w-4 h-4" /></a>
           </div>
         </div>
 
@@ -2747,6 +2748,7 @@ function AppRoutes() {
 
   return (
     <>
+      <Suspense fallback={null}>
       <Routes>
         <Route path="/" element={<ChambaContent onOpenModal={openModal} />} />
         <Route
@@ -2793,7 +2795,7 @@ function AppRoutes() {
             title={modalData.title}
             content={modalData.content}
           />
-          <Chatbot />
+          <Suspense fallback={null}><Chatbot /></Suspense>
           <motion.a
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -2802,12 +2804,14 @@ function AppRoutes() {
             href="https://wa.me/51904060670?text=Hola,%20vengo%20de%20la%20web%20y%20quisiera%20m%C3%A1s%20informaci%C3%B3n."
             target="_blank"
             rel="noopener noreferrer"
+            aria-label="Contactar por WhatsApp"
             className="fixed bottom-4 right-4 z-[150] w-11 h-11 bg-[#25D366] rounded-full flex items-center justify-center shadow-[0_6px_20px_rgba(37,211,102,0.3)] border border-white/20 p-2.5"
           >
             <WhatsAppIcon className="w-full h-full text-white" />
           </motion.a>
         </>
       )}
+      </Suspense>
     </>
   );
 }

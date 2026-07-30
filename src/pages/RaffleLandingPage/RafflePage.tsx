@@ -568,7 +568,7 @@ const RafflePage: React.FC = () => {
                     </motion.a>
                   </div>
                   
-                  <p className="text-center text-[11px] text-muted/50 font-bold uppercase tracking-[0.2em]">
+                  <p className="text-center text-[11px] text-muted font-bold uppercase tracking-[0.2em]">
                     Cupos Limitados por Semana
                   </p>
                 </div>

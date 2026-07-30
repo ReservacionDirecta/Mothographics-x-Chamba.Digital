@@ -566,7 +566,7 @@ const HotelsLandingPage: React.FC = () => {
                   </a>
                   <button
                     onClick={() => setSelectedClient(null)}
-                    className="text-[11px] font-bold text-muted/50 uppercase tracking-widest hover:text-fg transition-colors"
+                    className="text-[11px] font-bold text-muted uppercase tracking-widest hover:text-fg transition-colors"
                   >
                     Volver al portafolio
                   </button>
