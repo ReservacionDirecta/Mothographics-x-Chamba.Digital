@@ -21,6 +21,7 @@ import { motion, AnimatePresence } from "motion/react";
 import RafflePage from "./pages/RaffleLandingPage/RafflePage";
 import { HeroAnimation } from "./components/animations/HeroAnimation";
 import { Chatbot } from "./components/chat/Chatbot";
+import { ProjectCardThumbnail } from "./components/common/ProjectCardThumbnail";
 import {
   ArrowRight,
   Palette,
@@ -1157,6 +1158,11 @@ const Portfolio = () => {
       thumb: "https://s.wordpress.com/mshots/v1/https://haciendadonvicente.com?w=600",
     },
     {
+      url: "fundoachamaqui.com",
+      label: "Fundo Achamaqui Resort",
+      thumb: "https://s.wordpress.com/mshots/v1/https://fundoachamaqui.com?w=600",
+    },
+    {
       url: "sauce.pe",
       label: "Sauce Hotel Boutique",
       thumb: "https://s.wordpress.com/mshots/v1/https://sauce.pe?w=600",
@@ -1319,11 +1325,11 @@ const Portfolio = () => {
               whileTap={{ scale: 0.98 }}
               className="group block interactive-card p-2 rounded-[22px] hover:bg-slate-50 border border-transparent hover:border-slate-200 transition-all duration-300"
             >
-              <div className="relative aspect-video rounded-[18px] overflow-hidden border border-slate-200/80 mb-3.5 shadow-md group-hover:shadow-xl transition-all duration-500">
-                <img
-                  src={web.thumb}
-                  alt={web.label}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+              <div className="relative aspect-video rounded-[18px] overflow-hidden border border-slate-200/80 mb-3.5 shadow-md group-hover:shadow-xl transition-all duration-500 bg-slate-950">
+                <ProjectCardThumbnail
+                  thumb={web.thumb}
+                  label={web.label}
+                  url={web.url}
                 />
                 <div className="absolute inset-0 bg-slate-900/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[2px]">
                   <div className="p-3 bg-accent text-white rounded-full shadow-lg transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { ChambaNavbar, WhatsAppIcon, ChambaFooter } from "../App";
 import { Link } from "react-router-dom";
+import { ProjectCardThumbnail } from "../components/common/ProjectCardThumbnail";
 import {
   ArrowRight, CheckCircle2, X, Zap, ExternalLink, MapPin,
   Globe, Terminal, Layers, Bot, Building2, ShoppingCart, ShieldCheck, RefreshCw,
@@ -27,8 +28,8 @@ const hotelClients = [
   },
   {
     emoji: "🌿", name: "Fundo Achamaqui", location: "Chachapoyas – Perú",
-    category: "hotel", url: "fundoachamaqui.webflow.io",
-    thumb: "https://s.wordpress.com/mshots/v1/https://fundoachamaqui.webflow.io?w=600",
+    category: "hotel", url: "fundoachamaqui.com",
+    thumb: "https://s.wordpress.com/mshots/v1/https://fundoachamaqui.com?w=600",
     highlight: "Producto turístico premium",
     tasks: ["Plataforma Web", "Paquetes Turísticos Premium", "Estrategia Pricing", "Atención por WhatsApp"],
     focus: "Transformación de hospedaje en producto turístico premium escalable.",
@@ -217,10 +218,12 @@ export default function PortfolioPage() {
                 >
                   {/* Thumbnail */}
                   {project.thumb ? (
-                    <div className="relative h-[190px] overflow-hidden border-b border-slate-100 bg-slate-100">
-                      <img
-                        src={project.thumb} alt={project.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                    <div className="relative h-[190px] overflow-hidden border-b border-slate-100 bg-slate-950">
+                      <ProjectCardThumbnail
+                        thumb={project.thumb}
+                        label={project.name}
+                        url={project.url}
+                        emoji={project.emoji}
                       />
                       <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[2px]" />
                       {project.highlight && (
