@@ -1126,62 +1126,62 @@ const Portfolio = () => {
     {
       url: "pacificsurfschool.com.pe",
       label: "Escuela & Clases de Surf",
-      thumb: "https://s.wordpress.com/mshots/v1/https://pacificsurfschool.com.pe?w=600",
+      thumb: "/thumbs/pacificsurfschool.webp",
     },
     {
       url: "latamabogados.com",
       label: "Inglés Legal & Consultoría U.S.",
-      thumb: "https://s.wordpress.com/mshots/v1/https://latamabogados.com?w=600",
+      thumb: "/thumbs/latamabogados.webp",
     },
     {
       url: "penalindamancora.com",
       label: "Reserva Directa Hotelera",
-      thumb: "https://s.wordpress.com/mshots/v1/https://penalindabungalows.up.railway.app?w=600",
+      thumb: "/thumbs/penalindamancora.webp",
     },
     {
       url: "www.dupla.work",
       label: "Producción Visual & Fotografía",
-      thumb: "https://s.wordpress.com/mshots/v1/https://www.dupla.work?w=600",
+      thumb: "/thumbs/dupla.webp",
     },
     {
       url: "kabsa.pe",
       label: "Constructora Alcance Nacional",
-      thumb: "https://s.wordpress.com/mshots/v1/https://kabsa.pe?w=600",
+      thumb: "/thumbs/kabsa.webp",
     },
     {
       url: "puntanegritos.webflow.io",
       label: "Wind & Surf Hotel",
-      thumb: "https://s.wordpress.com/mshots/v1/https://puntanegritos.webflow.io?w=600",
+      thumb: "/thumbs/puntanegritos.webp",
     },
     {
       url: "haciendadonvicente.com",
       label: "Hacienda Don Vicente",
-      thumb: "https://s.wordpress.com/mshots/v1/https://haciendadonvicente.com?w=600",
+      thumb: "/thumbs/haciendadonvicente.webp",
     },
     {
       url: "fundoachamaqui.com",
       label: "Fundo Achamaqui Resort",
-      thumb: "https://s.wordpress.com/mshots/v1/https://fundoachamaqui.com?w=600",
+      thumb: "/thumbs/fundoachamaqui.webp",
     },
     {
       url: "sauce.pe",
       label: "Sauce Hotel Boutique",
-      thumb: "https://s.wordpress.com/mshots/v1/https://sauce.pe?w=600",
+      thumb: "/thumbs/sauce.webp",
     },
     {
       url: "jahsurfperu.com",
       label: "Jah Surf San Bartolo",
-      thumb: "https://s.wordpress.com/mshots/v1/https://jahsurfperu.com?w=600",
+      thumb: "/thumbs/jahsurfperu.webp",
     },
     {
       url: "olivosdelperu.com",
       label: "Exportación & E-Commerce",
-      thumb: "https://s.wordpress.com/mshots/v1/https://olivosdelperu.com?w=600",
+      thumb: "/thumbs/olivosdelperu.webp",
     },
     {
       url: "hothelia.com",
       label: "Software SaaS (In-house)",
-      thumb: "https://s.wordpress.com/mshots/v1/https://hothelia.com?w=600",
+      thumb: "/thumbs/hothelia.webp",
     },
   ];
 
@@ -1387,7 +1387,7 @@ const Portfolio = () => {
           </div>
           <div className="relative h-[300px] lg:h-full lg:min-h-[450px] w-full bg-black/20 border-t lg:border-t-0 lg:border-l border-white/5 overflow-hidden">
             <img
-              src="https://s.wordpress.com/mshots/v1/https://hothelia.com?w=1000"
+              src="/thumbs/hothelia.webp"
               alt="Hothelia Dashboard"
               referrerPolicy="no-referrer"
               className="absolute inset-0 w-full h-full object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-80 transition-all duration-1000 group-hover:scale-105"

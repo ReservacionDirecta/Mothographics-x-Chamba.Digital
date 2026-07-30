@@ -14,7 +14,7 @@ const hotelClients = [
   {
     emoji: "🏄‍♂️", name: "Pacific Surf School", location: "Miraflores – Perú",
     category: "hotel", url: "pacificsurfschool.com.pe",
-    thumb: "https://s.wordpress.com/mshots/v1/https://pacificsurfschool.com.pe?w=600",
+    thumb: "/thumbs/pacificsurfschool.webp",
     highlight: "Suscripción WaaS Activa",
     tasks: ["Sitio Web WaaS a Medida", "Reserva de Clases Online", "Diseño UX Mobile-First", "Integración WhatsApp Directo", "Mantenimiento Continuo"],
     focus: "Plataforma web de alto rendimiento sin inversión inicial masiva. Cambios e iteraciones ilimitadas.",
@@ -22,7 +22,7 @@ const hotelClients = [
   {
     emoji: "🏝️", name: "Peña Linda Bungalows", location: "Máncora – Perú",
     category: "hotel", url: "penalindamancora.com",
-    thumb: "https://s.wordpress.com/mshots/v1/https://penalindabungalows.up.railway.app?w=600",
+    thumb: "/thumbs/penalindamancora.webp",
     highlight: "+10 años operando juntos",
     tasks: ["PMS Integral", "Web Oficial WaaS", "Motor de Reservas Directas", "Atención WhatsApp e IA", "Soporte Continuo"],
     focus: "Ecosistema comercial autónomo con evolución y mantenimiento permanente.",
@@ -30,7 +30,7 @@ const hotelClients = [
   {
     emoji: "🌿", name: "Fundo Achamaqui", location: "Chachapoyas – Perú",
     category: "hotel", url: "fundoachamaqui.com",
-    thumb: "https://s.wordpress.com/mshots/v1/https://fundoachamaqui.com?w=600",
+    thumb: "/thumbs/fundoachamaqui.webp",
     highlight: "Producto turístico premium",
     tasks: ["Plataforma Web", "Paquetes Turísticos Premium", "Estrategia Pricing", "Atención por WhatsApp"],
     focus: "Transformación de hospedaje en producto turístico premium escalable.",
@@ -38,7 +38,7 @@ const hotelClients = [
   {
     emoji: "🌊", name: "Punta Negritos | Wind & Surf", location: "Talara – Perú",
     category: "hotel", url: "puntanegritos.webflow.io",
-    thumb: "https://s.wordpress.com/mshots/v1/https://puntanegritos.webflow.io?w=600",
+    thumb: "/thumbs/puntanegritos.webp",
     highlight: "Presencia digital continua",
     tasks: ["Web Oficial", "Motor de Reservas Directas", "Integración OTAs", "Mantenimiento Cloud"],
     focus: "Infraestructura digital completa sin costo inicial elevado.",
@@ -46,7 +46,7 @@ const hotelClients = [
   {
     emoji: "🌴", name: "Hacienda Don Vicente", location: "Tarapoto – Perú",
     category: "hotel", url: "haciendadonvicente.com",
-    thumb: "https://s.wordpress.com/mshots/v1/https://haciendadonvicente.com?w=600",
+    thumb: "/thumbs/haciendadonvicente.webp",
     highlight: "Optimización de conversión",
     tasks: ["Web Responsiva", "Mensajes de Venta Directa", "Promociones Estacionales", "Soporte Activo"],
     focus: "Incremento de reservas directas eliminando comisiones de terceros.",
@@ -54,7 +54,7 @@ const hotelClients = [
   {
     emoji: "🏔️", name: "Sauce Hotel Boutique", location: "Ollantaytambo – Perú",
     category: "hotel", url: "sauce.pe",
-    thumb: "https://s.wordpress.com/mshots/v1/https://sauce.pe?w=600",
+    thumb: "/thumbs/sauce.webp",
     highlight: "Soporte & Eficiencia",
     tasks: ["Web Oficial", "Control de Reservas", "Optimización de Carga", "Soporte Técnico WaaS"],
     focus: "Velocidad de carga ultra rápida y gestión sin fricción.",
@@ -65,7 +65,7 @@ const techClients = [
   {
     emoji: "⚖️", name: "Latam Abogados", location: "React / Headless WaaS",
     category: "tech", url: "latamabogados.com",
-    thumb: "https://s.wordpress.com/mshots/v1/https://latamabogados.com?w=600",
+    thumb: "/thumbs/latamabogados.webp",
     highlight: "Web App por Suscripción",
     tasks: ["Desarrollo React/Vite", "Integración API REST", "Sistema de Consultas B2B", "SEO Internacional"],
     focus: "Plataforma legal internacional con captura y procesamiento automatizado de leads.",
@@ -73,7 +73,7 @@ const techClients = [
   {
     emoji: "🤖", name: "Sistema Autónomo B2B", location: "VPS Linux & IA",
     category: "tech", url: "hothelia.com",
-    thumb: "https://s.wordpress.com/mshots/v1/https://hothelia.com?w=600",
+    thumb: "/thumbs/hothelia.webp",
     highlight: "-70% tiempo operativo",
     tasks: ["API RESTful Escalable", "Agente IA en Servidor Privado", "Flujos Automatizados", "Monitoreo 24/7"],
     focus: "Automatización de flujos de trabajo internos con Inteligencia Artificial.",
@@ -81,7 +81,7 @@ const techClients = [
   {
     emoji: "🛍️", name: "E-Commerce & Exportación", location: "Arquitectura Cloud",
     category: "tech", url: "olivosdelperu.com",
-    thumb: "https://s.wordpress.com/mshots/v1/https://olivosdelperu.com?w=600",
+    thumb: "/thumbs/olivosdelperu.webp",
     highlight: "Tienda + Agente IA",
     tasks: ["Atención IA 24/7", "Integración GraphQL", "Webhooks WhatsApp", "Catálogo Dinámico"],
     focus: "Venta directa y calificación predictiva de compradores en tiempo real.",
@@ -89,18 +89,18 @@ const techClients = [
 ];
 
 const webProjects = [
-  { url: "pacificsurfschool.com.pe", label: "Escuela & Clases de Surf", category: "hotel", thumb: "https://s.wordpress.com/mshots/v1/https://pacificsurfschool.com.pe?w=600" },
-  { url: "latamabogados.com", label: "Inglés Legal & Consultoría U.S.", category: "tech", thumb: "https://s.wordpress.com/mshots/v1/https://latamabogados.com?w=600" },
-  { url: "penalindamancora.com", label: "Reserva Directa Hotelera", category: "hotel", thumb: "https://s.wordpress.com/mshots/v1/https://penalindabungalows.up.railway.app?w=600" },
-  { url: "www.dupla.work", label: "Producción Visual & Fotografía", category: "tech", thumb: "https://s.wordpress.com/mshots/v1/https://www.dupla.work?w=600" },
-  { url: "kabsa.pe", label: "Constructora Nacional", category: "tech", thumb: "https://s.wordpress.com/mshots/v1/https://kabsa.pe?w=600" },
-  { url: "puntanegritos.webflow.io", label: "Wind & Surf Hotel", category: "hotel", thumb: "https://s.wordpress.com/mshots/v1/https://puntanegritos.webflow.io?w=600" },
-  { url: "haciendadonvicente.com", label: "Hacienda Don Vicente", category: "hotel", thumb: "https://s.wordpress.com/mshots/v1/https://haciendadonvicente.com?w=600" },
-  { url: "fundoachamaqui.com", label: "Fundo Achamaqui Resort", category: "hotel", thumb: "https://s.wordpress.com/mshots/v1/https://fundoachamaqui.com?w=600" },
-  { url: "sauce.pe", label: "Sauce Hotel Boutique", category: "hotel", thumb: "https://s.wordpress.com/mshots/v1/https://sauce.pe?w=600" },
-  { url: "jahsurfperu.com", label: "Jah Surf San Bartolo", category: "hotel", thumb: "https://s.wordpress.com/mshots/v1/https://jahsurfperu.com?w=600" },
-  { url: "olivosdelperu.com", label: "Exportación & E-Commerce", category: "ecommerce", thumb: "https://s.wordpress.com/mshots/v1/https://olivosdelperu.com?w=600" },
-  { url: "hothelia.com", label: "Software SaaS (In-house)", category: "tech", thumb: "https://s.wordpress.com/mshots/v1/https://hothelia.com?w=600" },
+  { url: "pacificsurfschool.com.pe", label: "Escuela & Clases de Surf", category: "hotel", thumb: "/thumbs/pacificsurfschool.webp" },
+  { url: "latamabogados.com", label: "Inglés Legal & Consultoría U.S.", category: "tech", thumb: "/thumbs/latamabogados.webp" },
+  { url: "penalindamancora.com", label: "Reserva Directa Hotelera", category: "hotel", thumb: "/thumbs/penalindamancora.webp" },
+  { url: "www.dupla.work", label: "Producción Visual & Fotografía", category: "tech", thumb: "/thumbs/dupla.webp" },
+  { url: "kabsa.pe", label: "Constructora Nacional", category: "tech", thumb: "/thumbs/kabsa.webp" },
+  { url: "puntanegritos.webflow.io", label: "Wind & Surf Hotel", category: "hotel", thumb: "/thumbs/puntanegritos.webp" },
+  { url: "haciendadonvicente.com", label: "Hacienda Don Vicente", category: "hotel", thumb: "/thumbs/haciendadonvicente.webp" },
+  { url: "fundoachamaqui.com", label: "Fundo Achamaqui Resort", category: "hotel", thumb: "/thumbs/fundoachamaqui.webp" },
+  { url: "sauce.pe", label: "Sauce Hotel Boutique", category: "hotel", thumb: "/thumbs/sauce.webp" },
+  { url: "jahsurfperu.com", label: "Jah Surf San Bartolo", category: "hotel", thumb: "/thumbs/jahsurfperu.webp" },
+  { url: "olivosdelperu.com", label: "Exportación & E-Commerce", category: "ecommerce", thumb: "/thumbs/olivosdelperu.webp" },
+  { url: "hothelia.com", label: "Software SaaS (In-house)", category: "tech", thumb: "/thumbs/hothelia.webp" },
 ];
 
 type FilterType = "all" | "hotel" | "tech" | "ecommerce";
@@ -340,7 +340,7 @@ export default function PortfolioPage() {
                 </a>
               </div>
               <div className="relative h-[280px] lg:h-full lg:min-h-[400px] border-t lg:border-t-0 lg:border-l border-slate-800 overflow-hidden">
-                <img src="https://s.wordpress.com/mshots/v1/https://hothelia.com?w=1000" alt="Hothelia"
+                <img src="/thumbs/hothelia.webp" alt="Hothelia"
                   referrerPolicy="no-referrer"
                   className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />

@@ -25,23 +25,34 @@ export const ProjectCardThumbnail: React.FC<ProjectCardThumbnailProps> = ({
       ? "https://penalindabungalows.up.railway.app"
       : `https://${clean}`;
 
-    // Priority 1: Thum.io live web screenshot engine
-    const list = [
-      `https://image.thum.io/get/width/600/crop/800/noanimate/${targetFullUrl}`
-    ];
+    // Priority 1: Local thumbnail if available
+    const nameMap: Record<string, string> = {
+      "pacificsurfschool.com.pe": "pacificsurfschool",
+      "latamabogados.com": "latamabogados",
+      "penalindamancora.com": "penalindamancora",
+      "www.dupla.work": "dupla",
+      "kabsa.pe": "kabsa",
+      "puntanegritos.webflow.io": "puntanegritos",
+      "haciendadonvicente.com": "haciendadonvicente",
+      "fundoachamaqui.com": "fundoachamaqui",
+      "sauce.pe": "sauce",
+      "jahsurfperu.com": "jahsurfperu",
+      "olivosdelperu.com": "olivosdelperu",
+      "hothelia.com": "hothelia",
+    };
+    const localName = nameMap[clean] || clean.split('.')[0];
+    const list = [`/thumbs/${localName}.webp`];
 
     // Priority 2: Custom passed thumb if available
-    if (customThumb) list.push(customThumb);
+    if (customThumb && !customThumb.includes('mshots')) list.push(customThumb);
 
-    // Priority 3: WordPress mshots
-    if (clean.includes("penalindamancora")) {
-      list.push("https://s.wordpress.com/mshots/v1/https://penalindabungalows.up.railway.app?w=600");
-    } else if (clean.includes("fundoachamaqui")) {
-      list.push("https://s.wordpress.com/mshots/v1/https://fundoachamaqui.webflow.io?w=600");
-    }
+    // Priority 3: Thum.io
+    list.push(`https://image.thum.io/get/width/600/crop/800/noanimate/${targetFullUrl}`);
+
+    // Priority 4: WordPress mshots
     list.push(`https://s.wordpress.com/mshots/v1/${targetFullUrl}?w=600`);
 
-    // Priority 4: Microlink API
+    // Priority 5: Microlink API
     list.push(`https://api.microlink.io/?url=${encodeURIComponent(targetFullUrl)}&screenshot=true&embed=screenshot.url`);
 
     return Array.from(new Set(list));

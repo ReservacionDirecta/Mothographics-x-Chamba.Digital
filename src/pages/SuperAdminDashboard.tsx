@@ -111,7 +111,7 @@ const initialClients: ClientProfile[] = [
     autoRenew: true,
     notes: "Plataforma de reservas de clases de surf y alquiler de equipos en Máncora y Miraflores.",
     deployedUrl: "https://pacificsurfschool.com.pe",
-    thumbnailUrl: "https://s.wordpress.com/mshots/v1/https://pacificsurfschool.com.pe?w=600",
+    thumbnailUrl: "/thumbs/pacificsurfschool.webp",
     techStack: ["React", "Vite", "Express", "MongoDB"],
   },
   {
@@ -131,7 +131,7 @@ const initialClients: ClientProfile[] = [
     autoRenew: true,
     notes: "Firma legal internacional especializada en asesoría corporativa, marcas e inglés jurídico.",
     deployedUrl: "https://latamabogados.com",
-    thumbnailUrl: "https://s.wordpress.com/mshots/v1/https://latamabogados.com?w=600",
+    thumbnailUrl: "/thumbs/latamabogados.webp",
     techStack: ["React", "Node.js", "Express", "MailerLite"],
   },
   {
@@ -151,7 +151,7 @@ const initialClients: ClientProfile[] = [
     autoRenew: true,
     notes: "Hotel de playa con sistema de reservaciones directas sin comisiones y motor de pagos.",
     deployedUrl: "https://penalindamancora.com",
-    thumbnailUrl: "https://s.wordpress.com/mshots/v1/https://penalindabungalows.up.railway.app?w=600",
+    thumbnailUrl: "/thumbs/penalindamancora.webp",
     techStack: ["React", "Sirvoy PMS", "Polar.sh", "Railway"],
   },
   {
@@ -171,7 +171,7 @@ const initialClients: ClientProfile[] = [
     autoRenew: true,
     notes: "Estudio de producción audiovisual, fotografía comercial y cobertura de eventos.",
     deployedUrl: "https://www.dupla.work",
-    thumbnailUrl: "https://s.wordpress.com/mshots/v1/https://www.dupla.work?w=600",
+    thumbnailUrl: "/thumbs/dupla.webp",
     techStack: ["React", "TailwindCSS", "Express", "CDN"],
   },
   {
@@ -191,7 +191,7 @@ const initialClients: ClientProfile[] = [
     autoRenew: true,
     notes: "Empresa constructora e inmobiliaria especializada en obras de infraestructura y proyectos llave en mano.",
     deployedUrl: "https://kabsa.pe",
-    thumbnailUrl: "https://s.wordpress.com/mshots/v1/https://kabsa.pe?w=600",
+    thumbnailUrl: "/thumbs/kabsa.webp",
     techStack: ["React", "Express", "Railway", "MongoDB"],
   },
   {
@@ -211,7 +211,7 @@ const initialClients: ClientProfile[] = [
     autoRenew: true,
     notes: "Hotel eco-lodge frente al mar para practicantes de Kitesurf, Windsurf y Surf.",
     deployedUrl: "https://puntanegritos.webflow.io",
-    thumbnailUrl: "https://s.wordpress.com/mshots/v1/https://puntanegritos.webflow.io?w=600",
+    thumbnailUrl: "/thumbs/puntanegritos.webp",
     techStack: ["React", "Sirvoy PMS", "Polar.sh", "Express"],
   },
   {
@@ -231,7 +231,7 @@ const initialClients: ClientProfile[] = [
     autoRenew: true,
     notes: "Hacienda turística y centro de eventos campestres con reserva directa de bungalows.",
     deployedUrl: "https://haciendadonvicente.com",
-    thumbnailUrl: "https://s.wordpress.com/mshots/v1/https://haciendadonvicente.com?w=600",
+    thumbnailUrl: "/thumbs/haciendadonvicente.webp",
     techStack: ["React", "Express", "Motor Reservas", "Railway"],
   },
   {
@@ -251,7 +251,7 @@ const initialClients: ClientProfile[] = [
     autoRenew: true,
     notes: "Hotel boutique exclusivo frente a la laguna de Sauce con integración de pagos y reservas.",
     deployedUrl: "https://sauce.pe",
-    thumbnailUrl: "https://s.wordpress.com/mshots/v1/https://sauce.pe?w=600",
+    thumbnailUrl: "/thumbs/sauce.webp",
     techStack: ["React", "Sirvoy PMS", "Railway", "MongoDB"],
   },
   {
@@ -271,7 +271,7 @@ const initialClients: ClientProfile[] = [
     autoRenew: true,
     notes: "Escuela de surf y lodge juvenil en la bahía de San Bartolo.",
     deployedUrl: "https://jahsurfperu.com",
-    thumbnailUrl: "https://s.wordpress.com/mshots/v1/https://jahsurfperu.com?w=600",
+    thumbnailUrl: "/thumbs/jahsurfperu.webp",
     techStack: ["React", "Express", "Railway", "MongoDB"],
   },
   {
@@ -291,7 +291,7 @@ const initialClients: ClientProfile[] = [
     autoRenew: true,
     notes: "Plataforma de catálogo digital y exportación de aceites y aceitunas premium.",
     deployedUrl: "https://olivosdelperu.com",
-    thumbnailUrl: "https://s.wordpress.com/mshots/v1/https://olivosdelperu.com?w=600",
+    thumbnailUrl: "/thumbs/olivosdelperu.webp",
     techStack: ["React", "Express", "Catalog Engine"],
   },
   {
@@ -311,7 +311,7 @@ const initialClients: ClientProfile[] = [
     autoRenew: true,
     notes: "Cuenta demo interactiva para probar el portal de clientes WaaS.",
     deployedUrl: "https://pacificsurfschool.com.pe",
-    thumbnailUrl: "https://s.wordpress.com/mshots/v1/https://pacificsurfschool.com.pe?w=600",
+    thumbnailUrl: "/thumbs/pacificsurfschool.webp",
     techStack: ["React", "TailwindCSS", "Express", "MongoDB"],
   }
 ];
