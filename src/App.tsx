@@ -1629,11 +1629,32 @@ export const ChambaNavbar = () => {
 
   const checkAuth = () => {
     const token = localStorage.getItem("chamba_user_token");
-    if (token) {
+    if (token && token !== "mock_demo_jwt_token") {
       fetch("/api/auth/me", { headers: { Authorization: `Bearer ${token}` } })
-        .then(res => res.json())
-        .then(data => { if (data.user) setLoggedUser(data.user); else setLoggedUser(null); })
+        .then(res => {
+          if (!res.ok) {
+            localStorage.removeItem("chamba_user_token");
+            setLoggedUser(null);
+            return null;
+          }
+          return res.json();
+        })
+        .then(data => {
+          if (data?.user) setLoggedUser(data.user);
+          else setLoggedUser(null);
+        })
         .catch(() => setLoggedUser(null));
+    } else if (token === "mock_demo_jwt_token") {
+      setLoggedUser({
+        id: "demo_user_id_123",
+        name: "Demo Cliente",
+        email: "demo@chamba.digital",
+        company: "Demo Empresa",
+        plan: "Web Tradicional",
+        subscriptionStatus: "activa",
+        projectStatus: "en_produccion",
+        role: "client"
+      });
     } else {
       setLoggedUser(null);
     }
