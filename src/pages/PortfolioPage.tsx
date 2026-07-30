@@ -88,17 +88,18 @@ const techClients = [
 ];
 
 const webProjects = [
-  { url: "pacificsurfschool.com.pe", label: "Escuela & Clases de Surf", category: "hotel" },
-  { url: "latamabogados.com", label: "Inglés Legal & Consultoría U.S.", category: "tech" },
-  { url: "penalindamancora.com", label: "Reserva Directa Hotelera", category: "hotel" },
-  { url: "www.dupla.work", label: "Producción Visual & Fotografía", category: "tech" },
-  { url: "kabsa.pe", label: "Constructora Nacional", category: "tech" },
-  { url: "puntanegritos.com", label: "Wind & Surf Hotel", category: "hotel" },
-  { url: "haciendadonvicente.com", label: "Hacienda Don Vicente", category: "hotel" },
-  { url: "sauce.pe", label: "Sauce Hotel Boutique", category: "hotel" },
-  { url: "jahsurfperu.com", label: "Jah Surf San Bartolo", category: "hotel" },
-  { url: "olivosdelperu.com", label: "Exportación & E-Commerce", category: "ecommerce" },
-  { url: "hothelia.com", label: "Software SaaS (In-house)", category: "tech" },
+  { url: "pacificsurfschool.com.pe", label: "Escuela & Clases de Surf", category: "hotel", thumb: "https://s.wordpress.com/mshots/v1/https://pacificsurfschool.com.pe?w=600" },
+  { url: "latamabogados.com", label: "Inglés Legal & Consultoría U.S.", category: "tech", thumb: "https://s.wordpress.com/mshots/v1/https://latamabogados.com?w=600" },
+  { url: "penalindamancora.com", label: "Reserva Directa Hotelera", category: "hotel", thumb: "https://s.wordpress.com/mshots/v1/https://penalindabungalows.up.railway.app?w=600" },
+  { url: "www.dupla.work", label: "Producción Visual & Fotografía", category: "tech", thumb: "https://s.wordpress.com/mshots/v1/https://www.dupla.work?w=600" },
+  { url: "kabsa.pe", label: "Constructora Nacional", category: "tech", thumb: "https://s.wordpress.com/mshots/v1/https://kabsa.pe?w=600" },
+  { url: "puntanegritos.com", label: "Wind & Surf Hotel", category: "hotel", thumb: "https://s.wordpress.com/mshots/v1/https://puntanegritos.com?w=600" },
+  { url: "haciendadonvicente.com", label: "Hacienda Don Vicente", category: "hotel", thumb: "https://s.wordpress.com/mshots/v1/https://haciendadonvicente.com?w=600" },
+  { url: "fundoachamaqui.com", label: "Fundo Achamaqui Resort", category: "hotel", thumb: "https://s.wordpress.com/mshots/v1/https://fundoachamaqui.com?w=600" },
+  { url: "sauce.pe", label: "Sauce Hotel Boutique", category: "hotel", thumb: "https://s.wordpress.com/mshots/v1/https://sauce.pe?w=600" },
+  { url: "jahsurfperu.com", label: "Jah Surf San Bartolo", category: "hotel", thumb: "https://s.wordpress.com/mshots/v1/https://jahsurfperu.com?w=600" },
+  { url: "olivosdelperu.com", label: "Exportación & E-Commerce", category: "ecommerce", thumb: "https://s.wordpress.com/mshots/v1/https://olivosdelperu.com?w=600" },
+  { url: "hothelia.com", label: "Software SaaS (In-house)", category: "tech", thumb: "https://s.wordpress.com/mshots/v1/https://hothelia.com?w=600" },
 ];
 
 type FilterType = "all" | "hotel" | "tech" | "ecommerce";
@@ -285,11 +286,11 @@ export default function PortfolioPage() {
                   whileTap={{ scale: 0.98 }}
                   className="interactive-card group block p-3 rounded-[20px] bg-white border border-slate-200 shadow-md hover:shadow-xl transition-all"
                 >
-                  <div className="relative aspect-video rounded-[14px] overflow-hidden border border-slate-200 mb-3 shadow-sm">
-                    <img
-                      src={`https://s.wordpress.com/mshots/v1/https://${web.url}?w=600`}
-                      alt={web.label}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                  <div className="relative aspect-video rounded-[14px] overflow-hidden border border-slate-200 mb-3 shadow-sm bg-slate-950">
+                    <ProjectCardThumbnail
+                      thumb={web.thumb || `https://s.wordpress.com/mshots/v1/https://${web.url}?w=600`}
+                      label={web.label}
+                      url={web.url}
                     />
                     <div className="absolute inset-0 bg-slate-900/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[2px]">
                       <div className="p-3 bg-accent text-white rounded-full shadow-lg">
