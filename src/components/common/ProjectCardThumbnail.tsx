@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Globe } from "lucide-react";
 
 interface ProjectCardThumbnailProps {
-  thumb: string;
+  thumb?: string;
   label: string;
   url: string;
   emoji?: string;
@@ -18,17 +18,36 @@ export const ProjectCardThumbnail: React.FC<ProjectCardThumbnailProps> = ({
 }) => {
   const cleanUrl = url.replace(/^https?:\/\//, "");
 
-  // Multi-provider fallback chain
-  const getFallbackSources = (primaryThumb: string, targetUrl: string) => {
-    const list = [primaryThumb];
-    if (targetUrl.includes("fundoachamaqui")) {
+  // Multi-provider screenshot fallback chain
+  const getFallbackSources = (targetUrl: string, customThumb?: string) => {
+    const clean = targetUrl.replace(/^https?:\/\//, "");
+    const targetFullUrl = clean.includes("penalindamancora")
+      ? "https://penalindabungalows.up.railway.app"
+      : `https://${clean}`;
+
+    // Priority 1: Thum.io live web screenshot engine
+    const list = [
+      `https://image.thum.io/get/width/600/crop/800/noanimate/${targetFullUrl}`
+    ];
+
+    // Priority 2: Custom passed thumb if available
+    if (customThumb) list.push(customThumb);
+
+    // Priority 3: WordPress mshots
+    if (clean.includes("penalindamancora")) {
+      list.push("https://s.wordpress.com/mshots/v1/https://penalindabungalows.up.railway.app?w=600");
+    } else if (clean.includes("fundoachamaqui")) {
       list.push("https://s.wordpress.com/mshots/v1/https://fundoachamaqui.webflow.io?w=600");
     }
-    list.push(`https://api.microlink.io/?url=https://${targetUrl}&screenshot=true&embed=screenshot.url`);
+    list.push(`https://s.wordpress.com/mshots/v1/${targetFullUrl}?w=600`);
+
+    // Priority 4: Microlink API
+    list.push(`https://api.microlink.io/?url=${encodeURIComponent(targetFullUrl)}&screenshot=true&embed=screenshot.url`);
+
     return Array.from(new Set(list));
   };
 
-  const sources = getFallbackSources(thumb, cleanUrl);
+  const sources = getFallbackSources(url, thumb);
   const [sourceIndex, setSourceIndex] = useState(0);
   const [hasError, setHasError] = useState(false);
   const [loaded, setLoaded] = useState(false);
