@@ -1030,6 +1030,19 @@ const Portfolio = () => {
 
   const hotelClients = [
     {
+      emoji: "🏨",
+      name: "Hotel Costa Blanca",
+      location: "Vichayito – Perú",
+      tasks: [
+        "Plataforma Web WaaS de Alta Conversión.",
+        "Reserva Directa vía WhatsApp Integrada.",
+        "Catálogo Dinámico de Habitaciones & Servicios.",
+        "Galería Multimedia & Experiencias de Playa.",
+        "Soporte Continuo & Mantenimiento Cloud.",
+      ],
+      focus: "Refugio resort en Vichayito con reservas directas por WhatsApp y motor de experiencias.",
+    },
+    {
       emoji: "🏝️",
       name: "Peña Linda Bungalows",
       location: "Máncora – Perú",
@@ -1085,6 +1098,19 @@ const Portfolio = () => {
 
   const techClients = [
     {
+      emoji: "🏠",
+      name: "TUAGENTE.PE Real Estate",
+      location: "Plataforma Inmobiliaria Cloud",
+      tasks: [
+        "Catálogo Dinámico de Propiedades Exclusivas en Lima.",
+        "Filtros de Búsqueda Avanzados (Casas, Dptos, Oficinas, Terrenos).",
+        "Agendamiento Directo de Visitas In Situ.",
+        "Fichas Técnicas Interactivas con Galería HD.",
+        "Optimización UX/UI y Diseño Premium.",
+      ],
+      focus: "Solución integral inmobiliaria en Lima para compra y alquiler con prospección directa de clientes.",
+    },
+    {
       emoji: "⚖️",
       name: "Latam Abogados",
       location: "Headless Web App (React)",
@@ -1123,6 +1149,16 @@ const Portfolio = () => {
   ];
 
   const webs = [
+    {
+      url: "costablanca.up.railway.app",
+      label: "Hotel Costa Blanca Vichayito",
+      thumb: "/thumbs/costablanca.webp",
+    },
+    {
+      url: "tuagentepe.up.railway.app",
+      label: "TUAGENTE.PE Real Estate",
+      thumb: "/thumbs/tuagentepe.webp",
+    },
     {
       url: "pacificsurfschool.com.pe",
       label: "Escuela & Clases de Surf",
