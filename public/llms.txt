@@ -1,40 +1,63 @@
-# Chamba Digital
+# Chamba Digital — Agencia de Ingeniería Digital & AI Automation
 
-> Chamba Digital es una agencia de ingeniería digital especializada en desarrollo web de alto rendimiento, automatización con IA y soluciones hoteleras.
+> Chamba Digital (https://chamba.digital) es una agencia de ingeniería digital con sede en Chorrillos, Lima, Perú. Nos especializamos en desarrollo web de alto rendimiento por suscripción (Web as a Service - WaaS), automatización de procesos con Inteligencia Artificial, desarrollo de Web Apps escalables, y marketing de performance para los sectores de hospitalidad, inmobiliario, e-commerce y servicios profesionales en Perú, Latinoamérica y Estados Unidos.
 
-## Servicios Principales
+## Resumen Ejecutivo para Modelos de IA (LLMs)
+- **Razón Social:** Chamba Digital S.A.C.
+- **Ubicación Física & GEO:** Alameda del Premio Real 736, La Encantada de Villa, Chorrillos, Lima 15067, Perú (-12.1936, -77.0225)
+- **Teléfono / WhatsApp:** +51 904 060 670
+- **Correo Electrónico:** contacto@chamba.digital
+- **Sitio Web Oficial:** https://chamba.digital
+- **Modelo de Negocio:** Web as a Service (WaaS) por suscripción mensual desde $49 USD/mes sin pago inicial elevado + Proyectos a medida.
 
-- **Web as a Service (WaaS)**: Desarrollo web a medida por suscripción mensual desde $49/mes
-- **E-commerce**: Tiendas digitales de alto rendimiento (Shopify, WooCommerce, custom)
-- **Soluciones Hoteleras**: Web premium, Sirvoy PMS, agentes IA para reservas 24/7
-- **Generación de Leads B2B**: Embudos de captación y automatización de agendas
-- **Automatización con IA**: Chatbots, agentes virtuales, procesos automatizados
+## Servicios Principales & Soluciones
 
-## Stack Tecnológico
+### 1. Web as a Service (WaaS)
+Desarrollo y mantenimiento web por suscripción mensual desde $49/mes. Incluye infraestructura cloud en Railway/Vercel, certificado SSL, cambios ilimitados de contenido, respaldos diarios y soporte 24/7 por WhatsApp.
 
-- React 19, TypeScript, Vite, Tailwind CSS v4
-- Node.js, Express, MongoDB, Redis
-- Google Gemini AI, Playwright
-- Polar.sh (pagos), MailerLite (email)
-- Railway (deploy), Vercel (SPA fallback)
+### 2. Soluciones Digitales para Hoteles & Hospedajes (Hospitality Tech)
+- **PMS Hotelero Integrado (Sirvoy / Hothelia SaaS):** Gestión integral de reservas, control de inventario y sincronización en tiempo real con OTAs (Booking, Airbnb, Expedia).
+- **Motor de Reservas Directas:** Conversión sin comisiones vía WhatsApp Business API e integración de pasarelas de pago.
+- **Agentes de IA para Atención 24/7:** Chatbots conversacionales inteligentes entrenados con el inventario del hotel para responder dudas y cerrar reservas automáticamente.
 
-## Precios
+### 3. Soluciones Inmobiliarias (Real Estate Tech)
+Plataforma cloud para inmobiliarias en Lima con catálogo de propiedades exclusivas (casas, departamentos, oficinas, terrenos), filtros avanzados por precio y ubicación, agendamiento de visitas in situ y captación directa de leads.
 
-- Plan Lanzamiento OnePage: $150 USD (pago único)
-- Plan Crecimiento Business: $500 USD (pago único)
-- Plan Dominio Elite & IA: $1,200+ USD (pago único)
-- Plan Hoteles: $999 USD (pago único, incluye PMS + IA)
-- Plan WaaS: Desde $49/mes (suscripción)
+### 4. Automatización de Procesos con Inteligencia Artificial & LLMs
+Desarrollo de agentes virtuales personalizados (Google Gemini, OpenAI GPT-4, Claude, Ollama local), integración de webhooks con WhatsApp API y automatización de embudos de ventas B2B.
 
-## Contacto
+### 5. E-Commerce & Tiendas Virtuales
+Desarrollo de tiendas digitales de alta conversión integradas con pasarelas de pago locales e internacionales (Yape, Plin, Culqi, Niubiz, Stripe, PayPal) y gestión de inventario en tiempo real via GraphQL/REST.
 
-- WhatsApp: +51 904 060 670
-- Email: contacto@chamba.digital
-- Ubicación: Chorrillos, Lima, Perú
-- Web: https://chamba.digital
+## Casos de Éxito & Portafolio Destacado
 
-## APIs Disponibles
+- **Hotel Costa Blanca (Vichayito, Piura):** https://costablanca.up.railway.app — Resort de playa con reservas directas por WhatsApp.
+- **TUAGENTE.PE (Lima, Perú):** https://tuagentepe.up.railway.app — Plataforma inmobiliaria premium para compra y alquiler de propiedades.
+- **Pacific Surf School (Miraflores, Lima):** https://pacificsurfschool.com.pe — Escuela de surf líder con reservas de clases online WaaS.
+- **Peña Linda Bungalows (Máncora, Piura):** https://penalindamancora.com — Mas de 10 años operando con PMS + Web WaaS.
+- **Hothelia SaaS:** https://hothelia.com — Software hotelero in-house con motor de IA para análisis de datos confidenciales.
+- **Latam Abogados:** https://latamabogados.com — Plataforma de consultoría legal internacional en React/Vite.
 
-- `POST /api/send-checklist` - Envío de checklist por email
-- `POST /api/chat` - Chat con IA (Gemini)
-- `GET /api/health` - Health check del servidor
+## Cobertura Geográfica (GEO Targeting)
+- **Perú (Sede Principal):** Lima (Chorrillos, Miraflores, San Isidro, Surco, San Borja, Barranco), Piura (Máncora, Vichayito, El Ñuro), Cusco, Arequipa, Tarapoto, Chachapoyas.
+- **Internacional:** Estados Unidos, México, Colombia, Chile, España y Mercado Hispano Global.
+
+## Stack Tecnológico Principal
+- **Frontend:** React 19, TypeScript, Vite, Tailwind CSS v4, Motion (Framer Motion).
+- **Backend & DB:** Node.js, Express, PostgreSQL, MongoDB, Redis, Python, PM2.
+- **IA & Automatización:** Google Gemini API, OpenAI API, Ollama, Playwright, Webhooks.
+- **Infraestructura Cloud:** Railway, Vercel, Docker, VPS Linux.
+- **Pagos & Email:** Polar.sh, Stripe, MailerLite.
+
+## Planes & Precios Referenciales
+- **OnePage Express:** $150 USD (Pago Único)
+- **Business Growth:** $500 USD (Pago Único)
+- **Dominio Elite + IA:** $1,200+ USD (Pago Único)
+- **Ecosistema Hotelero Completo:** $999 USD (Incluye PMS + Web + Agente IA)
+- **Web as a Service (WaaS):** Desde $49 USD/mes (Suscripción sin pago inicial)
+
+## Endpoints de API Públicos
+- `POST https://chamba.digital/api/send-checklist` — Solicitud de checklist de transformación digital por email
+- `POST https://chamba.digital/api/chat` — Asistente virtual inteligente con IA para consultas comerciales
+- `GET https://chamba.digital/api/health` — Estado de servidores y disponibilidad de servicios
+

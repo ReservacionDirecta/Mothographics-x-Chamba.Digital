@@ -14,7 +14,7 @@ export const ProjectCardThumbnail: React.FC<ProjectCardThumbnailProps> = ({
   label,
   url,
   emoji,
-  className = "w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+  className = "w-full h-full object-cover object-top transform group-hover:scale-110 group-hover:translate-y-[-20%] transition-all duration-700 ease-out"
 }) => {
   const cleanUrl = url.replace(/^https?:\/\//, "");
 
@@ -27,6 +27,8 @@ export const ProjectCardThumbnail: React.FC<ProjectCardThumbnailProps> = ({
 
     // Priority 1: Local thumbnail if available
     const nameMap: Record<string, string> = {
+      "costablanca.up.railway.app": "costablanca",
+      "tuagentepe.up.railway.app": "tuagentepe",
       "pacificsurfschool.com.pe": "pacificsurfschool",
       "latamabogados.com": "latamabogados",
       "penalindamancora.com": "penalindamancora",
@@ -78,7 +80,7 @@ export const ProjectCardThumbnail: React.FC<ProjectCardThumbnailProps> = ({
   };
 
   return (
-    <div className="w-full h-full relative bg-slate-950 flex items-center justify-center overflow-hidden">
+    <div className="w-full h-full relative bg-slate-950 flex items-center justify-center overflow-hidden group/thumb">
       {!hasError && (
         <img
           key={sources[sourceIndex]}
@@ -91,6 +93,10 @@ export const ProjectCardThumbnail: React.FC<ProjectCardThumbnailProps> = ({
           className={`${className} ${loaded ? "opacity-100" : "opacity-0"}`}
         />
       )}
+
+      {/* Subtle shine & overlay micro-animations */}
+      <div className="absolute inset-0 pointer-events-none bg-gradient-to-tr from-slate-950/40 via-transparent to-white/10 opacity-60 group-hover/thumb:opacity-20 transition-opacity duration-500" />
+      <div className="absolute -inset-full top-0 block bg-gradient-to-r from-transparent via-white/15 to-transparent transform -skew-x-12 group-hover:animate-shine" />
 
       {/* Fallback mockup when all screenshot providers fail or are blocked */}
       {(hasError || !loaded) && (
@@ -110,9 +116,9 @@ export const ProjectCardThumbnail: React.FC<ProjectCardThumbnailProps> = ({
           {/* Center Brand Identity */}
           <div className="text-center space-y-1 my-auto">
             {emoji ? (
-              <span className="text-3xl block mb-1">{emoji}</span>
+              <span className="text-3xl block mb-1 group-hover/thumb:scale-110 transition-transform duration-300">{emoji}</span>
             ) : (
-              <div className="w-8 h-8 rounded-xl bg-blue-500/20 border border-blue-500/30 text-blue-400 flex items-center justify-center mx-auto mb-1">
+              <div className="w-8 h-8 rounded-xl bg-blue-500/20 border border-blue-500/30 text-blue-400 flex items-center justify-center mx-auto mb-1 group-hover/thumb:rotate-6 transition-transform duration-300">
                 <Globe className="w-4 h-4" />
               </div>
             )}

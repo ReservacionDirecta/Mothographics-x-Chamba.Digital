@@ -119,3 +119,13 @@
   transform: translateY(-5px) scale(1.01);
   box-shadow: 0 20px 35px -10px rgba(37, 99, 235, 0.12);
 }
+
+@keyframes shineEffect {
+  100% {
+    left: 125%;
+  }
+}
+.animate-shine {
+  animation: shineEffect 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
