@@ -2760,27 +2760,31 @@ function ScrollToTop() {
   return null;
 }
 
-export default function App() {
-  return (
-    <BrowserRouter>
-      <ScrollToTop />
-      <MetaPixelTracker />
-      <AppRoutes />
-    </BrowserRouter>
-  );
-}
-
 // Track SPA pageviews in Meta Pixel on route change
 function MetaPixelTracker() {
   const location = useLocation();
 
   useEffect(() => {
     if (typeof window !== "undefined" && (window as any).fbq) {
-      (window as any).fbq("track", "PageView");
+      try {
+        (window as any).fbq("track", "PageView");
+      } catch (e) {
+        // Suppress if adblocker blocks fbevents.js
+      }
     }
   }, [location.pathname, location.search]);
 
   return null;
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <ScrollToTop />
+      <MetaPixelTracker />
+      <AppContent />
+    </BrowserRouter>
+  );
 }
 
 function AppContent() {
@@ -2789,6 +2793,10 @@ function AppContent() {
     title: "",
     content: "",
   });
+
+  const location = useLocation();
+  const path = location.pathname;
+  const isPortalRoute = path.startsWith("/admin") || path.startsWith("/dashboard") || path.startsWith("/login") || path.startsWith("/registro") || path.startsWith("/portal") || path.startsWith("/perfil");
 
   const openModal = (title: string, content: any) => {
     setModalData({ isOpen: true, title, content });
