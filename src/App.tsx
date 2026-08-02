@@ -2764,16 +2764,26 @@ export default function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
+      <MetaPixelTracker />
       <AppRoutes />
     </BrowserRouter>
   );
 }
 
-function AppRoutes() {
+// Track SPA pageviews in Meta Pixel on route change
+function MetaPixelTracker() {
   const location = useLocation();
-  const path = location.pathname;
-  const isPortalRoute = path.startsWith("/admin") || path.startsWith("/dashboard") || path.startsWith("/login") || path.startsWith("/registro") || path.startsWith("/portal") || path.startsWith("/perfil") || path.startsWith("/superadmin");
 
+  useEffect(() => {
+    if (typeof window !== "undefined" && (window as any).fbq) {
+      (window as any).fbq("track", "PageView");
+    }
+  }, [location.pathname, location.search]);
+
+  return null;
+}
+
+function AppContent() {
   const [modalData, setModalData] = useState({
     isOpen: false,
     title: "",
