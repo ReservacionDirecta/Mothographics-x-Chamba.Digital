@@ -32,6 +32,7 @@ export const ProjectCardThumbnail: React.FC<ProjectCardThumbnailProps> = ({
       "pacificsurfschool.com.pe": "pacificsurfschool",
       "latamabogados.com": "latamabogados",
       "penalindamancora.com": "penalindamancora",
+      "penalindabungalows.up.railway.app": "penalindamancora",
       "www.dupla.work": "dupla",
       "kabsa.pe": "kabsa",
       "puntanegritos.webflow.io": "puntanegritos",

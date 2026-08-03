@@ -228,7 +228,7 @@ const HotelsLandingPage: React.FC = () => {
 
               <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-5">
                 <a
-                  href="https://penalindamancora.com"
+                  href="https://penalindabungalows.up.railway.app"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn-premium flex items-center justify-center gap-3 uppercase tracking-widest text-center"

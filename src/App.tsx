@@ -1170,7 +1170,7 @@ const Portfolio = () => {
       thumb: "/thumbs/latamabogados.webp",
     },
     {
-      url: "penalindamancora.com",
+      url: "penalindabungalows.up.railway.app",
       label: "Reserva Directa Hotelera",
       thumb: "/thumbs/penalindamancora.webp",
     },

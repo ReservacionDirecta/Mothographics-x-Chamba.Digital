@@ -466,7 +466,7 @@ const HospitalitySolutions: React.FC = () => {
               </div>
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-4">
                 <a
-                  href="https://penalindamancora.com"
+                  href="https://penalindabungalows.up.railway.app"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-accent text-white px-6 py-3.5 rounded-lg font-bold text-[13px] shadow-md flex items-center justify-center gap-2 text-center"
