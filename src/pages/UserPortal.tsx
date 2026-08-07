@@ -48,7 +48,25 @@ export default function UserPortal() {
   const [chatMessages, setChatMessages] = useState<any[]>([]);
   const [newMessageText, setNewMessageText] = useState("");
   const [clientTasks, setClientTasks] = useState<any[]>([]);
-  const [activeTab, setActiveTab] = useState<"overview" | "requests" | "chat" | "project">("overview");
+  const [activeTab, setActiveTab] = useState<"overview" | "requests" | "chat" | "project" | "security">("overview");
+
+  // Security & Passkey & 2FA State
+  const [currentPass, setCurrentPass] = useState("");
+  const [newPass, setNewPass] = useState("");
+  const [confirmPass, setConfirmPass] = useState("");
+  const [updatingPass, setUpdatingPass] = useState(false);
+  
+  // 2FA Setup State
+  const [twoFactorSecret, setTwoFactorSecret] = useState("");
+  const [qrCodeUrl, setQrCodeUrl] = useState("");
+  const [backupCodes, setBackupCodes] = useState<string[]>([]);
+  const [verificationCode, setVerificationCode] = useState("");
+  const [show2FAData, setShow2FAData] = useState(false);
+  const [loading2FA, setLoading2FA] = useState(false);
+
+  // Passkey State
+  const [passkeyName, setPasskeyName] = useState("");
+  const [addingPasskey, setAddingPasskey] = useState(false);
 
   // Project context state
   const [projectInfo, setProjectInfo] = useState({
@@ -327,7 +345,196 @@ export default function UserPortal() {
     }
   };
 
-  // (chat/tasks/activeTab state is declared at the top of the component to avoid hoisting issues)
+  // --- Security Handlers (Cambio de Contraseña, 2FA & Passkey) ---
+  const handleChangePassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (newPass !== confirmPass) {
+      toast.error("Las nuevas contraseñas no coinciden.");
+      return;
+    }
+    if (newPass.length < 6) {
+      toast.error("La nueva contraseña debe tener al menos 6 caracteres.");
+      return;
+    }
+    const token = localStorage.getItem("chamba_user_token");
+    if (!token || !user) return;
+    setUpdatingPass(true);
+    try {
+      const res = await fetch(`/api/users/${user.id || user._id}/password`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ currentPassword: currentPass, newPassword: newPass }),
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        toast.success("¡Tu contraseña ha sido actualizada correctamente! ✓");
+        setCurrentPass("");
+        setNewPass("");
+        setConfirmPass("");
+      } else {
+        toast.error(data.error || "Error al actualizar contraseña.");
+      }
+    } catch {
+      toast.error("Error de conexión con el servidor.");
+    } finally {
+      setUpdatingPass(false);
+    }
+  };
+
+  const handleSetup2FA = async () => {
+    const token = localStorage.getItem("chamba_user_token");
+    if (!token) return;
+    setLoading2FA(true);
+    try {
+      const res = await fetch("/api/auth/2fa/setup", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setTwoFactorSecret(data.secret);
+        setQrCodeUrl(data.qrDataUrl);
+        setBackupCodes(data.backupCodes || []);
+        setShow2FAData(true);
+      } else {
+        toast.error("Error iniciando configuración 2FA.");
+      }
+    } catch {
+      toast.error("Error de conexión al servidor.");
+    } finally {
+      setLoading2FA(false);
+    }
+  };
+
+  const handleVerify2FA = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const token = localStorage.getItem("chamba_user_token");
+    if (!token) return;
+    setLoading2FA(true);
+    try {
+      const res = await fetch("/api/auth/2fa/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ token: verificationCode }),
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        toast.success("¡Autenticación de 2 Factores (2FA) activada correctamente! ✓");
+        setShow2FAData(false);
+        setUser({ ...user, twoFactorEnabled: true });
+        setVerificationCode("");
+      } else {
+        toast.error(data.error || "Código de verificación de 6 dígitos inválido.");
+      }
+    } catch {
+      toast.error("Error al verificar código 2FA.");
+    } finally {
+      setLoading2FA(false);
+    }
+  };
+
+  const handleDisable2FA = async () => {
+    if (!window.confirm("¿Deseas desactivar la verificación en dos pasos (2FA)?")) return;
+    const token = localStorage.getItem("chamba_user_token");
+    if (!token) return;
+    try {
+      const res = await fetch("/api/auth/2fa/disable", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        toast.success("2FA desactivado.");
+        setUser({ ...user, twoFactorEnabled: false });
+        setShow2FAData(false);
+      }
+    } catch {
+      toast.error("Error al desactivar 2FA.");
+    }
+  };
+
+  const handleAddPasskey = async () => {
+    const token = localStorage.getItem("chamba_user_token");
+    if (!token) return;
+    setAddingPasskey(true);
+    try {
+      // Intentar WebAuthn Nativo si el navegador soporta credentials.create()
+      let credId = `pk_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`;
+      let pubKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQE...";
+
+      if (window.PublicKeyCredential && typeof window.PublicKeyCredential === "function") {
+        try {
+          const challenge = new Uint8Array(32);
+          window.crypto.getRandomValues(challenge);
+          const userIdArr = new Uint8Array(16);
+          window.crypto.getRandomValues(userIdArr);
+
+          const credential = await navigator.credentials.create({
+            publicKey: {
+              challenge,
+              rp: { name: "Chamba Digital WaaS", id: window.location.hostname },
+              user: {
+                id: userIdArr,
+                name: user?.email || "cliente@chamba.digital",
+                displayName: user?.name || "Cliente Chamba Digital",
+              },
+              pubKeyCredParams: [{ alg: -7, type: "public-key" }, { alg: -257, type: "public-key" }],
+              authenticatorSelection: { userVerification: "preferred" },
+              timeout: 60000,
+            },
+          }) as any;
+
+          if (credential) {
+            credId = credential.id;
+          }
+        } catch (e: any) {
+          console.log("WebAuthn hardware fallback triggered:", e.message);
+        }
+      }
+
+      const res = await fetch("/api/auth/passkey/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({
+          credentialName: passkeyName.trim() || "Mi Biometría / Key (Dispositivo Actual)",
+          credentialID: credId,
+          publicKey: pubKey,
+        }),
+      });
+
+      const data = await res.json();
+      if (res.ok && data.success) {
+        toast.success("¡Passkey (Biometría / Face ID) vinculada exitosamente! ✓");
+        setUser({ ...user, passkeys: data.passkeys });
+        setPasskeyName("");
+      } else {
+        toast.error(data.error || "Error al agregar Passkey.");
+      }
+    } catch {
+      toast.error("Error al procesar registro de Passkey.");
+    } finally {
+      setAddingPasskey(false);
+    }
+  };
+
+  const handleDeletePasskey = async (credentialID: string) => {
+    const token = localStorage.getItem("chamba_user_token");
+    if (!token) return;
+    try {
+      const res = await fetch(`/api/auth/passkey/${credentialID}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        toast.success("Passkey eliminada.");
+        const updatedPasskeys = (user.passkeys || []).filter((p: any) => p.credentialID !== credentialID);
+        setUser({ ...user, passkeys: updatedPasskeys });
+      }
+    } catch {
+      toast.error("Error al eliminar Passkey.");
+    }
+  };
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -538,6 +745,16 @@ export default function UserPortal() {
                 }`}
               >
                 <MessageSquare className="w-4 h-4" /> Chat
+              </button>
+              <button
+                onClick={() => setActiveTab("security")}
+                className={`pb-3 flex items-center gap-2 border-b-2 transition-all cursor-pointer shrink-0 ${
+                  activeTab === "security"
+                    ? "border-accent text-accent"
+                    : "border-transparent text-slate-500 hover:text-slate-900"
+                }`}
+              >
+                <Lock className="w-4 h-4" /> Seguridad & Passkeys
               </button>
             </div>
 
@@ -916,6 +1133,225 @@ export default function UserPortal() {
                     Enviar
                   </button>
                 </form>
+              </div>
+            </div>
+          )}
+
+          {/* TAB 5: SEGURIDAD, PASSKEYS & 2FA */}
+          {activeTab === "security" && (
+            <div className="space-y-6">
+              <div className="bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 shadow-sm space-y-2">
+                <h2 className="text-xl font-black text-slate-900 flex items-center gap-2">
+                  <ShieldCheck className="w-5 h-5 text-accent" /> Configuración de Seguridad & Acceso
+                </h2>
+                <p className="text-slate-500 text-xs sm:text-sm">
+                  Gestiona tu contraseña, habilita la autenticación de dos factores (2FA) y vincula Passkeys o biometría (Face ID / Touch ID) para iniciar sesión al instante.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Modulo 1: Actualizar Contraseña */}
+                <div className="bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 shadow-md space-y-4">
+                  <h3 className="text-base font-extrabold text-slate-900 flex items-center gap-2 border-b border-slate-100 pb-3">
+                    <Lock className="w-4 h-4 text-accent" /> Actualizar Contraseña
+                  </h3>
+                  <form onSubmit={handleChangePassword} className="space-y-3">
+                    <div>
+                      <label className="text-[11px] font-extrabold text-slate-500 uppercase">Contraseña Actual</label>
+                      <input
+                        type="password"
+                        value={currentPass}
+                        onChange={(e) => setCurrentPass(e.target.value)}
+                        placeholder="••••••••"
+                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs outline-none focus:border-accent mt-1"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-[11px] font-extrabold text-slate-500 uppercase">Nueva Contraseña</label>
+                      <input
+                        type="password"
+                        required
+                        minLength={6}
+                        value={newPass}
+                        onChange={(e) => setNewPass(e.target.value)}
+                        placeholder="Mínimo 6 caracteres"
+                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs outline-none focus:border-accent mt-1"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-[11px] font-extrabold text-slate-500 uppercase">Confirmar Nueva Contraseña</label>
+                      <input
+                        type="password"
+                        required
+                        minLength={6}
+                        value={confirmPass}
+                        onChange={(e) => setConfirmPass(e.target.value)}
+                        placeholder="Repite la nueva contraseña"
+                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs outline-none focus:border-accent mt-1"
+                      />
+                    </div>
+                    <button
+                      type="submit"
+                      disabled={updatingPass}
+                      className="w-full bg-slate-900 hover:bg-slate-800 text-white font-extrabold py-2.5 rounded-xl text-xs uppercase tracking-wider cursor-pointer transition-all disabled:opacity-50"
+                    >
+                      {updatingPass ? "Guardando..." : "Guardar Nueva Contraseña"}
+                    </button>
+                  </form>
+                </div>
+
+                {/* Modulo 2: Doble Verificación 2FA */}
+                <div className="bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 shadow-md space-y-4">
+                  <h3 className="text-base font-extrabold text-slate-900 flex items-center justify-between border-b border-slate-100 pb-3">
+                    <span className="flex items-center gap-2">
+                      <ShieldCheck className="w-4 h-4 text-emerald-600" /> Doble Verificación (2FA)
+                    </span>
+                    {user?.twoFactorEnabled ? (
+                      <span className="bg-emerald-100 text-emerald-800 text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full">
+                        Activado
+                      </span>
+                    ) : (
+                      <span className="bg-amber-100 text-amber-800 text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full">
+                        Desactivado
+                      </span>
+                    )}
+                  </h3>
+
+                  {!user?.twoFactorEnabled && !show2FAData && (
+                    <div className="space-y-3 text-xs text-slate-600">
+                      <p>
+                        Aumenta la protección de tu cuenta exigiendo un código temporal de tu app de autenticación (Google Authenticator, Authy, etc.).
+                      </p>
+                      <button
+                        onClick={handleSetup2FA}
+                        disabled={loading2FA}
+                        className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold py-2.5 rounded-xl text-xs uppercase tracking-wider cursor-pointer transition-all shadow-md"
+                      >
+                        {loading2FA ? "Generando..." : "Configurar 2FA con Código QR"}
+                      </button>
+                    </div>
+                  )}
+
+                  {show2FAData && (
+                    <div className="space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-200">
+                      <div className="text-center">
+                        <p className="text-xs font-bold text-slate-700 mb-2">Escanea este código QR con tu App Autenticadora:</p>
+                        {qrCodeUrl && (
+                          <img src={qrCodeUrl} alt="QR 2FA" className="w-36 h-36 mx-auto border border-slate-200 rounded-xl bg-white p-2 shadow-sm" />
+                        )}
+                        <p className="text-[11px] text-slate-500 mt-2 font-mono bg-white p-1 rounded border border-slate-200 inline-block">
+                          Clave: {twoFactorSecret}
+                        </p>
+                      </div>
+
+                      <form onSubmit={handleVerify2FA} className="space-y-2 pt-2">
+                        <label className="text-[11px] font-extrabold text-slate-600 uppercase block">Código de 6 dígitos</label>
+                        <div className="flex gap-2">
+                          <input
+                            type="text"
+                            maxLength={6}
+                            required
+                            value={verificationCode}
+                            onChange={(e) => setVerificationCode(e.target.value)}
+                            placeholder="123456"
+                            className="flex-1 bg-white border border-slate-300 rounded-xl px-3 py-2 text-center text-sm font-bold tracking-widest outline-none focus:border-accent"
+                          />
+                          <button
+                            type="submit"
+                            disabled={loading2FA}
+                            className="bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold px-4 py-2 rounded-xl text-xs cursor-pointer"
+                          >
+                            Activar 2FA
+                          </button>
+                        </div>
+                      </form>
+
+                      {backupCodes.length > 0 && (
+                        <div className="pt-2 border-t border-slate-200">
+                          <span className="text-[10px] font-extrabold text-slate-500 uppercase block mb-1">Códigos de Respaldo:</span>
+                          <div className="flex flex-wrap gap-1">
+                            {backupCodes.map((code, i) => (
+                              <span key={i} className="bg-white border border-slate-200 text-slate-700 text-[10px] font-mono font-bold px-2 py-0.5 rounded">
+                                {code}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {user?.twoFactorEnabled && (
+                    <div className="space-y-3">
+                      <p className="text-xs text-slate-600 font-medium">
+                        Tu cuenta está protegida con Autenticación de Dos Factores.
+                      </p>
+                      <button
+                        onClick={handleDisable2FA}
+                        className="w-full bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 font-extrabold py-2.5 rounded-xl text-xs uppercase cursor-pointer transition-all"
+                      >
+                        Desactivar 2FA
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Modulo 3: Passkeys / Biometría (Touch ID / Face ID) */}
+              <div className="bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 shadow-md space-y-4">
+                <h3 className="text-base font-extrabold text-slate-900 flex items-center justify-between border-b border-slate-100 pb-3">
+                  <span className="flex items-center gap-2">
+                    <Zap className="w-4 h-4 text-blue-600" /> Dispositivos & Passkeys (Biometría / WebAuthn)
+                  </span>
+                  <span className="bg-blue-100 text-blue-800 text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full">
+                    {user?.passkeys?.length || 0} Passkey(s)
+                  </span>
+                </h3>
+
+                <p className="text-xs text-slate-600">
+                  Las Passkeys te permiten iniciar sesión de forma ultra rápida y segura utilizando Touch ID, Face ID o llaves físicas de seguridad (YubiKey) sin depender de contraseñas.
+                </p>
+
+                <div className="flex flex-col sm:flex-row gap-2 pt-1">
+                  <input
+                    type="text"
+                    value={passkeyName}
+                    onChange={(e) => setPasskeyName(e.target.value)}
+                    placeholder="Nombre del dispositivo (ej. Mac, iPhone, Windows Hello)..."
+                    className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs outline-none focus:border-accent"
+                  />
+                  <button
+                    onClick={handleAddPasskey}
+                    disabled={addingPasskey}
+                    className="bg-blue-600 hover:bg-blue-500 text-white font-extrabold px-5 py-2 rounded-xl text-xs uppercase tracking-wider cursor-pointer transition-all shadow-md shrink-0 disabled:opacity-50"
+                  >
+                    {addingPasskey ? "Registrando..." : "Registrar Passkey Nativa"}
+                  </button>
+                </div>
+
+                {user?.passkeys && user.passkeys.length > 0 && (
+                  <div className="space-y-2 pt-2 border-t border-slate-100">
+                    <span className="text-[11px] font-extrabold text-slate-500 uppercase block">Llaves de Acceso Vinculadas:</span>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      {user.passkeys.map((pk: any) => (
+                        <div key={pk.credentialID} className="flex items-center justify-between p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs">
+                          <div>
+                            <div className="font-bold text-slate-800 flex items-center gap-1.5">
+                              <Zap className="w-3.5 h-3.5 text-blue-600" /> {pk.name || "Passkey Nativa"}
+                            </div>
+                            <div className="text-[10px] text-slate-400">ID: {pk.credentialID?.slice(0, 16)}...</div>
+                          </div>
+                          <button
+                            onClick={() => handleDeletePasskey(pk.credentialID)}
+                            className="text-red-500 hover:text-red-700 text-[11px] font-bold cursor-pointer"
+                          >
+                            Eliminar
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           )}

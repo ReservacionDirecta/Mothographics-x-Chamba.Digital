@@ -60,6 +60,35 @@ export const resetPasswordSchema = z.object({
   newPassword: z.string().min(6, "La nueva contraseña debe tener al menos 6 caracteres."),
 });
 
+export const createUserSchema = z.object({
+  name: z.string().trim().min(2, "El nombre debe tener al menos 2 caracteres."),
+  email: z.string().trim().email("El correo electrónico no es válido."),
+  password: z.string().min(6, "La contraseña debe tener al menos 6 caracteres."),
+  company: z.string().trim().optional().default("Chamba Digital"),
+  role: z.enum(["client", "manager", "admin", "superadmin"]).optional().default("client"),
+  plan: z.string().trim().optional().default("Web Tradicional"),
+});
+
+export const updateUserSchema = z.object({
+  name: z.string().trim().min(2, "El nombre debe tener al menos 2 caracteres.").optional(),
+  email: z.string().trim().email("El correo electrónico no es válido.").optional(),
+  company: z.string().trim().optional(),
+  role: z.enum(["client", "manager", "admin", "superadmin"]).optional(),
+  plan: z.string().trim().optional(),
+  projectStatus: z.string().optional(),
+  subscriptionStatus: z.string().optional(),
+});
+
+export const updateUserPasswordSchema = z.object({
+  currentPassword: z.string().optional(),
+  newPassword: z.string().min(6, "La nueva contraseña debe tener al menos 6 caracteres."),
+});
+
+export const verify2FASchema = z.object({
+  token: z.string().length(6, "El código de verificación debe ser de 6 dígitos."),
+});
+
+
 export function validateBody<T>(schema: z.ZodSchema<T>) {
   return (req: any, res: any, next: any) => {
     const result = schema.safeParse(req.body);
