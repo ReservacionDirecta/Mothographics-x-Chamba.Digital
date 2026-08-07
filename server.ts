@@ -1245,8 +1245,11 @@ async function startServer() {
       const { id } = req.params;
       const { currentPassword, newPassword } = req.body;
 
+      const callerUserId = req.user?.userId || req.user?.id;
+      const isAdminCaller = req.user?.role === "admin" || req.user?.role === "superadmin";
+
       // Ensure target user is self or caller is admin
-      if (req.user?.userId !== id && req.user?.role !== "admin" && req.user?.role !== "superadmin") {
+      if (callerUserId !== id && !isAdminCaller) {
         return res.status(403).json({ error: "No tienes permiso para cambiar la contraseña de este usuario." });
       }
 
@@ -1254,13 +1257,16 @@ async function startServer() {
       if (isMongoConnected) {
         user = await UserModel.findById(id);
       } else {
-        user = Object.values(inMemoryUsers).find((u: any) => u._id === id || u.id === id);
+        user = Object.values(inMemoryUsers).find((u: any) => String(u._id || u.id) === String(id));
       }
 
       if (!user) return res.status(404).json({ error: "Usuario no encontrado." });
 
-      // If non-admin user changing their own password, verify current password
-      if (req.user?.role !== "admin" && req.user?.role !== "superadmin" && currentPassword) {
+      // If non-admin user changing their own password, currentPassword is required and must match
+      if (!isAdminCaller) {
+        if (!currentPassword) {
+          return res.status(400).json({ error: "Debes ingresar tu contraseña actual para realizar el cambio." });
+        }
         const valid = await bcrypt.compare(currentPassword, user.password);
         if (!valid) {
           return res.status(400).json({ error: "La contraseña actual es incorrecta." });
