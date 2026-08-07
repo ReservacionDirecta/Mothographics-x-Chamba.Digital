@@ -778,7 +778,7 @@ export default function SuperAdminDashboard() {
       const res = await fetch(`/api/users/${userId}/password`, {
         method: "PUT",
         headers: getAdminHeaders(),
-        body: JSON.stringify({ newPassword: newPasswordValue }),
+        body: JSON.stringify({ currentPassword: "", newPassword: newPasswordValue }),
       });
       const data = await res.json();
       if (res.ok && data.success) {

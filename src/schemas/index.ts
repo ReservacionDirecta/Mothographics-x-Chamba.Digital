@@ -80,7 +80,7 @@ export const updateUserSchema = z.object({
 });
 
 export const updateUserPasswordSchema = z.object({
-  currentPassword: z.string().optional(),
+  currentPassword: z.string().optional().nullable().or(z.literal("")),
   newPassword: z.string().min(6, "La nueva contraseña debe tener al menos 6 caracteres."),
 });
 
