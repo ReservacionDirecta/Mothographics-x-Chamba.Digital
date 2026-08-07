@@ -1014,14 +1014,14 @@ async function startServer() {
         return res.status(503).json({ error: "Servicio no disponible." });
       }
 
-      if (!user || user.role !== "admin") {
+      if (!user || (user.role !== "admin" && user.role !== "superadmin")) {
         return res.status(401).json({ error: "Credenciales inválidas o sin permisos de administrador." });
       }
 
       const valid = await bcrypt.compare(password, user.password);
       if (!valid) return res.status(401).json({ error: "Credenciales inválidas." });
 
-      const token = jwt.sign({ userId: user._id || user.id, email: user.email, role: "admin" }, JWT_SECRET, { expiresIn: "8h" });
+      const token = jwt.sign({ userId: user._id || user.id, email: user.email, role: user.role || "admin" }, JWT_SECRET, { expiresIn: "8h" });
       
       // Send Admin Login Alert email
       sendLoginAlertEmail({ email: user.email, name: user.name, role: "admin" }, req.ip).catch(err => {

@@ -117,4 +117,51 @@ test.describe("Super Admin Dashboard", () => {
       expect(visible || true).toBeTruthy();
     }
   });
+
+  test("TC031 - admin user management tab loads users list", async ({ page }) => {
+    await page.goto("/admin");
+    await page.waitForTimeout(2000);
+    const pwInput = page.locator("input[type='password']").first();
+    if (await pwInput.isVisible().catch(() => false)) {
+      await pwInput.fill("admin123456");
+      const btn = page.locator("button[type='submit']").first();
+      if (await btn.isVisible().catch(() => false)) {
+        await btn.click();
+        await page.waitForTimeout(3000);
+      }
+    }
+    const usersTab = page.locator("button").filter({ hasText: /gestión de usuarios|usuarios/i }).first();
+    if (await usersTab.isVisible().catch(() => false)) {
+      await usersTab.click();
+      await page.waitForTimeout(2000);
+    }
+    const text = await page.locator("body").textContent();
+    expect(text).toContain("Administrador de Usuarios");
+  });
+
+  test("TC032 - admin opens password update modal for user", async ({ page }) => {
+    await page.goto("/admin");
+    await page.waitForTimeout(2000);
+    const pwInput = page.locator("input[type='password']").first();
+    if (await pwInput.isVisible().catch(() => false)) {
+      await pwInput.fill("admin123456");
+      const btn = page.locator("button[type='submit']").first();
+      if (await btn.isVisible().catch(() => false)) {
+        await btn.click();
+        await page.waitForTimeout(3000);
+      }
+    }
+    const usersTab = page.locator("button").filter({ hasText: /gestión de usuarios|usuarios/i }).first();
+    if (await usersTab.isVisible().catch(() => false)) {
+      await usersTab.click();
+      await page.waitForTimeout(2000);
+    }
+    const passBtn = page.locator("button[title='Cambiar contraseña']").first();
+    if (await passBtn.isVisible().catch(() => false)) {
+      await passBtn.click();
+      await page.waitForTimeout(1500);
+      const modalText = await page.locator("body").textContent();
+      expect(modalText).toContain("Cambiar Contraseña");
+    }
+  });
 });

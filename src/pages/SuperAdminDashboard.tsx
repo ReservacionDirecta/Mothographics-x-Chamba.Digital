@@ -1154,7 +1154,7 @@ export default function SuperAdminDashboard() {
                       <Database className="w-3 h-3 text-emerald-400" /> MongoDB Database
                     </span>
                     <span className="font-extrabold text-white text-xs">
-                      {healthStatus?.dbStatus || "Conectado / In-Memory Fallback"}
+                      {healthStatus?.services?.database || healthStatus?.dbStatus || "Conectado / In-Memory"}
                     </span>
                   </div>
 
@@ -1163,7 +1163,7 @@ export default function SuperAdminDashboard() {
                       <Zap className="w-3 h-3 text-amber-400" /> Cache Redis
                     </span>
                     <span className="font-extrabold text-white text-xs">
-                      {healthStatus?.redisStatus || "Activo (In-Memory Ready)"}
+                      {healthStatus?.services?.redis || healthStatus?.redisStatus || "Activo (In-Memory Ready)"}
                     </span>
                   </div>
 
@@ -1181,7 +1181,7 @@ export default function SuperAdminDashboard() {
                       <Cpu className="w-3 h-3 text-purple-400" /> Memoria RAM (Heap / RSS)
                     </span>
                     <span className="font-extrabold text-white text-xs">
-                      {healthStatus?.memoryUsage?.rss ? `${Math.round(healthStatus.memoryUsage.rss / 1024 / 1024)} MB` : "Normal (78 MB)"}
+                      {healthStatus?.memory?.rss || (healthStatus?.memoryUsage?.rss ? `${Math.round(healthStatus.memoryUsage.rss / 1024 / 1024)} MB` : "Normal (78 MB)")}
                     </span>
                   </div>
                 </div>
