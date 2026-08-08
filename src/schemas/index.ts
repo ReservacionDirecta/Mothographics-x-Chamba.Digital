@@ -70,11 +70,11 @@ export const createUserSchema = z.object({
 });
 
 export const updateUserSchema = z.object({
-  name: z.string().trim().min(2, "El nombre debe tener al menos 2 caracteres.").optional(),
-  email: z.string().trim().email("El correo electrónico no es válido.").optional(),
-  company: z.string().trim().optional(),
+  name: z.string().trim().min(2, "El nombre debe tener al menos 2 caracteres.").optional().or(z.literal("")),
+  email: z.string().trim().email("El correo electrónico no es válido.").optional().or(z.literal("")),
+  company: z.string().trim().optional().or(z.literal("")),
   role: z.enum(["client", "manager", "admin", "superadmin"]).optional(),
-  plan: z.string().trim().optional(),
+  plan: z.string().trim().optional().or(z.literal("")),
   projectStatus: z.string().optional(),
   subscriptionStatus: z.string().optional(),
 });

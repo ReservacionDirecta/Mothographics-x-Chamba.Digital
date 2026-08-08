@@ -996,6 +996,7 @@ export default function SuperAdminDashboard() {
               placeholder="Email admin..."
               value={adminEmailInput}
               onChange={(e) => setAdminEmailInput(e.target.value)}
+              autoComplete="username"
               className="w-full bg-slate-950 border border-slate-800 focus:border-blue-500 rounded-xl px-4 py-3.5 text-[14px] text-white outline-none transition-colors"
               required
             />
@@ -1004,6 +1005,7 @@ export default function SuperAdminDashboard() {
               placeholder="Contrasena de acceso..."
               value={passwordInput}
               onChange={(e) => setPasswordInput(e.target.value)}
+              autoComplete="current-password"
               className="w-full bg-slate-950 border border-slate-800 focus:border-blue-500 rounded-xl px-4 py-3.5 text-[14px] text-white outline-none transition-colors"
               required
             />
@@ -2252,6 +2254,7 @@ export default function SuperAdminDashboard() {
                   minLength={6}
                   value={newPasswordValue}
                   onChange={(e) => setNewPasswordValue(e.target.value)}
+                  autoComplete="new-password"
                   placeholder="Mínimo 6 caracteres..."
                   className="w-full bg-slate-950 border border-slate-800 focus:border-blue-500 rounded-xl px-3.5 py-2.5 text-xs text-white outline-none mt-1"
                 />
