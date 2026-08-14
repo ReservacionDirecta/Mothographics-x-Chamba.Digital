@@ -153,11 +153,30 @@ taskSchema.index({ clientId: 1, createdAt: -1 });
 const Task = mongoose.models.Task || mongoose.model("Task", taskSchema);
 const TaskModel = Task as any;
 
+// Consultation Schema & Model (15 min free consultations)
+const consultationSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  email: { type: String, required: true },
+  phone: { type: String, required: true },
+  company: { type: String, default: "" },
+  date: { type: String, required: true },
+  timeSlot: { type: String, required: true },
+  topic: { type: String, default: "Auditoría Técnica y Plan WaaS (15 min)" },
+  notes: { type: String, default: "" },
+  status: { type: String, enum: ["pendiente", "confirmada", "completada", "cancelada"], default: "pendiente" },
+  createdAt: { type: Date, default: Date.now, index: true },
+  isDeleted: { type: Boolean, default: false },
+});
+consultationSchema.index({ date: 1, timeSlot: 1 });
+const Consultation = mongoose.models.Consultation || mongoose.model("Consultation", consultationSchema);
+const ConsultationModel = Consultation as any;
+
 // In-memory fallback stores for dev (DISABLED in production)
 const isProduction = process.env.NODE_ENV === "production";
 const inMemoryUsers: Record<string, any> = {};
 const inMemoryMessages: any[] = [];
 const inMemoryTasks: any[] = [];
+const inMemoryConsultations: any[] = [];
 
 function requireMongo() {
   if (!isMongoConnected && isProduction) {
@@ -394,7 +413,7 @@ const resend = new Resend(resendApiKey);
 
 // Senders: 'onboarding@resend.dev' by default until custom domain 'chamba.digital' is verified in Resend
 const SENDER_EMAIL = process.env.SENDER_EMAIL || "Chamba Digital <onboarding@resend.dev>";
-const ADMIN_CONTACT_EMAIL = process.env.ADMIN_NOTIFICATION_EMAIL || "chambadigital2019@gmail.com";
+const ADMIN_CONTACT_EMAIL = process.env.ADMIN_EMAIL || process.env.ADMIN_NOTIFICATION_EMAIL || "yerctech@gmail.com";
 
 const sendMailSafely = async (options: { to: string; subject: string; html: string; text?: string }) => {
   try {
@@ -418,6 +437,152 @@ const sendMailSafely = async (options: { to: string; subject: string; html: stri
     console.error(`[Resend Exception] Fallo al enviar email a ${options.to}:`, err.message);
     return { success: false, error: err.message };
   }
+};
+
+// Generador de enlace a Google Calendar y archivo ICS para consultas de 15 min
+function generateCalendarDetails(consultation: {
+  name: string;
+  email: string;
+  company?: string;
+  date: string;
+  timeSlot: string;
+  topic?: string;
+  notes?: string;
+}) {
+  // Parsing date and time slot (e.g., date: "2026-08-15", timeSlot: "10:00 AM")
+  const [hoursStr, minutesStr, modifier] = consultation.timeSlot.replace(":", " ").split(" ");
+  let hours = parseInt(hoursStr, 10);
+  const minutes = parseInt(minutesStr, 10);
+  if (modifier === "PM" && hours < 12) hours += 12;
+  if (modifier === "AM" && hours === 12) hours = 0;
+
+  const startIso = `${consultation.date}T${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:00`;
+  const startDate = new Date(startIso);
+  const endDate = new Date(startDate.getTime() + 15 * 60 * 1000); // 15 minutos exactos
+
+  const formatGCalDate = (d: Date) => d.toISOString().replace(/-|:|\.\d\d\d/g, "");
+  const gcalStart = formatGCalDate(startDate);
+  const gcalEnd = formatGCalDate(endDate);
+
+  const title = `Consulta Gratuita (15 min) - Chamba Digital × ${consultation.name}`;
+  const details = `Consulta técnica estratégica de 15 minutos sobre transformación digital y soluciones WaaS.\n\nCliente: ${consultation.name}\nEmail: ${consultation.email}\nEmpresa: ${consultation.company || 'N/A'}\nTema: ${consultation.topic || 'Auditoría Técnica'}\nNotas: ${consultation.notes || 'Ninguna'}\nEnlace WhatsApp: https://wa.me/51904060670`;
+  const location = "Reunión Virtual / WhatsApp Call (+51 904 060 670)";
+
+  const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${gcalStart}/${gcalEnd}&details=${encodeURIComponent(details)}&location=${encodeURIComponent(location)}`;
+
+  const icsContent = [
+    "BEGIN:VCALENDAR",
+    "VERSION:2.0",
+    "PRODID:-//Chamba Digital//Consulta Gratuita 15min//ES",
+    "CALSCALE:GREGORIAN",
+    "METHOD:REQUEST",
+    "BEGIN:VEVENT",
+    `UID:consultation-${Date.now()}@chamba.digital`,
+    `DTSTAMP:${formatGCalDate(new Date())}`,
+    `DTSTART:${gcalStart}`,
+    `DTEND:${gcalEnd}`,
+    `SUMMARY:${title}`,
+    `DESCRIPTION:${details.replace(/\n/g, "\\n")}`,
+    `LOCATION:${location}`,
+    "STATUS:CONFIRMED",
+    "BEGIN:VALARM",
+    "TRIGGER:-PT15M",
+    "ACTION:DISPLAY",
+    "DESCRIPTION:Recordatorio: Consulta 15 min Chamba Digital en 15 minutos",
+    "END:VALARM",
+    "END:VEVENT",
+    "END:VCALENDAR"
+  ].join("\r\n");
+
+  return { googleCalendarUrl, icsContent, startIso, endIso: endDate.toISOString() };
+}
+
+// 0. Notificación de Consulta Gratuita de 15 Minutos (Para yerctech@gmail.com y para el Cliente)
+const sendConsultationBookingEmails = async (consultation: {
+  name: string;
+  email: string;
+  phone: string;
+  company?: string;
+  date: string;
+  timeSlot: string;
+  topic?: string;
+  notes?: string;
+}) => {
+  const { googleCalendarUrl } = generateCalendarDetails(consultation);
+
+  const adminHtml = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 24px; border: 1px solid #e2e8f0; border-radius: 16px; background-color: #ffffff;">
+      <div style="text-align: center; margin-bottom: 20px;">
+        <span style="background-color: #dbeafe; color: #1d4ed8; padding: 4px 12px; border-radius: 999px; font-size: 11px; font-weight: bold; text-transform: uppercase;">Nueva Consulta Agendada</span>
+        <h2 style="color: #0f172a; margin: 12px 0 4px 0; font-size: 22px;">⚡ Consulta Gratuita de 15 Minutos</h2>
+        <p style="color: #64748b; font-size: 14px; margin: 0;">Un nuevo prospecto ha agendado una sesión estratégica</p>
+      </div>
+
+      <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 12px; padding: 18px; margin: 20px 0;">
+        <h3 style="margin: 0 0 12px 0; color: #1e293b; font-size: 15px; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px;">📋 Datos del Cliente:</h3>
+        <p style="margin: 6px 0; color: #334155; font-size: 14px;"><strong>👤 Nombre:</strong> ${consultation.name}</p>
+        <p style="margin: 6px 0; color: #334155; font-size: 14px;"><strong>✉️ Correo:</strong> <a href="mailto:${consultation.email}" style="color: #2563eb;">${consultation.email}</a></p>
+        <p style="margin: 6px 0; color: #334155; font-size: 14px;"><strong>📱 WhatsApp:</strong> <a href="https://wa.me/${consultation.phone.replace(/\D/g, '')}" style="color: #059669; font-weight: bold;">${consultation.phone}</a></p>
+        <p style="margin: 6px 0; color: #334155; font-size: 14px;"><strong>🏢 Negocio / Empresa:</strong> ${consultation.company || 'Sin especificar'}</p>
+      </div>
+
+      <div style="background-color: #eff6ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 18px; margin: 20px 0;">
+        <h3 style="margin: 0 0 12px 0; color: #1e40af; font-size: 15px; border-bottom: 1px solid #dbeafe; padding-bottom: 8px;">🗓️ Horario Seleccionado:</h3>
+        <p style="margin: 6px 0; color: #1e3a8a; font-size: 15px;"><strong>📅 Fecha:</strong> ${consultation.date}</p>
+        <p style="margin: 6px 0; color: #1e3a8a; font-size: 15px;"><strong>⏰ Horario:</strong> ${consultation.timeSlot} (Hora Perú / PET)</p>
+        <p style="margin: 6px 0; color: #1e3a8a; font-size: 14px;"><strong>🎯 Tema:</strong> ${consultation.topic || 'Auditoría Técnica y Plan WaaS'}</p>
+        ${consultation.notes ? `<p style="margin: 6px 0; color: #1e3a8a; font-size: 13px;"><strong>💬 Mensaje del cliente:</strong> <em>"${consultation.notes}"</em></p>` : ''}
+      </div>
+
+      <div style="display: flex; gap: 12px; justify-content: center; margin: 26px 0;">
+        <a href="https://wa.me/${consultation.phone.replace(/\D/g, '')}?text=${encodeURIComponent(`Hola ${consultation.name}, te saluda Yosward de Chamba Digital sobre tu consulta de 15 minutos para el ${consultation.date} a las ${consultation.timeSlot}.`)}" style="background-color: #25D366; color: #ffffff; padding: 12px 24px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 13px; display: inline-block;">Abrir WhatsApp del Cliente</a>
+        <a href="${googleCalendarUrl}" style="background-color: #2563eb; color: #ffffff; padding: 12px 24px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 13px; display: inline-block;">Añadir a Google Calendar</a>
+      </div>
+
+      <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 24px 0;" />
+      <p style="color: #94a3b8; font-size: 12px; text-align: center;">Chamba.Digital • Sistema Automático de Reservas WaaS</p>
+    </div>
+  `;
+
+  // 1. Enviar notificación al Administrador (yerctech@gmail.com)
+  await sendMailSafely({
+    to: ADMIN_CONTACT_EMAIL,
+    subject: `⚡ Nueva Consulta 15 Min: ${consultation.name} (${consultation.date} ${consultation.timeSlot})`,
+    html: adminHtml,
+  });
+
+  // 2. Enviar confirmación al Cliente
+  const clientHtml = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 24px; border: 1px solid #e2e8f0; border-radius: 16px; background-color: #ffffff;">
+      <div style="text-align: center; margin-bottom: 20px;">
+        <h2 style="color: #2563eb; margin: 0; font-size: 24px;">¡Tu Consulta Gratuita está Confirmada! 🚀</h2>
+        <p style="color: #64748b; font-size: 14px; margin-top: 4px;">Chamba Digital • Ingeniería y Automatización WaaS</p>
+      </div>
+
+      <p style="color: #334155; font-size: 15px;">Hola <strong>${consultation.name}</strong>,</p>
+      <p style="color: #334155; font-size: 14px; line-height: 1.6;">Hemos reservado con éxito tu <strong>Consulta Técnica de 15 Minutos</strong>. En esta sesión analizaremos tu modelo de negocio y te explicaremos cómo construir o escalar tu presencia web con soporte ilimitado y automatizaciones de IA.</p>
+
+      <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 12px; padding: 18px; margin: 20px 0;">
+        <h3 style="margin: 0 0 10px 0; color: #1e293b; font-size: 15px;">Detalles de la Cita:</h3>
+        <p style="margin: 5px 0; color: #475569; font-size: 14px;"><strong>📅 Fecha:</strong> ${consultation.date}</p>
+        <p style="margin: 5px 0; color: #475569; font-size: 14px;"><strong>⏰ Hora:</strong> ${consultation.timeSlot} (Hora Perú / PET)</p>
+        <p style="margin: 5px 0; color: #475569; font-size: 14px;"><strong>⏱️ Duración:</strong> 15 Minutos</p>
+        <p style="margin: 5px 0; color: #475569; font-size: 14px;"><strong>📍 Modalidad:</strong> WhatsApp / Video llamada</p>
+      </div>
+
+      <div style="text-align: center; margin: 28px 0;">
+        <a href="${googleCalendarUrl}" style="background-color: #2563eb; color: #ffffff; padding: 12px 28px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 14px; display: inline-block;">📅 Añadir a Google Calendar</a>
+      </div>
+
+      <p style="color: #64748b; font-size: 13px; text-align: center;">Si necesitas reprogramar o tienes dudas previas, escríbenos directamente a <a href="https://wa.me/51904060670" style="color: #059669; font-weight: bold;">WhatsApp (+51 904 060 670)</a> o responde a este correo.</p>
+    </div>
+  `;
+
+  await sendMailSafely({
+    to: consultation.email,
+    subject: `✅ Confirmación: Tu Consulta Gratuita de 15 Minutos - Chamba Digital`,
+    html: clientHtml,
+  });
 };
 
 // 1. Notificación de Registro (Bienvenida Cliente + Alerta Admin)
@@ -650,7 +815,7 @@ async function startServer() {
   // Rate limiters
   const authLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 min
-    max: 10, // 10 attempts per window
+    max: isProduction ? 15 : 200, // Higher limit for dev/testing
     standardHeaders: true,
     legacyHeaders: false,
     message: { error: "Demasiados intentos. Intenta de nuevo en 15 minutos." }
@@ -1006,10 +1171,12 @@ async function startServer() {
 
     try {
       let user: any = null;
+      const targetAdminEmail = process.env.ADMIN_EMAIL || "admin@chamba.digital";
+
       if (isMongoConnected) {
-        user = await UserModel.findOne({ email });
+        user = await UserModel.findOne({ $or: [{ email }, { email: targetAdminEmail }] });
       } else if (!isProduction) {
-        user = inMemoryUsers[email];
+        user = inMemoryUsers[email] || inMemoryUsers[targetAdminEmail] || inMemoryUsers["admin@chamba.digital"];
       } else {
         return res.status(503).json({ error: "Servicio no disponible." });
       }
@@ -1245,22 +1412,42 @@ async function startServer() {
       const { id } = req.params;
       const { currentPassword, newPassword } = req.body;
 
-      const callerUserId = req.user?.userId || req.user?.id;
-      const isAdminCaller = req.user?.role === "admin" || req.user?.role === "superadmin";
+      console.log(`[API /api/users/:id/password] Request received for target ID: ${id}`, {
+        callerUserId: req.user?.userId || req.user?.id,
+        callerEmail: req.user?.email,
+        callerRole: req.user?.role,
+        hasCurrentPassword: !!currentPassword,
+        newPasswordLength: newPassword?.length || 0,
+      });
 
-      // Ensure target user is self or caller is admin
-      if (callerUserId !== id && !isAdminCaller) {
-        return res.status(403).json({ error: "No tienes permiso para cambiar la contraseña de este usuario." });
-      }
+      const callerUserId = req.user?.userId || req.user?.id;
+      const callerEmail = req.user?.email;
+      const isAdminCaller = req.user?.role === "admin" || req.user?.role === "superadmin";
 
       let user: any = null;
       if (isMongoConnected) {
-        user = await UserModel.findById(id);
+        if (mongoose.Types.ObjectId.isValid(id)) {
+          user = await UserModel.findById(id);
+        }
+        if (!user) {
+          user = await UserModel.findOne({ email: id });
+        }
       } else {
-        user = Object.values(inMemoryUsers).find((u: any) => String(u._id || u.id) === String(id));
+        user = Object.values(inMemoryUsers).find((u: any) => String(u._id || u.id) === String(id) || u.email === id);
       }
 
-      if (!user) return res.status(404).json({ error: "Usuario no encontrado." });
+      if (!user) {
+        console.warn(`[API /api/users/:id/password] User not found for ID: ${id}`);
+        return res.status(404).json({ error: "Usuario no encontrado." });
+      }
+
+      const isSelf = String(callerUserId) === String(user._id || user.id) || callerEmail === user.email;
+
+      // Ensure target user is self or caller is admin/superadmin
+      if (!isSelf && !isAdminCaller) {
+        console.warn(`[API /api/users/:id/password] Forbidden: caller ${callerEmail} (role: ${req.user?.role}) is neither target nor admin`);
+        return res.status(403).json({ error: "No tienes permiso para cambiar la contraseña de este usuario." });
+      }
 
       // If non-admin user changing their own password, currentPassword is required and must match
       if (!isAdminCaller) {
@@ -1269,6 +1456,7 @@ async function startServer() {
         }
         const valid = await bcrypt.compare(currentPassword, user.password);
         if (!valid) {
+          console.warn(`[API /api/users/:id/password] Incorrect current password for user: ${user.email}`);
           return res.status(400).json({ error: "La contraseña actual es incorrecta." });
         }
       }
@@ -2381,11 +2569,121 @@ Responde en español de forma profesional, empática, ágil y totalmente context
     });
   });
 
+  // ==========================================
+  // FREE 15-MIN CONSULTATION BOOKING SYSTEM
+  // ==========================================
+  app.post("/api/consultations", captureLimiter, async (req, res) => {
+    try {
+      const { name, email, phone, company, date, timeSlot, topic, notes } = req.body;
+
+      if (!name || !email || !phone || !date || !timeSlot) {
+        return res.status(400).json({ error: "Nombre, email, teléfono, fecha y horario son obligatorios." });
+      }
+
+      const consultationData = {
+        name: String(name).trim(),
+        email: String(email).trim().toLowerCase(),
+        phone: String(phone).trim(),
+        company: company ? String(company).trim() : "",
+        date: String(date).trim(),
+        timeSlot: String(timeSlot).trim(),
+        topic: topic ? String(topic).trim() : "Auditoría Técnica y Plan WaaS (15 min)",
+        notes: notes ? String(notes).trim() : "",
+        status: "pendiente",
+        createdAt: new Date(),
+        isDeleted: false,
+      };
+
+      let savedDoc: any = null;
+      if (isMongoConnected) {
+        savedDoc = await ConsultationModel.create(consultationData);
+      } else {
+        savedDoc = {
+          _id: `cons_${Date.now()}`,
+          id: `cons_${Date.now()}`,
+          ...consultationData,
+        };
+        inMemoryConsultations.push(savedDoc);
+      }
+
+      console.log(`[Consultation] Nueva consulta 15min agendada por: ${consultationData.name} (${consultationData.email}) para el ${consultationData.date} ${consultationData.timeSlot}`);
+
+      // Generar detalles de calendario Google & ICS
+      const calendarDetails = generateCalendarDetails(consultationData);
+
+      // Disparar envío de correo asíncrono para yerctech@gmail.com y el cliente
+      sendConsultationBookingEmails(consultationData).catch((err) => {
+        console.warn("[Consultation Email Warning]:", err.message);
+      });
+
+      return res.status(201).json({
+        success: true,
+        message: "Consulta de 15 minutos agendada exitosamente.",
+        consultation: savedDoc,
+        googleCalendarUrl: calendarDetails.googleCalendarUrl,
+        icsContent: calendarDetails.icsContent,
+      });
+    } catch (err: any) {
+      console.error("[Consultation Error]:", err);
+      return res.status(500).json({ error: "Error al registrar la consulta.", details: err.message });
+    }
+  });
+
+  // API: Get all consultations (Admin)
+  app.get("/api/admin/consultations", requireAuth, requireAdmin, async (req: any, res) => {
+    try {
+      let consultations: any[] = [];
+      if (isMongoConnected) {
+        consultations = await ConsultationModel.find({ isDeleted: { $ne: true } }).sort({ date: 1, timeSlot: 1 }).lean();
+      } else {
+        consultations = inMemoryConsultations.filter((c: any) => !c.isDeleted);
+      }
+      res.json({ consultations });
+    } catch (e: any) {
+      res.status(500).json({ error: "Error obteniendo consultas.", details: e.message });
+    }
+  });
+
+  // API: Update consultation status
+  app.put("/api/admin/consultations/:id", requireAuth, requireAdmin, async (req: any, res) => {
+    try {
+      const { id } = req.params;
+      const { status } = req.body;
+      if (isMongoConnected) {
+        await ConsultationModel.findByIdAndUpdate(id, { status });
+      } else {
+        const item = inMemoryConsultations.find((c: any) => c._id === id || c.id === id);
+        if (item) item.status = status;
+      }
+      res.json({ success: true });
+    } catch (e: any) {
+      res.status(500).json({ error: "Error actualizando estado de consulta.", details: e.message });
+    }
+  });
+
+  // AI Knowledge fallback generator in case API key is unavailable or quota is exceeded
+  const generateFallbackAiResponse = (cleanMessage: string) => {
+    const lower = cleanMessage.toLowerCase();
+
+    if (lower.includes("agenda") || lower.includes("cita") || lower.includes("consulta") || lower.includes("15 min") || lower.includes("asesor") || lower.includes("auditor")) {
+      return "¡Excelente iniciativa! Puedes agendar directamente tu **Consulta Gratuita de 15 Minutos** usando el botón de la web o escribiéndonos a WhatsApp en https://wa.me/51904060670. Analizaremos tu proyecto y te daremos una ruta técnica sin compromiso.";
+    }
+
+    if (lower.includes("precio") || lower.includes("plan") || lower.includes("cuanto") || lower.includes("costo") || lower.includes("waas")) {
+      return "En **chamba.digital** ofrecemos planes WaaS todo incluido:\n\n• **$50/mes (Web Tradicional):** Landing y sitio corporativo con cambios ilimitados y hosting.\n• **$100/mes (Web App Advanced):** Panel administrativo a medida, base de datos y APIs.\n• **$500/mes (Web App con IA):** Automatización 24/7 y agentes inteligentes.\n\n¿Deseas una consulta de 15 minutos para ver cuál se adapta a tu negocio?";
+    }
+
+    if (lower.includes("hotel") || lower.includes("sirvoy") || lower.includes("reserva") || lower.includes("booking") || lower.includes("airbnb")) {
+      return "Somos especialistas certificados en **Sirvoy PMS y motores de reserva directa**. Diseñamos tu web hotelera para que vendas directo y elimines las comisiones del 15%-20% de Booking y Airbnb. ¡Contáctanos a https://wa.me/51904060670 para ver una demo en vivo!";
+    }
+
+    return "¡Hola! En **chamba.digital** construimos y gestionamos plataformas web y web apps con IA bajo modelo WaaS (*desde $50/mes con cambios ilimitados*). ¿Te gustaría agendar una **consulta gratuita de 15 minutos** o revisar alguno de nuestros planes?";
+  };
+
   app.post("/api/chat", chatLimiter, async (req, res) => {
     const { message, history } = req.body;
 
     if (!message) return res.status(400).json({ error: "Message is required" });
-    if (!ai) return res.status(503).json({ error: "AI Service unavailable" });
 
     console.log(`[Chat] Incoming message: "${message.slice(0, 50)}"`);
     console.log(`[Chat] History steps: ${history?.length || 0}`);
@@ -2394,50 +2692,62 @@ Responde en español de forma profesional, empática, ágil y totalmente context
       // Security: Sanitize input
       const cleanMessage = message.slice(0, 500).replace(/[<>]/g, ""); 
 
-      const systemPrompt = `
-        Eres el asistente oficial de chamba.digital (escrito exactamente así, todo pegado y en minúsculas). 
-        REGLA DE ORO: Tienes estrictamente prohibido inventar o alucinar información que no esté en el CONTEXTO proporcionado abajo.
-        
-        INFORMACIÓN DE CONTEXTO:
-        ${knowledgeBase}
+      // If AI client is configured, try live Gemini request
+      if (ai) {
+        try {
+          const systemPrompt = `
+            Eres el asistente oficial de chamba.digital (escrito exactamente así, todo pegado y en minúsculas). 
+            REGLA DE ORO: Tienes estrictamente prohibido inventar o alucinar información que no esté en el CONTEXTO proporcionado abajo.
+            
+            INFORMACIÓN DE CONTEXTO:
+            ${knowledgeBase}
 
-        INSTRUCCIONES DE SEGURIDAD Y COMPORTAMIENTO:
-        1. Identidad: El nombre de la empresa es exactamente chamba.digital (todo pegado).
-        2. Enfoque WaaS (Web as a Service): Resalta que somos una empresa WaaS donde el cliente obtiene "Tu web a medida desde $50 al mes con cambios ilimitados".
-        3. Estructura de Planes WaaS:
-           - $50/mes: Web Tradicional (negocios, marcas, tiendas, clínicas, consultorios, sitios corporativos).
-           - $100/mes: Web App Advanced (funciones avanzadas, panel administrativo a medida, REST API, integraciones enterprise).
-           - $500/mes: Web App con IA & Automatizaciones (automatización de flujos de trabajo de empresa, IA en la gestión operativa 24/7).
-        4. Reserva de Consultas y Cierre de Venta: Siempre invita proactivamente al usuario a agendar una consulta técnica gratuita o cerrar su plan mediante nuestro enlace directo de WhatsApp: https://wa.me/51904060670. Si el usuario solicita agendar/reservar una cita en el chat, proporciónale inmediatamente el enlace para fijar el horario de su consulta por WhatsApp de forma directa.
-        5. Formato: Utiliza negritas (**texto**) y viñetas para estructurar la información y hacerla fácil de leer.
-        6. Brevedad Extrema (Regla Crítica): Tus respuestas deben ser sumamente cortas, directas y al grano (máximo 2 párrafos cortos). NUNCA des discursos largos.
-      `;
+            INSTRUCCIONES DE SEGURIDAD Y COMPORTAMIENTO:
+            1. Identidad: El nombre de la empresa es exactamente chamba.digital (todo pegado).
+            2. Enfoque WaaS (Web as a Service): Resalta que somos una empresa WaaS donde el cliente obtiene "Tu web a medida desde $50 al mes con cambios ilimitados".
+            3. Estructura de Planes WaaS:
+               - $50/mes: Web Tradicional (negocios, marcas, tiendas, clínicas, consultorios, sitios corporativos).
+               - $100/mes: Web App Advanced (funciones avanzadas, panel administrativo a medida, REST API, integraciones enterprise).
+               - $500/mes: Web App con IA & Automatizaciones (automatización de flujos de trabajo de empresa, IA en la gestión operativa 24/7).
+            4. Reserva de Consultas y Cierre de Venta: Siempre invita proactivamente al usuario a agendar su Consulta Gratuita de 15 Minutos o cerrar su plan mediante nuestro enlace directo de WhatsApp: https://wa.me/51904060670. Si el usuario solicita agendar/reservar una cita en el chat, proporciónale inmediatamente el enlace para fijar el horario de su consulta de 15 min.
+            5. Formato: Utiliza negritas (**texto**) y viñetas para estructurar la información y hacerla fácil de leer.
+            6. Brevedad Extrema (Regla Crítica): Tus respuestas deben ser sumamente cortas, directas y al grano (máximo 2 párrafos cortos). NUNCA des discursos largos.
+          `;
 
-      const contents = [
-        { role: "user", parts: [{ text: systemPrompt }] },
-        { role: "model", parts: [{ text: "Entendido. Soy el asistente oficial de chamba.digital. Mantendré mis respuestas extremadamente cortas, directas y concisas (máximo 2 párrafos), buscando siempre cerrar la venta llevándolos a WhatsApp." }] },
-        ...(history || []).map((h: any) => ({
-          role: h.role === "user" ? "user" : "model",
-          parts: [{ text: h.content }]
-        })),
-        { role: "user", parts: [{ text: cleanMessage }] }
-      ];
+          const contents = [
+            { role: "user", parts: [{ text: systemPrompt }] },
+            { role: "model", parts: [{ text: "Entendido. Soy el asistente oficial de chamba.digital. Mantendré mis respuestas cortas, directas y concisas (máximo 2 párrafos), invitando a la consulta gratuita de 15 min o WhatsApp." }] },
+            ...(history || []).map((h: any) => ({
+              role: h.role === "user" ? "user" : "model",
+              parts: [{ text: h.content }]
+            })),
+            { role: "user", parts: [{ text: cleanMessage }] }
+          ];
 
-      console.log("[Chat] Calling Gemini API...");
-      const result = await ai.models.generateContent({
-        model: "models/gemini-2.5-flash-lite",
-        contents: contents,
-        config: {
-          temperature: 0.3,
-          topP: 0.8,
-          topK: 40,
+          console.log("[Chat] Calling Gemini API...");
+          const result = await ai.models.generateContent({
+            model: "models/gemini-2.5-flash-lite",
+            contents: contents,
+            config: {
+              temperature: 0.3,
+              topP: 0.8,
+              topK: 40,
+            }
+          });
+
+          const responseText = result.text;
+          if (responseText) {
+            console.log(`[Chat] Gemini response received (${responseText.length} chars)`);
+            return res.json({ content: responseText });
+          }
+        } catch (geminiError: any) {
+          console.warn("[Chat] Gemini API error, executing knowledge-base fallback:", geminiError.message || geminiError);
         }
-      });
+      }
 
-      const responseText = result.text || "Sin respuesta";
-      console.log(`[Chat] Gemini response received (${responseText.length} chars)`);
-      
-      res.json({ content: responseText });
+      // Fallback robusto garantizado si la API de Gemini tiene problemas de quota/key
+      const fallbackReply = generateFallbackAiResponse(cleanMessage);
+      return res.json({ content: fallbackReply });
     } catch (error: any) {
       console.error("[Chat] Fatal Error:", error.message || error);
       res.status(500).json({ error: "Error procesando tu mensaje", details: error.message });

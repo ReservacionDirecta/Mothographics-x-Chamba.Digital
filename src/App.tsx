@@ -8,6 +8,7 @@ import { BrowserRouter, Routes, Route, Navigate, Link, useLocation } from "react
 import { motion, AnimatePresence } from "motion/react";
 import { HeroAnimation } from "./components/animations/HeroAnimation";
 import { ProjectCardThumbnail } from "./components/common/ProjectCardThumbnail";
+import { FreeConsultationModal } from "./components/FreeConsultationModal";
 
 const Chatbot = lazy(() => import("./components/chat/Chatbot").then(m => ({ default: m.Chatbot })));
 const HotelsLandingPage = lazy(() => import("./pages/LandingPage/Hotels.tsx"));
@@ -1007,19 +1008,18 @@ const Services = ({
           </p>
         </div>
         
-        <div className="flex flex-col gap-4 min-w-[280px]">
-          <motion.a
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            href="https://wa.me/51904060670?text=Hola,%20quisiera%20agendar%20una%20auditoría%20gratuita."
-            target="_blank"
-            className="bg-gradient-to-r from-cta to-cta-hover text-white py-3.5 px-6 rounded-xl font-black text-[13px] uppercase tracking-wider shadow-lg flex items-center justify-center gap-2"
-          >
-            <WhatsAppIcon className="w-5 h-5" />
-            Agendar Auditoría Gratis
-          </motion.a>
-          <span className="text-[11px] font-bold text-muted uppercase tracking-[0.3em] text-center">Cupos limitados por semana</span>
-        </div>
+          <div className="flex flex-col gap-4 min-w-[280px]">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => onOpenModal("Consulta Gratuita de 15 Minutos", "15min_consultation")}
+              className="bg-gradient-to-r from-cta to-cta-hover text-white py-3.5 px-6 rounded-xl font-black text-[13px] uppercase tracking-wider shadow-lg flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <Zap className="w-5 h-5" />
+              Agendar Auditoría Gratis (15 min)
+            </motion.button>
+            <span className="text-[11px] font-bold text-muted uppercase tracking-[0.3em] text-center">Cupos limitados por semana</span>
+          </div>
       </div>
     </motion.div>
   </section>
@@ -2850,10 +2850,15 @@ function AppContent() {
       {!isPortalRoute && (
         <>
           <Modal
-            isOpen={modalData.isOpen}
+            isOpen={modalData.isOpen && modalData.content !== "15min_consultation"}
             onClose={closeModal}
             title={modalData.title}
             content={modalData.content}
+          />
+          <FreeConsultationModal
+            isOpen={modalData.isOpen && modalData.content === "15min_consultation"}
+            onClose={closeModal}
+            defaultTopic={modalData.title || "Auditoría Técnica y Plan WaaS (15 min)"}
           />
           <Suspense fallback={null}><Chatbot /></Suspense>
           <motion.a

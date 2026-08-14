@@ -348,33 +348,55 @@ export default function UserPortal() {
   // --- Security Handlers (Cambio de Contraseña, 2FA & Passkey) ---
   const handleChangePassword = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log("[PasswordUpdate:User] Form submission started", {
+      currentPassLength: currentPass?.length || 0,
+      newPassLength: newPass?.length || 0,
+      confirmPassLength: confirmPass?.length || 0,
+    });
+
     if (newPass !== confirmPass) {
+      console.warn("[PasswordUpdate:User] Passwords do not match");
       toast.error("Las nuevas contraseñas no coinciden.");
       return;
     }
     if (newPass.length < 6) {
+      console.warn("[PasswordUpdate:User] Password length under 6 characters");
       toast.error("La nueva contraseña debe tener al menos 6 caracteres.");
       return;
     }
     const token = localStorage.getItem("chamba_user_token");
-    if (!token || !user) return;
+    if (!token || !user) {
+      console.warn("[PasswordUpdate:User] Missing auth token or user state", { hasToken: !!token, user });
+      return;
+    }
+
     setUpdatingPass(true);
+    const userId = user.id || user._id;
+    const requestUrl = `/api/users/${userId}/password`;
+    const requestPayload = { currentPassword: currentPass, newPassword: newPass };
+
+    console.log("[PasswordUpdate:User] Sending PUT request", { url: requestUrl, payload: { ...requestPayload, currentPassword: "***", newPassword: "***" } });
+
     try {
-      const res = await fetch(`/api/users/${user.id || user._id}/password`, {
+      const res = await fetch(requestUrl, {
         method: "PUT",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ currentPassword: currentPass, newPassword: newPass }),
+        body: JSON.stringify(requestPayload),
       });
       const data = await res.json();
+      console.log("[PasswordUpdate:User] Server response", { status: res.status, ok: res.ok, data });
+
       if (res.ok && data.success) {
         toast.success("¡Tu contraseña ha sido actualizada correctamente! ✓");
         setCurrentPass("");
         setNewPass("");
         setConfirmPass("");
       } else {
+        console.error("[PasswordUpdate:User] Error response from backend", data);
         toast.error(data.error || "Error al actualizar contraseña.");
       }
-    } catch {
+    } catch (err) {
+      console.error("[PasswordUpdate:User] Network or execution error", err);
       toast.error("Error de conexión con el servidor.");
     } finally {
       setUpdatingPass(false);
