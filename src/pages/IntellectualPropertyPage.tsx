@@ -67,7 +67,7 @@ export default function IntellectualPropertyPage() {
                 Declaración Expresa de Reserva de Derechos
               </h2>
               <p className="text-[14px] md:text-[15px] text-fg/90 leading-relaxed font-medium">
-                Conforme a las prácticas comerciales internacionales, <strong>CHAMBA</strong> se reserva de forma irrevocable su propiedad intelectual respecto a estrategias, procesos y desarrollos, bien sean estos referidos a marketing, secretos y procesos comerciales, datos, metodologías operativas, estructuras de campañas, desarrollo de tecnologías propias y actividades afines a nuestro propósito comercial.
+                Conforme a las prácticas comerciales nacionales e internacionales, <strong>CHAMBA</strong> se reserva de forma irrevocable su propiedad intelectual respecto a estrategias, procesos y desarrollos, bien sean estos referidos a marketing, secretos y procesos comerciales, datos, metodologías operativas, estructuras de campañas, desarrollo de tecnologías propias y actividades afines a nuestro propósito comercial.
               </p>
             </div>
           </div>

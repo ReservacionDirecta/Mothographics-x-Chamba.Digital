@@ -1031,7 +1031,7 @@ const Services = ({
         <span className="font-semibold tracking-wider uppercase">Aviso de Propiedad Intelectual</span>
       </div>
       <p className="text-[12px] md:text-[13px] text-muted/80 leading-relaxed">
-        Conforme a las prácticas comerciales internacionales, <strong>CHAMBA</strong> se reserva su propiedad intelectual respecto a estrategias, procesos y desarrollos, bien sean estos referidos a marketing, secretos y procesos comerciales, datos, metodologías operativas, estructuras de campañas, desarrollo de tecnologías propias y actividades afines a nuestro propósito comercial.
+        Conforme a las prácticas comerciales nacionales e internacionales, <strong>CHAMBA</strong> se reserva su propiedad intelectual respecto a estrategias, procesos y desarrollos, bien sean estos referidos a marketing, secretos y procesos comerciales, datos, metodologías operativas, estructuras de campañas, desarrollo de tecnologías propias y actividades afines a nuestro propósito comercial.
       </p>
     </div>
   </section>
@@ -2085,7 +2085,7 @@ const Methodology = () => (
           <span className="font-semibold tracking-wider uppercase">Aviso de Propiedad Intelectual</span>
         </div>
         <p className="text-[12px] md:text-[13px] text-muted/80 leading-relaxed">
-          Conforme a las prácticas comerciales internacionales, <strong>CHAMBA</strong> se reserva su propiedad intelectual respecto a estrategias, procesos y desarrollos, bien sean estos referidos a marketing, secretos y procesos comerciales, datos, metodologías operativas, estructuras de campañas, desarrollo de tecnologías propias y actividades afines a nuestro propósito comercial.
+          Conforme a las prácticas comerciales nacionales e internacionales, <strong>CHAMBA</strong> se reserva su propiedad intelectual respecto a estrategias, procesos y desarrollos, bien sean estos referidos a marketing, secretos y procesos comerciales, datos, metodologías operativas, estructuras de campañas, desarrollo de tecnologías propias y actividades afines a nuestro propósito comercial.
         </p>
       </div>
     </div>

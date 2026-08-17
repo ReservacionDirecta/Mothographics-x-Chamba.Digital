@@ -84,7 +84,7 @@ export default function TermsPage() {
               <h2 className="text-[20px] font-black uppercase tracking-tight">4. Propiedad Intelectual y Secretos Comerciales</h2>
             </div>
             <p className="text-fg/90 text-[15px] leading-relaxed mb-4">
-              Conforme a las prácticas comerciales internacionales, <strong>CHAMBA</strong> se reserva su propiedad intelectual respecto a estrategias, procesos y desarrollos, bien sean estos referidos a marketing, secretos y procesos comerciales, datos, metodologías operativas, estructuras de campañas, desarrollo de tecnologías propias y actividades afines a nuestro propósito comercial.
+              Conforme a las prácticas comerciales nacionales e internacionales, <strong>CHAMBA</strong> se reserva su propiedad intelectual respecto a estrategias, procesos y desarrollos, bien sean estos referidos a marketing, secretos y procesos comerciales, datos, metodologías operativas, estructuras de campañas, desarrollo de tecnologías propias y actividades afines a nuestro propósito comercial.
             </p>
             <p className="text-muted text-[14px] leading-relaxed">
               La propiedad de los códigos fuente y activos finales a medida se transfiere al cliente de forma completa y perpetua <strong>únicamente tras la liquidación del 100% del proyecto</strong>. Conoce más en nuestra sección de <Link to="/propiedad-intelectual" className="text-accent underline font-bold">Propiedad Intelectual</Link>.
