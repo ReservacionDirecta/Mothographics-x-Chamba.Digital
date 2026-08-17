@@ -20,7 +20,8 @@ import {
   RefreshCw,
   Server,
   Sparkles,
-  Layers
+  Layers,
+  Shield
 } from 'lucide-react';
 
 const ServicesPage: React.FC = () => {
@@ -376,6 +377,17 @@ const ServicesPage: React.FC = () => {
           >
             <WhatsAppIcon className="w-5 h-5" /> Hablar con un Asesor por WhatsApp
           </motion.a>
+
+          {/* Intellectual Property Disclaimer */}
+          <div className="mt-16 pt-8 border-t border-slate-200 dark:border-white/5 text-center max-w-3xl mx-auto px-4">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/5 text-slate-500 dark:text-muted/70 text-[11px] mb-3">
+              <Shield className="w-3.5 h-3.5 text-accent" />
+              <span className="font-semibold tracking-wider uppercase">Aviso de Propiedad Intelectual</span>
+            </div>
+            <p className="text-[12px] md:text-[13px] text-slate-500 dark:text-muted/80 leading-relaxed font-medium">
+              Conforme a las prácticas comerciales internacionales, <strong>CHAMBA</strong> se reserva su propiedad intelectual respecto a estrategias, procesos y desarrollos, bien sean estos referidos a marketing, secretos y procesos comerciales, datos, metodologías operativas, estructuras de campañas, desarrollo de tecnologías propias y actividades afines a nuestro propósito comercial.
+            </p>
+          </div>
         </section>
       </main>
 
