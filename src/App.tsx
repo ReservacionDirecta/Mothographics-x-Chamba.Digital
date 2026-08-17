@@ -2593,7 +2593,6 @@ export const ChambaFooter = () => (
             <div className="flex items-center gap-2 text-slate-400"><MapPin className="w-4 h-4 shrink-0" /> Lima, Perú</div>
             <div className="mt-3 pt-3 border-t border-slate-800 space-y-1">
               <p className="text-[11px] text-slate-500">RUC: 15609816934 · Yosward Edgardy Ríos Casanova</p>
-              <p className="text-[11px] text-slate-500">BCP (Soles): 19406354479064 · CCI: 00219410635447906492</p>
             </div>
           </div>
         </div>
