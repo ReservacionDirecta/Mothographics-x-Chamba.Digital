@@ -437,6 +437,7 @@ const HospitalitySolutions: React.FC = () => {
         </section>
 
         {/* Caso de Estudio */}
+        {/* Case Study */}
         <section className="py-16 md:py-24 px-6 md:px-10 max-w-[1024px] mx-auto border-t border-white/5">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <motion.div
@@ -447,17 +448,17 @@ const HospitalitySolutions: React.FC = () => {
             >
               <span className="label-editorial">Caso de Estudio</span>
               <h2 className="text-[32px] sm:text-[44px] font-black tracking-tight leading-[1.1] text-fg">
-                Peña Linda <span className="text-accent">Máncora</span>.
+                Hotel Costa Blanca <span className="text-accent">Vichayito</span>.
               </h2>
               <p className="text-[17px] text-muted leading-relaxed font-medium">
-                +10 años trabajando juntos. Web, PMS, marketing y atención IA funcionando como una sola máquina.
+                Plataforma web hotelera WaaS con reservas directas por WhatsApp, catálogo de habitaciones y motor de experiencias integrado.
               </p>
               <div className="space-y-3 pt-2">
                 {[
-                  "Motor Sirvoy con disponibilidad en tiempo real",
-                  "Asistente IA que cierra reservas por WhatsApp",
-                  "Diseño mobile-first",
-                  "Estrategia continua de marketing digital"
+                  "Catálogo dinámico de habitaciones y tarifas",
+                  "Atención y cierre de reservas directo a WhatsApp",
+                  "Diseño inmersivo y responsivo mobile-first",
+                  "Infraestructura cloud de alta velocidad en Railway"
                 ].map((item, i) => (
                   <div key={i} className="flex items-center gap-3 text-[14px] font-bold text-fg/80">
                     <CheckCircle2 className="w-4 h-4 text-accent" /> {item}
@@ -466,15 +467,15 @@ const HospitalitySolutions: React.FC = () => {
               </div>
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-4">
                 <a
-                  href="https://penalindabungalows.up.railway.app"
+                  href="https://costablanca.up.railway.app"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-accent text-white px-6 py-3.5 rounded-lg font-bold text-[13px] shadow-md flex items-center justify-center gap-2 text-center"
                 >
-                  Ver sitio <ArrowRight className="w-4 h-4" />
+                  Ver sitio demo <ArrowRight className="w-4 h-4" />
                 </a>
                 <a
-                  href="https://wa.me/51904060670?text=Hola,%20quiero%20una%20web%20hotelera%20como%20la%20de%20Peña%20Linda."
+                  href="https://wa.me/51904060670?text=Hola,%20quiero%20una%20web%20hotelera%20como%20la%20de%20Costa%20Blanca."
                   target="_blank"
                   className="text-[13px] font-bold text-muted hover:text-fg transition-colors flex items-center justify-center gap-2"
                 >
@@ -490,9 +491,9 @@ const HospitalitySolutions: React.FC = () => {
               className="rounded-2xl overflow-hidden border border-white/10 shadow-2xl"
             >
               <img 
-                src="/penalindamancora-escritorio.png" 
-                alt="Peña Linda Máncora - Sitio web de reservas directas" 
-                className="w-full h-auto block"
+                src="/thumbs/costablanca.webp" 
+                alt="Hotel Costa Blanca Vichayito - Sitio web de reservas directas" 
+                className="w-full h-auto block object-cover max-h-[450px]"
               />
             </motion.div>
           </div>
@@ -506,7 +507,7 @@ const HospitalitySolutions: React.FC = () => {
             
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               {[
-                { name: "Peña Linda", detail: "PMS + Marketing + IA" },
+                { name: "Costa Blanca", detail: "Web WaaS + Catálogo" },
                 { name: "Fundo Achamaqui", detail: "Web + Estrategia" },
                 { name: "Punta Negritos", detail: "Lanzamiento 360°" },
                 { name: "Sauce Hotel", detail: "Optimización PMS" }

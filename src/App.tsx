@@ -1055,20 +1055,6 @@ const Portfolio = () => {
       focus: "Refugio resort en Vichayito con reservas directas por WhatsApp y motor de experiencias.",
     },
     {
-      emoji: "🏝️",
-      name: "Peña Linda Bungalows",
-      location: "Máncora – Perú",
-      tasks: [
-        "Implementación y gestión integral del PMS.",
-        "Desarrollo y optimización continua de la web oficial.",
-        "Integración de motor de reservas para ventas directas.",
-        "Administración completa del flujo de reservas.",
-        "Atención vía WhatsApp y Automatización con IA.",
-        "+10 años consolidando resultados.",
-      ],
-      focus: "Operación integral: marketing + ventas + tecnología + automatización.",
-    },
-    {
       emoji: "🌿",
       name: "Fundo Achamaqui",
       location: "Chachapoyas – Perú",
@@ -1180,11 +1166,6 @@ const Portfolio = () => {
       url: "latamabogados.com",
       label: "Inglés Legal & Consultoría U.S.",
       thumb: "/thumbs/latamabogados.webp",
-    },
-    {
-      url: "penalindabungalows.up.railway.app",
-      label: "Reserva Directa Hotelera",
-      thumb: "/thumbs/penalindamancora.webp",
     },
     {
       url: "www.dupla.work",

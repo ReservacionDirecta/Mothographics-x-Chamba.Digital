@@ -28,14 +28,6 @@ const hotelClients = [
     focus: "Plataforma web sin inversión inicial. Actualizaciones continuas.",
   },
   {
-    emoji: "🏝️", name: "Peña Linda Bungalows", location: "Máncora – Perú",
-    category: "hotel", url: "penalindabungalows.up.railway.app",
-    thumb: "/thumbs/penalindamancora.webp",
-    highlight: "+10 años operando juntos",
-    tasks: ["PMS Integral", "Web Oficial WaaS", "Motor de Reservas Directas", "Atención WhatsApp e IA", "Soporte Continuo"],
-    focus: "Operación comercial autónoma con soporte continuo.",
-  },
-  {
     emoji: "🌿", name: "Fundo Achamaqui", location: "Chachapoyas – Perú",
     category: "hotel", url: "fundoachamaqui.com",
     thumb: "/thumbs/fundoachamaqui.webp",
@@ -109,7 +101,6 @@ const webProjects = [
   { url: "tuagentepe.up.railway.app", label: "TUAGENTE.PE Real Estate", category: "tech", thumb: "/thumbs/tuagentepe.webp" },
   { url: "pacificsurfschool.com.pe", label: "Escuela & Clases de Surf", category: "hotel", thumb: "/thumbs/pacificsurfschool.webp" },
   { url: "latamabogados.com", label: "Inglés Legal & Consultoría U.S.", category: "tech", thumb: "/thumbs/latamabogados.webp" },
-  { url: "penalindabungalows.up.railway.app", label: "Reserva Directa Hotelera", category: "hotel", thumb: "/thumbs/penalindamancora.webp" },
   { url: "www.dupla.work", label: "Producción Visual & Fotografía", category: "tech", thumb: "/thumbs/dupla.webp" },
   { url: "kabsa.pe", label: "Constructora Nacional", category: "tech", thumb: "/thumbs/kabsa.webp" },
   { url: "puntanegritos.webflow.io", label: "Wind & Surf Hotel", category: "hotel", thumb: "/thumbs/puntanegritos.webp" },

@@ -33,11 +33,11 @@ const HotelsLandingPage: React.FC = () => {
 
   const clients = [
     {
-      emoji: "🏝️",
-      name: "Peña Linda Bungalows",
-      location: "Máncora – Perú",
-      tasks: ["PMS Integral", "Web Oficial de Alta Conversión", "Motor de Reservas Directo", "Automatización IA", "Marketing Digital"],
-      focus: "Operación comercial 100% autónoma."
+      emoji: "🏨",
+      name: "Hotel Costa Blanca",
+      location: "Vichayito – Perú",
+      tasks: ["Plataforma Web WaaS", "Catálogo Dinámico de Habitaciones", "Motor de Reservas Directas", "Integración WhatsApp", "Soporte Cloud"],
+      focus: "Operación comercial autónoma y reservas directas."
     },
     {
       emoji: "🌿",
@@ -208,7 +208,7 @@ const HotelsLandingPage: React.FC = () => {
           </div>
         </section>
 
-        {/* Featured Case Study: Peña Linda Máncora */}
+        {/* Featured Case Study: Hotel Costa Blanca */}
         <section className="py-28 px-6 md:px-10 max-w-[1280px] mx-auto border-t border-white/5 overflow-hidden">
           {/* Encabezado y Contexto Estratégico */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-20">
@@ -220,23 +220,23 @@ const HotelsLandingPage: React.FC = () => {
             >
               <span className="label-editorial">CASO DE ESTUDIO DESTACADO</span>
               <h2 className="text-[36px] sm:text-[52px] font-black tracking-tight leading-[1.1] text-fg font-display">
-                Performance en <span className="text-accent underline decoration-accent/30 underline-offset-8">penalindamancora.com</span>
+                Performance en <span className="text-accent underline decoration-accent/30 underline-offset-8">Costa Blanca Vichayito</span>
               </h2>
               <p className="text-[18px] text-muted leading-relaxed font-medium">
-                Transformamos Peña Linda Bungalows en una máquina autónoma de reservas. 0% dependencia de OTAs, 100% ocupación en temporada alta.
+                Implementamos una plataforma web de alto rendimiento optimizada para reservas directas y experiencias de playa. 0% comisiones a intermediarios, conversión fluida vía WhatsApp y motor cloud.
               </p>
 
               <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-5">
                 <a
-                  href="https://penalindabungalows.up.railway.app"
+                  href="https://costablanca.up.railway.app"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn-premium flex items-center justify-center gap-3 uppercase tracking-widest text-center"
                 >
-                  Visitar penalindamancora.com <ArrowRight className="w-4 h-4" />
+                  Visitar Demo en Vivo <ArrowRight className="w-4 h-4" />
                 </a>
                 <a
-                  href="https://wa.me/51904060670?text=Hola,%20quiero%20una%20web%20hotelera%20como%20la%20de%20Pe%C3%B1a%20Linda%20M%C3%A1ncora."
+                  href="https://wa.me/51904060670?text=Hola,%20quiero%20una%20web%20hotelera%20como%20la%20de%20Costa%20Blanca."
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn-ghost flex items-center justify-center gap-2 uppercase tracking-widest text-center"
@@ -257,10 +257,10 @@ const HotelsLandingPage: React.FC = () => {
                   <span className="w-2 h-2 rounded-full bg-accent animate-pulse" /> Pilares del Proyecto
                 </h3>
                 {[
-                  { num: "01", title: "Motor Sirvoy", desc: "Sincronización total sin overbooking." },
-                  { num: "02", title: "Asistente IA", desc: "Cierre de ventas automático 24/7." },
-                  { num: "03", title: "Diseño Premium", desc: "Interfaz inmersiva de alta conversión." },
-                  { num: "04", title: "+10 Años ROI", desc: "Crecimiento constante y fidelización." }
+                  { num: "01", title: "Reserva Directa", desc: "Embudo sin fricciones directo a WhatsApp y motor." },
+                  { num: "02", title: "Catálogo Dinámico", desc: "Tarifas y habitaciones actualizadas al instante." },
+                  { num: "03", title: "Diseño Mobile-First", desc: "Experiencia visual envolvente de playa." },
+                  { num: "04", title: "Hosting Cloud WaaS", desc: "Despliegue de alta disponibilidad en Railway." }
                 ].map((item, idx) => (
                   <div key={idx} className="flex items-start gap-5 group pb-4 border-b border-white/5 last:border-0 last:pb-0">
                     <span className="font-mono text-[14px] font-bold text-accent pt-0.5 tracking-wider">{item.num}</span>
@@ -274,41 +274,19 @@ const HotelsLandingPage: React.FC = () => {
             </motion.div>
           </div>
 
-          {/* Área de Exhibición: Escritorio y Móvil Lado a Lado sin Superposición */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            {/* Desktop Browser Window */}
+          {/* Área de Exhibición Desktop Showcase */}
+          <div className="w-full">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="lg:col-span-8 w-full rounded-2xl overflow-hidden border border-white/15 shadow-[0_30px_100px_rgba(0,0,0,0.8)] bg-bg group"
+              className="w-full max-w-[1000px] mx-auto rounded-3xl overflow-hidden border border-white/15 shadow-[0_30px_100px_rgba(0,0,0,0.8)] bg-bg group"
             >
-              {/* Contenedor Scrollable */}
-              <div className="relative h-[550px] bg-bg overflow-y-auto custom-scrollbar">
-                <img 
-                  src="/penalindamancora-escritorio.png" 
-                  alt="Peña Linda Máncora Desktop Interface" 
-                  className="w-full h-auto block"
-                />
-              </div>
-            </motion.div>
-
-            {/* Mobile Device Frame */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-              className="lg:col-span-4 w-full max-w-[340px] mx-auto rounded-[40px] overflow-hidden border-8 border-bg-subtle shadow-[0_30px_100px_rgba(0,0,0,0.9)] bg-bg group flex flex-col"
-            >
-              {/* Contenedor Scrollable */}
-              <div className="relative h-[488px] bg-bg overflow-y-auto custom-scrollbar">
-                <img 
-                  src="/www.penalindamancora.com_(iPhone 14 Pro Max).png" 
-                  alt="Peña Linda Máncora Mobile Booking" 
-                  className="w-full h-auto block"
-                />
-              </div>
+              <img 
+                src="/thumbs/costablanca.webp" 
+                alt="Hotel Costa Blanca Vichayito Interface" 
+                className="w-full h-auto block object-cover max-h-[600px]"
+              />
             </motion.div>
           </div>
         </section>
@@ -363,7 +341,7 @@ const HotelsLandingPage: React.FC = () => {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 {[
                   { level: "1. Lanzamiento", clients: "(Punta Negritos)", desc: "Web + Canales de Venta" },
-                  { level: "2. Automatización", clients: "(Peña Linda)", desc: "Marketing + IA + PMS" },
+                  { level: "2. Automatización", clients: "(Costa Blanca)", desc: "Marketing + WhatsApp + Catálogo" },
                   { level: "3. Escalada", clients: "(Fundo Achamaqui)", desc: "Conversión y Rentabilidad" }
                 ].map((item, i) => (
                   <div key={i} className="space-y-2">
