@@ -457,7 +457,6 @@ const HotelsLandingPage: React.FC = () => {
                 <li><Link to="/" className="text-[14px] text-muted hover:text-accent transition-colors">Inicio</Link></li>
                 <li><Link to="/ecommerce" className="text-[14px] text-muted hover:text-accent transition-colors">E-commerce</Link></li>
                 <li><Link to="/servicebusinesses" className="text-[14px] text-muted hover:text-accent transition-colors">Servicios B2B</Link></li>
-                <li><Link to="/alianza" className="text-[14px] text-muted hover:text-accent transition-colors">Alianza</Link></li>
               </ul>
             </div>
 
@@ -476,10 +475,10 @@ const HotelsLandingPage: React.FC = () => {
             </div>
 
             <div className="flex flex-col items-start gap-6">
-              <h4 className="text-[14px] font-black uppercase tracking-widest mb-6 text-fg">¿Nueva Alianza?</h4>
+              <h4 className="text-[14px] font-black uppercase tracking-widest mb-6 text-fg">¿Nueva Aventura?</h4>
               <div className="bg-accent/10 p-4 rounded-lg border border-accent/20">
-                <p className="text-[11px] text-accent font-bold uppercase tracking-wider mb-2">Próxima Parada</p>
-                <p className="text-[13px] font-medium">Expansión México × Perú</p>
+                <p className="text-[11px] text-accent font-bold uppercase tracking-wider mb-2">Mercados</p>
+                <p className="text-[13px] font-medium">Perú · Latinoamérica · EE. UU.</p>
               </div>
             </div>
           </div>

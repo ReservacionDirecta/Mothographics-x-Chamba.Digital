@@ -238,7 +238,7 @@ export default function UserPortal() {
             email: "demo@chamba.digital",
             company: "Pacific Surf School",
             plan: "Web Tradicional",
-            planPrice: "$49.99/mes",
+            planPrice: "$49/mes",
             subscriptionStatus: "activa",
             projectStatus: "en_produccion"
           };
@@ -261,7 +261,7 @@ export default function UserPortal() {
           email: "demo@chamba.digital",
           company: "Pacific Surf School",
           plan: "Web Tradicional",
-          planPrice: "$49.99/mes",
+          planPrice: "$49/mes",
           subscriptionStatus: "activa",
           projectStatus: "en_produccion"
         };
@@ -1401,7 +1401,7 @@ export default function UserPortal() {
                     <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-1">Entry Level</span>
                     <h3 className="text-lg font-extrabold text-slate-900">Web Tradicional</h3>
                     <div className="my-3">
-                      <span className="text-3xl font-black text-slate-900">$49.99</span>
+                      <span className="text-3xl font-black text-slate-900">$49</span>
                       <span className="text-xs font-bold text-slate-500"> / mes</span>
                     </div>
                     <ul className="space-y-1.5 text-xs text-slate-600 font-medium my-4">
@@ -1416,7 +1416,7 @@ export default function UserPortal() {
                     disabled={loading}
                     className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 rounded-xl text-xs uppercase tracking-wider transition-all cursor-pointer shadow-md mt-4"
                   >
-                    {loading ? "Cargando..." : "Activar por $49.99/mes"}
+                    {loading ? "Cargando..." : "Activar por $49/mes"}
                   </button>
                 </div>
 
@@ -1429,7 +1429,7 @@ export default function UserPortal() {
                     <span className="text-[10px] font-black uppercase tracking-widest text-blue-400 block mb-1">Advanced WaaS</span>
                     <h3 className="text-lg font-extrabold text-white">Web App Advanced</h3>
                     <div className="my-3">
-                      <span className="text-3xl font-black text-white">$99.99</span>
+                      <span className="text-3xl font-black text-white">$99</span>
                       <span className="text-xs font-bold text-slate-400"> / mes</span>
                     </div>
                     <ul className="space-y-1.5 text-xs text-slate-300 font-medium my-4">
@@ -1444,7 +1444,7 @@ export default function UserPortal() {
                     disabled={loading}
                     className="w-full bg-accent hover:bg-accent/90 text-white font-black py-3 rounded-xl text-xs uppercase tracking-wider transition-all cursor-pointer shadow-lg mt-4"
                   >
-                    {loading ? "Cargando..." : "Activar por $99.99/mes"}
+                    {loading ? "Cargando..." : "Activar por $99/mes"}
                   </button>
                 </div>
 
@@ -1479,7 +1479,7 @@ export default function UserPortal() {
                     <span className="text-[10px] font-black uppercase tracking-widest text-purple-600 block mb-1">Enterprise IA</span>
                     <h3 className="text-lg font-extrabold text-slate-900">Web App con IA</h3>
                     <div className="my-3">
-                      <span className="text-3xl font-black text-slate-900">$599.99</span>
+                      <span className="text-3xl font-black text-slate-900">$500</span>
                       <span className="text-xs font-bold text-slate-500"> / mes</span>
                     </div>
                     <ul className="space-y-1.5 text-xs text-slate-600 font-medium my-4">
@@ -1494,7 +1494,7 @@ export default function UserPortal() {
                     disabled={loading}
                     className="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 rounded-xl text-xs uppercase tracking-wider transition-all cursor-pointer shadow-md mt-4"
                   >
-                    {loading ? "Cargando..." : "Activar por $599.99/mes"}
+                    {loading ? "Cargando..." : "Activar por $500/mes"}
                   </button>
                 </div>
               </div>
@@ -1597,9 +1597,9 @@ export default function UserPortal() {
                       onChange={(e) => setPlan(e.target.value)}
                       className="w-full bg-slate-50 border border-slate-200 focus:border-accent rounded-xl px-4 py-3 text-[clamp(13px,2.5vw,13px)] text-slate-900 outline-none font-medium"
                     >
-                      <option value="Web Tradicional">Web Tradicional ($49.99/mes)</option>
-                      <option value="Web App Advanced">Web App Advanced ($99.99/mes)</option>
-                      <option value="Web App con IA">Web App con IA ($599.99/mes)</option>
+                      <option value="Web Tradicional">Web Tradicional ($49/mes)</option>
+                      <option value="Web App Advanced">Web App Advanced ($99/mes)</option>
+                      <option value="Web App con IA">Web App con IA ($500/mes)</option>
                     </select>
                   </div>
                 )}

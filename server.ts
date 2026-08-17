@@ -2787,9 +2787,6 @@ Responde en español de forma profesional, empática, ágil y totalmente context
       } else if (req.path.startsWith('/servicebusinesses')) {
         title = "Marketing y Embudos B2B para Empresas de Servicios | Chamba Digital";
         desc = "Escala tu empresa de servicios con embudos de generación de leads cualificados, automatización de citas con Inteligencia Artificial y posicionamiento digital de alto nivel en Perú.";
-      } else if (req.path.startsWith('/alianza') || req.path.toLowerCase().includes('mothographics')) {
-        title = "Alianza Estratégica: Mothographics × Chamba Digital";
-        desc = "Unión de fuerzas entre el diseño de alto impacto de Mothographics y la ingeniería de performance de Chamba Digital para transformar negocios en México y Perú.";
       }
 
       if (title && desc) {

@@ -49,12 +49,21 @@ Desarrollo de tiendas digitales de alta conversión integradas con pasarelas de 
 - **Infraestructura Cloud:** Railway, Vercel, Docker, VPS Linux.
 - **Pagos & Email:** Polar.sh, Stripe, MailerLite.
 
-## Planes & Precios Referenciales
-- **OnePage Express:** $150 USD (Pago Único)
-- **Business Growth:** $500 USD (Pago Único)
-- **Dominio Elite + IA:** $1,200+ USD (Pago Único)
-- **Ecosistema Hotelero Completo:** $999 USD (Incluye PMS + Web + Agente IA)
-- **Web as a Service (WaaS):** Desde $49 USD/mes (Suscripción sin pago inicial)
+## Planes & Precios Referenciales (Catálogo Oficial WaaS)
+### Suscripciones Web as a Service (mensuales, sin pago inicial)
+- **Web Tradicional WaaS:** $49 USD/mes · Promo Semestral $245 USD (6 meses, paga 5)
+- **Web App Advanced WaaS:** $99 USD/mes · Promo Semestral $495 USD (6 meses, paga 5)
+- **Web App con IA & Automatizaciones:** $500 USD/mes
+### IA Continua (Hothelia / Chamba AI)
+- **Starter IA:** $49 USD/mes (Setup $250)
+- **Pro IA:** $99 USD/mes (Setup $400)
+- **Business IA:** $199 USD/mes (Setup $600)
+### Proyectos a Medida (Pago Único)
+- **OnePage Express:** $150 USD
+- **Business Growth:** $500 USD
+- **Dominio Elite + IA:** $1,200+ USD
+- **Ecosistema Hotelero Completo (Hospitality Pro):** $999 USD (Incluye PMS Sirvoy + Web + Agente de Reservas + 2,500 créditos Google Flow)
+- **Producción Visual IA (Google Flow):** $150 USD (2,500 créditos)
 
 ## Endpoints de API Públicos
 - `POST https://chamba.digital/api/send-checklist` — Solicitud de checklist de transformación digital por email

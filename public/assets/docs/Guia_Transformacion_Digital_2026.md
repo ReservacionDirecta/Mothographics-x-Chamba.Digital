@@ -1,6 +1,6 @@
 # Checklist 2026: Tu Máquina de Ventas Digital
 
-**Por Chamba.Digital x Mothographics**
+**Por Chamba.Digital**
 
 ---
 

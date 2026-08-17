@@ -1,6 +1,6 @@
 # chamba.digital - Ecosistema de Servicios WaaS, Planes y Conocimiento Oficial
 
-Este documento es la fuente de verdad oficial y exclusiva para el agente de Inteligencia Artificial (chatbot) de la web. El objetivo principal es brindar información precisa sobre nuestros servicios WaaS (Web as a Service), responder sobre los planes ($50/mes, $100/mes, $500/mes), agendar consultas y motivar el contacto vía **WhatsApp (+51 904060670)**.
+Este documento es la fuente de verdad oficial y exclusiva para el agente de Inteligencia Artificial (chatbot) de la web. El objetivo principal es brindar información precisa sobre nuestros servicios WaaS (Web as a Service), responder sobre los planes ($49/mes, $99/mes, $500/mes), agendar consultas y motivar el contacto vía **WhatsApp (+51 904060670)**.
 
 ---
 
@@ -14,14 +14,14 @@ Este documento es la fuente de verdad oficial y exclusiva para el agente de Inte
 
 ## 2. Pilares de Servicios WaaS
 
-### A. Web Tradicional WaaS ($50/mes)
+### A. Web Tradicional WaaS ($49/mes)
 Solución de infraestructura web para negocios locales, marcas corporativas, tiendas, clínicas y profesionales.
 - Sitios web corporativos, catálogos digitales y landings de alta conversión.
 - Hosting cloud de alta velocidad y certificado de seguridad SSL.
 - Indexación y SEO técnico estructural + Google My Business.
 - Mantenimiento continuo, respaldos y cambios ilimitados.
 
-### B. Web App Advanced WaaS ($100/mes)
+### B. Web App Advanced WaaS ($99/mes)
 Aplicaciones web avanzadas para empresas con necesidades de software a medida.
 - Panel administrativo personalizado para gestión de usuarios, contenidos y métricas.
 - Arquitectura escalable y desarrollo/integración de REST APIs.
@@ -40,11 +40,13 @@ Plataformas web inteligentes y automatización directa de flujos operativos empr
 ## 3. Lista Oficial de Precios y Modelos WaaS
 
 #### 1. Plan Web Tradicional
-- **Inversión:** **$50 USD / mes** (Suscripción WaaS).
+- **Inversión:** **$49 USD / mes** (Suscripción WaaS).
+- **Promo Semestral:** **$245 USD** (Pago único por 6 meses: paga 5, el 6to es gratis).
 - **Ideal para:** Negocios, marcas, tiendas, clínicas, consultorios y empresas que necesitan presencia digital profesional de alto nivel con cambios ilimitados y mantenimiento incluido.
 
 #### 2. Plan Web App Advanced (Enterprise WaaS)
-- **Inversión:** **$100 USD / mes** (Suscripción WaaS).
+- **Inversión:** **$99 USD / mes** (Suscripción WaaS).
+- **Promo Semestral:** **$495 USD** (Pago único por 6 meses: paga 5, el 6to es gratis).
 - **Ideal para:** Empresas que requieren aplicaciones web avanzadas, paneles de administración a medida, consumo/entrega de REST APIs y funcionalidades de software escalables.
 
 #### 3. Plan Web App con IA & Automatizaciones
@@ -101,12 +103,10 @@ Asistentes virtuales autónomos para atención 24/7 y cierre de ventas.
 
 ---
 
-## 4. Alianza de Valor y Modelo de Negocio (Mothographics × Chamba Digital)
-Nuestra estructura operativa se basa en una alianza estratégica internacional para ofrecer el máximo valor y respaldo a los clientes:
-- **Presencia en México (Mothographics):** Mothographics actúa como la cara local en México, gestionando la relación directa con los clientes, la estrategia comercial y el branding.
-- **Motor Técnico Remoto (Chamba Digital):** Chamba Digital opera desde Perú como el brazo técnico estratégico, garantizando una ejecución de software e ingeniería impecable, rápida y escalable.
-- **Repartición Equitativa y Justicia Financiera:** Evaluamos cada caso de forma transparente. Si un proyecto requiere que la labor técnica sea el mayor porcentaje del entregable, la estructura de ingresos se adjusta proporcionalmente al nivel de esfuerzo y complejidad invertida, sin tarifas únicas injustas.
-- **Próximo Paso Estratégico:** Piloto Galería Arte Urbano para validar la maquinaria conjunta antes de escalar la alianza.
+## 4. Datos de Facturación y Legal
+- **Razón Social / RUC:** Yosward Edgardy Ríos Casanova — RUC 15609816934.
+- **Cuenta BCP (Soles):** 19406354479064 · CCI: 00219410635447906492.
+- **Facturación:** Los servicios se pueden facturar a título personal mediante Recibo por Honorarios Electrónico.
 
 ---
 
@@ -168,7 +168,7 @@ No. En chamba.digital construimos infraestructuras web *Handcrafted* (código li
 Las campañas de Meta Ads pueden generar leads en las primeras 48-72 horas. El Plan Lanzamiento OnePage se entrega en 7 días. Proyectos completos (Web Business, E-commerce o IA) suelen tomar entre 2 a 4 semanas según su complejidad.
 
 **¿Trabajan con clientes fuera de Perú?**
-Sí, operamos de forma remota para clientes en México (en alianza con Mothographics), España, Estados Unidos y toda Latinoamérica.
+Sí, operamos de forma remota para clientes en México, España, Estados Unidos y toda Latinoamérica.
 
 **¿Necesito una inversión mínima en publicidad?**
 Recomendamos iniciar con al menos $10-$15 USD diarios en pauta (Meta/Google Ads) para que los algoritmos tengan datos suficientes para optimizar y generar conversiones rentables.

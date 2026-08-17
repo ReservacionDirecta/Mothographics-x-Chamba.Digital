@@ -1,9 +1,9 @@
-# Agent Context Documentation: Mothographics-x-Chamba.Digital
+# Agent Context Documentation: Chamba.Digital
 
-This document serves as the comprehensive context guide for analyzing and interacting with the `Mothographics-x-Chamba.Digital` web application project. It summarizes the inferred goals, technology stack, design aesthetics, structural patterns, and key areas of focus for client acquisition based on the provided source files (`App.tsx`, `main.tsx`, `index.css`).
+This document serves as the comprehensive context guide for analyzing and interacting with the `Chamba.Digital` web application project. It summarizes the inferred goals, technology stack, design aesthetics, structural patterns, and key areas of focus for client acquisition based on the provided source files (`App.tsx`, `main.tsx`, `index.css`).
 
 ## 1. Project Goal Inference
-Based on the component structure (implied by file names like `App.tsx`) and general web application conventions, this project appears to be a **Service Provider or Portfolio Website**. The naming convention suggests it might be related to digital services, branding, or creative work ("Mothographics"). Its primary purpose is likely to showcase capabilities, present services, and attract new clients rather than facilitate direct e-commerce transactions.
+Based on the component structure (implied by file names like `App.tsx`) and general web application conventions, this project appears to be a **Service Provider or Portfolio Website**. The naming convention suggests it might be related to digital services, branding, or creative work (Chamba Digital). Its primary purpose is likely to showcase capabilities, present services, and attract new clients rather than facilitate direct e-commerce transactions.
 
 ## 2. Technology Stack
 The core technologies utilized in this project are:

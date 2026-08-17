@@ -27,7 +27,7 @@ const ServicesPage: React.FC = () => {
   const waasPillars = [
     {
       title: "Web Tradicional WaaS",
-      price: "$49.99",
+      price: "$49",
       period: "/ mes",
       badge: "Plan Inicial",
       icon: Code2,
@@ -39,12 +39,13 @@ const ServicesPage: React.FC = () => {
         "Mantenimiento técnico continuo",
         "Despliegue en Railway (desde $5/mes a tu cuenta)",
         "Certificado SSL & Dominio configurado",
-        "Soporte rápido por WhatsApp"
+        "Soporte rápido por WhatsApp",
+        "Promo semestral: $245 (6 meses, paga 5)"
       ]
     },
     {
       title: "Web App Advanced",
-      price: "$99.99",
+      price: "$99",
       period: "/ mes",
       badge: "Más Popular",
       icon: Layers,
@@ -57,12 +58,13 @@ const ServicesPage: React.FC = () => {
         "Cambios e iteraciones semanales",
         "Despliegue escalable en Railway",
         "Optimización de velocidad y SEO",
-        "Soporte prioritario directo"
+        "Soporte prioritario directo",
+        "Promo semestral: $495 (6 meses, paga 5)"
       ]
     },
     {
       title: "Web App con IA",
-      price: "$599.99",
+      price: "$500",
       period: "/ mes",
       badge: "Empresarial & IA",
       icon: Sparkles,

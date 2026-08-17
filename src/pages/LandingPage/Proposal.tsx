@@ -32,7 +32,7 @@ interface ProposalConfig {
   stack: StackItem[];
   stackTotal: string;
   // OFFER
-  offer: { priceUsd: string; priceMxn: string; anchor: [string, string] };
+  offer: { priceUsd: string; pricePen: string; anchor: [string, string] };
   // ROI
   roi: { 
     unit: [string, string]; 
@@ -136,20 +136,20 @@ const proposals: Record<string, ProposalConfig> = {
     },
 
     stack: [
-      { name: ["Landing page de conversión, código propio", "Custom-coded conversion landing page"], detail: ["Hero + servicios + precios + CTA. Sin WordPress. Responsivo.", "Hero + services + pricing + CTA. No WordPress. Responsive."], value: "$6,000 MXN" },
-      { name: ["SEO + Geo + Google Analytics + Search Console", "SEO + Geo + Google Analytics + Search Console"], detail: ["Visible en búsquedas locales. Todo medible desde el día 1.", "Visible in local search. Fully measurable from day 1."], value: "$2,000 MXN" },
-      { name: ["Meta Pixel + Google Ads ready", "Meta Pixel + Google Ads ready"], detail: ["Tracking completo. Google Ads configurado y listo para escalar.", "Full tracking. Google Ads configured and ready to scale."], value: "$1,500 MXN" },
-      { name: ["Ecosistema Meta: Facebook + Instagram + WA Business", "Meta ecosystem: Facebook + Instagram + WA Business"], detail: ["Páginas conectadas. Perfil profesional unificado.", "Connected pages. Unified professional profile."], value: "$3,000 MXN" },
-      { name: ["Campaña Meta Ads (primera campaña)", "Meta Ads campaign (first campaign)"], detail: ["Audiencias + copys + estructura + lanzamiento.", "Audiences + copy + structure + launch."], value: "$4,000 MXN" },
-      { name: ["WhatsApp Business: catálogo + automatizaciones", "WhatsApp Business: catalog + automations"], detail: ["Catálogo de servicios + mensajes automáticos + respuestas rápidas.", "Service catalog + auto-messages + quick replies."], value: "$3,500 MXN" },
-      { name: ["Tarjeta digital + código QR", "Digital business card + QR code"], detail: ["Descargable desde su web. Lista para congresos y networking.", "Downloadable from your site. Ready for events and networking."], value: "$1,000 MXN" },
-      { name: ["Videollamada de entrega + capacitación", "Delivery video call + training"], detail: ["30 min en vivo. Le explico todo el sistema.", "30 min live. I walk you through the entire system."], value: "$1,500 MXN" },
+      { name: ["Landing page de conversión, código propio", "Custom-coded conversion landing page"], detail: ["Hero + servicios + precios + CTA. Sin WordPress. Responsivo.", "Hero + services + pricing + CTA. No WordPress. Responsive."], value: "S/ 1,200 PEN" },
+      { name: ["SEO + Geo + Google Analytics + Search Console", "SEO + Geo + Google Analytics + Search Console"], detail: ["Visible en búsquedas locales. Todo medible desde el día 1.", "Visible in local search. Fully measurable from day 1."], value: "S/ 400 PEN" },
+      { name: ["Meta Pixel + Google Ads ready", "Meta Pixel + Google Ads ready"], detail: ["Tracking completo. Google Ads configurado y listo para escalar.", "Full tracking. Google Ads configured and ready to scale."], value: "S/ 300 PEN" },
+      { name: ["Ecosistema Meta: Facebook + Instagram + WA Business", "Meta ecosystem: Facebook + Instagram + WA Business"], detail: ["Páginas conectadas. Perfil profesional unificado.", "Connected pages. Unified professional profile."], value: "S/ 600 PEN" },
+      { name: ["Campaña Meta Ads (primera campaña)", "Meta Ads campaign (first campaign)"], detail: ["Audiencias + copys + estructura + lanzamiento.", "Audiences + copy + structure + launch."], value: "S/ 800 PEN" },
+      { name: ["WhatsApp Business: catálogo + automatizaciones", "WhatsApp Business: catalog + automations"], detail: ["Catálogo de servicios + mensajes automáticos + respuestas rápidas.", "Service catalog + auto-messages + quick replies."], value: "S/ 700 PEN" },
+      { name: ["Tarjeta digital + código QR", "Digital business card + QR code"], detail: ["Descargable desde su web. Lista para congresos y networking.", "Downloadable from your site. Ready for events and networking."], value: "S/ 200 PEN" },
+      { name: ["Videollamada de entrega + capacitación", "Delivery video call + training"], detail: ["30 min en vivo. Le explico todo el sistema.", "30 min live. I walk you through the entire system."], value: "S/ 300 PEN" },
     ],
-    stackTotal: "$22,500 MXN",
+    stackTotal: "S/ 4,500 PEN",
 
     offer: {
       priceUsd: "$400 USD",
-      priceMxn: "$7,200 MXN",
+      pricePen: "S/ 1,440 PEN",
       anchor: [
         "Menos que un alumno de paquete completo.",
         "Less than one full-package student.",
@@ -537,7 +537,7 @@ const ProposalPage: React.FC = () => {
             <h2 className="text-[64px] md:text-[96px] font-black tracking-tighter leading-none mb-2 drop-shadow-sm" style={{ color: C.ac }}>
               {p.offer.priceUsd}
             </h2>
-            <p className="text-[22px] font-medium mb-4" style={{ color: C.mt }}>{p.offer.priceMxn}</p>
+            <p className="text-[22px] font-medium mb-4" style={{ color: C.mt }}>{p.offer.pricePen}</p>
             <p className="text-[18px] font-bold mb-16 px-4">{Tb(lang, p.offer.anchor)}</p>
 
             <div className="rounded-[20px] p-8 md:p-10 text-left" style={{ backgroundColor: 'rgba(255,255,255,0.5)', border: `1px solid ${C.border}` }}>
@@ -743,8 +743,8 @@ const ProposalPage: React.FC = () => {
 
             <p className="text-[13px] mt-10 font-bold" style={{ color: C.red }}>
               {T(lang,
-                `⚠️ Esta oferta expira en ${p.validity} · ${p.offer.priceMxn} al tipo de cambio del día`,
-                `⚠️ This offer expires in ${p.validity} · ${p.offer.priceMxn} at current exchange rate`
+                `⚠️ Esta oferta expira en ${p.validity} · ${p.offer.pricePen} al tipo de cambio del día`,
+                `⚠️ This offer expires in ${p.validity} · ${p.offer.pricePen} at current exchange rate`
               )}
             </p>
           </div>

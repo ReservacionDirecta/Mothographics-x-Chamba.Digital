@@ -1,4 +1,4 @@
-# Mothographics-x-Chamba.Digital | Client Acquisition Improvement Plan
+# Chamba.Digital | Client Acquisition Improvement Plan
 
 **Goal:** To transform the website from a digital brochure into a high-performing, measurable client acquisition and sales system that maximizes lead quality and conversion rate (CVR).
 
@@ -16,7 +16,7 @@ This plan is structured around the entire client journey—from initial traffic 
     - [x] `/ecommerce` (Focus: High-Conversion Storefronts, Automation)
     - [x] `/servicebusinesses` (Focus: B2B Lead Gen, Automation)
 - [x] **Headline Optimization:** Refactored hero messaging to focus on "Sistemas de Adquisición Masiva" and ROI.
-- [x] **Ad-to-Landing Page Consistency:** Established visual and narrative harmony between the creative brand (Mothographics) and the engineering arm (Chamba Digital).
+- [x] **Ad-to-Landing Page Consistency:** Established visual and narrative harmony between brand and engineering.
 
 ## ✅ Phase 2: Landing Page Optimization & UX (The Funnel)
 *Goal: Reduce friction and guide the visitor toward the primary CTA.*
