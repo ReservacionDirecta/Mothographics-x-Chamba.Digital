@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { SEO } from "../components/SEO";
 import {
   ArrowRight, CheckCircle2, Target, Palette, Code2, Zap,
-  Clock, Repeat, Briefcase, Rocket, ShieldCheck, TrendingUp,
+  Clock, Repeat, Briefcase, Rocket, ShieldCheck, Shield, TrendingUp,
   Sparkles, MousePointer2
 } from "lucide-react";
 
@@ -206,9 +206,19 @@ export default function MethodologyPage() {
               Ver Resultados Reales
             </Link>
           </div>
+
+          {/* Intellectual Property Disclaimer */}
+          <div className="mt-16 pt-8 border-t border-white/5 text-center max-w-3xl mx-auto px-4">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.03] border border-white/5 text-muted/70 text-[11px] mb-3">
+              <Shield className="w-3.5 h-3.5 text-accent/60" />
+              <span className="font-semibold tracking-wider uppercase">Aviso de Propiedad Intelectual</span>
+            </div>
+            <p className="text-[12px] md:text-[13px] text-muted/80 leading-relaxed">
+              Conforme a las prácticas comerciales internacionales, <strong>CHAMBA</strong> se reserva su propiedad intelectual respecto a estrategias, procesos y desarrollos, bien sean estos referidos a marketing, secretos y procesos comerciales, datos, metodologías operativas, estructuras de campañas, desarrollo de tecnologías propias y actividades afines a nuestro propósito comercial.
+            </p>
+          </div>
         </section>
       </main>
-
 
       <ChambaFooter />
     </div>

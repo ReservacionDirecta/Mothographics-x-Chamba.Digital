@@ -926,9 +926,9 @@ const Services = ({
         icon={Zap}
         badge="Suscripción Básica"
         description="Para profesionales, marcas personales, tiendas, clínicas y negocios locales."
-        price="$49.99"
+        price="$49"
         period="/ mes"
-        savings="Sin inversión inicial"
+        savings="Promo semestral: $245 (6 meses)"
         productId="70f62d4c-2cd9-49ad-9628-24a04d462cc0"
         whatsappText="Hola! Me interesa la suscripción WaaS Web Tradicional ($49/mes). Quisiera más información."
         items={[
@@ -948,9 +948,9 @@ const Services = ({
         badge="Más Popular"
         title="Web App Advanced"
         description="Para empresas que requieren panel de administración, catálogo o API REST."
-        price="$99.99"
+        price="$99"
         period="/ mes"
-        savings="Incluye Panel Admin + API"
+        savings="Promo semestral: $495 (6 meses)"
         productId="b78ef21a-1fdc-4fb6-b411-f4eb46f3fe96"
         whatsappText="Hola! Me interesa el plan WaaS Web App Advanced ($99/mes). Necesito panel de administración y funciones avanzadas."
         items={[
@@ -963,17 +963,17 @@ const Services = ({
         onOpenDetails={() => onOpenModal("Web App Advanced WaaS", "Para negocios con contenido dinámico, reservas o inventario. Incluye panel admin, base de datos y soporte activo.")}
       />
 
-      {/* Plan $599/mes - Web App con IA */}
+      {/* Plan $500/mes - Web App con IA */}
       <PricingCard
         title="Web App con IA"
         icon={Sparkles}
         badge="Empresarial & IA"
         description="Para empresas con flujos de trabajo automatizables e integración profunda de IA."
-        price="$599.99"
+        price="$500"
         period="/ mes"
         savings="Automatización Operativa Total"
         productId="ef4fe8a9-0f60-40c2-b0c3-0cf2663e38de"
-        whatsappText="Hola! Me interesa el plan WaaS Web App con IA ($599/mes). Deseo automatizar la gestión y flujos de mi empresa con IA."
+        whatsappText="Hola! Me interesa el plan WaaS Web App con IA ($500/mes). Deseo automatizar la gestión y flujos de mi empresa con IA."
         items={[
           { name: "Integración de Inteligencia Artificial", details: "Modelos de IA aplicados a la gestión de tu empresa." },
           { name: "Agentes y Asistentes Automatizados", details: "Atención, calificación y procesamiento 24/7." },
@@ -1022,6 +1022,17 @@ const Services = ({
           </div>
       </div>
     </motion.div>
+
+    {/* Intellectual Property Disclaimer */}
+    <div className="mt-12 text-center max-w-4xl mx-auto px-4">
+      <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/5 text-muted/70 text-[11px] mb-3">
+        <Shield className="w-3.5 h-3.5 text-accent/60" />
+        <span className="font-semibold tracking-wider uppercase">Aviso de Propiedad Intelectual</span>
+      </div>
+      <p className="text-[12px] md:text-[13px] text-muted/80 leading-relaxed">
+        Conforme a las prácticas comerciales internacionales, <strong>CHAMBA</strong> se reserva su propiedad intelectual respecto a estrategias, procesos y desarrollos, bien sean estos referidos a marketing, secretos y procesos comerciales, datos, metodologías operativas, estructuras de campañas, desarrollo de tecnologías propias y actividades afines a nuestro propósito comercial.
+      </p>
+    </div>
   </section>
 );
 
@@ -1528,124 +1539,6 @@ const Portfolio = () => {
     </section>
   );
 };
-
-const BusinessModel = () => (
-  <section id="modelo" className="py-14 md:py-20 px-6 md:px-10 max-w-[1024px] mx-auto">
-    <motion.div
-      initial={{ opacity: 0, scale: 0.98 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-      whileHover={{ scale: 1.01 }}
-      className="glass p-6 md:p-10 rounded-[12px] transition-transform border-accent/10"
-    >
-      <h2 className="text-[24px] font-bold mb-6 tracking-[-0.5px]">
-        ¿Cómo ganamos todos? (Alianza de Valor)
-      </h2>
-      <p className="text-[14px] text-muted leading-[1.6] mb-8 max-w-[700px]">
-        Guido, tú ya tienes la agencia y la confianza de tus clientes. Chamba
-        Digital entra como tu{" "}
-        <strong className="text-fg">brazo técnico</strong> para que
-        puedas crecer sin aumentar tu equipo. Nuestro
-        modelo se basa en{" "}
-        <strong className="text-accent">
-          reparto justo:
-        </strong>
-      </p>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <motion.div
-          whileHover={{ y: -5 }}
-          className="space-y-3 cursor-default p-4 bg-white/[0.02] rounded-lg border border-white/5"
-        >
-          <div className="flex items-center gap-2">
-            <TrendingUp className="w-4 h-4 text-accent" />
-            <h4 className="text-[14px] font-bold">Presencia en México</h4>
-          </div>
-          <p className="text-[12px] text-muted leading-[1.6]">
-            Mothographics es la cara local en México, gestionando la relación
-            directa y el branding. Chamba Digital es el motor remoto que
-            garantiza que la ejecución técnica sea impecable y escalable.
-          </p>
-        </motion.div>
-
-        <motion.div
-          whileHover={{ y: -5 }}
-          className="space-y-3 cursor-default p-4 bg-white/[0.02] rounded-lg border border-white/5"
-        >
-          <div className="flex items-center gap-2">
-            <Globe className="w-4 h-4 text-accent" />
-            <h4 className="text-[14px] font-bold">Repartición Equitativa</h4>
-          </div>
-          <p className="text-[12px] text-muted leading-[1.6]">
-            Si un proyecto requiere más trabajo técnico de nuestra parte, el
-            reparto se ajusta proporcionalmente.
-          </p>
-        </motion.div>
-
-        <motion.div
-          whileHover={{ y: -5 }}
-          className="space-y-3 cursor-default p-4 bg-white/[0.02] rounded-lg border border-white/5"
-        >
-          <div className="flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 text-accent" />
-            <h4 className="text-[14px] font-bold">Sin Injusticias</h4>
-          </div>
-          <p className="text-[12px] text-muted leading-[1.6]">
-            Cada cliente representa un reto distinto. No creemos en "tarifas
-            únicas" que castiguen a una de las partes. Evaluamos cada caso para
-            que la alianza sea siempre rentable, transparente y motivadora.
-          </p>
-        </motion.div>
-      </div>
-
-      <div className="mt-8 p-4 bg-accent/5 rounded-lg border border-accent/10">
-        <p className="text-[12px] text-accent font-medium text-center italic">
-          "El objetivo es que Mothographics crezca en facturación y servicios,
-          mientras Chamba Digital ejecuta la parte técnica."
-        </p>
-      </div>
-    </motion.div>
-  </section>
-);
-
-const Footer = () => (
-  <footer className="py-12 px-6 md:px-10 border-t border-glass-border bg-black/40 backdrop-blur-md">
-    <div className="max-w-[1024px] mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
-      <div className="flex flex-col gap-2 text-center md:text-left">
-        <p className="text-[16px] font-black tracking-tight">
-          Próximo Paso:{" "}
-          <span className="text-accent">Piloto Galería Arte Urbano</span>
-        </p>
-        <span className="text-[13px] text-muted">
-          Validemos la maquinaria en 2 semanas antes de escalar la alianza.
-        </span>
-      </div>
-
-      <div className="flex flex-col md:flex-row items-center gap-6 md:gap-10">
-        <div className="text-[12px] text-muted italic text-center md:text-right leading-relaxed">
-          <span className="text-fg font-bold not-italic">México × Perú</span>{" "}
-          <br />
-          Por Yosward Ríos - Chamba Digital
-        </div>
-        <motion.a
-          whileHover={{
-            scale: 1.05,
-            y: -2,
-            boxShadow: "0 10px 20px rgba(59, 130, 246, 0.2)",
-          }}
-          whileTap={{ scale: 0.95 }}
-          href="https://wa.me/51904060670"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="bg-accent text-white px-8 py-4 rounded-[10px] font-bold text-[14px] transition-all shadow-[0_5px_15px_rgba(59,130,246,0.1)]"
-        >
-          Agendar Llamada de Inicio
-        </motion.a>
-      </div>
-    </div>
-  </footer>
-);
 
 export const ChambaNavbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -2202,6 +2095,17 @@ const Methodology = () => (
           </div>
         </div>
       </div>
+
+      {/* Intellectual Property Disclaimer */}
+      <div className="mt-14 pt-8 border-t border-white/5 text-center max-w-3xl mx-auto px-4">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.03] border border-white/5 text-muted/70 text-[11px] mb-3">
+          <Shield className="w-3.5 h-3.5 text-accent/60" />
+          <span className="font-semibold tracking-wider uppercase">Aviso de Propiedad Intelectual</span>
+        </div>
+        <p className="text-[12px] md:text-[13px] text-muted/80 leading-relaxed">
+          Conforme a las prácticas comerciales internacionales, <strong>CHAMBA</strong> se reserva su propiedad intelectual respecto a estrategias, procesos y desarrollos, bien sean estos referidos a marketing, secretos y procesos comerciales, datos, metodologías operativas, estructuras de campañas, desarrollo de tecnologías propias y actividades afines a nuestro propósito comercial.
+        </p>
+      </div>
     </div>
   </section>
 );
@@ -2687,6 +2591,10 @@ export const ChambaFooter = () => (
             <a href="https://wa.me/51904060670" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors"><MessageSquare className="w-4 h-4 text-green-500" /> WhatsApp</a>
             <div className="flex items-center gap-2 text-slate-400"><Mail className="w-4 h-4 shrink-0" /> hola@chamba.digital</div>
             <div className="flex items-center gap-2 text-slate-400"><MapPin className="w-4 h-4 shrink-0" /> Lima, Perú</div>
+            <div className="mt-3 pt-3 border-t border-slate-800 space-y-1">
+              <p className="text-[11px] text-slate-500">RUC: 15609816934 · Yosward Edgardy Ríos Casanova</p>
+              <p className="text-[11px] text-slate-500">BCP (Soles): 19406354479064 · CCI: 00219410635447906492</p>
+            </div>
           </div>
         </div>
 
@@ -2745,7 +2653,6 @@ const AllianceContent = ({ onOpenModal }: any) => {
           label="Menú de Servicios"
         />
         <Portfolio />
-        <BusinessModel />
       </main>
       <ChambaFooter />
     </div>
@@ -2811,18 +2718,6 @@ function AppContent() {
       <Suspense fallback={null}>
       <Routes>
         <Route path="/" element={<ChambaContent onOpenModal={openModal} />} />
-        <Route
-          path="/mothographicsxchambadigital"
-          element={<AllianceContent onOpenModal={openModal} />}
-        />
-        <Route
-          path="/MothographicsxChambaDigital"
-          element={<AllianceContent onOpenModal={openModal} />}
-        />
-        <Route
-          path="/mothographics-chamba-digital"
-          element={<AllianceContent onOpenModal={openModal} />}
-        />
         <Route path="/portafolio" element={<PortfolioPage />} />
         <Route path="/servicios" element={<ServicesPage />} />
         <Route path="/metodologia" element={<MethodologyPage />} />
@@ -2836,7 +2731,6 @@ function AppContent() {
         />
         <Route path="/hospitality" element={<HospitalitySolutions />} />
         <Route path="/propuesta/:slug" element={<ProposalPage />} />
-        <Route path="/alianza" element={<AllianceContent onOpenModal={openModal} />} />
         <Route path="/admin" element={<SuperAdminDashboard />} />
         <Route path="/dashboard" element={<SuperAdminDashboard />} />
         <Route path="/login" element={<UserPortal />} />
