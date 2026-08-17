@@ -23,10 +23,13 @@ export default function TermsPage() {
           <section>
             <div className="flex items-center gap-3 mb-4">
               <Scale className="w-5 h-5 text-accent" />
-              <h2 className="text-[20px] font-black uppercase tracking-tight">1. Objeto del Servicio</h2>
+              <h2 className="text-[20px] font-black uppercase tracking-tight">1. Naturaleza del Servicio y Marco Contractual</h2>
             </div>
+            <p className="text-muted text-[15px] leading-relaxed mb-3">
+              Chamba Digital proporciona servicios de consultoría tecnológica, ingeniería de software, desarrollo web, integración de inteligencia artificial y marketing de conversión. 
+            </p>
             <p className="text-muted text-[15px] leading-relaxed">
-              Chamba Digital proporciona servicios de consultoría tecnológica, desarrollo web, integración de inteligencia artificial y marketing digital. Al contratar nuestros servicios, el cliente acepta los términos aquí descritos, los cuales rigen la relación comercial y técnica entre ambas partes.
+              Las labores se ejecutan bajo la modalidad civil de <strong>Locación de Servicios a título personal</strong> por <strong>Yosward Edgardy Ríos Casanova</strong> (RUC 15609816934), emitiendo los correspondientes <strong>Recibos por Honorarios Electrónicos (RHE - SUNAT)</strong> conforme a ley. La contratación no constituye vínculo de subordinación laboral ni relación societaria.
             </p>
           </section>
 
@@ -34,7 +37,7 @@ export default function TermsPage() {
           <section className="bg-white/5 p-8 rounded-[32px] border border-white/10">
             <div className="flex items-center gap-3 mb-6">
               <CreditCard className="w-5 h-5 text-accent" />
-              <h2 className="text-[20px] font-black uppercase tracking-tight">2. Estructura de Pagos</h2>
+              <h2 className="text-[20px] font-black uppercase tracking-tight">2. Estructura de Pagos y Comprobantes</h2>
             </div>
             <div className="space-y-6 text-[15px]">
               <div>
@@ -51,6 +54,9 @@ export default function TermsPage() {
                   <li><strong>Pago Inicial:</strong> 60% para iniciar el trabajo.</li>
                   <li><strong>Pago Final:</strong> 40% previo a la entrega de accesos y puesta en producción.</li>
                 </ul>
+              </div>
+              <div className="pt-3 border-t border-white/10 text-muted text-[14px]">
+                * Todo desembolso cuenta con la emisión del respectivo Recibo por Honorarios Electrónico (RHE) a la persona natural o jurídica contratante.
               </div>
             </div>
           </section>
@@ -72,13 +78,16 @@ export default function TermsPage() {
           </section>
 
           {/* Section 4 - Intellectual Property */}
-          <section>
+          <section className="p-6 md:p-8 rounded-[24px] bg-accent/5 border border-accent/20">
             <div className="flex items-center gap-3 mb-4">
               <Lock className="w-5 h-5 text-accent" />
-              <h2 className="text-[20px] font-black uppercase tracking-tight">4. Propiedad Intelectual</h2>
+              <h2 className="text-[20px] font-black uppercase tracking-tight">4. Propiedad Intelectual y Secretos Comerciales</h2>
             </div>
-            <p className="text-muted text-[15px] leading-relaxed">
-              La propiedad intelectual de los códigos, diseños y activos generados se transfiere al cliente de forma completa y perpetua <strong>únicamente tras la liquidación del 100% del proyecto</strong>. Chamba Digital se reserva el derecho de mostrar el trabajo en su portafolio con fines promocionales, a menos que se firme un acuerdo de confidencialidad (NDA) explícito.
+            <p className="text-fg/90 text-[15px] leading-relaxed mb-4">
+              Conforme a las prácticas comerciales internacionales, <strong>CHAMBA</strong> se reserva su propiedad intelectual respecto a estrategias, procesos y desarrollos, bien sean estos referidos a marketing, secretos y procesos comerciales, datos, metodologías operativas, estructuras de campañas, desarrollo de tecnologías propias y actividades afines a nuestro propósito comercial.
+            </p>
+            <p className="text-muted text-[14px] leading-relaxed">
+              La propiedad de los códigos fuente y activos finales a medida se transfiere al cliente de forma completa y perpetua <strong>únicamente tras la liquidación del 100% del proyecto</strong>. Conoce más en nuestra sección de <Link to="/propiedad-intelectual" className="text-accent underline font-bold">Propiedad Intelectual</Link>.
             </p>
           </section>
 

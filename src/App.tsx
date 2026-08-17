@@ -21,6 +21,7 @@ const MethodologyPage = lazy(() => import("./pages/MethodologyPage"));
 const ServicesPage = lazy(() => import("./pages/ServicesPage"));
 const TermsPage = lazy(() => import("./pages/TermsPage"));
 const PrivacyPage = lazy(() => import("./pages/PrivacyPage"));
+const IntellectualPropertyPage = lazy(() => import("./pages/IntellectualPropertyPage"));
 const SuperAdminDashboard = lazy(() => import("./pages/SuperAdminDashboard"));
 const UserPortal = lazy(() => import("./pages/UserPortal"));
 const RafflePage = lazy(() => import("./pages/RaffleLandingPage/RafflePage"));
@@ -2611,6 +2612,7 @@ export const ChambaFooter = () => (
           <Link to="/servicios">Servicios</Link>
           <Link to="/terminos">Términos</Link>
           <Link to="/privacidad">Privacidad</Link>
+          <Link to="/propiedad-intelectual">Propiedad Intelectual</Link>
         </div>
       </div>
     </div>
@@ -2722,6 +2724,7 @@ function AppContent() {
         <Route path="/metodologia" element={<MethodologyPage />} />
         <Route path="/terminos" element={<TermsPage />} />
         <Route path="/privacidad" element={<PrivacyPage />} />
+        <Route path="/propiedad-intelectual" element={<IntellectualPropertyPage />} />
         <Route path="/ecommerce" element={<EcommerceLandingPage />} />
         <Route path="/hotels" element={<HotelsLandingPage />} />
         <Route
