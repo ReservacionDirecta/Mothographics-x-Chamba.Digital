@@ -63,14 +63,6 @@ const hotelClients = [
 
 const techClients = [
   {
-    emoji: "🏠", name: "TUAGENTE.PE Real Estate", location: "Plataforma Inmobiliaria Lima",
-    category: "tech", url: "tuagentepe.up.railway.app",
-    thumb: "/thumbs/tuagentepe.webp",
-    highlight: "Plataforma Inmobiliaria Cloud",
-    tasks: ["Catálogo de Propiedades Exclusivas", "Filtros de Búsqueda Avanzados", "Agendamiento de Visitas Directas", "Fichas Técnicas Interactivas"],
-    focus: "Solución integral para compra, venta y alquiler de inmuebles en Lima.",
-  },
-  {
     emoji: "⚖️", name: "Latam Abogados", location: "React / Headless WaaS",
     category: "tech", url: "latamabogados.com",
     thumb: "/thumbs/latamabogados.webp",
@@ -98,7 +90,6 @@ const techClients = [
 
 const webProjects = [
   { url: "costablanca.up.railway.app", label: "Hotel Costa Blanca Vichayito", category: "hotel", thumb: "/thumbs/costablanca.webp" },
-  { url: "tuagentepe.up.railway.app", label: "TUAGENTE.PE Real Estate", category: "tech", thumb: "/thumbs/tuagentepe.webp" },
   { url: "pacificsurfschool.com.pe", label: "Escuela & Clases de Surf", category: "hotel", thumb: "/thumbs/pacificsurfschool.webp" },
   { url: "latamabogados.com", label: "Inglés Legal & Consultoría U.S.", category: "tech", thumb: "/thumbs/latamabogados.webp" },
   { url: "www.dupla.work", label: "Producción Visual & Fotografía", category: "tech", thumb: "/thumbs/dupla.webp" },

@@ -32,7 +32,6 @@ Desarrollo de tiendas digitales de alta conversión integradas con pasarelas de 
 ## Casos de Éxito & Portafolio Destacado
 
 - **Hotel Costa Blanca (Vichayito, Piura):** https://costablanca.up.railway.app — Resort de playa con reservas directas por WhatsApp.
-- **TUAGENTE.PE (Lima, Perú):** https://tuagentepe.up.railway.app — Plataforma inmobiliaria premium para compra y alquiler de propiedades.
 - **Pacific Surf School (Miraflores, Lima):** https://pacificsurfschool.com.pe — Escuela de surf líder con reservas de clases online WaaS.
 - **Peña Linda Bungalows (Máncora, Piura):** https://penalindamancora.com — Mas de 10 años operando con PMS + Web WaaS.
 - **Hothelia SaaS:** https://hothelia.com — Software hotelero in-house con motor de IA para análisis de datos confidenciales.
