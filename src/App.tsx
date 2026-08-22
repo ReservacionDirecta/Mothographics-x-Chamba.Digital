@@ -730,14 +730,24 @@ const Opportunity = () => (
           icon: MessageCircle,
         },
       ].map((item, i) => (
-        <div
+        <motion.div
           key={i}
-          className="p-5 glass rounded-[12px] border-white/5 hover:border-accent/20 transition-colors"
+          initial={{ opacity: 0, y: 30, scale: 0.95 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.3 + i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+          whileHover={{ y: -4, borderColor: "rgba(59,130,246,0.3)" }}
+          className="p-5 glass rounded-[12px] border-white/5 transition-colors group cursor-default"
         >
-          <item.icon className="w-6 h-6 text-accent mb-3" />
-          <h4 className="text-[14px] font-bold mb-1">{item.title}</h4>
+          <motion.div
+            className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center mb-3"
+            whileHover={{ rotate: 10, scale: 1.1 }}
+          >
+            <item.icon className="w-4 h-4 text-accent" />
+          </motion.div>
+          <h4 className="text-[14px] font-bold mb-1 group-hover:text-accent transition-colors">{item.title}</h4>
           <p className="text-[12px] text-muted leading-relaxed">{item.desc}</p>
-        </div>
+        </motion.div>
       ))}
     </motion.div>
   </section>
@@ -2099,21 +2109,40 @@ const Methodology = () => (
                 desc: "Publicamos, configuramos hosting y SSL. A partir de ahí, cualquier cambio está incluido en tu plan.",
               },
             ].map((item, i) => (
-              <div key={i} className="flex gap-6">
-                <span className="text-[24px] font-black text-accent/20">
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, x: -40, filter: "blur(4px)" }}
+                whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.7, delay: i * 0.2, ease: [0.22, 1, 0.36, 1] }}
+                className="flex gap-6"
+              >
+                <motion.span
+                  className="text-[24px] font-black text-accent/20 shrink-0"
+                  initial={{ scale: 0.5 }}
+                  whileInView={{ scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: i * 0.2 + 0.3, ease: [0.22, 1, 0.36, 1] }}
+                >
                   {item.step}
-                </span>
+                </motion.span>
                 <div>
                   <h4 className="text-[18px] font-bold mb-2">{item.title}</h4>
                   <p className="text-[14px] text-muted leading-relaxed">
                     {item.desc}
                   </p>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
-        <div className="relative">
+        <motion.div
+          className="relative"
+          initial={{ opacity: 0, scale: 0.9, rotateY: -10 }}
+          whileInView={{ opacity: 1, scale: 1, rotateY: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+        >
           <div className="aspect-square glass rounded-[24px] border-accent/20 flex items-center justify-center overflow-hidden smooth-gpu">
             <div
               className="absolute inset-0 opacity-40"
@@ -2134,7 +2163,7 @@ const Methodology = () => (
               <source src="/assets/methodology.mp4" type="video/mp4" />
             </video>
           </div>
-        </div>
+        </motion.div>
       </div>
 
       {/* Intellectual Property Disclaimer */}
@@ -2187,18 +2216,25 @@ const FAQ = () => {
       </ScrollReveal>
       <div className="space-y-4">
         {faqs.map((faq, i) => (
-          <div
+          <motion.div
             key={i}
+            initial={{ opacity: 0, y: 20, filter: "blur(4px)" }}
+            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            viewport={{ once: true, margin: "-30px" }}
+            transition={{ duration: 0.6, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
             className="glass rounded-[12px] border-white/5 overflow-hidden smooth-gpu"
           >
             <button
               onClick={() => setOpenIndex(openIndex === i ? null : i)}
-              className="w-full p-5 text-left flex justify-between items-center hover:bg-white/[0.02] transition-colors"
+              className="w-full p-5 text-left flex justify-between items-center hover:bg-white/[0.02] transition-colors group"
             >
-              <span className="text-[14px] font-bold">{faq.q}</span>
-              <ArrowRight
-                className={`w-4 h-4 text-accent transition-transform ${openIndex === i ? "rotate-90" : ""}`}
-              />
+              <span className="text-[14px] font-bold group-hover:text-accent transition-colors">{faq.q}</span>
+              <motion.span
+                animate={{ rotate: openIndex === i ? 90 : 0 }}
+                transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <ArrowRight className="w-4 h-4 text-accent" />
+              </motion.span>
             </button>
             <AnimatePresence>
               {openIndex === i && (
@@ -2206,13 +2242,14 @@ const FAQ = () => {
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ height: "auto", opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
-                  className="px-5 pb-5 text-[13px] text-muted leading-relaxed"
+                  transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                  className="overflow-hidden"
                 >
-                  {faq.a}
+                  <p className="px-5 pb-5 text-[13px] text-muted leading-relaxed">{faq.a}</p>
                 </motion.div>
               )}
             </AnimatePresence>
-          </div>
+          </motion.div>
         ))}
       </div>
     </section>
