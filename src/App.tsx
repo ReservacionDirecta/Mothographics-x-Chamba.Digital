@@ -1812,7 +1812,7 @@ export const ChambaNavbar = () => {
 };
 
 const ChambaHero = () => (
-  <section className="relative min-h-[85vh] flex flex-col items-center text-center justify-center pt-[70px] px-6 md:px-10 overflow-hidden max-w-[1024px] mx-auto">
+  <section className="relative min-h-[85vh] flex flex-col items-center text-center justify-center pt-[70px] pb-20 px-6 md:px-10 overflow-hidden max-w-[1024px] mx-auto">
     <div className="absolute top-[-100px] left-[30%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-radial-[circle,rgba(59,130,246,0.1)_0%,transparent_70%] blur-[60px] -z-10" />
 
     <motion.div
@@ -1828,7 +1828,7 @@ const ChambaHero = () => (
         Tu web a medida <br />
         <span className="text-accent">$49 al mes</span>.
       </h2>
-      <p className="text-[16px] md:text-[18px] text-slate-600 font-medium leading-[1.6] max-w-[650px] mb-10 mx-auto px-4">
+      <p className="text-[16px] md:text-[18px] text-slate-600 font-medium leading-[1.6] max-w-[650px] mb-12 mx-auto px-4">
         Cambios e iteraciones ilimitadas. Mantenimiento y soporte continuo. Despliegue en Railway (hosting desde $5/mes y dominio a cuenta del cliente).
       </p>
       <div className="flex flex-col sm:flex-row items-center justify-center gap-4 px-6">
@@ -1859,7 +1859,7 @@ const ChambaHero = () => (
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.6, duration: 0.8 }}
-        className="mt-14 flex flex-wrap items-center justify-center gap-6 md:gap-10"
+        className="mt-16 pt-10 border-t border-slate-200/60 flex flex-wrap items-center justify-center gap-8 md:gap-14"
       >
         {[
           { value: "+50", label: "Proyectos Entregados" },
