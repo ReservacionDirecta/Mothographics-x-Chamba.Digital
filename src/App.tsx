@@ -516,21 +516,59 @@ const Hero = () => {
 
       <HeroMotionGraphics />
 
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95, y: 30 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-        className="z-10 flex flex-col items-center smooth-gpu"
-      >
-        <span className="label-editorial mx-auto">Web as a Service (WaaS)</span>
+      <div className="z-10 flex flex-col items-center smooth-gpu">
+        <motion.span
+          className="label-editorial mx-auto"
+          initial={{ opacity: 0, y: -20, scale: 0.8 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+        >
+          Web as a Service (WaaS)
+        </motion.span>
+
         <h1 className="text-[40px] md:text-[56px] font-black max-w-[900px] leading-tight md:leading-[1.1] mb-6">
-          Tu web a medida <br />
-          <span className="text-accent">$49 al mes</span>.
+          <motion.span
+            className="inline-block"
+            initial={{ opacity: 0, y: 40, rotateX: -30 }}
+            animate={{ opacity: 1, y: 0, rotateX: 0 }}
+            transition={{ duration: 0.9, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          >
+            Tu web a medida{" "}
+          </motion.span>
+          <br />
+          <motion.span
+            className="inline-block text-accent"
+            initial={{ opacity: 0, y: 40, scale: 0.8, filter: "blur(8px)" }}
+            animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+            transition={{ duration: 1, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          >
+            $49 al mes
+          </motion.span>
+          <motion.span
+            className="inline-block text-accent"
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.4, delay: 1.3, ease: [0.22, 1, 0.36, 1] }}
+          >
+            .
+          </motion.span>
         </h1>
-        <h2 className="text-[16px] md:text-[18px] text-muted font-normal leading-relaxed max-w-[650px] mb-10">
+
+        <motion.h2
+          className="text-[16px] md:text-[18px] text-muted font-normal leading-relaxed max-w-[650px] mb-10"
+          initial={{ opacity: 0, y: 20, filter: "blur(4px)" }}
+          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          transition={{ duration: 0.9, delay: 1.0, ease: [0.22, 1, 0.36, 1] }}
+        >
           Cambios e iteraciones ilimitadas. Arquitectura moderna en Railway, SSL, mantenimiento y soporte continuo por WhatsApp.
-        </h2>
-        <div className="flex flex-col sm:flex-row items-center gap-4">
+        </motion.h2>
+
+        <motion.div
+          className="flex flex-col sm:flex-row items-center gap-4"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 1.2, ease: [0.22, 1, 0.36, 1] }}
+        >
           <motion.a
             onClick={() =>
               trackEvent("cta_click", {
@@ -538,25 +576,46 @@ const Hero = () => {
                 label: "Hablar con un Asesor",
               })
             }
-            whileHover={{ scale: 1.05, y: -2 }}
+            whileHover={{ scale: 1.05, y: -3, boxShadow: "0 20px 40px rgba(59,130,246,0.35)" }}
             whileTap={{ scale: 0.95 }}
             href="https://wa.me/51904060670?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20sus%20planes%20WaaS."
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-accent text-white px-6 py-3.5 rounded-lg font-bold text-[14px] shadow-md transition-all"
+            className="relative bg-accent text-white px-6 py-3.5 rounded-lg font-bold text-[14px] shadow-md overflow-hidden group"
           >
-            Hablar con un Asesor
+            <span className="relative z-10 flex items-center gap-2">
+              Hablar con un Asesor
+              <motion.span
+                className="inline-block"
+                animate={{ x: [0, 3, 0] }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+              >
+                →
+              </motion.span>
+            </span>
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+              initial={{ x: "-100%" }}
+              whileHover={{ x: "100%" }}
+              transition={{ duration: 0.6 }}
+            />
           </motion.a>
           <motion.a
-            whileHover={{ x: 5 }}
+            whileHover={{ x: 8 }}
             href="#servicios"
             className="group inline-flex items-center gap-2 text-[14px] font-bold text-muted hover:text-fg transition-colors"
           >
             Ver Planes WaaS
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            <motion.span
+              className="inline-block"
+              animate={{ x: [0, 4, 0] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            >
+              →
+            </motion.span>
           </motion.a>
-        </div>
-      </motion.div>
+        </motion.div>
+      </div>
     </section>
   );
 };
