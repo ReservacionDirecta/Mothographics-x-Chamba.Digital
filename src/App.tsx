@@ -5,7 +5,7 @@
 
 import React, { useState, useEffect, FormEvent, useRef, Suspense, lazy } from "react";
 import { BrowserRouter, Routes, Route, Navigate, Link, useLocation } from "react-router-dom";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence, useScroll, useTransform } from "motion/react";
 import { HeroMotionGraphics } from "./components/HeroMotionGraphics";
 import { CursorFollower } from "./components/CursorFollower";
 import { FloatingElements } from "./components/FloatingElements";
@@ -1893,74 +1893,100 @@ export const ChambaNavbar = () => {
   );
 };
 
-const ChambaHero = () => (
-  <section className="relative min-h-[85vh] flex flex-col items-center text-center justify-center pt-[70px] pb-20 px-6 md:px-10 overflow-hidden max-w-[1024px] mx-auto">
-    <div className="absolute top-[-100px] left-[30%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-radial-[circle,rgba(59,130,246,0.1)_0%,transparent_70%] blur-[60px] -z-10" />
+const ChambaHero = () => {
+  const sectionRef = useRef(null);
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start end", "start start"] });
 
-    <HeroMotionGraphics />
+  const labelOpacity = useTransform(scrollYProgress, [0.12, 0.3], [0, 1]);
+  const labelY = useTransform(scrollYProgress, [0.12, 0.3], [-15, 0]);
 
-    <motion.div
-      initial={{ opacity: 0, y: 30, scale: 0.98 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      viewport={{ once: true, amount: 0.3 }}
-      transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-      className="z-10 smooth-gpu"
-    >
-      <span className="label-editorial mx-auto">
-        Web as a Service (WaaS)
-      </span>
-      <h2 className="text-[36px] sm:text-[48px] md:text-[56px] max-w-[850px] leading-[1.1] md:leading-[1] mb-6 font-black tracking-tight text-slate-900">
-        Tu web a medida <br />
-        <span className="text-accent">$49 al mes</span>.
-      </h2>
-      <p className="text-[16px] md:text-[18px] text-slate-600 font-medium leading-[1.6] max-w-[650px] mb-12 mx-auto px-4">
-        Cambios e iteraciones ilimitadas. Mantenimiento y soporte continuo. Despliegue en Railway (hosting desde $5/mes y dominio a cuenta del cliente).
-      </p>
-      <div className="flex flex-col sm:flex-row items-center justify-center gap-4 px-6">
-        <MagneticElement strength={0.15}>
-        <motion.a
-          whileHover={{ scale: 1.05, y: -2 }}
-          whileTap={{ scale: 0.95 }}
-          href="https://wa.me/51904060670?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20sus%20planes%20WaaS."
-          target="_blank"
-          rel="noopener noreferrer"
-          className="bg-gradient-to-r from-cta to-cta-hover text-white px-6 py-3.5 rounded-xl font-black text-[13px] w-full sm:w-auto shadow-lg transition-all flex items-center justify-center gap-2 uppercase tracking-wider"
+  const titleOpacity = useTransform(scrollYProgress, [0.15, 0.35], [0, 1]);
+  const titleY = useTransform(scrollYProgress, [0.15, 0.35], [40, 0]);
+
+  const subtitleOpacity = useTransform(scrollYProgress, [0.2, 0.4], [0, 1]);
+  const subtitleY = useTransform(scrollYProgress, [0.2, 0.4], [25, 0]);
+
+  const ctaOpacity = useTransform(scrollYProgress, [0.25, 0.45], [0, 1]);
+  const ctaY = useTransform(scrollYProgress, [0.25, 0.45], [30, 0]);
+
+  const statsOpacity = useTransform(scrollYProgress, [0.35, 0.55], [0, 1]);
+  const statsY = useTransform(scrollYProgress, [0.35, 0.55], [20, 0]);
+
+  return (
+    <section ref={sectionRef} className="relative min-h-[85vh] flex flex-col items-center text-center justify-center pt-[70px] pb-20 px-6 md:px-10 overflow-hidden max-w-[1024px] mx-auto">
+      <div className="absolute top-[-100px] left-[30%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-radial-[circle,rgba(59,130,246,0.1)_0%,transparent_70%] blur-[60px] -z-10" />
+
+      <HeroMotionGraphics />
+
+      <div className="z-10 smooth-gpu">
+        <motion.span
+          className="label-editorial mx-auto"
+          style={{ opacity: labelOpacity, y: labelY }}
         >
-          <WhatsAppIcon className="w-5 h-5" />
-          Hablar con un Asesor
-        </motion.a>
-        </MagneticElement>
-        <Link
-          to="/servicios"
-          className="group inline-flex items-center gap-2 text-[15px] font-bold text-fg hover:text-accent transition-colors py-3"
+          Web as a Service (WaaS)
+        </motion.span>
+
+        <motion.h2
+          className="text-[36px] sm:text-[48px] md:text-[56px] max-w-[850px] leading-[1.1] md:leading-[1] mb-6 font-black tracking-tight text-slate-900"
+          style={{ opacity: titleOpacity, y: titleY }}
         >
-          Ver Planes WaaS
-          <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-        </Link>
+          Tu web a medida <br />
+          <span className="text-accent">$49 al mes</span>.
+        </motion.h2>
+
+        <motion.p
+          className="text-[16px] md:text-[18px] text-slate-600 font-medium leading-[1.6] max-w-[650px] mb-12 mx-auto px-4"
+          style={{ opacity: subtitleOpacity, y: subtitleY }}
+        >
+          Cambios e iteraciones ilimitadas. Mantenimiento y soporte continuo. Despliegue en Railway (hosting desde $5/mes y dominio a cuenta del cliente).
+        </motion.p>
+
+        <motion.div
+          className="flex flex-col sm:flex-row items-center justify-center gap-4 px-6"
+          style={{ opacity: ctaOpacity, y: ctaY }}
+        >
+          <MagneticElement strength={0.15}>
+          <motion.a
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
+            href="https://wa.me/51904060670?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20sus%20planes%20WaaS."
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-gradient-to-r from-cta to-cta-hover text-white px-6 py-3.5 rounded-xl font-black text-[13px] w-full sm:w-auto shadow-lg transition-all flex items-center justify-center gap-2 uppercase tracking-wider"
+          >
+            <WhatsAppIcon className="w-5 h-5" />
+            Hablar con un Asesor
+          </motion.a>
+          </MagneticElement>
+          <Link
+            to="/servicios"
+            className="group inline-flex items-center gap-2 text-[15px] font-bold text-fg hover:text-accent transition-colors py-3"
+          >
+            Ver Planes WaaS
+            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+          </Link>
+        </motion.div>
+
+        {/* Social Proof Stats */}
+        <motion.div
+          style={{ opacity: statsOpacity, y: statsY }}
+          className="mt-16 pt-10 border-t border-slate-200/60 flex flex-wrap items-center justify-center gap-8 md:gap-14"
+        >
+          {[
+            { value: "+50", label: "Proyectos Entregados" },
+            { value: "+10", label: "Años de Experiencia" },
+            { value: "24/7", label: "Soporte Activo" },
+          ].map((stat, i) => (
+            <div key={i} className="flex flex-col items-center gap-1">
+              <span className="text-[28px] md:text-[36px] font-black text-accent tracking-tight">{stat.value}</span>
+              <span className="text-[10px] font-bold text-muted uppercase tracking-[0.2em]">{stat.label}</span>
+            </div>
+          ))}
+        </motion.div>
       </div>
-
-      {/* Social Proof Stats */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.5 }}
-        transition={{ delay: 0.3, duration: 0.8 }}
-        className="mt-16 pt-10 border-t border-slate-200/60 flex flex-wrap items-center justify-center gap-8 md:gap-14"
-      >
-        {[
-          { value: "+50", label: "Proyectos Entregados" },
-          { value: "+10", label: "Años de Experiencia" },
-          { value: "24/7", label: "Soporte Activo" },
-        ].map((stat, i) => (
-          <div key={i} className="flex flex-col items-center gap-1">
-            <span className="text-[28px] md:text-[36px] font-black text-accent tracking-tight">{stat.value}</span>
-            <span className="text-[10px] font-bold text-muted uppercase tracking-[0.2em]">{stat.label}</span>
-          </div>
-        ))}
-      </motion.div>
-    </motion.div>
-  </section>
-);
+    </section>
+  );
+};
 
 const PainPoints = () => (
   <section className="py-14 md:py-20 px-6 md:px-10 max-w-[1024px] mx-auto border-t border-white/5">
