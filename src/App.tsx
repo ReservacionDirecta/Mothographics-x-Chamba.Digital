@@ -1057,16 +1057,21 @@ const Services = ({
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className="relative glass rounded-[40px] border-accent/20 p-8 md:p-16 overflow-hidden"
+      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+      className="relative glass rounded-[40px] border-accent/20 p-8 md:p-16 overflow-hidden group"
     >
       <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-transparent" />
-      <div className="absolute -right-20 -bottom-20 w-80 h-80 bg-accent/10 blur-[100px] rounded-full" />
+      <div className="absolute -right-20 -bottom-20 w-80 h-80 bg-accent/10 blur-[100px] rounded-full group-hover:bg-accent/20 transition-all duration-1000" />
       
       <div className="relative z-10 flex flex-col lg:flex-row items-center gap-12 text-center lg:text-left">
         <div className="flex-1">
-          <div className="w-16 h-16 bg-accent/10 rounded-2xl flex items-center justify-center mb-6 mx-auto lg:mx-0">
+          <motion.div
+            className="w-16 h-16 bg-accent/10 rounded-2xl flex items-center justify-center mb-6 mx-auto lg:mx-0"
+            whileHover={{ rotate: 10, scale: 1.1 }}
+            transition={{ type: "spring", stiffness: 300, damping: 15 }}
+          >
             <Zap className="w-8 h-8 text-accent" />
-          </div>
+          </motion.div>
           <h3 className="text-[28px] md:text-[36px] font-black tracking-tighter mb-4">
             ¿No sabes cuál elegir?
           </h3>
@@ -1077,13 +1082,21 @@ const Services = ({
         
           <div className="flex flex-col gap-4 min-w-[280px]">
             <motion.button
-              whileHover={{ scale: 1.05 }}
+              whileHover={{ scale: 1.05, y: -3, boxShadow: "0 20px 40px rgba(234,88,12,0.3)" }}
               whileTap={{ scale: 0.95 }}
               onClick={() => onOpenModal("Consulta Gratuita de 15 Minutos", "15min_consultation")}
-              className="bg-gradient-to-r from-cta to-cta-hover text-white py-3.5 px-6 rounded-xl font-black text-[13px] uppercase tracking-wider shadow-lg flex items-center justify-center gap-2 cursor-pointer"
+              className="bg-gradient-to-r from-cta to-cta-hover text-white py-3.5 px-6 rounded-xl font-black text-[13px] uppercase tracking-wider shadow-lg flex items-center justify-center gap-2 cursor-pointer relative overflow-hidden group/btn"
             >
-              <Zap className="w-5 h-5" />
-              Agendar Auditoría Gratis (15 min)
+              <span className="relative z-10 flex items-center gap-2">
+                <Zap className="w-5 h-5" />
+                Agendar Auditoría Gratis (15 min)
+              </span>
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                initial={{ x: "-100%" }}
+                whileHover={{ x: "100%" }}
+                transition={{ duration: 0.5 }}
+              />
             </motion.button>
             <span className="text-[11px] font-bold text-muted uppercase tracking-[0.3em] text-center">Cupos limitados por semana</span>
           </div>
@@ -2351,28 +2364,53 @@ const ContactForm = () => {
         <ScrollReveal direction="right">
         <div className="glass p-8 rounded-[24px] border-white/5 relative overflow-hidden">
           {status === "success" ? (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="text-center py-12"
+          >
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="text-center py-12"
+              className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6"
+              initial={{ scale: 0, rotate: -180 }}
+              animate={{ scale: 1, rotate: 0 }}
+              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             >
-              <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
-                <CheckCircle2 className="w-8 h-8 text-green-500" />
-              </div>
-              <h3 className="text-[20px] font-bold mb-2">¡Mensaje Enviado!</h3>
-              <p className="text-muted text-[14px]">
-                Nos pondremos en contacto contigo en menos de 24 horas.
-              </p>
-              <button
-                onClick={() => setStatus("idle")}
-                className="mt-8 text-accent text-[14px] font-bold hover:underline"
-              >
-                Enviar otro mensaje
-              </button>
+              <CheckCircle2 className="w-8 h-8 text-green-500" />
             </motion.div>
+            <motion.h3
+              className="text-[20px] font-bold mb-2"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+            >
+              ¡Mensaje Enviado!
+            </motion.h3>
+            <motion.p
+              className="text-muted text-[14px]"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+            >
+              Nos pondremos en contacto contigo en menos de 24 horas.
+            </motion.p>
+            <motion.button
+              onClick={() => setStatus("idle")}
+              className="mt-8 text-accent text-[14px] font-bold hover:underline"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+            >
+              Enviar otro mensaje
+            </motion.button>
+          </motion.div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-5">
-              <div className="space-y-2">
+              <motion.div
+                className="space-y-2"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+              >
                 <label className="text-[12px] font-bold text-muted uppercase tracking-wider">
                   Nombre Completo
                 </label>
@@ -2386,12 +2424,17 @@ const ContactForm = () => {
                       setFormData({ ...formData, name: e.target.value })
                     }
                     placeholder="Ej: Juan Pérez"
-                    className="w-full bg-white/5 border border-white/10 rounded-[12px] py-3 pl-12 pr-4 text-[14px] focus:outline-none focus:border-accent/50 transition-colors"
+                    className="w-full bg-white/5 border border-white/10 rounded-[12px] py-3 pl-12 pr-4 text-[14px] focus:outline-none focus:border-accent/50 focus:shadow-[0_0_0_3px_rgba(59,130,246,0.1)] transition-all"
                   />
                 </div>
-              </div>
+              </motion.div>
 
-              <div className="space-y-2">
+              <motion.div
+                className="space-y-2"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+              >
                 <label className="text-[12px] font-bold text-muted uppercase tracking-wider">
                   Email Corporativo
                 </label>
@@ -2405,12 +2448,17 @@ const ContactForm = () => {
                       setFormData({ ...formData, email: e.target.value })
                     }
                     placeholder="juan@empresa.com"
-                    className="w-full bg-white/5 border border-white/10 rounded-[12px] py-3 pl-12 pr-4 text-[14px] focus:outline-none focus:border-accent/50 transition-colors"
+                    className="w-full bg-white/5 border border-white/10 rounded-[12px] py-3 pl-12 pr-4 text-[14px] focus:outline-none focus:border-accent/50 focus:shadow-[0_0_0_3px_rgba(59,130,246,0.1)] transition-all"
                   />
                 </div>
-              </div>
+              </motion.div>
 
-              <div className="space-y-2">
+              <motion.div
+                className="space-y-2"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+              >
                 <label className="text-[12px] font-bold text-muted uppercase tracking-wider">
                   Objetivo Principal
                 </label>
@@ -2421,25 +2469,32 @@ const ContactForm = () => {
                     "Nueva Web / App",
                     "Auditoría Ads",
                   ].map((obj) => (
-                    <button
+                    <motion.button
                       key={obj}
                       type="button"
                       onClick={() =>
                         setFormData({ ...formData, objective: obj })
                       }
+                      whileHover={{ scale: 1.03 }}
+                      whileTap={{ scale: 0.97 }}
                       className={`py-2 px-3 rounded-[8px] text-[11px] font-bold border transition-all ${
                         formData.objective === obj
                           ? "bg-accent border-accent text-white shadow-[0_5px_15px_rgba(59,130,246,0.3)]"
-                          : "bg-white/5 border-white/10 text-muted hover:border-white/20"
+                          : "bg-white/5 border-white/10 text-muted hover:border-white/20 hover:bg-white/[0.04]"
                       }`}
                     >
                       {obj}
-                    </button>
+                    </motion.button>
                   ))}
                 </div>
-              </div>
+              </motion.div>
 
-              <div className="space-y-2">
+              <motion.div
+                className="space-y-2"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+              >
                 <label className="text-[12px] font-bold text-muted uppercase tracking-wider">
                   ¿En qué podemos ayudarte?
                 </label>
@@ -2451,15 +2506,18 @@ const ContactForm = () => {
                     setFormData({ ...formData, message: e.target.value })
                   }
                   placeholder="Cuéntanos brevemente sobre tu negocio y objetivos..."
-                  className="w-full bg-white/5 border border-white/10 rounded-[12px] p-4 text-[14px] focus:outline-none focus:border-accent/50 transition-colors resize-none"
+                  className="w-full bg-white/5 border border-white/10 rounded-[12px] p-4 text-[14px] focus:outline-none focus:border-accent/50 focus:shadow-[0_0_0_3px_rgba(59,130,246,0.1)] transition-all resize-none"
                 />
-              </div>
+              </motion.div>
 
               <motion.button
-                whileHover={{ scale: 1.02 }}
+                whileHover={{ scale: 1.02, y: -2, boxShadow: "0 15px 30px rgba(59,130,246,0.3)" }}
                 whileTap={{ scale: 0.98 }}
                 disabled={status === "sending"}
-                className="w-full bg-accent text-white py-4 rounded-[12px] font-bold text-[14px] flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.5 }}
+                className="w-full bg-accent text-white py-4 rounded-[12px] font-bold text-[14px] flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_10px_20px_rgba(59,130,246,0.2)]"
               >
                 {status === "sending" ? (
                   <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
