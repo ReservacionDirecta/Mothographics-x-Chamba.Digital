@@ -7,6 +7,10 @@ import React, { useState, useEffect, FormEvent, useRef, Suspense, lazy } from "r
 import { BrowserRouter, Routes, Route, Navigate, Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
 import { HeroMotionGraphics } from "./components/HeroMotionGraphics";
+import { CursorFollower } from "./components/CursorFollower";
+import { FloatingElements } from "./components/FloatingElements";
+import { ScrollReveal, ParallaxSection, RevealText } from "./components/ScrollReveal";
+import { GlowCard, MagneticElement, SectionDivider } from "./components/MagneticElement";
 import { ProjectCardThumbnail } from "./components/common/ProjectCardThumbnail";
 import { FreeConsultationModal } from "./components/FreeConsultationModal";
 
@@ -1828,6 +1832,7 @@ const ChambaHero = () => (
         Cambios e iteraciones ilimitadas. Mantenimiento y soporte continuo. Despliegue en Railway (hosting desde $5/mes y dominio a cuenta del cliente).
       </p>
       <div className="flex flex-col sm:flex-row items-center justify-center gap-4 px-6">
+        <MagneticElement strength={0.15}>
         <motion.a
           whileHover={{ scale: 1.05, y: -2 }}
           whileTap={{ scale: 0.95 }}
@@ -1839,6 +1844,7 @@ const ChambaHero = () => (
           <WhatsAppIcon className="w-5 h-5" />
           Hablar con un Asesor
         </motion.a>
+        </MagneticElement>
         <Link
           to="/servicios"
           className="group inline-flex items-center gap-2 text-[15px] font-bold text-fg hover:text-accent transition-colors py-3"
@@ -1872,6 +1878,7 @@ const ChambaHero = () => (
 
 const PainPoints = () => (
   <section className="py-14 md:py-20 px-6 md:px-10 max-w-[1024px] mx-auto border-t border-white/5">
+    <ScrollReveal>
     <div className="text-center mb-10 md:mb-16">
       <span className="label-editorial mx-auto">El problema</span>
       <h2 className="text-[32px] md:text-[40px] font-bold tracking-tight mb-4">
@@ -1896,8 +1903,8 @@ const PainPoints = () => (
           icon: MessageSquare,
         },
       ].map((item, i) => (
+        <GlowCard key={i}>
         <motion.div
-          key={i}
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -1910,6 +1917,7 @@ const PainPoints = () => (
           <h4 className="text-[18px] font-bold mb-3">{item.title}</h4>
           <p className="text-[14px] text-muted leading-relaxed">{item.desc}</p>
         </motion.div>
+        </GlowCard>
       ))}
     </div>
 
@@ -1943,11 +1951,13 @@ const PainPoints = () => (
         </div>
       </div>
     </motion.div>
+    </ScrollReveal>
   </section>
 );
 
 const StickyCtaBar = () => {
   const [visible, setVisible] = useState(false);
+  const [footerInView, setFooterInView] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setVisible(window.scrollY > 600);
@@ -1955,9 +1965,22 @@ const StickyCtaBar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    const footer = document.querySelector("footer");
+    if (!footer) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setFooterInView(entry.isIntersecting),
+      { threshold: 0.1 }
+    );
+    observer.observe(footer);
+    return () => observer.disconnect();
+  }, []);
+
+  const shouldShow = visible && !footerInView;
+
   return (
     <AnimatePresence>
-      {visible && (
+      {shouldShow && (
         <motion.div
           initial={{ y: 60, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -1988,12 +2011,14 @@ const Methodology = () => (
     id="metodologia"
     className="py-14 md:py-20 px-6 md:px-10 bg-accent/[0.02] border-y border-white/5"
   >
+    <ScrollReveal>
     <div className="max-w-[1024px] mx-auto text-center mb-10 md:mb-16">
       <span className="label-editorial mx-auto">Así funciona</span>
       <h2 className="text-[32px] md:text-[48px] font-black tracking-tight leading-tight mb-4">
         Tres pasos. <span className="text-accent">Sin vueltas.</span>
       </h2>
     </div>
+    </ScrollReveal>
     <div className="max-w-[1024px] mx-auto">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
         <div>
@@ -2094,11 +2119,13 @@ const FAQ = () => {
 
   return (
     <section id="faq" className="py-14 md:py-20 px-6 md:px-10 max-w-[800px] mx-auto">
+      <ScrollReveal>
       <div className="text-center mb-8 md:mb-12">
         <h2 className="text-[24px] md:text-[32px] font-bold tracking-tight">
           Preguntas Frecuentes
         </h2>
       </div>
+      </ScrollReveal>
       <div className="space-y-4">
         {faqs.map((faq, i) => (
           <div
@@ -2167,6 +2194,7 @@ const ContactForm = () => {
       className="py-14 md:py-20 px-6 md:px-10 max-w-[1024px] mx-auto"
     >
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-16 items-start">
+        <ScrollReveal direction="left">
         <div>
           <span className="label-editorial">Contacto</span>
           <h2 className="text-[32px] md:text-[48px] font-bold tracking-tight leading-tight mb-6">
@@ -2222,7 +2250,9 @@ const ContactForm = () => {
             </div>
           </div>
         </div>
+        </ScrollReveal>
 
+        <ScrollReveal direction="right">
         <div className="glass p-8 rounded-[24px] border-white/5 relative overflow-hidden">
           {status === "success" ? (
             <motion.div
@@ -2347,6 +2377,7 @@ const ContactForm = () => {
             </form>
           )}
         </div>
+        </ScrollReveal>
       </div>
     </section>
   );
@@ -2431,12 +2462,14 @@ const ProcessTimeline = () => (
 
 const Guarantees = () => (
   <section className="py-14 md:py-20 px-6 md:px-10 max-w-[1024px] mx-auto overflow-hidden">
+    <ScrollReveal>
     <div className="text-center mb-10 md:mb-16">
       <span className="label-editorial mx-auto">Qué garantizamos</span>
       <h2 className="text-[32px] md:text-[48px] font-bold tracking-tight mb-4">
         Lo que <span className="text-accent">garantizamos</span> por escrito.
       </h2>
     </div>
+    </ScrollReveal>
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {[
         {
@@ -2470,8 +2503,8 @@ const Guarantees = () => (
           desc: "Google Analytics, Meta Pixel y medición de conversiones configurados desde el lanzamiento.",
         },
       ].map((item, i) => (
+        <GlowCard key={i}>
         <motion.div
-          key={i}
           initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -2484,6 +2517,7 @@ const Guarantees = () => (
           <h4 className="text-[15px] font-bold mb-2">{item.title}</h4>
           <p className="text-[13px] text-muted leading-relaxed">{item.desc}</p>
         </motion.div>
+        </GlowCard>
       ))}
     </div>
 
@@ -2577,15 +2611,23 @@ export const ChambaFooter = () => (
 
 const ChambaContent = ({ onOpenModal }: any) => (
   <div className="selection:bg-accent selection:text-white overflow-x-hidden w-full relative">
+    <FloatingElements />
     <ChambaNavbar />
-    <main className="pt-[70px]">
+    <main className="pt-[70px] relative z-10">
       <ChambaHero />
+      <SectionDivider />
       <PainPoints />
+      <SectionDivider variant="line" />
       <Methodology />
+      <SectionDivider />
       <Services onOpenModal={onOpenModal} title="Planes WaaS" label="Suscripción Mensual" />
+      <SectionDivider variant="line" />
       <Portfolio />
+      <SectionDivider />
       <Guarantees />
+      <SectionDivider variant="dots" />
       <FAQ />
+      <SectionDivider variant="line" />
       <ContactForm />
     </main>
     <StickyCtaBar />
@@ -2646,6 +2688,7 @@ export default function App() {
     <BrowserRouter>
       <ScrollToTop />
       <MetaPixelTracker />
+      <CursorFollower />
       <AppContent />
     </BrowserRouter>
   );
