@@ -1897,9 +1897,12 @@ const ChambaHero = () => (
   <section className="relative min-h-[85vh] flex flex-col items-center text-center justify-center pt-[70px] pb-20 px-6 md:px-10 overflow-hidden max-w-[1024px] mx-auto">
     <div className="absolute top-[-100px] left-[30%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-radial-[circle,rgba(59,130,246,0.1)_0%,transparent_70%] blur-[60px] -z-10" />
 
+    <HeroMotionGraphics />
+
     <motion.div
       initial={{ opacity: 0, y: 30, scale: 0.98 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: true, amount: 0.3 }}
       transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
       className="z-10 smooth-gpu"
     >
@@ -1939,8 +1942,9 @@ const ChambaHero = () => (
       {/* Social Proof Stats */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.6, duration: 0.8 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.5 }}
+        transition={{ delay: 0.3, duration: 0.8 }}
         className="mt-16 pt-10 border-t border-slate-200/60 flex flex-wrap items-center justify-center gap-8 md:gap-14"
       >
         {[
