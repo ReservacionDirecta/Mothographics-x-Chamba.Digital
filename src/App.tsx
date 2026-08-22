@@ -6,7 +6,7 @@
 import React, { useState, useEffect, FormEvent, useRef, Suspense, lazy } from "react";
 import { BrowserRouter, Routes, Route, Navigate, Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
-import { HeroAnimation } from "./components/animations/HeroAnimation";
+import { HeroMotionGraphics } from "./components/HeroMotionGraphics";
 import { ProjectCardThumbnail } from "./components/common/ProjectCardThumbnail";
 import { FreeConsultationModal } from "./components/FreeConsultationModal";
 
@@ -510,6 +510,8 @@ const Hero = () => {
     <section className="relative min-h-[90vh] flex flex-col items-center justify-center text-center pt-[70px] px-6 md:px-10 overflow-hidden max-w-[1024px] mx-auto">
       <div className="absolute top-[-100px] left-[30%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-radial-[circle,rgba(59,130,246,0.1)_0%,transparent_70%] blur-[60px] -z-10" />
 
+      <HeroMotionGraphics />
+
       <motion.div
         initial={{ opacity: 0, scale: 0.95, y: 30 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -550,15 +552,6 @@ const Hero = () => {
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </motion.a>
         </div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.5 }}
-          className="w-full"
-        >
-          <HeroAnimation />
-        </motion.div>
       </motion.div>
     </section>
   );
