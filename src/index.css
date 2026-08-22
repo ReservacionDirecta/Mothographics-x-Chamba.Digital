@@ -24,9 +24,19 @@
     position: relative;
     letter-spacing: -0.01em;
   }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 100px;
+  }
   
   ::selection {
     @apply bg-accent text-white;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-accent;
+    outline-style: solid;
   }
 
   h1, h2, h3, h4, h5, h6 {
