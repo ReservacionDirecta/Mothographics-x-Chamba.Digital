@@ -6,9 +6,6 @@
 import React, { useState, useEffect, FormEvent, useRef, Suspense, lazy } from "react";
 import { BrowserRouter, Routes, Route, Navigate, Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence, useScroll, useTransform } from "motion/react";
-import { HeroMotionGraphics } from "./components/HeroMotionGraphics";
-import { CursorFollower } from "./components/CursorFollower";
-import { FloatingElements } from "./components/FloatingElements";
 import { ScrollReveal, ParallaxSection, RevealText } from "./components/ScrollReveal";
 import { GlowCard, MagneticElement, SectionDivider } from "./components/MagneticElement";
 import { ProjectCardThumbnail } from "./components/common/ProjectCardThumbnail";
@@ -513,56 +510,30 @@ const Modal = ({ isOpen, onClose, title, content }: any) => {
 
 const Hero = () => {
   return (
-    <section className="relative min-h-[90vh] flex flex-col items-center justify-center text-center pt-[70px] px-6 md:px-10 overflow-hidden max-w-[1024px] mx-auto">
-      <div className="absolute top-[-100px] left-[30%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-radial-[circle,rgba(59,130,246,0.1)_0%,transparent_70%] blur-[60px] -z-10" />
-
-      <HeroMotionGraphics />
-
-      <div className="z-10 flex flex-col items-center smooth-gpu">
+    <section className="relative min-h-[85vh] flex flex-col items-center justify-center text-center pt-[70px] pb-16 px-6 md:px-10 overflow-hidden max-w-[1024px] mx-auto">
+      <div className="z-10 flex flex-col items-center">
         <motion.span
           className="label-editorial mx-auto"
-          initial={{ opacity: 0, y: -20, scale: 0.8 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
         >
           Web as a Service (WaaS)
         </motion.span>
 
-        <h1 className="text-[36px] sm:text-[42px] md:text-[54px] font-black max-w-[950px] leading-tight md:leading-[1.1] mb-6 tracking-tight">
-          <motion.span
-            className="inline-block"
-            initial={{ opacity: 0, y: 40, rotateX: -30 }}
-            animate={{ opacity: 1, y: 0, rotateX: 0 }}
-            transition={{ duration: 0.9, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          >
-            Tu Web Profesional a Medida.{" "}
-          </motion.span>
+        <h1 className="text-[36px] sm:text-[44px] md:text-[56px] font-black max-w-[950px] leading-tight md:leading-[1.1] mb-6 tracking-tight text-slate-900">
+          Tu Web Profesional a Medida.{" "}
           <br className="hidden sm:inline" />
-          <motion.span
-            className="inline-block text-accent"
-            initial={{ opacity: 0, y: 40, scale: 0.8, filter: "blur(8px)" }}
-            animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
-            transition={{ duration: 1, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          >
+          <span className="text-accent">
             Sin Pagar Miles por Adelantado.
-          </motion.span>
+          </span>
         </h1>
 
-        <motion.h2
-          className="text-[15px] md:text-[18px] text-muted font-normal leading-relaxed max-w-[720px] mb-10"
-          initial={{ opacity: 0, y: 20, filter: "blur(4px)" }}
-          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          transition={{ duration: 0.9, delay: 1.0, ease: [0.22, 1, 0.36, 1] }}
-        >
-          Olvídate de agencias lentas y presupuestos inflados. Diseño con código propio, servidor ultrarrápido y mantenimiento continuo por tarifa plana. Tú te enfocas en tu negocio.
-        </motion.h2>
+        <p className="text-[16px] md:text-[18px] text-slate-600 font-normal leading-relaxed max-w-[720px] mb-10">
+          Olvídate de agencias tradicionales con presupuestos inflados. Diseño con código propio, servidor ultrarrápido y mantenimiento continuo por tarifa plana mensual.
+        </p>
 
-        <motion.div
-          className="flex flex-col sm:flex-row items-center gap-4"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 1.2, ease: [0.22, 1, 0.36, 1] }}
-        >
+        <div className="flex flex-col sm:flex-row items-center gap-4">
           <motion.a
             onClick={() =>
               trackEvent("cta_click", {
@@ -570,39 +541,24 @@ const Hero = () => {
                 label: "Ver Planes de Suscripción",
               })
             }
-            whileHover={{ scale: 1.05, y: -3, boxShadow: "0 20px 40px rgba(59,130,246,0.35)" }}
-            whileTap={{ scale: 0.95 }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
             href="#servicios"
-            className="relative bg-accent text-white px-8 py-4 rounded-xl font-bold text-[14px] shadow-md overflow-hidden group uppercase tracking-wider"
+            className="bg-accent hover:bg-accent/90 text-white px-8 py-4 rounded-xl font-bold text-[14px] shadow-sm transition-colors uppercase tracking-wider flex items-center gap-2"
           >
-            <span className="relative z-10 flex items-center gap-2">
-              Ver Planes de Suscripción
-              <motion.span
-                className="inline-block"
-                animate={{ x: [0, 3, 0] }}
-                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-              >
-                →
-              </motion.span>
-            </span>
+            Ver Planes de Suscripción
+            <ArrowRight className="w-4 h-4" />
           </motion.a>
-          <motion.a
-            whileHover={{ x: 8 }}
+          <a
             href="https://wa.me/51904060670?text=Hola%2C%20quisiera%20agendar%20una%20llamada%20sobre%20sus%20planes%20WaaS."
             target="_blank"
             rel="noopener noreferrer"
-            className="group inline-flex items-center gap-2 text-[14px] font-bold text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 px-6 py-4 rounded-xl transition-all"
+            className="inline-flex items-center gap-2 text-[14px] font-bold text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 px-6 py-4 rounded-xl transition-colors"
           >
             Agendar Llamada
-            <motion.span
-              className="inline-block"
-              animate={{ x: [0, 4, 0] }}
-              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-            >
-              →
-            </motion.span>
-          </motion.a>
-        </motion.div>
+            <ArrowRight className="w-4 h-4" />
+          </a>
+        </div>
       </div>
     </section>
   );
@@ -615,12 +571,12 @@ const Opportunity = () => (
   >
     {/* Sección: Agencia Tradicional vs. WaaS */}
     <div className="text-center mb-10 md:mb-16">
-      <span className="label-editorial mx-auto">Agencia Tradicional vs. WaaS</span>
-      <h2 className="text-[32px] md:text-[52px] font-black tracking-tighter leading-none mb-5 md:mb-8">
-        El Modelo Viejo <span className="text-red-500">vs.</span> Nuestro <span className="text-accent">WaaS</span>.
+      <span className="label-editorial mx-auto">Comparativa de Modelos</span>
+      <h2 className="text-[32px] md:text-[48px] font-black tracking-tight leading-none mb-4 text-slate-900">
+        El Modelo Tradicional <span className="text-slate-400">vs.</span> Nuestro <span className="text-accent">WaaS</span>
       </h2>
       <p className="text-muted text-[16px] md:text-[18px] max-w-3xl mx-auto leading-relaxed">
-        Educamos a nuestros clientes sobre por qué una suscripción de infraestructura ahorra riesgos y acelera resultados.
+        Por qué una suscripción de infraestructura y soporte continuo reduce costos y acelera resultados.
       </p>
     </div>
 
@@ -630,15 +586,15 @@ const Opportunity = () => (
         initial={{ opacity: 0, x: -20 }}
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.8 }}
-        className="glass p-8 rounded-[20px] border-red-200/50 bg-red-50/20 relative overflow-hidden"
+        transition={{ duration: 0.6 }}
+        className="p-8 rounded-2xl border border-red-200/70 bg-red-50/30 relative overflow-hidden"
       >
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-10 h-10 rounded-xl bg-red-100 flex items-center justify-center text-red-600 font-bold text-[18px]">✕</div>
-          <h3 className="text-[20px] font-bold text-slate-900">La Agencia Tradicional</h3>
+          <div className="w-9 h-9 rounded-lg bg-red-100 flex items-center justify-center text-red-600 font-bold text-[16px]">✕</div>
+          <h3 className="text-[18px] font-bold text-slate-900">La Agencia Tradicional</h3>
         </div>
         <p className="text-[14px] text-slate-600 leading-relaxed font-medium">
-          "Pagas el 50% por adelantado a ciegas, te entregan un WordPress lento con plantillas genéricas, y si quieres un cambio al mes siguiente, te cobran extra o desaparecen."
+          Cobran presupuestos inflados por adelantado, entregan sitios lentos con plantillas genéricas, y cualquier cambio posterior requiere cotizaciones adicionales o demoras de semanas.
         </p>
       </motion.div>
 
@@ -646,23 +602,25 @@ const Opportunity = () => (
         initial={{ opacity: 0, x: 20 }}
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.8 }}
-        className="glass p-8 rounded-[20px] border-accent/30 bg-blue-50/30 relative overflow-hidden"
+        transition={{ duration: 0.6 }}
+        className="p-8 rounded-2xl border border-accent/30 bg-blue-50/30 relative overflow-hidden"
       >
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center text-accent font-bold text-[18px]">✓</div>
-          <h3 className="text-[20px] font-bold text-slate-900">Nuestro Modelo WaaS</h3>
+          <div className="w-9 h-9 rounded-lg bg-blue-100 flex items-center justify-center text-accent font-bold text-[16px]">✓</div>
+          <h3 className="text-[18px] font-bold text-slate-900">Nuestro Modelo WaaS</h3>
         </div>
         <p className="text-[14px] text-slate-700 leading-relaxed font-medium">
-          "Te damos una suscripción de infraestructura. Construimos tu web con tecnología moderna, la alojamos en servidores de alto rendimiento y te incluimos cambios ilimitados semanales."
+          Una tarifa plana mensual que incluye desarrollo a medida con código propio, hosting cloud ultrarrápido y un equipo técnico dedicado a actualizar tu contenido cada semana.
         </p>
       </motion.div>
     </div>
 
     {/* Sección de Beneficios Clave (3 Pilares) */}
     <div className="text-center mb-10">
-      <span className="label-editorial mx-auto">Tres Pilares de Valor</span>
-      <h3 className="text-[26px] md:text-[36px] font-black tracking-tight">Sin fricción de propiedad desde el primer día.</h3>
+      <span className="label-editorial mx-auto">Pilares de Ingeniería</span>
+      <h3 className="text-[26px] md:text-[34px] font-black tracking-tight text-slate-900">
+        Control total y rendimiento sin fricción
+      </h3>
     </div>
 
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -670,15 +628,15 @@ const Opportunity = () => (
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.6, delay: 0.1 }}
-        className="p-6 glass rounded-[20px] border-slate-200 bg-white shadow-sm hover:shadow-md transition-all"
+        transition={{ duration: 0.5, delay: 0.1 }}
+        className="p-6 rounded-2xl border border-slate-200 bg-white shadow-xs hover:border-slate-300 hover:shadow-md transition-all"
       >
-        <div className="w-12 h-12 rounded-xl bg-accent/10 text-accent flex items-center justify-center mb-4">
-          <Shield className="w-6 h-6" />
+        <div className="w-11 h-11 rounded-xl bg-accent/10 text-accent flex items-center justify-center mb-4">
+          <Shield className="w-5 h-5" />
         </div>
-        <h4 className="text-[18px] font-bold text-slate-900 mb-2">📦 Propiedad Total</h4>
+        <h4 className="text-[17px] font-bold text-slate-900 mb-2">Propiedad Total</h4>
         <p className="text-[13px] text-slate-600 leading-relaxed">
-          Tu marca, tu dominio y tu web son 100% tuyos. Nuestra suscripción simplemente cubre el motor (servidor) y a tu equipo técnico dedicado.
+          Tu dominio, tu marca y tu base de clientes son 100% tuyos desde el primer día. Nosotros proveemos la infraestructura y la ingeniería.
         </p>
       </motion.div>
 
@@ -686,15 +644,15 @@ const Opportunity = () => (
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.6, delay: 0.2 }}
-        className="p-6 glass rounded-[20px] border-slate-200 bg-white shadow-sm hover:shadow-md transition-all"
+        transition={{ duration: 0.5, delay: 0.2 }}
+        className="p-6 rounded-2xl border border-slate-200 bg-white shadow-xs hover:border-slate-300 hover:shadow-md transition-all"
       >
-        <div className="w-12 h-12 rounded-xl bg-accent/10 text-accent flex items-center justify-center mb-4">
-          <Zap className="w-6 h-6" />
+        <div className="w-11 h-11 rounded-xl bg-accent/10 text-accent flex items-center justify-center mb-4">
+          <Zap className="w-5 h-5" />
         </div>
-        <h4 className="text-[18px] font-bold text-slate-900 mb-2">⚡ Velocidad & Código Propio</h4>
+        <h4 className="text-[17px] font-bold text-slate-900 mb-2">Código Propio y Velocidad</h4>
         <p className="text-[13px] text-slate-600 leading-relaxed">
-          Cero constructores visuales pesados. Código limpio a la medida de tu nicho (ideal para hoteles, clínicas o inmobiliarias).
+          Desarrollo a mano con tecnologías modernas (React, Vite, Tailwind). Tiempos de carga inferiores a 1 segundo y máxima tasa de conversión.
         </p>
       </motion.div>
 
@@ -702,15 +660,15 @@ const Opportunity = () => (
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.6, delay: 0.3 }}
-        className="p-6 glass rounded-[20px] border-slate-200 bg-white shadow-sm hover:shadow-md transition-all"
+        transition={{ duration: 0.5, delay: 0.3 }}
+        className="p-6 rounded-2xl border border-slate-200 bg-white shadow-xs hover:border-slate-300 hover:shadow-md transition-all"
       >
-        <div className="w-12 h-12 rounded-xl bg-accent/10 text-accent flex items-center justify-center mb-4">
-          <Clock className="w-6 h-6" />
+        <div className="w-11 h-11 rounded-xl bg-accent/10 text-accent flex items-center justify-center mb-4">
+          <Clock className="w-5 h-5" />
         </div>
-        <h4 className="text-[18px] font-bold text-slate-900 mb-2">🔄 Evolución Continua</h4>
+        <h4 className="text-[17px] font-bold text-slate-900 mb-2">Evolución Continua</h4>
         <p className="text-[13px] text-slate-600 leading-relaxed">
-          Las webs estáticas mueren. Con nosotros, envías tus solicitudes durante la semana y todos los lunes actualizamos tu contenido sin costos adicionales.
+          Tu web nunca queda abandonada. Nos envías tus requerimientos y solicitudes durante la semana y las publicamos sin costos adicionales.
         </p>
       </motion.div>
     </div>
@@ -935,17 +893,17 @@ const Services = ({
 
       {/* Trust & Conversion Signals */}
       <div className="flex flex-wrap items-center justify-center gap-4 md:gap-8 mb-12">
-        <div className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full border border-white/10">
-          <CheckCircle2 className="w-4 h-4 text-green-500" />
-          <span className="text-[10px] font-black uppercase tracking-[0.2em] text-fg">Sin costos ocultos</span>
+        <div className="flex items-center gap-2 px-4 py-2 bg-slate-100 rounded-full border border-slate-200">
+          <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+          <span className="text-[11px] font-bold uppercase tracking-wider text-slate-700">Sin costos ocultos</span>
         </div>
-        <div className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full border border-white/10">
-          <Shield className="w-4 h-4 text-blue-500" />
-          <span className="text-[10px] font-black uppercase tracking-[0.2em] text-fg">Garantía de Entrega</span>
+        <div className="flex items-center gap-2 px-4 py-2 bg-slate-100 rounded-full border border-slate-200">
+          <Shield className="w-4 h-4 text-accent" />
+          <span className="text-[11px] font-bold uppercase tracking-wider text-slate-700">Garantía de Cumplimiento</span>
         </div>
-        <div className="flex items-center gap-2 px-4 py-2 bg-accent/10 rounded-full border border-accent/20">
-          <Clock className="w-4 h-4 text-accent" />
-          <span className="text-[10px] font-black uppercase tracking-[0.2em] text-accent">Últimos 2 cupos de este mes</span>
+        <div className="flex items-center gap-2 px-4 py-2 bg-slate-100 rounded-full border border-slate-200">
+          <Clock className="w-4 h-4 text-slate-600" />
+          <span className="text-[11px] font-bold uppercase tracking-wider text-slate-700">Soporte Continuo</span>
         </div>
       </div>
     </div>
@@ -994,17 +952,17 @@ const Services = ({
         onOpenDetails={() => onOpenModal("Web App Advanced WaaS", "Para negocios con contenido dinámico, reservas o inventario. Incluye panel admin, base de datos y soporte activo.")}
       />
 
-      {/* Plan $500/mes - Web App con IA */}
+      {/* Plan $599.99/mes - Web App con IA */}
       <PricingCard
         title="Web App con IA"
         icon={Sparkles}
         badge="Empresarial & IA"
         description="Para empresas con flujos de trabajo automatizables e integración profunda de IA."
-        price="$500"
+        price="$599.99"
         period="/ mes"
         savings="Automatización Operativa Total"
         productId="ef4fe8a9-0f60-40c2-b0c3-0cf2663e38de"
-        whatsappText="Hola! Me interesa el plan WaaS Web App con IA ($500/mes). Deseo automatizar la gestión y flujos de mi empresa con IA."
+        whatsappText="Hola! Me interesa el plan WaaS Web App con IA ($599.99/mes). Deseo automatizar la gestión y flujos de mi empresa con IA."
         items={[
           { name: "Integración de Inteligencia Artificial", details: "Modelos de IA aplicados a la gestión de tu empresa." },
           { name: "Agentes y Asistentes Automatizados", details: "Atención, calificación y procesamiento 24/7." },
@@ -1017,55 +975,34 @@ const Services = ({
     </div>
 
     {/* Strategy CTA Row */}
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-      className="relative glass rounded-[40px] border-accent/20 p-8 md:p-16 overflow-hidden group"
+    <div
+      className="relative rounded-3xl border border-slate-200 bg-slate-50/70 p-8 md:p-12 overflow-hidden"
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-transparent" />
-      <div className="absolute -right-20 -bottom-20 w-80 h-80 bg-accent/10 blur-[100px] rounded-full group-hover:bg-accent/20 transition-all duration-1000" />
-      
-      <div className="relative z-10 flex flex-col lg:flex-row items-center gap-12 text-center lg:text-left">
-        <div className="flex-1">
-          <motion.div
-            className="w-16 h-16 bg-accent/10 rounded-2xl flex items-center justify-center mb-6 mx-auto lg:mx-0"
-            whileHover={{ rotate: 10, scale: 1.1 }}
-            transition={{ type: "spring", stiffness: 300, damping: 15 }}
-          >
-            <Zap className="w-8 h-8 text-accent" />
-          </motion.div>
-          <h3 className="text-[28px] md:text-[36px] font-black tracking-tighter mb-4">
-            ¿No sabes cuál elegir?
+      <div className="flex flex-col lg:flex-row items-center justify-between gap-8 text-center lg:text-left">
+        <div className="flex-1 max-w-xl">
+          <div className="w-12 h-12 bg-accent/10 text-accent rounded-xl flex items-center justify-center mb-4 mx-auto lg:mx-0">
+            <Zap className="w-6 h-6" />
+          </div>
+          <h3 className="text-[24px] md:text-[30px] font-black tracking-tight text-slate-900 mb-2">
+            ¿Tienes dudas sobre qué plan se adapta a tu negocio?
           </h3>
-          <p className="text-muted text-[16px] md:text-[18px] max-w-xl leading-relaxed">
-            Hablemos por 15 minutos. Analizaremos tu negocio para decirte qué necesitas para escalar. <strong>Sin compromiso.</strong>
+          <p className="text-slate-600 text-[15px] md:text-[16px] leading-relaxed">
+            Evaluamos tus requerimientos técnicos y te asesoramos para elegir la arquitectura adecuada. Sin compromiso comercial.
           </p>
         </div>
         
-          <div className="flex flex-col gap-4 min-w-[280px]">
-            <motion.button
-              whileHover={{ scale: 1.05, y: -3, boxShadow: "0 20px 40px rgba(234,88,12,0.3)" }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => onOpenModal("Consulta Gratuita de 15 Minutos", "15min_consultation")}
-              className="bg-gradient-to-r from-cta to-cta-hover text-white py-3.5 px-6 rounded-xl font-black text-[13px] uppercase tracking-wider shadow-lg flex items-center justify-center gap-2 cursor-pointer relative overflow-hidden group/btn"
-            >
-              <span className="relative z-10 flex items-center gap-2">
-                <Zap className="w-5 h-5" />
-                Agendar Auditoría Gratis (15 min)
-              </span>
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-                initial={{ x: "-100%" }}
-                whileHover={{ x: "100%" }}
-                transition={{ duration: 0.5 }}
-              />
-            </motion.button>
-            <span className="text-[11px] font-bold text-muted uppercase tracking-[0.3em] text-center">Cupos limitados por semana</span>
-          </div>
+        <div className="flex flex-col gap-3 min-w-[260px]">
+          <button
+            onClick={() => onOpenModal("Consulta Gratuita de 15 Minutos", "15min_consultation")}
+            className="bg-accent hover:bg-accent/90 text-white py-3.5 px-6 rounded-xl font-bold text-[13px] uppercase tracking-wider shadow-sm transition-colors flex items-center justify-center gap-2 cursor-pointer"
+          >
+            <Zap className="w-4 h-4" />
+            Agendar Auditoría (15 min)
+          </button>
+          <span className="text-[11px] font-medium text-slate-500 text-center">Respuesta y confirmación directa</span>
+        </div>
       </div>
-    </motion.div>
+    </div>
 
   </section>
 );
@@ -1868,11 +1805,7 @@ const ChambaHero = () => {
 
   return (
     <section ref={sectionRef} className="relative min-h-[85vh] flex flex-col items-center text-center justify-center pt-[70px] pb-20 px-6 md:px-10 overflow-hidden max-w-[1024px] mx-auto">
-      <div className="absolute top-[-100px] left-[30%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-radial-[circle,rgba(59,130,246,0.1)_0%,transparent_70%] blur-[60px] -z-10" />
-
-      <HeroMotionGraphics />
-
-      <div className="z-10 smooth-gpu">
+      <div className="z-10">
         <motion.span
           className="label-editorial mx-auto"
           style={{ opacity: labelOpacity, y: labelY }}
@@ -1880,16 +1813,16 @@ const ChambaHero = () => {
           Web as a Service (WaaS)
         </motion.span>
 
-        <motion.h2
+        <motion.h1
           className="text-[36px] sm:text-[48px] md:text-[56px] max-w-[850px] leading-[1.1] md:leading-[1] mb-6 font-black tracking-tight text-slate-900"
           style={{ opacity: titleOpacity, y: titleY }}
         >
           Tu Web Profesional a Medida. <br />
           <span className="text-accent">Sin pagar miles por adelantado</span>.
-        </motion.h2>
+        </motion.h1>
 
         <motion.p
-          className="text-[16px] md:text-[18px] text-slate-600 font-medium leading-[1.6] max-w-[650px] mb-12 mx-auto px-4"
+          className="text-[16px] md:text-[18px] text-slate-600 font-medium leading-[1.6] max-w-[650px] mb-10 mx-auto px-4"
           style={{ opacity: subtitleOpacity, y: subtitleY }}
         >
           Por $49/mes cubrimos tu tecnología, el servidor ultrarrápido y cambios ilimitados. Tú te enfocas en vender, nosotros somos tu equipo técnico.
@@ -1899,41 +1832,39 @@ const ChambaHero = () => {
           className="flex flex-col sm:flex-row items-center justify-center gap-4 px-6"
           style={{ opacity: ctaOpacity, y: ctaY }}
         >
-          <MagneticElement strength={0.15}>
           <motion.a
-            whileHover={{ scale: 1.05, y: -2 }}
-            whileTap={{ scale: 0.95 }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
             href="https://wa.me/51904060670?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20sus%20planes%20WaaS."
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-gradient-to-r from-cta to-cta-hover text-white px-6 py-3.5 rounded-xl font-black text-[13px] w-full sm:w-auto shadow-lg transition-all flex items-center justify-center gap-2 uppercase tracking-wider"
+            className="bg-accent hover:bg-accent/90 text-white px-7 py-3.5 rounded-xl font-bold text-[14px] shadow-sm transition-colors flex items-center justify-center gap-2 uppercase tracking-wider"
           >
             <WhatsAppIcon className="w-5 h-5" />
             Hablar con un Asesor
           </motion.a>
-          </MagneticElement>
           <Link
             to="/servicios"
-            className="group inline-flex items-center gap-2 text-[15px] font-bold text-fg hover:text-accent transition-colors py-3"
+            className="inline-flex items-center gap-2 text-[14px] font-bold text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 px-6 py-3.5 rounded-xl transition-colors"
           >
             Ver Planes WaaS
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            <ArrowRight className="w-4 h-4" />
           </Link>
         </motion.div>
 
         {/* Social Proof Stats */}
         <motion.div
           style={{ opacity: statsOpacity, y: statsY }}
-          className="mt-16 pt-10 border-t border-slate-200/60 flex flex-wrap items-center justify-center gap-8 md:gap-14"
+          className="mt-14 pt-8 border-t border-slate-200/80 flex flex-wrap items-center justify-center gap-8 md:gap-14"
         >
           {[
-            { value: "+50", label: "Proyectos Entregados" },
+            { value: "+50", label: "Proyectos Desplegados" },
             { value: "+10", label: "Años de Experiencia" },
-            { value: "24/7", label: "Soporte Activo" },
+            { value: "24/7", label: "Infraestructura Activa" },
           ].map((stat, i) => (
             <div key={i} className="flex flex-col items-center gap-1">
-              <span className="text-[28px] md:text-[36px] font-black text-accent tracking-tight">{stat.value}</span>
-              <span className="text-[10px] font-bold text-muted uppercase tracking-[0.2em]">{stat.label}</span>
+              <span className="text-[26px] md:text-[32px] font-black text-accent tracking-tight">{stat.value}</span>
+              <span className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em]">{stat.label}</span>
             </div>
           ))}
         </motion.div>
@@ -1943,80 +1874,67 @@ const ChambaHero = () => {
 };
 
 const PainPoints = () => (
-  <section className="py-14 md:py-20 px-6 md:px-10 max-w-[1024px] mx-auto border-t border-white/5">
+  <section className="py-14 md:py-20 px-6 md:px-10 max-w-[1024px] mx-auto border-t border-slate-100">
     <ScrollReveal>
     <div className="text-center mb-10 md:mb-16">
-      <span className="label-editorial mx-auto">El problema</span>
-      <h2 className="text-[32px] md:text-[40px] font-bold tracking-tight mb-4">
-        Esto le pasa a la mayoría
+      <span className="label-editorial mx-auto">Obstáculos Comunes</span>
+      <h2 className="text-[32px] md:text-[40px] font-bold tracking-tight mb-4 text-slate-900">
+        Los problemas del desarrollo web tradicional
       </h2>
     </div>
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
       {[
         {
-          title: "Pagaste y no funcionó",
-          desc: "Te cobraron miles por una web que no genera clientes. Quedó bonita pero no vende.",
+          title: "Inversión inicial excesiva",
+          desc: "Pagar miles de dólares por adelantado antes de validar resultados crea un riesgo financiero innecesario.",
           icon: TrendingUp,
         },
         {
-          title: "Tu web está abandonada",
-          desc: "Necesitas un cambio y tu desarrollador no responde. O te cobra de nuevo por cada ajuste.",
+          title: "Sitios web desactualizados",
+          desc: "Cada cambio de texto, imagen o precio requiere cotizaciones lentas y sobrecostos imprevistos.",
           icon: Globe,
         },
         {
-          title: "Todo es manual",
-          desc: "Respondes lo mismo 20 veces al día. Copias datos a mano. Pierdes ventas por lento.",
+          title: "Pérdida de consultas y ventas",
+          desc: "Sin integraciones automáticas con WhatsApp o canales directos, las solicitudes se enfrían y no convierten.",
           icon: MessageSquare,
         },
       ].map((item, i) => (
-        <GlowCard key={i}>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: i * 0.1 }}
-          className="p-8 glass rounded-[16px] border-white/5 hover:border-red-500/20 transition-colors group smooth-gpu"
+        <div
+          key={i}
+          className="p-7 rounded-2xl border border-slate-200 bg-white shadow-xs hover:border-slate-300 hover:shadow-md transition-all"
         >
-          <div className="w-12 h-12 bg-red-500/10 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-            <item.icon className="w-6 h-6 text-red-500" />
+          <div className="w-11 h-11 bg-red-50 text-red-600 rounded-xl flex items-center justify-center mb-5">
+            <item.icon className="w-5 h-5" />
           </div>
-          <h4 className="text-[18px] font-bold mb-3">{item.title}</h4>
-          <p className="text-[14px] text-muted leading-relaxed">{item.desc}</p>
-        </motion.div>
-        </GlowCard>
+          <h4 className="text-[17px] font-bold text-slate-900 mb-2">{item.title}</h4>
+          <p className="text-[13px] text-slate-600 leading-relaxed">{item.desc}</p>
+        </div>
       ))}
     </div>
 
     {/* Inline Lead Capture after Pain Points */}
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      className="mt-16 text-center glass rounded-[32px] p-8 md:p-12 border-cta/20 relative overflow-hidden"
+    <div
+      className="mt-14 text-center rounded-3xl p-8 md:p-10 border border-slate-200 bg-slate-50/70"
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-cta/5 via-transparent to-gold/5 -z-0" />
-      <div className="relative z-10">
-        <h3 className="text-[24px] md:text-[32px] font-black tracking-tight mb-3">
-          Te suena, ¿verdad?
-        </h3>
-        <p className="text-muted text-[15px] mb-8 max-w-[500px] mx-auto">
-          Cuéntanos qué necesitas en 2 minutos por WhatsApp. <strong className="text-fg">Te respondemos hoy.</strong>
-        </p>
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <motion.a
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            href="https://wa.me/51904060670?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20sus%20planes%20WaaS."
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-gradient-to-r from-cta to-cta-hover text-white px-6 py-3.5 rounded-xl font-black text-[13px] shadow-lg flex items-center gap-2 uppercase tracking-wider"
-          >
-            <WhatsAppIcon className="w-5 h-5" />
-            Hablar con un Asesor
-          </motion.a>
-        </div>
+      <h3 className="text-[22px] md:text-[28px] font-black tracking-tight mb-2 text-slate-900">
+        Una solución técnica pensada para operar sin fricción
+      </h3>
+      <p className="text-slate-600 text-[14px] md:text-[15px] mb-6 max-w-[520px] mx-auto leading-relaxed">
+        Conversa con nosotros directamente por WhatsApp para revisar tus necesidades y recibir una propuesta técnica.
+      </p>
+      <div className="flex justify-center">
+        <a
+          href="https://wa.me/51904060670?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20sus%20planes%20WaaS."
+          target="_blank"
+          rel="noopener noreferrer"
+          className="bg-accent hover:bg-accent/90 text-white px-6 py-3.5 rounded-xl font-bold text-[13px] shadow-sm flex items-center gap-2 uppercase tracking-wider transition-colors"
+        >
+          <WhatsAppIcon className="w-4 h-4" />
+          Hablar con un Asesor
+        </a>
       </div>
-    </motion.div>
+    </div>
     </ScrollReveal>
   </section>
 );
@@ -2051,17 +1969,17 @@ const StickyCtaBar = () => {
           initial={{ y: 60, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 60, opacity: 0 }}
-          transition={{ type: "spring", damping: 20, stiffness: 300 }}
-          className="fixed bottom-0 left-0 right-0 z-[90] bg-slate-900/95 backdrop-blur-xl border-t border-slate-800 py-3.5 px-6 flex items-center justify-center gap-4 sm:gap-6 shadow-[0_-10px_30px_rgba(15,23,42,0.3)]"
+          transition={{ type: "spring", damping: 25, stiffness: 350 }}
+          className="fixed bottom-0 left-0 right-0 z-[90] bg-slate-900/95 backdrop-blur-md border-t border-slate-800 py-3.5 px-6 flex items-center justify-center gap-4 sm:gap-6 shadow-lg"
         >
-          <span className="text-white font-extrabold text-[13px] sm:text-[14px] hidden sm:block tracking-wide">
-            Tu web desde <span className="text-amber-400 font-black">$49/mes</span> · Actualizaciones incluidas · Hosting desde $5/mes
+          <span className="text-white font-medium text-[13px] sm:text-[14px] hidden sm:block tracking-wide">
+            Tu web a medida desde <span className="text-accent font-bold">$49/mes</span> · Cambios ilimitados · Hosting Cloud incluido
           </span>
           <a
             href="https://wa.me/51904060670?text=Hola%2C%20quiero%20m%C3%A1s%20informaci%C3%B3n%20sobre%20sus%20planes%20WaaS."
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-cta hover:bg-cta-hover text-white px-5 sm:px-6 py-2.5 rounded-xl font-black text-[11px] sm:text-[12px] uppercase tracking-wider shadow-lg flex items-center gap-2 hover:scale-105 transition-all"
+            className="bg-accent hover:bg-accent/90 text-white px-5 sm:px-6 py-2.5 rounded-xl font-bold text-[12px] uppercase tracking-wider shadow-xs flex items-center gap-2 transition-colors"
           >
             <WhatsAppIcon className="w-4 h-4 text-white" />
             Hablar por WhatsApp
@@ -2075,97 +1993,76 @@ const StickyCtaBar = () => {
 const Methodology = () => (
   <section
     id="metodologia"
-    className="py-14 md:py-20 px-6 md:px-10 bg-accent/[0.02] border-y border-white/5"
+    className="py-14 md:py-20 px-6 md:px-10 bg-slate-50/50 border-y border-slate-200/80"
   >
     <ScrollReveal>
     <div className="max-w-[1024px] mx-auto text-center mb-10 md:mb-16">
-      <span className="label-editorial mx-auto">Así funciona</span>
-      <h2 className="text-[32px] md:text-[48px] font-black tracking-tight leading-tight mb-4">
-        Tres pasos. <span className="text-accent">Sin vueltas.</span>
+      <span className="label-editorial mx-auto">Proceso de Trabajo</span>
+      <h2 className="text-[32px] md:text-[44px] font-black tracking-tight leading-tight mb-3 text-slate-900">
+        De la idea al despliegue en tres etapas
       </h2>
+      <p className="text-muted text-[15px] md:text-[16px] max-w-xl mx-auto">
+        Metodología ágil para entregar tu plataforma web en producción sin retrasos.
+      </p>
     </div>
     </ScrollReveal>
     <div className="max-w-[1024px] mx-auto">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
         <div>
           <div className="space-y-8">
             {[
               {
                 step: "01",
-                title: "Nos cuentas qué necesitas",
-                desc: "Hablamos por WhatsApp o llamada. Entendemos tu negocio y definimos qué tipo de web necesitas.",
+                title: "Definición y Requerimientos",
+                desc: "Analizamos tu modelo comercial, estructura de catálogo o servicios y objetivos de captación.",
               },
               {
                 step: "02",
-                title: "Diseñamos y desarrollamos",
-                desc: "Creamos tu web a medida con código propio. Tú apruebas cada etapa antes de avanzar.",
+                title: "Desarrollo y Optimización",
+                desc: "Programamos la web con arquitectura moderna, código a medida y optimización técnica para alta velocidad.",
               },
               {
                 step: "03",
-                title: "Lanzamos y mantenemos",
-                desc: "Publicamos, configuramos hosting y SSL. A partir de ahí, cualquier cambio está incluido en tu plan.",
+                title: "Despliegue y Mantenimiento",
+                desc: "Publicamos en infraestructura cloud con SSL y gestionamos las actualizaciones semanales de tu contenido.",
               },
             ].map((item, i) => (
-              <motion.div
+              <div
                 key={i}
-                initial={{ opacity: 0, x: -40, filter: "blur(4px)" }}
-                whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-                viewport={{ once: true, margin: "-40px" }}
-                transition={{ duration: 0.7, delay: i * 0.2, ease: [0.22, 1, 0.36, 1] }}
-                className="flex gap-6"
+                className="flex gap-5 items-start"
               >
-                <motion.span
-                  className="text-[24px] font-black text-accent/20 shrink-0"
-                  initial={{ scale: 0.5 }}
-                  whileInView={{ scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: i * 0.2 + 0.3, ease: [0.22, 1, 0.36, 1] }}
-                >
+                <span className="text-[20px] font-mono font-bold text-accent bg-accent/10 w-10 h-10 rounded-xl flex items-center justify-center shrink-0">
                   {item.step}
-                </motion.span>
+                </span>
                 <div>
-                  <h4 className="text-[18px] font-bold mb-2">{item.title}</h4>
-                  <p className="text-[14px] text-muted leading-relaxed">
+                  <h4 className="text-[17px] font-bold text-slate-900 mb-1.5">{item.title}</h4>
+                  <p className="text-[14px] text-slate-600 leading-relaxed">
                     {item.desc}
                   </p>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
-        <motion.div
-          className="relative"
-          initial={{ opacity: 0, scale: 0.9, rotateY: -10 }}
-          whileInView={{ opacity: 1, scale: 1, rotateY: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <div className="aspect-square glass rounded-[24px] border-accent/20 flex items-center justify-center overflow-hidden smooth-gpu">
-            <div
-              className="absolute inset-0 opacity-40"
-              style={{
-                background:
-                  "radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, transparent 70%)",
-                filter: "blur(30px)",
-              }}
-            />
+        <div>
+          <div className="aspect-square rounded-2xl border border-slate-200 flex items-center justify-center overflow-hidden bg-slate-950 shadow-sm">
             <video
               autoPlay
               muted
               loop
               playsInline
               preload="auto"
-              className="w-full h-full object-cover relative z-10"
+              className="w-full h-full object-cover"
             >
               <source src="/assets/methodology.mp4" type="video/mp4" />
             </video>
           </div>
-        </motion.div>
+        </div>
       </div>
-
     </div>
   </section>
 );
+
 
 const FAQ = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
@@ -2739,7 +2636,6 @@ export const ChambaFooter = () => (
 
 const ChambaContent = ({ onOpenModal }: any) => (
   <div className="selection:bg-accent selection:text-white overflow-x-hidden w-full relative">
-    <FloatingElements />
     <ChambaNavbar />
     <main className="pt-[70px] relative z-10">
       <ChambaHero />
@@ -2816,7 +2712,6 @@ export default function App() {
     <BrowserRouter>
       <ScrollToTop />
       <MetaPixelTracker />
-      <CursorFollower />
       <AppContent />
     </BrowserRouter>
   );

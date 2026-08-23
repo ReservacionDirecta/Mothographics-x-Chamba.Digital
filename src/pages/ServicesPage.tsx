@@ -65,7 +65,7 @@ const ServicesPage: React.FC = () => {
     },
     {
       title: "Web App con IA",
-      price: "$500",
+      price: "$599.99",
       period: "/ mes",
       badge: "Empresarial & IA",
       icon: Sparkles,

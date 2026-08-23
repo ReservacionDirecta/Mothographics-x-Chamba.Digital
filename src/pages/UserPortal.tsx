@@ -1555,7 +1555,7 @@ export default function UserPortal() {
                     <h3 className="text-lg font-black text-slate-900">Cambiar de Plan</h3>
                     <p className="text-sm text-slate-600">Selecciona el nuevo plan que deseas. El cambio se aplicará en tu próximo ciclo de facturación.</p>
                     <div className="space-y-2">
-                      {[{ name: "Web Tradicional", price: "$49/mes" }, { name: "Web App Advanced", price: "$99/mes" }, { name: "Web App con IA", price: "$500/mes" }].map((p) => (
+                      {[{ name: "Web Tradicional", price: "$49/mes" }, { name: "Web App Advanced", price: "$99/mes" }, { name: "Web App con IA", price: "$599.99/mes" }].map((p) => (
                         <label key={p.name} className={`flex items-center justify-between p-3 border rounded-xl cursor-pointer transition-all ${selectedNewPlan === p.name ? "border-accent bg-accent/5" : "border-slate-200 hover:border-slate-300"}`}>
                           <div className="flex items-center gap-3">
                             <input type="radio" name="newPlan" value={p.name} checked={selectedNewPlan === p.name} onChange={() => setSelectedNewPlan(p.name)} className="accent-accent" />
@@ -1677,7 +1677,7 @@ export default function UserPortal() {
                     <span className="text-[10px] font-black uppercase tracking-widest text-purple-600 block mb-1">Enterprise IA</span>
                     <h3 className="text-lg font-extrabold text-slate-900">Web App con IA</h3>
                     <div className="my-3">
-                      <span className="text-3xl font-black text-slate-900">$500</span>
+                      <span className="text-3xl font-black text-slate-900">$599.99</span>
                       <span className="text-xs font-bold text-slate-500"> / mes</span>
                     </div>
                     <ul className="space-y-1.5 text-xs text-slate-600 font-medium my-4">
@@ -1692,7 +1692,7 @@ export default function UserPortal() {
                     disabled={loading}
                     className="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 rounded-xl text-xs uppercase tracking-wider transition-all cursor-pointer shadow-md mt-4"
                   >
-                    {loading ? "Cargando..." : "Activar por $500/mes"}
+                    {loading ? "Cargando..." : "Activar por $599.99/mes"}
                   </button>
                 </div>
               </div>
@@ -1797,7 +1797,7 @@ export default function UserPortal() {
                     >
                       <option value="Web Tradicional">Web Tradicional ($49/mes)</option>
                       <option value="Web App Advanced">Web App Advanced ($99/mes)</option>
-                      <option value="Web App con IA">Web App con IA ($500/mes)</option>
+                      <option value="Web App con IA">Web App con IA ($599.99/mes)</option>
                     </select>
                   </div>
                 )}

@@ -135,7 +135,7 @@ Custom theme in `src/index.css`:
 | Plan | Price | Target |
 |------|-------|--------|
 | Lanzamiento OnePage | $150 USD | Validation/landing |
-| Crecimiento Business | $500 USD | Full website + automation |
+| Crecimiento Business | $599.99 USD | Full website + automation |
 | Dominio Elite & IA | $1,200+ USD | Custom software + AI agents |
 | **Plan Hoteles** | **$999 USD** | Web + Sirvoy PMS + AI agent + 2500 AI credits |
 

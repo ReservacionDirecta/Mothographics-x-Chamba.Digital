@@ -2667,7 +2667,7 @@ Responde en español de forma profesional, empática, ágil y totalmente context
     }
 
     if (lower.includes("precio") || lower.includes("plan") || lower.includes("cuanto") || lower.includes("costo") || lower.includes("waas")) {
-      return "En **chamba.digital** ofrecemos planes WaaS todo incluido:\n\n• **$50/mes (Web Tradicional):** Landing y sitio corporativo con cambios ilimitados y hosting.\n• **$100/mes (Web App Advanced):** Panel administrativo a medida, base de datos y APIs.\n• **$500/mes (Web App con IA):** Automatización 24/7 y agentes inteligentes.\n\n¿Deseas una consulta de 15 minutos para ver cuál se adapta a tu negocio?";
+      return "En **chamba.digital** ofrecemos planes WaaS todo incluido:\n\n• **$50/mes (Web Tradicional):** Landing y sitio corporativo con cambios ilimitados y hosting.\n• **$100/mes (Web App Advanced):** Panel administrativo a medida, base de datos y APIs.\n• **$599.99/mes (Web App con IA):** Automatización 24/7 y agentes inteligentes.\n\n¿Deseas una consulta de 15 minutos para ver cuál se adapta a tu negocio?";
     }
 
     if (lower.includes("hotel") || lower.includes("sirvoy") || lower.includes("reserva") || lower.includes("booking") || lower.includes("airbnb")) {
@@ -2705,7 +2705,7 @@ Responde en español de forma profesional, empática, ágil y totalmente context
             3. Estructura de Planes WaaS:
                - $50/mes: Web Tradicional (negocios, marcas, tiendas, clínicas, consultorios, sitios corporativos).
                - $100/mes: Web App Advanced (funciones avanzadas, panel administrativo a medida, REST API, integraciones enterprise).
-               - $500/mes: Web App con IA & Automatizaciones (automatización de flujos de trabajo de empresa, IA en la gestión operativa 24/7).
+               - $599.99/mes: Web App con IA & Automatizaciones (automatización de flujos de trabajo de empresa, IA en la gestión operativa 24/7).
             4. Reserva de Consultas y Cierre de Venta: Siempre invita proactivamente al usuario a agendar su Consulta Gratuita de 15 Minutos o cerrar su plan mediante nuestro enlace directo de WhatsApp: https://wa.me/51904060670. Si el usuario solicita agendar/reservar una cita en el chat, proporciónale inmediatamente el enlace para fijar el horario de su consulta de 15 min.
             5. Formato: Utiliza negritas (**texto**) y viñetas para estructurar la información y hacerla fácil de leer.
             6. Brevedad Extrema (Regla Crítica): Tus respuestas deben ser sumamente cortas, directas y al grano (máximo 2 párrafos cortos). NUNCA des discursos largos.
