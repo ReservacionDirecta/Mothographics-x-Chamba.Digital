@@ -2393,9 +2393,7 @@ Responde en español de forma profesional, empática, ágil y totalmente context
       const { productId, tier } = req.body;
       const targetProductId = productId || POLAR_PRODUCTS[tier] || POLAR_PRODUCTS["49"];
 
-      const host = req.get("host") || "localhost:3000";
-      const protocol = req.protocol || "http";
-      const defaultSuccessUrl = `${protocol}://${host}/success?checkout_id={CHECKOUT_ID}`;
+      const defaultSuccessUrl = "https://chamba.digital/success?checkout_id={CHECKOUT_ID}";
       const successUrl = process.env.POLAR_SUCCESS_URL || defaultSuccessUrl;
 
       console.log(`[Polar] Creating checkout session for product: ${targetProductId}`);

@@ -30,6 +30,7 @@ const SuperAdminDashboard = lazy(() => import("./pages/SuperAdminDashboard"));
 const UserPortal = lazy(() => import("./pages/UserPortal"));
 const RafflePage = lazy(() => import("./pages/RaffleLandingPage/RafflePage"));
 const NotFoundPage = lazy(() => import("./pages/NotFoundPage"));
+const SuccessPage = lazy(() => import("./pages/SuccessPage"));
 import {
   ArrowRight,
   Palette,
@@ -2865,6 +2866,7 @@ function AppContent() {
         <Route path="/registro" element={<UserPortal />} />
         <Route path="/portal" element={<UserPortal />} />
         <Route path="/perfil" element={<UserPortal />} />
+        <Route path="/success" element={<SuccessPage />} />
         <Route path="/sorteo" element={<RafflePage />} />
         <Route path="/raffle" element={<RafflePage />} />
         <Route path="*" element={<NotFoundPage />} />
