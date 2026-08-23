@@ -526,41 +526,33 @@ const Hero = () => {
           Web as a Service (WaaS)
         </motion.span>
 
-        <h1 className="text-[40px] md:text-[56px] font-black max-w-[900px] leading-tight md:leading-[1.1] mb-6">
+        <h1 className="text-[36px] sm:text-[42px] md:text-[54px] font-black max-w-[950px] leading-tight md:leading-[1.1] mb-6 tracking-tight">
           <motion.span
             className="inline-block"
             initial={{ opacity: 0, y: 40, rotateX: -30 }}
             animate={{ opacity: 1, y: 0, rotateX: 0 }}
             transition={{ duration: 0.9, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
           >
-            Tu web a medida{" "}
+            Tu Web Profesional a Medida.{" "}
           </motion.span>
-          <br />
+          <br className="hidden sm:inline" />
           <motion.span
             className="inline-block text-accent"
             initial={{ opacity: 0, y: 40, scale: 0.8, filter: "blur(8px)" }}
             animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
             transition={{ duration: 1, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
           >
-            $49 al mes
-          </motion.span>
-          <motion.span
-            className="inline-block text-accent"
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.4, delay: 1.3, ease: [0.22, 1, 0.36, 1] }}
-          >
-            .
+            Sin Pagar Miles por Adelantado.
           </motion.span>
         </h1>
 
         <motion.h2
-          className="text-[16px] md:text-[18px] text-muted font-normal leading-relaxed max-w-[650px] mb-10"
+          className="text-[15px] md:text-[18px] text-muted font-normal leading-relaxed max-w-[720px] mb-10"
           initial={{ opacity: 0, y: 20, filter: "blur(4px)" }}
           animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           transition={{ duration: 0.9, delay: 1.0, ease: [0.22, 1, 0.36, 1] }}
         >
-          Cambios e iteraciones ilimitadas. Arquitectura moderna en Railway, SSL, mantenimiento y soporte continuo por WhatsApp.
+          Olvídate de agencias lentas y presupuestos inflados. Diseño con código propio, servidor ultrarrápido y mantenimiento continuo por tarifa plana. Tú te enfocas en tu negocio.
         </motion.h2>
 
         <motion.div
@@ -573,18 +565,16 @@ const Hero = () => {
             onClick={() =>
               trackEvent("cta_click", {
                 section: "hero",
-                label: "Hablar con un Asesor",
+                label: "Ver Planes de Suscripción",
               })
             }
             whileHover={{ scale: 1.05, y: -3, boxShadow: "0 20px 40px rgba(59,130,246,0.35)" }}
             whileTap={{ scale: 0.95 }}
-            href="https://wa.me/51904060670?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20sus%20planes%20WaaS."
-            target="_blank"
-            rel="noopener noreferrer"
-            className="relative bg-accent text-white px-6 py-3.5 rounded-lg font-bold text-[14px] shadow-md overflow-hidden group"
+            href="#servicios"
+            className="relative bg-accent text-white px-8 py-4 rounded-xl font-bold text-[14px] shadow-md overflow-hidden group uppercase tracking-wider"
           >
             <span className="relative z-10 flex items-center gap-2">
-              Hablar con un Asesor
+              Ver Planes de Suscripción
               <motion.span
                 className="inline-block"
                 animate={{ x: [0, 3, 0] }}
@@ -593,19 +583,15 @@ const Hero = () => {
                 →
               </motion.span>
             </span>
-            <motion.div
-              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-              initial={{ x: "-100%" }}
-              whileHover={{ x: "100%" }}
-              transition={{ duration: 0.6 }}
-            />
           </motion.a>
           <motion.a
             whileHover={{ x: 8 }}
-            href="#servicios"
-            className="group inline-flex items-center gap-2 text-[14px] font-bold text-muted hover:text-fg transition-colors"
+            href="https://wa.me/51904060670?text=Hola%2C%20quisiera%20agendar%20una%20llamada%20sobre%20sus%20planes%20WaaS."
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex items-center gap-2 text-[14px] font-bold text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 px-6 py-4 rounded-xl transition-all"
           >
-            Ver Planes WaaS
+            Agendar Llamada
             <motion.span
               className="inline-block"
               animate={{ x: [0, 4, 0] }}
@@ -625,47 +611,33 @@ const Opportunity = () => (
     id="tech-stack"
     className="py-14 md:py-20 px-6 md:px-10 max-w-[1024px] mx-auto"
   >
+    {/* Sección: Agencia Tradicional vs. WaaS */}
     <div className="text-center mb-10 md:mb-16">
-      <span className="label-editorial mx-auto">Por qué WaaS</span>
-      <h2 className="text-[32px] md:text-[56px] font-black tracking-tighter leading-none mb-5 md:mb-8">
-        Tu web lista sin <span className="text-accent">dolores de cabeza</span>.
+      <span className="label-editorial mx-auto">Agencia Tradicional vs. WaaS</span>
+      <h2 className="text-[32px] md:text-[52px] font-black tracking-tighter leading-none mb-5 md:mb-8">
+        El Modelo Viejo <span className="text-red-500">vs.</span> Nuestro <span className="text-accent">WaaS</span>.
       </h2>
-      <p className="text-muted text-[17px] md:text-[19px] max-w-3xl mx-auto leading-relaxed">
-        Olvídate de pagar miles por adelantado a una agencia para luego quedarte solo. Con nuestro modelo WaaS, <strong className="text-fg">nosotros nos encargamos de todo</strong> por una tarifa mensual fija.
+      <p className="text-muted text-[16px] md:text-[18px] max-w-3xl mx-auto leading-relaxed">
+        Educamos a nuestros clientes sobre por qué una suscripción de infraestructura ahorra riesgos y acelera resultados.
       </p>
     </div>
 
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+    {/* Comparativa 2 columnas */}
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
       <motion.div
         initial={{ opacity: 0, x: -20 }}
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8 }}
-        className="glass p-8 rounded-[16px] border-white/5 relative overflow-hidden"
+        className="glass p-8 rounded-[20px] border-red-200/50 bg-red-50/20 relative overflow-hidden"
       >
-        <div className="absolute top-0 right-0 p-6 opacity-5">
-          <Globe className="w-24 h-24" />
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-10 h-10 rounded-xl bg-red-100 flex items-center justify-center text-red-600 font-bold text-[18px]">✕</div>
+          <h3 className="text-[20px] font-bold text-slate-900">La Agencia Tradicional</h3>
         </div>
-        <h3 className="text-[20px] font-bold mb-4 flex items-center gap-3">
-          <Globe className="w-5 h-5 text-accent" />
-          Web a Medida
-        </h3>
-        <ul className="space-y-3">
-          {[
-            "Diseño y código 100% personalizado.",
-            "Despliegue rápido en Railway (desde $5/mes).",
-            "Optimizada para móviles y motores de búsqueda.",
-            "Certificado SSL y dominio propio configurado.",
-          ].map((item, i) => (
-            <li
-              key={i}
-              className="flex items-center gap-2 text-[14px] text-muted"
-            >
-              <div className="w-1.5 h-1.5 rounded-full bg-accent/40" />
-              {item}
-            </li>
-          ))}
-        </ul>
+        <p className="text-[14px] text-slate-600 leading-relaxed font-medium">
+          "Pagas el 50% por adelantado a ciegas, te entregan un WordPress lento con plantillas genéricas, y si quieres un cambio al mes siguiente, te cobran extra o desaparecen."
+        </p>
       </motion.div>
 
       <motion.div
@@ -673,83 +645,73 @@ const Opportunity = () => (
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8 }}
-        className="glass p-8 rounded-[16px] border-accent/10 relative overflow-hidden bg-accent/[0.02]"
+        className="glass p-8 rounded-[20px] border-accent/30 bg-blue-50/30 relative overflow-hidden"
       >
-        <div className="absolute top-0 right-0 p-6 opacity-5">
-          <Bot className="w-24 h-24 text-accent" />
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center text-accent font-bold text-[18px]">✓</div>
+          <h3 className="text-[20px] font-bold text-slate-900">Nuestro Modelo WaaS</h3>
         </div>
-        <h3 className="text-[20px] font-bold mb-4 flex items-center gap-3">
-          <Bot className="w-5 h-5 text-accent" />
-          Soporte Continuo
-        </h3>
-        <ul className="space-y-3">
-          {[
-            "Actualizaciones de contenido incluidas.",
-            "Soporte directo por WhatsApp.",
-            "Actualizaciones de seguridad.",
-            "Respaldos automáticos.",
-          ].map((item, i) => (
-            <li
-              key={i}
-              className="flex items-center gap-2 text-[14px] text-muted"
-            >
-              <div className="w-1.5 h-1.5 rounded-full bg-accent" />
-              {item}
-            </li>
-          ))}
-        </ul>
+        <p className="text-[14px] text-slate-700 leading-relaxed font-medium">
+          "Te damos una suscripción de infraestructura. Construimos tu web con tecnología moderna, la alojamos en servidores de alto rendimiento y te incluimos cambios ilimitados semanales."
+        </p>
       </motion.div>
     </div>
 
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.8, delay: 0.2 }}
-      className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
-    >
-      {[
-        {
-          title: "Sin Pago Inicial Masivo",
-          desc: "Empiezas con solo tu primera mensualidad.",
-          icon: Clock,
-        },
-        {
-          title: "Cambios Ilimitados",
-          desc: "Pides un ajuste y lo hacemos en horas.",
-          icon: Target,
-        },
-        {
-          title: "Cero Preocupaciones",
-          desc: "Mantenimiento y seguridad a nuestro cargo.",
-          icon: BarChart3,
-        },
-        {
-          title: "Atención Rápida",
-          desc: "Respuesta directa por WhatsApp sin tickets.",
-          icon: MessageCircle,
-        },
-      ].map((item, i) => (
-        <motion.div
-          key={i}
-          initial={{ opacity: 0, y: 30, scale: 0.95 }}
-          whileInView={{ opacity: 1, y: 0, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.3 + i * 0.1, ease: [0.22, 1, 0.36, 1] }}
-          whileHover={{ y: -4, borderColor: "rgba(59,130,246,0.3)" }}
-          className="p-5 glass rounded-[12px] border-white/5 transition-colors group cursor-default"
-        >
-          <motion.div
-            className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center mb-3"
-            whileHover={{ rotate: 10, scale: 1.1 }}
-          >
-            <item.icon className="w-4 h-4 text-accent" />
-          </motion.div>
-          <h4 className="text-[14px] font-bold mb-1 group-hover:text-accent transition-colors">{item.title}</h4>
-          <p className="text-[12px] text-muted leading-relaxed">{item.desc}</p>
-        </motion.div>
-      ))}
-    </motion.div>
+    {/* Sección de Beneficios Clave (3 Pilares) */}
+    <div className="text-center mb-10">
+      <span className="label-editorial mx-auto">Tres Pilares de Valor</span>
+      <h3 className="text-[26px] md:text-[36px] font-black tracking-tight">Sin fricción de propiedad desde el primer día.</h3>
+    </div>
+
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, delay: 0.1 }}
+        className="p-6 glass rounded-[20px] border-slate-200 bg-white shadow-sm hover:shadow-md transition-all"
+      >
+        <div className="w-12 h-12 rounded-xl bg-accent/10 text-accent flex items-center justify-center mb-4">
+          <Shield className="w-6 h-6" />
+        </div>
+        <h4 className="text-[18px] font-bold text-slate-900 mb-2">📦 Propiedad Total</h4>
+        <p className="text-[13px] text-slate-600 leading-relaxed">
+          Tu marca, tu dominio y tu web son 100% tuyos. Nuestra suscripción simplemente cubre el motor (servidor) y a tu equipo técnico dedicado.
+        </p>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+        className="p-6 glass rounded-[20px] border-slate-200 bg-white shadow-sm hover:shadow-md transition-all"
+      >
+        <div className="w-12 h-12 rounded-xl bg-accent/10 text-accent flex items-center justify-center mb-4">
+          <Zap className="w-6 h-6" />
+        </div>
+        <h4 className="text-[18px] font-bold text-slate-900 mb-2">⚡ Velocidad & Código Propio</h4>
+        <p className="text-[13px] text-slate-600 leading-relaxed">
+          Cero constructores visuales pesados. Código limpio a la medida de tu nicho (ideal para hoteles, clínicas o inmobiliarias).
+        </p>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, delay: 0.3 }}
+        className="p-6 glass rounded-[20px] border-slate-200 bg-white shadow-sm hover:shadow-md transition-all"
+      >
+        <div className="w-12 h-12 rounded-xl bg-accent/10 text-accent flex items-center justify-center mb-4">
+          <Clock className="w-6 h-6" />
+        </div>
+        <h4 className="text-[18px] font-bold text-slate-900 mb-2">🔄 Evolución Continua</h4>
+        <p className="text-[13px] text-slate-600 leading-relaxed">
+          Las webs estáticas mueren. Con nosotros, envías tus solicitudes durante la semana y todos los lunes actualizamos tu contenido sin costos adicionales.
+        </p>
+      </motion.div>
+    </div>
   </section>
 );
 
@@ -2227,24 +2189,24 @@ const FAQ = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const faqs = [
     {
-      q: "¿Cómo funciona el servicio WaaS y la infraestructura?",
-      a: "Tu suscripción WaaS cubre diseño, desarrollo, actualizaciones de contenido, seguridad y soporte por WhatsApp. Hosting en Railway (desde $5 USD/mes, costo directo) y dominio de tu propiedad.",
+      q: "¿La web es mía o de ustedes?",
+      a: "Es 100% tuya. Tú eres dueño de tu dominio y tu marca. El pago mensual es una suscripción por el uso de nuestra infraestructura de alto rendimiento (servidores veloces en Railway) y las horas que dedicamos a mantener y actualizar tu web cada semana.",
     },
     {
-      q: "¿Puedo cancelar en cualquier momento?",
-      a: "Sí. No hay contratos de permanencia. Si cancelas, tu web sigue online el mes que ya pagaste y te entregamos todo el código.",
+      q: "¿Qué pasa si decido dejar de pagar la suscripción?",
+      a: "Al funcionar como un servicio de infraestructura (como Netflix o Shopify), la falta de pago activo suspenderá temporalmente tu página de nuestros servidores. Puedes reactivarla cuando desees retomando tu suscripción sin perder nada.",
     },
     {
-      q: "¿Cuánto tarda en estar lista mi web?",
-      a: "Entre 2 y 4 semanas dependiendo de la complejidad. Webs corporativas simples pueden estar listas en 10 días.",
+      q: "¿Tengo que comprar un hosting aparte?",
+      a: "No. El servidor de alto rendimiento en Railway ya está incluido en cualquiera de nuestros planes para garantizar la máxima velocidad de carga. Si ya tienes un hosting propio, podemos evaluar adaptarnos, pero recomendamos usar nuestra infraestructura óptima.",
+    },
+    {
+      q: "¿Cuánto tardan en realizar los cambios de contenido?",
+      a: "Procesamos solicitudes de contenido semanalmente. Envías tus textos o fotos durante la semana y se publican automáticamente sin costos adicionales.",
     },
     {
       q: "¿Trabajan con clientes fuera de Perú?",
-      a: "Sí. Tenemos clientes en México, España, Estados Unidos y toda Latinoamérica. Todo el proceso es remoto.",
-    },
-    {
-      q: "¿El código es mío?",
-      a: "100%. No usamos plantillas ni WordPress. Tu web se desarrolla a medida y al finalizar el proyecto recibes todo el código fuente.",
+      a: "Sí. Tenemos clientes en México, Estados Unidos, España y toda Latinoamérica. Todo el proceso es 100% remoto y atendido por WhatsApp.",
     },
   ];
 

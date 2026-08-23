@@ -2,6 +2,10 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Autonomous Workflow
+
+**Read `AGENTS.md` first.** It defines the circular workflow (understand → plan → execute → verify → iterate) that must be followed for every task. It specifies when to act autonomously vs when to ask, verification commands, error recovery, and project conventions.
+
 ## Project Overview
 
 **Chamba Digital** is a high-performance digital agency website built with React 19, TypeScript, Vite, and Tailwind CSS v4. It serves as the marketing and lead-generation platform for a digital engineering agency specializing in:
