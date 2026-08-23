@@ -769,8 +769,7 @@ const polar = new Polar({
 const POLAR_PRODUCTS: Record<string, string> = {
   "49": "70f62d4c-2cd9-49ad-9628-24a04d462cc0",
   "99": "b78ef21a-1fdc-4fb6-b411-f4eb46f3fe96",
-  "599": "ef4fe8a9-0f60-40c2-b0c3-0cf2663e38de",
-  "499": "ef4fe8a9-0f60-40c2-b0c3-0cf2663e38de",
+  "500": "ef4fe8a9-0f60-40c2-b0c3-0cf2663e38de",
 };
 
 // Initialize Gemini

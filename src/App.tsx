@@ -29,6 +29,7 @@ const IntellectualPropertyPage = lazy(() => import("./pages/IntellectualProperty
 const SuperAdminDashboard = lazy(() => import("./pages/SuperAdminDashboard"));
 const UserPortal = lazy(() => import("./pages/UserPortal"));
 const RafflePage = lazy(() => import("./pages/RaffleLandingPage/RafflePage"));
+const NotFoundPage = lazy(() => import("./pages/NotFoundPage"));
 import {
   ArrowRight,
   Palette,
@@ -963,11 +964,11 @@ const Services = ({
         items={[
           { name: "Sitio Web Profesional 100% a medida", details: "Sin plantillas genéricas. Código propio." },
           { name: "Actualizaciones de contenido incluidas", details: "Cambios cuando los necesites, sin costo extra." },
-          { name: "Despliegue Cloud en Railway", details: "Hosting ultra rápido en Railway (coste directo del cliente desde $5/mes)." },
+          { name: "Infraestructura Cloud de Alto Rendimiento", details: "Olvídate de gestionar cPanel o servidores lentos. Tu web vive en nuestra infraestructura optimizada para máxima velocidad." },
           { name: "Integración con WhatsApp y Google", details: "Optimizada para recibir clientes de inmediato." },
           { name: "Soporte técnico continuo", details: "Atención rápida directa por WhatsApp." },
         ]}
-        onOpenDetails={() => onOpenModal("Web Tradicional WaaS", "Sitio web profesional por $49/mes. Sin inversión inicial. Incluye diseño, desarrollo, hosting en Railway, SSL y soporte continuo.")}
+        onOpenDetails={() => onOpenModal("Web Tradicional WaaS", "Sitio web profesional por $49/mes. Sin inversión inicial. Incluye diseño, desarrollo, infraestructura cloud, SSL y soporte continuo.")}
       />
 
       {/* Plan $99/mes - Web App Advanced */}
@@ -986,7 +987,7 @@ const Services = ({
           { name: "Web App interactiva y dinámica", details: "Base de datos y panel de control personalizado." },
           { name: "Rest API e Integración de Sistemas", details: "Conexión con pasarelas de pago o software externo." },
           { name: "Cambios e iteraciones ilimitadas", details: "Evolución constante de la plataforma." },
-          { name: "Arquitectura Cloud en Railway + Backups", details: "Infraestructura en Railway (desde $5/mes a cuenta del cliente) y 99.9% uptime." },
+          { name: "Infraestructura Cloud + Backups", details: "Servidores de alto rendimiento con 99.9% uptime incluidos en tu suscripción." },
           { name: "Soporte prioritario directo", details: "Contacto directo con el equipo de desarrollo." },
         ]}
         onOpenDetails={() => onOpenModal("Web App Advanced WaaS", "Para negocios con contenido dinámico, reservas o inventario. Incluye panel admin, base de datos y soporte activo.")}
@@ -1065,16 +1066,6 @@ const Services = ({
       </div>
     </motion.div>
 
-    {/* Intellectual Property Disclaimer */}
-    <div className="mt-12 text-center max-w-4xl mx-auto px-4">
-      <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/5 text-muted/70 text-[11px] mb-3">
-        <Shield className="w-3.5 h-3.5 text-accent/60" />
-        <span className="font-semibold tracking-wider uppercase">Aviso de Propiedad Intelectual</span>
-      </div>
-      <p className="text-[12px] md:text-[13px] text-muted/80 leading-relaxed">
-        Conforme a las prácticas comerciales nacionales e internacionales, <strong>CHAMBA</strong> se reserva su propiedad intelectual respecto a estrategias, procesos y desarrollos, bien sean estos referidos a marketing, secretos y procesos comerciales, datos, metodologías operativas, estructuras de campañas, desarrollo de tecnologías propias y actividades afines a nuestro propósito comercial.
-      </p>
-    </div>
   </section>
 );
 
@@ -1892,15 +1883,15 @@ const ChambaHero = () => {
           className="text-[36px] sm:text-[48px] md:text-[56px] max-w-[850px] leading-[1.1] md:leading-[1] mb-6 font-black tracking-tight text-slate-900"
           style={{ opacity: titleOpacity, y: titleY }}
         >
-          Tu web a medida <br />
-          <span className="text-accent">$49 al mes</span>.
+          Tu Web Profesional a Medida. <br />
+          <span className="text-accent">Sin pagar miles por adelantado</span>.
         </motion.h2>
 
         <motion.p
           className="text-[16px] md:text-[18px] text-slate-600 font-medium leading-[1.6] max-w-[650px] mb-12 mx-auto px-4"
           style={{ opacity: subtitleOpacity, y: subtitleY }}
         >
-          Cambios e iteraciones ilimitadas. Mantenimiento y soporte continuo. Despliegue en Railway (hosting desde $5/mes y dominio a cuenta del cliente).
+          Por $49/mes cubrimos tu tecnología, el servidor ultrarrápido y cambios ilimitados. Tú te enfocas en vender, nosotros somos tu equipo técnico.
         </motion.p>
 
         <motion.div
@@ -2171,16 +2162,6 @@ const Methodology = () => (
         </motion.div>
       </div>
 
-      {/* Intellectual Property Disclaimer */}
-      <div className="mt-14 pt-8 border-t border-white/5 text-center max-w-3xl mx-auto px-4">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.03] border border-white/5 text-muted/70 text-[11px] mb-3">
-          <Shield className="w-3.5 h-3.5 text-accent/60" />
-          <span className="font-semibold tracking-wider uppercase">Aviso de Propiedad Intelectual</span>
-        </div>
-        <p className="text-[12px] md:text-[13px] text-muted/80 leading-relaxed">
-          Conforme a las prácticas comerciales nacionales e internacionales, <strong>CHAMBA</strong> se reserva su propiedad intelectual respecto a estrategias, procesos y desarrollos, bien sean estos referidos a marketing, secretos y procesos comerciales, datos, metodologías operativas, estructuras de campañas, desarrollo de tecnologías propias y actividades afines a nuestro propósito comercial.
-        </p>
-      </div>
     </div>
   </section>
 );
@@ -2190,15 +2171,15 @@ const FAQ = () => {
   const faqs = [
     {
       q: "¿La web es mía o de ustedes?",
-      a: "Es 100% tuya. Tú eres dueño de tu dominio y tu marca. El pago mensual es una suscripción por el uso de nuestra infraestructura de alto rendimiento (servidores veloces en Railway) y las horas que dedicamos a mantener y actualizar tu web cada semana.",
+      a: "Es 100% tuya. Tú eres dueño de tu dominio, tus clientes y tu marca. Nuestra suscripción es por el uso de la infraestructura tecnológica (servidores veloces) y las horas que dedicamos a mantener, programar y actualizar tu web cada semana.",
     },
     {
       q: "¿Qué pasa si decido dejar de pagar la suscripción?",
-      a: "Al funcionar como un servicio de infraestructura (como Netflix o Shopify), la falta de pago activo suspenderá temporalmente tu página de nuestros servidores. Puedes reactivarla cuando desees retomando tu suscripción sin perder nada.",
+      a: "Al funcionar como un servicio de infraestructura (similar a Shopify), la web requiere una suscripción activa para mantenerse en los servidores y recibir soporte. Si decides pausar, el servicio se suspende temporalmente, pero puedes reactivarlo cuando desees.",
     },
     {
       q: "¿Tengo que comprar un hosting aparte?",
-      a: "No. El servidor de alto rendimiento en Railway ya está incluido en cualquiera de nuestros planes para garantizar la máxima velocidad de carga. Si ya tienes un hosting propio, podemos evaluar adaptarnos, pero recomendamos usar nuestra infraestructura óptima.",
+      a: "No. El servidor de alto rendimiento ya está incluido en nuestros planes. Si ya cuentas con un hosting propio (como cPanel), te recomendamos nuestro plan de Pago Único Semestral para instalar el sistema directamente en tu servidor.",
     },
     {
       q: "¿Cuánto tardan en realizar los cambios de contenido?",
@@ -2619,29 +2600,29 @@ const Guarantees = () => (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {[
         {
-          icon: Clock,
-          title: "Entrega en plazo o devolvemos",
-          desc: "Si no cumplimos el deadline acordado, devolvemos el 20% del pago final. Sin letras chicas.",
+          icon: Repeat,
+          title: "Evolución Continua",
+          desc: "Olvídate de las 2 o 3 rondas de revisión tradicionales. Nuestro modelo WaaS incluye actualizaciones y cambios de contenido semanales durante toda tu suscripción.",
         },
         {
-          icon: Repeat,
-          title: "2 rondas de revisiones",
-          desc: "No es 'lo que venga quedó'. Tienes dos oportunidades formales para cambios sin costo adicional.",
+          icon: Headphones,
+          title: "Soporte Técnico Permanente",
+          desc: "No hay un límite de '30 días post-lanzamiento'. Mientras tu suscripción esté activa, tu web cuenta con nuestro respaldo técnico directo por WhatsApp.",
+        },
+        {
+          icon: Shield,
+          title: "Propiedad Total y Transparencia",
+          desc: "Tu marca y tu dominio son tuyos desde el día 1. Nosotros proveemos la ingeniería, el código a medida y la infraestructura rápida.",
         },
         {
           icon: Code2,
           title: "Código propio, no plantillas",
-          desc: "Tu proyecto se desarrolla a mano. Carga más rápido, rankea mejor en Google y no depende de suscripciones.",
+          desc: "Tu proyecto se desarrolla a mano. Carga más rápido, rankea mejor en Google y no depende de plugins ni plantillas genéricas.",
         },
         {
-          icon: Shield,
-          title: "Transparencia total",
-          desc: "Sabes exactamente qué incluye y qué NO incluye cada proyecto. Sin costos ocultos ni sorpresas.",
-        },
-        {
-          icon: Headphones,
-          title: "Soporte post-lanzamiento",
-          desc: "30 días de soporte técnico incluido después de la entrega para resolver cualquier detalle.",
+          icon: Clock,
+          title: "Entrega en plazo o devolvemos",
+          desc: "Si no cumplimos el deadline acordado, devolvemos el 20% del pago final. Sin letras chicas.",
         },
         {
           icon: BarChart3,
@@ -2884,9 +2865,9 @@ function AppContent() {
         <Route path="/registro" element={<UserPortal />} />
         <Route path="/portal" element={<UserPortal />} />
         <Route path="/perfil" element={<UserPortal />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
         <Route path="/sorteo" element={<RafflePage />} />
         <Route path="/raffle" element={<RafflePage />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
       {!isPortalRoute && (
         <>

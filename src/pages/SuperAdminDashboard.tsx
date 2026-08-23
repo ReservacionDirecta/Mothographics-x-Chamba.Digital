@@ -141,12 +141,12 @@ const initialClients: ClientProfile[] = [
     phone: "+51 973 111 222",
     company: "Reserva Directa Hotelera",
     plan: "Plan Hoteles",
-    price: "$499.00/mes",
+    price: "$999 (pago único)",
     subscriptionStatus: "active",
     projectStatus: "en_produccion",
     railwayStatus: "activo",
     startDate: "2026-06-01",
-    nextBillingDate: "2026-08-01",
+    nextBillingDate: "-",
     polarSubscriptionId: "sub_polar_ef4fe8",
     autoRenew: true,
     notes: "Hotel de playa con sistema de reservaciones directas sin comisiones y motor de pagos.",
@@ -201,12 +201,12 @@ const initialClients: ClientProfile[] = [
     phone: "+51 988 221 100",
     company: "Wind & Surf Hotel",
     plan: "Plan Hoteles",
-    price: "$499.00/mes",
+    price: "$999 (pago único)",
     subscriptionStatus: "active",
     projectStatus: "en_produccion",
     railwayStatus: "activo",
     startDate: "2026-06-10",
-    nextBillingDate: "2026-08-10",
+    nextBillingDate: "-",
     polarSubscriptionId: "sub_polar_pnegritos",
     autoRenew: true,
     notes: "Hotel eco-lodge frente al mar para practicantes de Kitesurf, Windsurf y Surf.",
@@ -221,12 +221,12 @@ const initialClients: ClientProfile[] = [
     phone: "+51 944 332 211",
     company: "Hacienda Don Vicente",
     plan: "Plan Hoteles",
-    price: "$499.00/mes",
+    price: "$999 (pago único)",
     subscriptionStatus: "active",
     projectStatus: "en_produccion",
     railwayStatus: "activo",
     startDate: "2026-05-15",
-    nextBillingDate: "2026-08-15",
+    nextBillingDate: "-",
     polarSubscriptionId: "sub_polar_hdonvicente",
     autoRenew: true,
     notes: "Hacienda turística y centro de eventos campestres con reserva directa de bungalows.",
@@ -241,12 +241,12 @@ const initialClients: ClientProfile[] = [
     phone: "+51 922 110 099",
     company: "Sauce Hotel Boutique",
     plan: "Plan Hoteles",
-    price: "$499.00/mes",
+    price: "$999 (pago único)",
     subscriptionStatus: "active",
     projectStatus: "en_produccion",
     railwayStatus: "activo",
     startDate: "2026-04-01",
-    nextBillingDate: "2026-08-01",
+    nextBillingDate: "-",
     polarSubscriptionId: "sub_polar_saucepe",
     autoRenew: true,
     notes: "Hotel boutique exclusivo frente a la laguna de Sauce con integración de pagos y reservas.",
@@ -372,6 +372,7 @@ export default function SuperAdminDashboard() {
   const [clients, setClients] = useState<ClientProfile[]>(initialClients);
   const [tasks, setTasks] = useState<TaskItem[]>(initialTasks);
   const [messages, setMessages] = useState<ChatMessage[]>(initialMessages);
+  const [unreadByClient, setUnreadByClient] = useState<Record<string, number>>({});
 
   // User Management State
   const [usersList, setUsersList] = useState<any[]>([]);
@@ -837,6 +838,8 @@ export default function SuperAdminDashboard() {
 
   // Fetch messages for selected client
   const fetchClientMessages = async (clientId: string) => {
+    // Clear unread count for this client when opening their chat
+    setUnreadByClient(prev => ({ ...prev, [clientId]: 0 }));
     const headers = getAdminHeaders();
     try {
       const res = await fetch(`/api/messages/${clientId}`, { headers });
@@ -856,6 +859,12 @@ export default function SuperAdminDashboard() {
           const ids = new Set(prev.map((p) => p.id));
           const merged = [...prev];
           fetched.forEach((m) => { if (!ids.has(m.id)) merged.push(m); });
+          // Track unread messages from clients (not admin)
+          fetched.forEach((m) => {
+            if (m.sender === "client" && m.clientId !== selectedClientId) {
+              setUnreadByClient(prev => ({ ...prev, [m.clientId]: (prev[m.clientId] || 0) + 1 }));
+            }
+          });
           return merged;
         });
       }
@@ -1119,7 +1128,7 @@ export default function SuperAdminDashboard() {
               title={tab.label}
               className={`flex items-center ${
                 isSidebarCollapsed ? "md:justify-center px-2.5" : "gap-2.5 px-3"
-              } py-2 rounded-lg font-bold text-xs transition-all cursor-pointer shrink-0 whitespace-nowrap ${
+              } py-2 rounded-lg font-bold text-xs transition-all cursor-pointer shrink-0 whitespace-nowrap relative ${
                 activeTab === tab.id
                   ? "bg-blue-600 text-white shadow-md"
                   : "text-slate-400 hover:bg-slate-800 hover:text-white"
@@ -1131,6 +1140,11 @@ export default function SuperAdminDashboard() {
                   <span className="hidden sm:inline">{tab.label}</span>
                   <span className="sm:hidden">{tab.label.split(" ")[0]}</span>
                 </>
+              )}
+              {tab.id === "chat" && Object.values(unreadByClient).reduce((a, b) => a + b, 0) > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center">
+                  {Object.values(unreadByClient).reduce((a, b) => a + b, 0)}
+                </span>
               )}
             </button>
           ))}

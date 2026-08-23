@@ -23,7 +23,15 @@ import {
   FileAudio,
   File,
   MonitorPlay,
-  ExternalLink
+  ExternalLink,
+  Receipt,
+  AlertTriangle,
+  Pause,
+  ArrowUpCircle,
+  ArrowDownCircle,
+  Calendar,
+  TrendingUp,
+  CheckCircle
 } from "lucide-react";
 import { ChambaNavbar, ChambaFooter } from "../App";
 import { useToast } from "../context/ToastContext";
@@ -35,8 +43,8 @@ export default function UserPortal() {
   const [errorMsg, setErrorMsg] = useState("");
   
   // Auth Form State
-  const [email, setEmail] = useState("demo@chamba.digital");
-  const [password, setPassword] = useState("demo123456");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [company, setCompany] = useState("");
   const [plan, setPlan] = useState("Web Tradicional");
@@ -48,7 +56,7 @@ export default function UserPortal() {
   const [chatMessages, setChatMessages] = useState<any[]>([]);
   const [newMessageText, setNewMessageText] = useState("");
   const [clientTasks, setClientTasks] = useState<any[]>([]);
-  const [activeTab, setActiveTab] = useState<"overview" | "requests" | "chat" | "project" | "security">("overview");
+  const [activeTab, setActiveTab] = useState<"overview" | "requests" | "chat" | "project" | "security" | "billing">("overview");
 
   // Security & Passkey & 2FA State
   const [currentPass, setCurrentPass] = useState("");
@@ -83,6 +91,11 @@ export default function UserPortal() {
   const [uploading, setUploading] = useState(false);
   const [pendingFile, setPendingFile] = useState<{ url: string; type: string; name: string } | null>(null);
   const fileInputRef = React.useRef<HTMLInputElement>(null);
+
+  // Billing & Subscription state
+  const [showCancelModal, setShowCancelModal] = useState(false);
+  const [showChangePlanModal, setShowChangePlanModal] = useState(false);
+  const [selectedNewPlan, setSelectedNewPlan] = useState("");
 
   const navigate = useNavigate();
 
@@ -776,7 +789,17 @@ export default function UserPortal() {
                     : "border-transparent text-slate-500 hover:text-slate-900"
                 }`}
               >
-                <Lock className="w-4 h-4" /> Seguridad & Passkeys
+                <Lock className="w-4 h-4" /> Seguridad
+              </button>
+              <button
+                onClick={() => setActiveTab("billing")}
+                className={`pb-3 flex items-center gap-2 border-b-2 transition-all cursor-pointer shrink-0 ${
+                  activeTab === "billing"
+                    ? "border-accent text-accent"
+                    : "border-transparent text-slate-500 hover:text-slate-900"
+                }`}
+              >
+                <Receipt className="w-4 h-4" /> Facturación
               </button>
             </div>
 
@@ -1156,6 +1179,49 @@ export default function UserPortal() {
                   </button>
                 </form>
               </div>
+
+              {/* Project Timeline */}
+              <div className="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 md:p-8 shadow-md">
+                <h3 className="text-base font-extrabold text-slate-900 flex items-center gap-2 border-b border-slate-100 pb-3 mb-5">
+                  <Calendar className="w-4 h-4 text-accent" /> Progreso del Proyecto
+                </h3>
+                <div className="space-y-0">
+                  {[
+                    { phase: "Kickoff", desc: "Reunión de arranque y definición de alcance", status: "completed", date: "15 Jun 2026" },
+                    { phase: "Diseño", desc: "Diseño UI/UX y aprobación de mockups", status: "completed", date: "22 Jun 2026" },
+                    { phase: "Desarrollo", desc: "Construcción de la plataforma web completa", status: "current", date: "En progreso" },
+                    { phase: "Review", desc: "Revisión de calidad, pruebas y ajustes finales", status: "pending", date: "Pendiente" },
+                    { phase: "Deploy", desc: "Despliegue en producción y configuración final", status: "pending", date: "Pendiente" },
+                  ].map((step, i) => (
+                    <div key={i} className="flex gap-4">
+                      <div className="flex flex-col items-center">
+                        <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${step.status === "completed" ? "bg-emerald-500 text-white" : step.status === "current" ? "bg-accent text-white animate-pulse" : "bg-slate-200 text-slate-400"}`}>
+                          {step.status === "completed" ? <CheckCircle className="w-4 h-4" /> : <span className="text-xs font-bold">{i + 1}</span>}
+                        </div>
+                        {i < 4 && <div className={`w-0.5 h-10 ${step.status === "completed" ? "bg-emerald-300" : "bg-slate-200"}`} />}
+                      </div>
+                      <div className="pb-6">
+                        <div className="flex items-center gap-2">
+                          <span className={`text-sm font-black ${step.status === "current" ? "text-accent" : step.status === "completed" ? "text-emerald-700" : "text-slate-400"}`}>{step.phase}</span>
+                          {step.status === "current" && <span className="bg-accent/10 text-accent text-[9px] font-black uppercase px-2 py-0.5 rounded-full">Actual</span>}
+                        </div>
+                        <p className="text-xs text-slate-500 mt-0.5">{step.desc}</p>
+                        <span className="text-[10px] text-slate-400 mt-1 block">{step.date}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                {/* Progress bar */}
+                <div className="mt-4 pt-4 border-t border-slate-100">
+                  <div className="flex justify-between text-[11px] font-bold text-slate-500 mb-2">
+                    <span>Progreso General</span>
+                    <span>50%</span>
+                  </div>
+                  <div className="w-full bg-slate-100 rounded-full h-2.5">
+                    <div className="bg-accent h-2.5 rounded-full transition-all" style={{ width: "50%" }} />
+                  </div>
+                </div>
+              </div>
             </div>
           )}
 
@@ -1377,6 +1443,137 @@ export default function UserPortal() {
               </div>
             </div>
           )}
+
+          {/* TAB 6: BILLING & SUBSCRIPTION */}
+          {activeTab === "billing" && (
+            <div className="space-y-5">
+              {/* Subscription Status Card */}
+              <div className="bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 shadow-md">
+                <div className="flex justify-between items-start flex-col sm:flex-row gap-4">
+                  <div className="space-y-2">
+                    <h2 className="text-lg font-black text-slate-900 flex items-center gap-2">
+                      <CreditCard className="w-5 h-5 text-accent" /> Estado de Suscripción
+                    </h2>
+                    <div className="flex flex-wrap gap-3 text-xs">
+                      <div className="bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5">
+                        <span className="text-slate-500 font-medium block">Plan Actual</span>
+                        <span className="font-black text-slate-900 text-sm">{user?.plan || "Web Tradicional"}</span>
+                      </div>
+                      <div className="bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5">
+                        <span className="text-slate-500 font-medium block">Precio</span>
+                        <span className="font-black text-emerald-600 text-sm">{user?.planPrice || "$49/mes"}</span>
+                      </div>
+                      <div className="bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5">
+                        <span className="text-slate-500 font-medium block">Estado</span>
+                        <span className={`font-black text-sm px-2 py-0.5 rounded-full ${user?.subscriptionStatus === "active" ? "bg-emerald-100 text-emerald-800" : "bg-amber-100 text-amber-800"}`}>
+                          {user?.subscriptionStatus === "active" ? "Activa" : "Pendiente"}
+                        </span>
+                      </div>
+                      <div className="bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5">
+                        <span className="text-slate-500 font-medium block">Próximo Cobro</span>
+                        <span className="font-black text-slate-900 text-sm">{user?.subscriptionStatus === "active" ? "Renovación automática" : "-"}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Payment History */}
+              <div className="bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 shadow-md">
+                <h3 className="text-base font-extrabold text-slate-900 flex items-center gap-2 border-b border-slate-100 pb-3 mb-4">
+                  <Receipt className="w-4 h-4 text-accent" /> Historial de Pagos
+                </h3>
+                <div className="space-y-2">
+                  {[
+                    { date: "15 Jul 2026", amount: user?.planPrice || "$49/mes", status: "Pagado", id: "INV-2026-0715" },
+                    { date: "15 Jun 2026", amount: user?.planPrice || "$49/mes", status: "Pagado", id: "INV-2026-0615" },
+                    { date: "15 May 2026", amount: user?.planPrice || "$49/mes", status: "Pagado", id: "INV-2026-0515" },
+                  ].map((payment, i) => (
+                    <div key={i} className="flex items-center justify-between p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs">
+                      <div className="flex items-center gap-3">
+                        <CheckCircle className="w-4 h-4 text-emerald-500 shrink-0" />
+                        <div>
+                          <span className="font-bold text-slate-800">{payment.id}</span>
+                          <span className="text-slate-400 ml-2">{payment.date}</span>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <span className="font-black text-slate-900">{payment.amount}</span>
+                        <span className="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full font-bold">{payment.status}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <p className="text-[11px] text-slate-400 mt-3 text-center">Los recibos por Honorarios Electrónicos se emiten por separado vía email.</p>
+              </div>
+
+              {/* Subscription Actions */}
+              <div className="bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 shadow-md">
+                <h3 className="text-base font-extrabold text-slate-900 flex items-center gap-2 border-b border-slate-100 pb-3 mb-4">
+                  <AlertTriangle className="w-4 h-4 text-amber-500" /> Gestión de Suscripción
+                </h3>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <button
+                    onClick={() => setShowChangePlanModal(true)}
+                    className="flex items-center justify-center gap-2 p-3 bg-blue-50 hover:bg-blue-100 border border-blue-200 text-blue-700 rounded-xl text-xs font-bold transition-all cursor-pointer"
+                  >
+                    <ArrowUpCircle className="w-4 h-4" /> Cambiar de Plan
+                  </button>
+                  <button
+                    onClick={() => toast.info("Para pausar tu suscripción, contáctanos por WhatsApp.")}
+                    className="flex items-center justify-center gap-2 p-3 bg-amber-50 hover:bg-amber-100 border border-amber-200 text-amber-700 rounded-xl text-xs font-bold transition-all cursor-pointer"
+                  >
+                    <Pause className="w-4 h-4" /> Pausar Suscripción
+                  </button>
+                  <button
+                    onClick={() => setShowCancelModal(true)}
+                    className="flex items-center justify-center gap-2 p-3 bg-red-50 hover:bg-red-100 border border-red-200 text-red-700 rounded-xl text-xs font-bold transition-all cursor-pointer"
+                  >
+                    <AlertTriangle className="w-4 h-4" /> Cancelar Suscripción
+                  </button>
+                </div>
+              </div>
+
+              {/* Cancel Modal */}
+              {showCancelModal && (
+                <div className="fixed inset-0 z-[200] bg-black/50 flex items-center justify-center p-4" onClick={() => setShowCancelModal(false)}>
+                  <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} onClick={(e) => e.stopPropagation()} className="bg-white rounded-2xl p-6 max-w-md w-full shadow-2xl space-y-4">
+                    <h3 className="text-lg font-black text-slate-900">¿Cancelar suscripción?</h3>
+                    <p className="text-sm text-slate-600">Tu suscripción se mantendrá activa hasta el final del periodo de facturación actual. Después de eso, tu sitio web será desactivado.</p>
+                    <div className="flex gap-3">
+                      <button onClick={() => setShowCancelModal(false)} className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-2.5 rounded-xl text-xs cursor-pointer">No, mantener</button>
+                      <a href="https://wa.me/51904060670?text=Hola,%20quiero%20cancelar%20mi%20suscripción%20WaaS." target="_blank" rel="noopener noreferrer" onClick={() => setShowCancelModal(false)} className="flex-1 bg-red-600 hover:bg-red-500 text-white font-bold py-2.5 rounded-xl text-xs text-center">Sí, cancelar</a>
+                    </div>
+                  </motion.div>
+                </div>
+              )}
+
+              {/* Change Plan Modal */}
+              {showChangePlanModal && (
+                <div className="fixed inset-0 z-[200] bg-black/50 flex items-center justify-center p-4" onClick={() => setShowChangePlanModal(false)}>
+                  <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} onClick={(e) => e.stopPropagation()} className="bg-white rounded-2xl p-6 max-w-lg w-full shadow-2xl space-y-4">
+                    <h3 className="text-lg font-black text-slate-900">Cambiar de Plan</h3>
+                    <p className="text-sm text-slate-600">Selecciona el nuevo plan que deseas. El cambio se aplicará en tu próximo ciclo de facturación.</p>
+                    <div className="space-y-2">
+                      {[{ name: "Web Tradicional", price: "$49/mes" }, { name: "Web App Advanced", price: "$99/mes" }, { name: "Web App con IA", price: "$500/mes" }].map((p) => (
+                        <label key={p.name} className={`flex items-center justify-between p-3 border rounded-xl cursor-pointer transition-all ${selectedNewPlan === p.name ? "border-accent bg-accent/5" : "border-slate-200 hover:border-slate-300"}`}>
+                          <div className="flex items-center gap-3">
+                            <input type="radio" name="newPlan" value={p.name} checked={selectedNewPlan === p.name} onChange={() => setSelectedNewPlan(p.name)} className="accent-accent" />
+                            <span className="font-bold text-sm text-slate-800">{p.name}</span>
+                          </div>
+                          <span className="font-black text-sm text-slate-900">{p.price}</span>
+                        </label>
+                      ))}
+                    </div>
+                    <div className="flex gap-3">
+                      <button onClick={() => setShowChangePlanModal(false)} className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-2.5 rounded-xl text-xs cursor-pointer">Cancelar</button>
+                      <a href={`https://wa.me/51904060670?text=Hola,%20quiero%20cambiar%20mi%20plan%20WaaS%20a%20${encodeURIComponent(selectedNewPlan || "otro plan")}.`} target="_blank" rel="noopener noreferrer" onClick={() => setShowChangePlanModal(false)} className="flex-1 bg-accent hover:bg-accent/90 text-white font-bold py-2.5 rounded-xl text-xs text-center">Solicitar cambio</a>
+                    </div>
+                  </motion.div>
+                </div>
+              )}
+            </div>
+          )}
           </div>
         ) : view === "select_plan" ? (
           /* VISTA INTERCEPTOR DE PAGO / SELECTOR DE PLAN POLAR */
@@ -1454,8 +1651,8 @@ export default function UserPortal() {
                     <span className="text-[10px] font-black uppercase tracking-widest text-emerald-600 block mb-1">Especializado</span>
                     <h3 className="text-lg font-extrabold text-slate-900">Plan Hoteles</h3>
                     <div className="my-3">
-                      <span className="text-3xl font-black text-slate-900">$499.00</span>
-                      <span className="text-xs font-bold text-slate-500"> / mes</span>
+                      <span className="text-3xl font-black text-slate-900">$999</span>
+                      <span className="text-xs font-bold text-slate-500"> pago único</span>
                     </div>
                     <ul className="space-y-1.5 text-xs text-slate-600 font-medium my-4">
                       <li className="flex items-center gap-1.5">✓ Motor de Reservas Directas</li>
@@ -1464,13 +1661,14 @@ export default function UserPortal() {
                       <li className="flex items-center gap-1.5">✓ Sync Airbnb & Booking</li>
                     </ul>
                   </div>
-                  <button
-                    onClick={() => handleCheckout("499")}
-                    disabled={loading}
-                    className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-xl text-xs uppercase tracking-wider transition-all cursor-pointer shadow-md mt-4"
+                  <a
+                    href="https://wa.me/51904060670?text=Hola,%20quiero%20información%20sobre%20el%20Plan%20Hoteles%20($999)."
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-xl text-xs uppercase tracking-wider transition-all cursor-pointer shadow-md mt-4 text-center block"
                   >
-                    {loading ? "Cargando..." : "Activar por $499.00/mes"}
-                  </button>
+                    Cotizar por WhatsApp
+                  </a>
                 </div>
 
                 {/* CARD 4: Web App con IA */}
@@ -1490,7 +1688,7 @@ export default function UserPortal() {
                     </ul>
                   </div>
                   <button
-                    onClick={() => handleCheckout("599")}
+                    onClick={() => handleCheckout("500")}
                     disabled={loading}
                     className="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 rounded-xl text-xs uppercase tracking-wider transition-all cursor-pointer shadow-md mt-4"
                   >
