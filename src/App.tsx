@@ -65,6 +65,8 @@ import {
   Terminal,
   Layers,
   LogOut,
+  Activity,
+  Lock,
 } from "lucide-react";
 
 // --- Components for Conversion & Lead Flow (Phase 3) ---
@@ -1336,44 +1338,91 @@ const Portfolio = () => {
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.8 }}
-        className="mt-20 w-full glass rounded-[32px] border-accent/20 bg-accent/[0.02] overflow-hidden group shadow-[0_10px_30px_rgba(59,130,246,0.05)]"
+        transition={{ duration: 0.7 }}
+        className="mt-20 w-full rounded-[28px] border border-slate-200 bg-slate-900 text-white overflow-hidden shadow-xl"
       >
-        <div className="grid grid-cols-1 lg:grid-cols-2 items-center">
-          <div className="p-8 lg:p-16 relative z-10">
-            <span className="text-[11px] font-black uppercase tracking-[0.4em] text-accent mb-4 block">
-              Software Corporativo in-house
-            </span>
-            <h3 className="text-[28px] md:text-[36px] font-black tracking-tight mb-6 flex items-center gap-3">
-              <Zap className="w-8 h-8 text-accent" />
+        <div className="grid grid-cols-1 lg:grid-cols-12 items-center">
+          <div className="p-8 lg:p-14 lg:col-span-6 z-10">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/10 border border-amber-400/20 text-amber-400 text-[11px] font-bold uppercase tracking-wider mb-5">
+              <Sparkles className="w-3.5 h-3.5" />
+              Software in-house & IA
+            </div>
+            
+            <h3 className="text-[28px] md:text-[34px] font-black tracking-tight mb-4 text-white leading-tight">
               Ingeniería Propia: Hothelia SaaS
             </h3>
-            <p className="text-[15px] md:text-[17px] text-muted leading-relaxed mb-8">
-              Una demostración palpable de nuestra capacidad técnica.
-              Desarrollamos y operamos nuestra propia plataforma. Hothelia
-              resuelve problemas operativos reales en el sector hospitalidad
-              mediante automatización nativa y arquitectura cloud, validando
-              nuestra tecnología en escenarios de alta exigencia comercial.
+            
+            <p className="text-[14px] md:text-[16px] text-slate-300 leading-relaxed mb-6 font-normal">
+              Desarrollamos y operamos nuestra propia plataforma tecnológica. Hothelia resuelve la operativa hotelera integrando motor de reservas directas con 0% comisiones, Channel Manager y agentes de IA en WhatsApp.
             </p>
 
-            <motion.a
+            <div className="space-y-2.5 mb-8 text-[13px] text-slate-300 font-medium">
+              <div className="flex items-center gap-2.5">
+                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                <span>Agente de Inteligencia Artificial en WhatsApp 24/7</span>
+              </div>
+              <div className="flex items-center gap-2.5">
+                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                <span>PMS & Channel Manager sincronizado con OTAs</span>
+              </div>
+              <div className="flex items-center gap-2.5">
+                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                <span>Arquitectura Cloud con 99.9% de Uptime</span>
+              </div>
+            </div>
+
+            <a
               href="https://hothelia.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 bg-white/5 border border-white/10 hover:border-accent/40 px-6 py-4 rounded-[12px] font-bold text-fg text-[14px] transition-all hover:bg-white/10 group/btn"
+              className="inline-flex items-center gap-2 bg-amber-400 hover:bg-amber-300 text-slate-950 px-6 py-3.5 rounded-xl font-bold text-[13px] uppercase tracking-wider transition-colors shadow-sm"
             >
-              <span>Explorar Plataforma SaaS</span>
-              <ArrowRight className="w-4 h-4 text-accent transform group-hover/btn:translate-x-1 transition-transform" />
-            </motion.a>
+              <span>Explorar Hothelia.com</span>
+              <ExternalLink className="w-4 h-4" />
+            </a>
           </div>
-          <div className="relative h-[300px] lg:h-full lg:min-h-[450px] w-full bg-black/20 border-t lg:border-t-0 lg:border-l border-white/5 overflow-hidden">
-            <img
-              src="/thumbs/hothelia.webp"
-              alt="Hothelia Dashboard"
-              referrerPolicy="no-referrer"
-              className="absolute inset-0 w-full h-full object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-80 transition-all duration-1000 group-hover:scale-105"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-bg via-black/40 to-transparent lg:bg-gradient-to-l lg:from-transparent lg:via-black/20 lg:to-bg" />
+
+          <div className="p-6 lg:p-10 lg:col-span-6 bg-slate-950/60 flex items-center justify-center border-t lg:border-t-0 lg:border-l border-slate-800">
+            {/* High-Resolution Browser Mockup for Hothelia */}
+            <div className="w-full rounded-2xl border border-slate-700/80 bg-slate-900 shadow-2xl overflow-hidden group/hothelia">
+              {/* Browser bar */}
+              <div className="px-4 py-2.5 bg-slate-800/90 border-b border-slate-700/80 flex items-center justify-between gap-3">
+                <div className="flex items-center gap-1.5">
+                  <div className="w-2.5 h-2.5 rounded-full bg-red-400/80"></div>
+                  <div className="w-2.5 h-2.5 rounded-full bg-amber-400/80"></div>
+                  <div className="w-2.5 h-2.5 rounded-full bg-emerald-400/80"></div>
+                </div>
+                <div className="bg-slate-950/80 border border-slate-700/60 rounded-md px-3 py-0.5 text-[11px] font-mono text-slate-300 flex items-center gap-1.5 shadow-2xs">
+                  <Lock className="w-3 h-3 text-emerald-400" />
+                  <span>https://hothelia.com</span>
+                </div>
+                <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+                  <Activity className="w-3 h-3" />
+                  Live
+                </span>
+              </div>
+
+              {/* Full Color Sharp Screenshot */}
+              <div className="relative aspect-[16/10] overflow-hidden bg-white">
+                <img
+                  src="/thumbs/hothelia.webp"
+                  alt="Hothelia SaaS Platform"
+                  loading="lazy"
+                  className="w-full h-full object-cover object-top transform group-hover/hothelia:scale-105 transition-transform duration-700 ease-out"
+                />
+                
+                {/* Micro tech badge overlay */}
+                <div className="absolute bottom-3 left-3 right-3 bg-slate-950/90 backdrop-blur-md text-white rounded-xl p-3 border border-slate-700/80 shadow-lg flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></div>
+                    <span className="text-[11px] font-bold text-slate-200">Ecosistema PMS + IA Hotelera</span>
+                  </div>
+                  <span className="text-[10px] font-mono text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded border border-amber-400/20">
+                    SaaS In-House
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </motion.div>
@@ -1784,91 +1833,240 @@ export const ChambaNavbar = () => {
   );
 };
 
+const showcaseProjects = [
+  {
+    id: "penalinda",
+    category: "Hotelería & PMS",
+    name: "Peña Linda Bungalows",
+    url: "penalindamancora.com",
+    tag: "Motor de Reservas Directo",
+    thumb: "/thumbs/penalindamancora.webp",
+    lcp: "0.6s",
+    score: "100",
+  },
+  {
+    id: "latam",
+    category: "Consultoría & Legal B2B",
+    name: "LATAM Abogados",
+    url: "latamabogados.com",
+    tag: "Captación Automática de Leads",
+    thumb: "/thumbs/latamabogados.webp",
+    lcp: "0.5s",
+    score: "100",
+  },
+  {
+    id: "olivos",
+    category: "E-Commerce & Exportación",
+    name: "Olivos del Perú",
+    url: "olivosdelperu.com",
+    tag: "Catálogo & WhatsApp API",
+    thumb: "/thumbs/olivosdelperu.webp",
+    lcp: "0.7s",
+    score: "99",
+  },
+];
+
 const ChambaHero = () => {
-  const sectionRef = useRef(null);
-  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start end", "start start"] });
-
-  const labelOpacity = useTransform(scrollYProgress, [0.12, 0.3], [0, 1]);
-  const labelY = useTransform(scrollYProgress, [0.12, 0.3], [-15, 0]);
-
-  const titleOpacity = useTransform(scrollYProgress, [0.15, 0.35], [0, 1]);
-  const titleY = useTransform(scrollYProgress, [0.15, 0.35], [40, 0]);
-
-  const subtitleOpacity = useTransform(scrollYProgress, [0.2, 0.4], [0, 1]);
-  const subtitleY = useTransform(scrollYProgress, [0.2, 0.4], [25, 0]);
-
-  const ctaOpacity = useTransform(scrollYProgress, [0.25, 0.45], [0, 1]);
-  const ctaY = useTransform(scrollYProgress, [0.25, 0.45], [30, 0]);
-
-  const statsOpacity = useTransform(scrollYProgress, [0.35, 0.55], [0, 1]);
-  const statsY = useTransform(scrollYProgress, [0.35, 0.55], [20, 0]);
+  const [activeProject, setActiveProject] = useState(0);
+  const current = showcaseProjects[activeProject];
 
   return (
-    <section ref={sectionRef} className="relative min-h-[85vh] flex flex-col items-center text-center justify-center pt-[70px] pb-20 px-6 md:px-10 overflow-hidden max-w-[1024px] mx-auto">
-      <div className="z-10">
-        <motion.span
-          className="label-editorial mx-auto"
-          style={{ opacity: labelOpacity, y: labelY }}
+    <section className="relative pt-12 md:pt-16 pb-20 px-6 md:px-10 overflow-hidden max-w-[1140px] mx-auto">
+      {/* Intro Content */}
+      <div className="flex flex-col items-center text-center max-w-[900px] mx-auto mb-12">
+        {/* Step 1: Status Pill */}
+        <motion.div
+          initial={{ opacity: 0, y: -15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-slate-100 border border-slate-200/80 mb-6 shadow-2xs"
         >
-          Web as a Service (WaaS)
-        </motion.span>
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+          </span>
+          <span className="text-[11px] font-bold uppercase tracking-wider text-slate-700">
+            Partner WaaS e Ingeniería Digital · Planes desde $49/mes
+          </span>
+        </motion.div>
 
+        {/* Step 2: Main Headline */}
         <motion.h1
-          className="text-[36px] sm:text-[48px] md:text-[56px] max-w-[850px] leading-[1.1] md:leading-[1] mb-6 font-black tracking-tight text-slate-900"
-          style={{ opacity: titleOpacity, y: titleY }}
+          initial={{ opacity: 0, y: 25 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+          className="text-[38px] sm:text-[50px] md:text-[62px] font-black leading-[1.08] md:leading-[1.04] tracking-tight text-slate-900 mb-6"
         >
           Tu Web Profesional a Medida. <br />
-          <span className="text-accent">Sin pagar miles por adelantado</span>.
+          <span className="text-accent">Sin pagar miles por adelantado.</span>
         </motion.h1>
 
+        {/* Step 3: Subtitle */}
         <motion.p
-          className="text-[16px] md:text-[18px] text-slate-600 font-medium leading-[1.6] max-w-[650px] mb-10 mx-auto px-4"
-          style={{ opacity: subtitleOpacity, y: subtitleY }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          className="text-[16px] md:text-[19px] text-slate-600 font-normal leading-relaxed max-w-[700px] mb-8"
         >
-          Por $49/mes cubrimos tu tecnología, el servidor ultrarrápido y cambios ilimitados. Tú te enfocas en vender, nosotros somos tu equipo técnico.
+          Por $49/mes cubrimos tu tecnología, el servidor cloud de alta velocidad y cambios ilimitados. Tú te enfocas en vender, nosotros somos tu equipo de ingeniería.
         </motion.p>
 
+        {/* Step 4: CTAs & Micro-guarantees */}
         <motion.div
-          className="flex flex-col sm:flex-row items-center justify-center gap-4 px-6"
-          style={{ opacity: ctaOpacity, y: ctaY }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
+          className="flex flex-col items-center gap-4 w-full"
         >
-          <motion.a
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            href="https://wa.me/51904060670?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20sus%20planes%20WaaS."
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-accent hover:bg-accent/90 text-white px-7 py-3.5 rounded-xl font-bold text-[14px] shadow-sm transition-colors flex items-center justify-center gap-2 uppercase tracking-wider"
-          >
-            <WhatsAppIcon className="w-5 h-5" />
-            Hablar con un Asesor
-          </motion.a>
-          <Link
-            to="/servicios"
-            className="inline-flex items-center gap-2 text-[14px] font-bold text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 px-6 py-3.5 rounded-xl transition-colors"
-          >
-            Ver Planes WaaS
-            <ArrowRight className="w-4 h-4" />
-          </Link>
-        </motion.div>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 w-full sm:w-auto">
+            <motion.a
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              href="https://wa.me/51904060670?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20sus%20planes%20WaaS."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full sm:w-auto bg-accent hover:bg-accent/90 text-white px-7 py-4 rounded-xl font-bold text-[14px] shadow-sm transition-colors flex items-center justify-center gap-2 uppercase tracking-wider"
+            >
+              <WhatsAppIcon className="w-5 h-5" />
+              Hablar con un Asesor por WhatsApp
+            </motion.a>
+            <Link
+              to="/servicios"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 text-[14px] font-bold text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 px-6 py-4 rounded-xl transition-colors"
+            >
+              Ver Planes y Precios
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
 
-        {/* Social Proof Stats */}
-        <motion.div
-          style={{ opacity: statsOpacity, y: statsY }}
-          className="mt-14 pt-8 border-t border-slate-200/80 flex flex-wrap items-center justify-center gap-8 md:gap-14"
-        >
-          {[
-            { value: "+50", label: "Proyectos Desplegados" },
-            { value: "+10", label: "Años de Experiencia" },
-            { value: "24/7", label: "Infraestructura Activa" },
-          ].map((stat, i) => (
-            <div key={i} className="flex flex-col items-center gap-1">
-              <span className="text-[26px] md:text-[32px] font-black text-accent tracking-tight">{stat.value}</span>
-              <span className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em]">{stat.label}</span>
-            </div>
-          ))}
+          <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1.5 text-[12px] font-medium text-slate-500 mt-1">
+            <span className="flex items-center gap-1.5">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+              Sin permanencia forzosa
+            </span>
+            <span className="flex items-center gap-1.5">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+              Entrega en 7 días
+            </span>
+            <span className="flex items-center gap-1.5">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+              Tu dominio y marca son 100% tuyos
+            </span>
+          </div>
         </motion.div>
       </div>
+
+      {/* Step 5: Interactive Browser Showcase */}
+      <motion.div
+        initial={{ opacity: 0, y: 40, scale: 0.97 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.8, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        className="max-w-[960px] mx-auto mb-14"
+      >
+        {/* Category switcher tabs */}
+        <div className="flex items-center justify-center gap-2 mb-3 overflow-x-auto pb-1">
+          {showcaseProjects.map((p, idx) => (
+            <button
+              key={p.id}
+              onClick={() => setActiveProject(idx)}
+              className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 shrink-0 ${
+                activeProject === idx
+                  ? "bg-slate-900 text-white shadow-xs"
+                  : "bg-slate-100 text-slate-600 hover:bg-slate-200/80"
+              }`}
+            >
+              <Globe className="w-3.5 h-3.5 opacity-70" />
+              {p.name}
+              <span className="text-[10px] opacity-60 ml-0.5 hidden sm:inline">({p.category})</span>
+            </button>
+          ))}
+        </div>
+
+        {/* Browser Frame */}
+        <div className="rounded-2xl border border-slate-200 bg-white shadow-lg overflow-hidden">
+          {/* Browser Header Bar */}
+          <div className="px-4 py-3 bg-slate-50 border-b border-slate-200 flex items-center justify-between gap-4">
+            <div className="flex items-center gap-1.5">
+              <div className="w-3 h-3 rounded-full bg-slate-300"></div>
+              <div className="w-3 h-3 rounded-full bg-slate-300"></div>
+              <div className="w-3 h-3 rounded-full bg-slate-300"></div>
+            </div>
+
+            <div className="flex-1 max-w-sm mx-auto">
+              <div className="bg-white border border-slate-200/90 rounded-md px-3 py-1 text-[11px] font-mono text-slate-600 flex items-center justify-center gap-1.5 shadow-2xs">
+                <Lock className="w-3 h-3 text-emerald-600" />
+                <span className="truncate">https://{current.url}</span>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <span className="hidden sm:inline-flex items-center gap-1 text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200/60">
+                <Activity className="w-3 h-3" />
+                99.9% Uptime
+              </span>
+            </div>
+          </div>
+
+          {/* Project Preview Image with Overlay Pill */}
+          <div className="relative aspect-[16/9] sm:aspect-[16/8.5] bg-slate-950 overflow-hidden group">
+            <AnimatePresence mode="wait">
+              <motion.img
+                key={current.id}
+                src={current.thumb}
+                alt={current.name}
+                initial={{ opacity: 0, scale: 1.02 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.35, ease: "easeOut" }}
+                className="w-full h-full object-cover object-top"
+              />
+            </AnimatePresence>
+
+            {/* Performance Metric Pill Overlay */}
+            <div className="absolute bottom-4 left-4 right-4 sm:right-auto bg-slate-900/90 backdrop-blur-md text-white rounded-xl p-3.5 border border-slate-700/60 shadow-xl flex items-center gap-4">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-mono font-bold text-xs">
+                  {current.score}
+                </div>
+                <div>
+                  <div className="text-[11px] font-bold uppercase tracking-wider text-slate-300">Lighthouse</div>
+                  <div className="text-[10px] text-emerald-400 font-medium">100% Performance</div>
+                </div>
+              </div>
+              <div className="h-6 w-[1px] bg-slate-700 hidden sm:block"></div>
+              <div className="hidden sm:block">
+                <div className="text-[11px] font-bold text-white">{current.tag}</div>
+                <div className="text-[10px] text-slate-400">Carga en {current.lcp} · React 19 + Cloud SSL</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Step 6: Client Trust Logos Row */}
+      <motion.div
+        initial={{ opacity: 0, y: 15 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7, delay: 0.75, ease: [0.16, 1, 0.3, 1] }}
+        className="text-center pt-6 border-t border-slate-200/80"
+      >
+        <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-600 mb-5">
+          Infraestructura web y software desplegado para marcas y empresas
+        </p>
+        <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-slate-600 text-[13px] font-bold">
+          <span className="hover:text-slate-900 transition-colors">Peña Linda Bungalows</span>
+          <span className="text-slate-300 hidden sm:inline">·</span>
+          <span className="hover:text-slate-900 transition-colors">LATAM Abogados</span>
+          <span className="text-slate-300 hidden sm:inline">·</span>
+          <span className="hover:text-slate-900 transition-colors">Fundo Achamaqui</span>
+          <span className="text-slate-300 hidden sm:inline">·</span>
+          <span className="hover:text-slate-900 transition-colors">Sauce Hotel Boutique</span>
+          <span className="text-slate-300 hidden sm:inline">·</span>
+          <span className="hover:text-slate-900 transition-colors">Olivos del Perú</span>
+          <span className="text-slate-300 hidden sm:inline">·</span>
+          <span className="hover:text-slate-900 transition-colors">Dupla Work</span>
+        </div>
+      </motion.div>
     </section>
   );
 };
@@ -2426,37 +2624,37 @@ const ProcessTimeline = () => (
           {
             step: "01",
             title: "Briefing & Estrategia",
-            desc: "Analizamos tu negocio, definimos objetivos y trazamos el plan de acción con entregables claros.",
+            desc: "Analizamos tu negocio, definimos objetivos y trazamos la arquitectura de tu web o app.",
             icon: Target,
           },
           {
             step: "02",
             title: "Diseño UX/UI",
-            desc: "Prototipamos la experiencia visual en modo Liquid Glass para que apruebes antes de programar.",
+            desc: "Prototipamos la experiencia visual y los flujos interactivos para que apruebes antes de programar.",
             icon: Palette,
           },
           {
             step: "03",
-            title: "Desarrollo & Integración",
-            desc: "Código propio optimizado. Integramos PMS, pasarelas de pago, Pixel, Analytics y tu CRM.",
+            title: "Desarrollo con Código Propio",
+            desc: "Arquitectura moderna en React/Vite. Integramos pasarelas de pago, bases de datos y APIs.",
             icon: Code2,
           },
           {
             step: "04",
-            title: "Revisión & QA",
-            desc: "2 rondas de ajustes incluidas. Verificamos en móvil, tablet y desktop. Nada sale sin tu OK.",
+            title: "Pruebas Técnicas & QA",
+            desc: "Auditoría de rendimiento Lighthouse 100/100, SEO estructurado y compatibilidad multidispositivo.",
             icon: CheckCircle2,
           },
           {
             step: "05",
-            title: "Lanzamiento",
-            desc: "Desplegamos en producción, configuramos SEO, activamos campañas y encendemos el tracking.",
+            title: "Lanzamiento Cloud",
+            desc: "Desplegamos en infraestructura de alta disponibilidad con certificado SSL y dominio activo.",
             icon: Zap,
           },
           {
             step: "06",
-            title: "Soporte 30 días",
-            desc: "Post-lanzamiento incluido. Cualquier ajuste técnico se resuelve sin costo adicional.",
+            title: "Evolución & Soporte Continuo",
+            desc: "Mantenimiento proactivo, iteraciones de contenido y soporte prioritario directo por WhatsApp.",
             icon: Headphones,
           },
         ].map((item, i) => (

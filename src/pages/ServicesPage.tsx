@@ -38,10 +38,10 @@ const ServicesPage: React.FC = () => {
         "Código 100% propio (sin plantillas)",
         "Actualizaciones de contenido incluidas",
         "Mantenimiento técnico continuo",
-        "Despliegue en Railway (desde $5/mes a tu cuenta)",
+        "Infraestructura Cloud de Alto Rendimiento incluida",
         "Certificado SSL & Dominio configurado",
         "Soporte rápido por WhatsApp",
-        "Promo semestral: $245 (6 meses, paga 5)"
+        "Promo semestral: $245 (6 meses)"
       ]
     },
     {
@@ -57,15 +57,15 @@ const ServicesPage: React.FC = () => {
         "Base de datos & Panel Admin dinámico",
         "Integración de Pasarelas y APIs",
         "Cambios e iteraciones semanales",
-        "Despliegue escalable en Railway",
+        "Infraestructura Cloud + Backups incluidos",
         "Optimización de velocidad y SEO",
         "Soporte prioritario directo",
-        "Promo semestral: $495 (6 meses, paga 5)"
+        "Promo semestral: $495 (6 meses)"
       ]
     },
     {
       title: "Web App con IA",
-      price: "$599.99",
+      price: "$500",
       period: "/ mes",
       badge: "Empresarial & IA",
       icon: Sparkles,
@@ -75,7 +75,7 @@ const ServicesPage: React.FC = () => {
         "Agentes de IA y Asistentes 24/7",
         "Automatización de procesos operativos",
         "Integración con WhatsApp y CRMs",
-        "Servidores privados y bases vectoriales",
+        "Infraestructura Cloud Dedicada",
         "Monitoreo constante y respaldos",
         "Consultoría y evolución mensual"
       ]
@@ -96,10 +96,10 @@ const ServicesPage: React.FC = () => {
       features: ["Integración WhatsApp Webhooks", "Agentes de Venta 24/7", "Procesamiento de Documentos", "Flujos Inteligentes"]
     },
     {
-      title: "Arquitectura Cloud & Railway",
+      title: "Infraestructura Cloud & Rendimiento",
       icon: Server,
-      desc: "Despliegue en Railway con uptime del 99.9% y costo desde $5/mes.",
-      features: ["Despliegue en Railway desde $5/mes", "Bases de Datos PostgreSQL / Redis", "Certificados SSL Automáticos", "Uptime de 99.9%"]
+      desc: "Servidores cloud de alto rendimiento con 99.9% de uptime y soporte activo.",
+      features: ["Infraestructura Cloud Optimizada", "Bases de Datos PostgreSQL / Redis", "Certificados SSL Automáticos", "Uptime de 99.9%"]
     },
     {
       title: "Medición & Analytics de Conversión",

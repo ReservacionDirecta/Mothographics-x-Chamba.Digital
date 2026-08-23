@@ -33,42 +33,36 @@ const HotelsLandingPage: React.FC = () => {
 
   const clients = [
     {
-      emoji: "🏨",
       name: "Hotel Costa Blanca",
       location: "Vichayito – Perú",
       tasks: ["Plataforma Web WaaS", "Catálogo Dinámico de Habitaciones", "Motor de Reservas Directas", "Integración WhatsApp", "Soporte Cloud"],
       focus: "Operación comercial autónoma y reservas directas."
     },
     {
-      emoji: "🌿",
       name: "Fundo Achamaqui",
       location: "Chachapoyas – Perú",
       tasks: ["PMS + Reservas", "Diseño de Paquetes Premium", "Pricing Estratégico", "Conversión IA"],
       focus: "Hospedaje convertido en producto turístico."
     },
     {
-      emoji: "🌊",
       name: "Punta Negritos | Wind & Surf",
       location: "Talara – Perú",
       tasks: ["PMS Configurado", "Web Oficial", "OTAs Sincronizadas", "Google Business"],
       focus: "Lanzamiento digital y canales de venta activos."
     },
     {
-      emoji: "🌴",
       name: "Hacienda Don Vicente",
       location: "Tarapoto – Perú",
       tasks: ["Copywriting Estratégico", "Promociones Estacionales", "Ofertas Premium", "Conversión"],
       focus: "Incremento de reservas vía comunicación estratégica."
     },
     {
-      emoji: "🏔️",
       name: "Sauce Hotel Boutique",
       location: "Ollantaytambo – Perú",
       tasks: ["PMS Optimizado", "Pricing Dinámico", "Sincronización OTAs", "Soporte Técnico"],
       focus: "Eficiencia operativa y control total."
     },
     {
-      emoji: "🏡",
       name: "Casa QX | Hotel Boutique",
       location: "Pachacamac – Perú",
       tasks: ["Concepto Boutique", "Comunicación Premium", "Posicionamiento", "Contenido Visual"],
@@ -310,15 +304,17 @@ const HotelsLandingPage: React.FC = () => {
                 initial={{ opacity: 0, scale: 0.95 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
-                whileHover={{ y: -10, borderColor: "rgba(59, 130, 246, 0.4)" }}
+                whileHover={{ y: -6, borderColor: "rgba(59, 130, 246, 0.4)" }}
                 onClick={() => setSelectedClient(client)}
-                className="p-6 glass rounded-[24px] border-white/5 flex flex-col items-center text-center cursor-pointer group transition-all smooth-gpu"
+                className="p-7 rounded-[22px] border border-slate-200 bg-white shadow-xs hover:shadow-md flex flex-col items-center text-center cursor-pointer group transition-all"
               >
-                <span className="text-5xl mb-6 group-hover:scale-110 transition-transform">{client.emoji}</span>
-                <h3 className="text-[18px] font-black leading-tight mb-1 group-hover:text-accent transition-colors">{client.name}</h3>
-                <p className="text-[12px] text-muted font-bold uppercase tracking-[0.2em] mb-6">{client.location}</p>
-                <button className="mt-auto flex items-center gap-2 text-[11px] font-black uppercase tracking-widest text-accent opacity-0 group-hover:opacity-100 transition-all">
-                  Ver Estrategia <Info className="w-3 h-3" />
+                <div className="w-14 h-14 rounded-2xl bg-accent/10 text-accent flex items-center justify-center mb-5 group-hover:scale-105 transition-transform">
+                  <Building2 className="w-7 h-7" />
+                </div>
+                <h3 className="text-[17px] font-black leading-tight mb-1 text-slate-900 group-hover:text-accent transition-colors">{client.name}</h3>
+                <p className="text-[11px] text-slate-500 font-bold uppercase tracking-wider mb-5">{client.location}</p>
+                <button className="mt-auto flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-accent">
+                  Ver Estrategia <Info className="w-3.5 h-3.5" />
                 </button>
               </motion.div>
             ))}
@@ -329,14 +325,12 @@ const HotelsLandingPage: React.FC = () => {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="mt-16 p-10 glass rounded-[32px] border-accent/30 bg-accent/5 relative overflow-hidden smooth-gpu"
+            className="mt-16 p-8 md:p-10 rounded-3xl border border-slate-200 bg-slate-50/80 relative overflow-hidden"
           >
-            <div className="absolute top-0 right-0 p-8 opacity-10">
-              <BarChart3 className="w-24 h-24 text-accent" />
-            </div>
             <div className="relative z-10 max-w-[800px]">
-              <h3 className="text-[24px] font-black mb-6 flex items-center gap-3">
-                <span className="text-2xl">📊</span> Conclusión Global
+              <h3 className="text-[22px] md:text-[24px] font-black mb-6 flex items-center gap-2.5 text-slate-900">
+                <BarChart3 className="w-6 h-6 text-accent" />
+                Conclusión y Fases Estratégicas
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 {[

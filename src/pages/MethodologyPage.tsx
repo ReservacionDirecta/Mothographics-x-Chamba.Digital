@@ -10,28 +10,28 @@ import {
 
 const steps = [
   {
-    step: "01", title: "Estrategia de Ventas", icon: Target,
-    desc: "Wireframes orientados a conversión.",
+    step: "01", title: "Estrategia & Requerimientos", icon: Target,
+    desc: "Análisis de objetivos comerciales y arquitectura del proyecto.",
     accent: "bg-blue-500/10 text-blue-500"
   },
   {
-    step: "02", title: "Diseño Liquid Glass", icon: Palette,
-    desc: "Prototipos aprobados por ti.",
+    step: "02", title: "Diseño & Prototipado UX/UI", icon: Palette,
+    desc: "Estructura visual y flujos interactivos aprobados por ti.",
     accent: "bg-purple-500/10 text-purple-500"
   },
   {
-    step: "03", title: "Ingeniería de Performance", icon: Code2,
-    desc: "Código rápido, sin plantillas. Integrado a ventas.",
+    step: "03", title: "Desarrollo con Código Propio", icon: Code2,
+    desc: "Arquitectura moderna (React/Vite) optimizada para alta velocidad.",
     accent: "bg-orange-500/10 text-orange-500"
   },
   {
-    step: "04", title: "Optimización Crítica", icon: CheckCircle2,
-    desc: "Ajustes semanales hasta la perfección.",
+    step: "04", title: "Pruebas Técnicas & QA", icon: CheckCircle2,
+    desc: "Auditoría de rendimiento, SEO técnico y seguridad.",
     accent: "bg-green-500/10 text-green-500"
   },
   {
-    step: "05", title: "Escala & Lanzamiento", icon: Rocket,
-    desc: "Deploy escalable para cerrar ventas 24/7.",
+    step: "05", title: "Despliegue & Soporte Continuo", icon: Rocket,
+    desc: "Puesta en producción y mantenimiento activo semanal.",
     accent: "bg-red-500/10 text-red-500"
   },
 ];

@@ -98,7 +98,7 @@ const EcommerceLandingPage: React.FC = () => {
             {[
               {
                 title: "Alta Conversión (CRO)",
-                desc: "Checkouts de un solo paso y diseño Liquid Glass orientado a la venta inmediata.",
+                desc: "Checkouts de un solo paso y arquitectura UX optimizada para máxima tasa de conversión y venta inmediata.",
                 icon: ShoppingCart
               },
               {

@@ -7,12 +7,13 @@ import { ProjectCardThumbnail } from "../components/common/ProjectCardThumbnail"
 import {
   ArrowRight, CheckCircle2, X, Zap, ExternalLink, MapPin,
   Globe, Terminal, Layers, Bot, Building2, ShoppingCart, ShieldCheck, RefreshCw,
+  Lock, Activity, Sparkles,
 } from "lucide-react";
 
 // --- Data ---
 const hotelClients = [
   {
-    emoji: "🏨", name: "Hotel Costa Blanca", location: "Vichayito – Perú",
+    name: "Hotel Costa Blanca", location: "Vichayito – Perú",
     category: "hotel", url: "costablanca.up.railway.app",
     thumb: "/thumbs/costablanca.webp",
     highlight: "Reservas Directas WhatsApp",
@@ -20,7 +21,7 @@ const hotelClients = [
     focus: "Refugio resort en Vichayito con motor de reservas y experiencia optimizada para huéspedes.",
   },
   {
-    emoji: "🏄‍♂️", name: "Pacific Surf School", location: "Miraflores – Perú",
+    name: "Pacific Surf School", location: "Miraflores – Perú",
     category: "hotel", url: "pacificsurfschool.com.pe",
     thumb: "/thumbs/pacificsurfschool.webp",
     highlight: "Suscripción WaaS Activa",
@@ -28,7 +29,7 @@ const hotelClients = [
     focus: "Plataforma web sin inversión inicial. Actualizaciones continuas.",
   },
   {
-    emoji: "🌿", name: "Fundo Achamaqui", location: "Chachapoyas – Perú",
+    name: "Fundo Achamaqui", location: "Chachapoyas – Perú",
     category: "hotel", url: "fundoachamaqui.com",
     thumb: "/thumbs/fundoachamaqui.webp",
     highlight: "Paquetes turísticos",
@@ -36,7 +37,7 @@ const hotelClients = [
     focus: "Hospedaje convertido en paquete turístico con venta directa.",
   },
   {
-    emoji: "🌊", name: "Punta Negritos | Wind & Surf", location: "Talara – Perú",
+    name: "Punta Negritos | Wind & Surf", location: "Talara – Perú",
     category: "hotel", url: "puntanegritos.webflow.io",
     thumb: "/thumbs/puntanegritos.webp",
     highlight: "Presencia digital continua",
@@ -44,7 +45,7 @@ const hotelClients = [
     focus: "Infraestructura digital completa sin costo inicial elevado.",
   },
   {
-    emoji: "🌴", name: "Hacienda Don Vicente", location: "Tarapoto – Perú",
+    name: "Hacienda Don Vicente", location: "Tarapoto – Perú",
     category: "hotel", url: "haciendadonvicente.com",
     thumb: "/thumbs/haciendadonvicente.webp",
     highlight: "Optimización de conversión",
@@ -52,7 +53,7 @@ const hotelClients = [
     focus: "Incremento de reservas directas eliminando comisiones de terceros.",
   },
   {
-    emoji: "🏔️", name: "Sauce Hotel Boutique", location: "Ollantaytambo – Perú",
+    name: "Sauce Hotel Boutique", location: "Ollantaytambo – Perú",
     category: "hotel", url: "sauce.pe",
     thumb: "/thumbs/sauce.webp",
     highlight: "Soporte & Eficiencia",
@@ -63,7 +64,7 @@ const hotelClients = [
 
 const techClients = [
   {
-    emoji: "⚖️", name: "Latam Abogados", location: "React / Headless WaaS",
+    name: "Latam Abogados", location: "React / Headless WaaS",
     category: "tech", url: "latamabogados.com",
     thumb: "/thumbs/latamabogados.webp",
     highlight: "Web App por Suscripción",
@@ -71,7 +72,7 @@ const techClients = [
     focus: "Plataforma legal internacional con captura y procesamiento automatizado de leads.",
   },
   {
-    emoji: "🤖", name: "Sistema Autónomo B2B", location: "VPS Linux & IA",
+    name: "Sistema Autónomo B2B", location: "VPS Linux & IA",
     category: "tech", url: "hothelia.com",
     thumb: "/thumbs/hothelia.webp",
     highlight: "-70% tiempo operativo",
@@ -79,7 +80,7 @@ const techClients = [
     focus: "Automatización de flujos de trabajo internos con Inteligencia Artificial.",
   },
   {
-    emoji: "🛍️", name: "E-Commerce & Exportación", location: "Arquitectura Cloud",
+    name: "E-Commerce & Exportación", location: "Arquitectura Cloud",
     category: "tech", url: "olivosdelperu.com",
     thumb: "/thumbs/olivosdelperu.webp",
     highlight: "Tienda + Agente IA",
@@ -234,7 +235,6 @@ export default function PortfolioPage() {
                         thumb={project.thumb}
                         label={project.name}
                         url={project.url}
-                        emoji={project.emoji}
                       />
                       <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[2px]" />
                       {project.highlight && (
@@ -245,7 +245,7 @@ export default function PortfolioPage() {
                     </div>
                   ) : (
                     <div className="h-[190px] bg-slate-50 flex items-center justify-center border-b border-slate-100 relative">
-                      <span className="text-6xl group-hover:scale-110 transition-transform">{project.emoji}</span>
+                      <Globe className="w-10 h-10 text-slate-400 group-hover:scale-110 transition-transform" />
                       {project.highlight && (
                         <div className="absolute bottom-3 left-3 bg-slate-900 text-white text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full shadow-sm">
                           {project.highlight}
@@ -257,7 +257,6 @@ export default function PortfolioPage() {
                   {/* Info */}
                   <div className="p-6 flex flex-col flex-grow">
                     <div className="flex items-center gap-2 mb-2">
-                      <span className="text-xl">{project.emoji}</span>
                       <h3 className="text-[17px] font-extrabold text-slate-900 group-hover:text-accent transition-colors leading-tight">{project.name}</h3>
                     </div>
                     <div className="flex items-center gap-1.5 mb-4">
@@ -322,28 +321,92 @@ export default function PortfolioPage() {
         {/* Hothelia SaaS Feature Card */}
         <section className="py-20 px-6 md:px-10 max-w-[1200px] mx-auto">
           <motion.div
-            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-            className="bg-slate-900 text-white rounded-[32px] overflow-hidden shadow-2xl group border border-slate-800"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="bg-slate-900 text-white rounded-[32px] overflow-hidden shadow-2xl border border-slate-800"
           >
-            <div className="grid grid-cols-1 lg:grid-cols-2 items-center">
-              <div className="p-8 lg:p-14">
-                <span className="text-[11px] font-black uppercase tracking-[0.3em] text-amber-400 mb-4 block">Software In-House</span>
-                <h3 className="text-[28px] md:text-[36px] font-black tracking-tight mb-6 flex items-center gap-3">
+            <div className="grid grid-cols-1 lg:grid-cols-12 items-center">
+              <div className="p-8 lg:p-14 lg:col-span-6 z-10">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/10 border border-amber-400/20 text-amber-400 text-[11px] font-bold uppercase tracking-wider mb-5">
+                  <Sparkles className="w-3.5 h-3.5" />
+                  Software in-house & IA
+                </div>
+                <h3 className="text-[28px] md:text-[36px] font-black tracking-tight mb-4 flex items-center gap-3">
                   <Zap className="w-8 h-8 text-amber-400" /> Hothelia SaaS
                 </h3>
-                <p className="text-[15px] text-slate-300 leading-relaxed mb-8 font-medium">
-                  Plataforma hotelera con IA integrada. Producto propio para gestionar reservas, guests y marketing.
+                <p className="text-[15px] text-slate-300 leading-relaxed mb-6 font-normal">
+                  Plataforma hotelera desarrollada y operada por nuestro equipo. Integra motor de reservas directas con 0% comisiones, Channel Manager y agente de IA en WhatsApp para automatización de huéspedes 24/7.
                 </p>
-                <a href="https://hothelia.com" target="_blank" rel="noopener noreferrer"
-                  className="inline-flex items-center gap-3 bg-amber-400 hover:bg-amber-300 text-slate-950 px-7 py-4 rounded-xl font-black text-[13px] uppercase tracking-wider transition-all shadow-lg">
-                  Explorar Plataforma <ArrowRight className="w-4 h-4" />
+
+                <div className="space-y-2.5 mb-8 text-[13px] text-slate-300 font-medium">
+                  <div className="flex items-center gap-2.5">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                    <span>Agente de Inteligencia Artificial en WhatsApp 24/7</span>
+                  </div>
+                  <div className="flex items-center gap-2.5">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                    <span>PMS & Channel Manager sincronizado con OTAs</span>
+                  </div>
+                  <div className="flex items-center gap-2.5">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                    <span>Arquitectura Cloud con 99.9% de Uptime</span>
+                  </div>
+                </div>
+
+                <a
+                  href="https://hothelia.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 bg-amber-400 hover:bg-amber-300 text-slate-950 px-7 py-4 rounded-xl font-bold text-[13px] uppercase tracking-wider transition-all shadow-lg"
+                >
+                  <span>Explorar Hothelia.com</span>
+                  <ExternalLink className="w-4 h-4" />
                 </a>
               </div>
-              <div className="relative h-[280px] lg:h-full lg:min-h-[400px] border-t lg:border-t-0 lg:border-l border-slate-800 overflow-hidden">
-                <img src="/thumbs/hothelia.webp" alt="Hothelia"
-                  referrerPolicy="no-referrer"
-                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
+
+              <div className="p-6 lg:p-10 lg:col-span-6 bg-slate-950/60 flex items-center justify-center border-t lg:border-t-0 lg:border-l border-slate-800">
+                {/* Browser Frame Mockup */}
+                <div className="w-full rounded-2xl border border-slate-700/80 bg-slate-900 shadow-2xl overflow-hidden group/hothelia">
+                  {/* Browser bar */}
+                  <div className="px-4 py-2.5 bg-slate-800/90 border-b border-slate-700/80 flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-1.5">
+                      <div className="w-2.5 h-2.5 rounded-full bg-red-400/80"></div>
+                      <div className="w-2.5 h-2.5 rounded-full bg-amber-400/80"></div>
+                      <div className="w-2.5 h-2.5 rounded-full bg-emerald-400/80"></div>
+                    </div>
+                    <div className="bg-slate-950/80 border border-slate-700/60 rounded-md px-3 py-0.5 text-[11px] font-mono text-slate-300 flex items-center gap-1.5 shadow-2xs">
+                      <Lock className="w-3 h-3 text-emerald-400" />
+                      <span>https://hothelia.com</span>
+                    </div>
+                    <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+                      <Activity className="w-3 h-3" />
+                      Live
+                    </span>
+                  </div>
+
+                  {/* Screenshot Image */}
+                  <div className="relative aspect-[16/10] overflow-hidden bg-white">
+                    <img
+                      src="/thumbs/hothelia.webp"
+                      alt="Hothelia SaaS"
+                      loading="lazy"
+                      className="w-full h-full object-cover object-top transform group-hover/hothelia:scale-105 transition-transform duration-700 ease-out"
+                    />
+
+                    {/* Tech Badge Overlay */}
+                    <div className="absolute bottom-3 left-3 right-3 bg-slate-950/90 backdrop-blur-md text-white rounded-xl p-3 border border-slate-700/80 shadow-lg flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></div>
+                        <span className="text-[11px] font-bold text-slate-200">PMS + IA Hotelera</span>
+                      </div>
+                      <span className="text-[10px] font-mono text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded border border-amber-400/20">
+                        SaaS In-House
+                      </span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </motion.div>

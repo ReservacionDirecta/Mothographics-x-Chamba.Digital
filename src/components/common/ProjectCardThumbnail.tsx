@@ -14,7 +14,7 @@ export const ProjectCardThumbnail: React.FC<ProjectCardThumbnailProps> = ({
   label,
   url,
   emoji,
-  className = "w-full h-full object-cover object-top transform group-hover:scale-110 group-hover:translate-y-[-20%] transition-all duration-700 ease-out"
+  className = "w-full h-full object-cover object-top transform group-hover:scale-105 transition-transform duration-500 ease-out"
 }) => {
   const cleanUrl = url.replace(/^https?:\/\//, "");
 
@@ -95,9 +95,8 @@ export const ProjectCardThumbnail: React.FC<ProjectCardThumbnailProps> = ({
         />
       )}
 
-      {/* Subtle shine & overlay micro-animations */}
-      <div className="absolute inset-0 pointer-events-none bg-gradient-to-tr from-slate-950/40 via-transparent to-white/10 opacity-60 group-hover/thumb:opacity-20 transition-opacity duration-500" />
-      <div className="absolute -inset-full top-0 block bg-gradient-to-r from-transparent via-white/15 to-transparent transform -skew-x-12 group-hover:animate-shine" />
+      {/* Subtle border and hover lighting */}
+      <div className="absolute inset-0 pointer-events-none border border-black/5 group-hover/thumb:border-accent/20 transition-colors duration-300" />
 
       {/* Fallback mockup when all screenshot providers fail or are blocked */}
       {(hasError || !loaded) && (
