@@ -634,17 +634,17 @@ const Opportunity = () => (
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.4, delay: 0.1 }}
-        className="p-5 sm:p-6 rounded-2xl border border-slate-200 bg-white shadow-xs hover:border-slate-300 hover:shadow-md transition-all flex sm:block items-start gap-4 sm:gap-0"
+        className="p-5 sm:p-6 rounded-2xl border border-slate-200 bg-white shadow-xs hover:border-slate-300 hover:shadow-md transition-all"
       >
-        <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-accent/10 text-accent flex items-center justify-center sm:mb-4 shrink-0">
-          <Shield className="w-5 h-5" />
+        <div className="flex items-center gap-3 mb-3">
+          <div className="w-9 h-9 rounded-lg bg-accent/10 text-accent flex items-center justify-center shrink-0">
+            <Shield className="w-4 h-4" />
+          </div>
+          <h4 className="text-[15px] font-bold text-slate-900">Tu Marca y Dominio 100% Tuyos</h4>
         </div>
-        <div>
-          <h4 className="text-[16px] font-bold text-slate-900 mb-1.5">Tu Marca y Dominio 100% Tuyos</h4>
-          <p className="text-[13px] text-slate-600 leading-relaxed">
-            Sin letras chicas ni retenciones. El dominio, la propiedad intelectual y tu base de datos están a tu nombre desde el primer día.
-          </p>
-        </div>
+        <p className="text-[12px] text-slate-500 leading-relaxed">
+          Sin letras chicas ni retenciones. El dominio, la propiedad intelectual y tu base de datos están a tu nombre desde el primer día.
+        </p>
       </motion.div>
 
       <motion.div
@@ -652,17 +652,17 @@ const Opportunity = () => (
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.4, delay: 0.2 }}
-        className="p-5 sm:p-6 rounded-2xl border border-slate-200 bg-white shadow-xs hover:border-slate-300 hover:shadow-md transition-all flex sm:block items-start gap-4 sm:gap-0"
+        className="p-5 sm:p-6 rounded-2xl border border-slate-200 bg-white shadow-xs hover:border-slate-300 hover:shadow-md transition-all"
       >
-        <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-accent/10 text-accent flex items-center justify-center sm:mb-4 shrink-0">
-          <Zap className="w-5 h-5" />
+        <div className="flex items-center gap-3 mb-3">
+          <div className="w-9 h-9 rounded-lg bg-accent/10 text-accent flex items-center justify-center shrink-0">
+            <Zap className="w-4 h-4" />
+          </div>
+          <h4 className="text-[15px] font-bold text-slate-900">Carga en menos de 1 segundo</h4>
         </div>
-        <div>
-          <h4 className="text-[16px] font-bold text-slate-900 mb-1.5">Carga en menos de 1 segundo</h4>
-          <p className="text-[13px] text-slate-600 leading-relaxed">
-            Tu web nunca se cae cuando lanzas anuncios en Facebook, Instagram o Google. Máxima velocidad de conversión para no perder clientes.
-          </p>
-        </div>
+        <p className="text-[12px] text-slate-500 leading-relaxed">
+          Tu web nunca se cae cuando lanzas anuncios en Facebook, Instagram o Google. Máxima velocidad de conversión para no perder clientes.
+        </p>
       </motion.div>
 
       <motion.div
@@ -670,17 +670,17 @@ const Opportunity = () => (
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.4, delay: 0.3 }}
-        className="p-5 sm:p-6 rounded-2xl border border-slate-200 bg-white shadow-xs hover:border-slate-300 hover:shadow-md transition-all flex sm:block items-start gap-4 sm:gap-0"
+        className="p-5 sm:p-6 rounded-2xl border border-slate-200 bg-white shadow-xs hover:border-slate-300 hover:shadow-md transition-all"
       >
-        <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-accent/10 text-accent flex items-center justify-center sm:mb-4 shrink-0">
-          <Clock className="w-5 h-5" />
+        <div className="flex items-center gap-3 mb-3">
+          <div className="w-9 h-9 rounded-lg bg-accent/10 text-accent flex items-center justify-center shrink-0">
+            <Clock className="w-4 h-4" />
+          </div>
+          <h4 className="text-[15px] font-bold text-slate-900">Actualizaciones Semanales</h4>
         </div>
-        <div>
-          <h4 className="text-[16px] font-bold text-slate-900 mb-1.5">Actualizaciones Semanales</h4>
-          <p className="text-[13px] text-slate-600 leading-relaxed">
-            Nos envías tus ofertas, fotos o cambios de precio por WhatsApp y nosotros los publicamos. Cero dolores de cabeza técnicos.
-          </p>
-        </div>
+        <p className="text-[12px] text-slate-500 leading-relaxed">
+          Nos envías tus ofertas, fotos o cambios de precio por WhatsApp y nosotros los publicamos. Cero dolores de cabeza técnicos.
+        </p>
       </motion.div>
     </div>
   </section>
@@ -2069,15 +2069,15 @@ const PainPoints = () => (
       ].map((item, i) => (
         <div
           key={i}
-          className="p-5 sm:p-7 rounded-2xl border border-slate-200 bg-white shadow-xs hover:border-slate-300 hover:shadow-md transition-all flex sm:block items-start gap-4 sm:gap-0"
+          className="p-5 sm:p-7 rounded-2xl border border-slate-200 bg-white shadow-xs hover:border-slate-300 hover:shadow-md transition-all"
         >
-          <div className="w-10 h-10 sm:w-11 sm:h-11 bg-red-50 text-red-600 rounded-xl flex items-center justify-center sm:mb-4 shrink-0">
-            <item.icon className="w-5 h-5" />
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-9 h-9 bg-red-50 text-red-600 rounded-lg flex items-center justify-center shrink-0">
+              <item.icon className="w-4 h-4" />
+            </div>
+            <h4 className="text-[15px] font-bold text-slate-900">{item.title}</h4>
           </div>
-          <div>
-            <h4 className="text-[16px] font-bold text-slate-900 mb-1.5">{item.title}</h4>
-            <p className="text-[13px] text-slate-600 leading-relaxed">{item.desc}</p>
-          </div>
+          <p className="text-[12px] text-slate-500 leading-relaxed">{item.desc}</p>
         </div>
       ))}
     </div>
@@ -2637,20 +2637,20 @@ const ProcessTimeline = () => (
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: i * 0.05 }}
-            className="p-5 sm:p-6 rounded-2xl border border-slate-200 bg-white shadow-xs hover:border-slate-300 hover:shadow-md transition-all group relative overflow-hidden flex sm:block items-start gap-4 sm:gap-0"
+            className="p-5 sm:p-6 rounded-2xl border border-slate-200 bg-white shadow-xs hover:border-slate-300 hover:shadow-md transition-all group relative overflow-hidden"
           >
             <span className="absolute top-3 right-4 text-[32px] sm:text-[40px] font-black text-slate-200/60 select-none">
               {item.step}
             </span>
-            <div className="w-10 h-10 sm:w-11 sm:h-11 bg-accent/10 text-accent rounded-xl flex items-center justify-center sm:mb-4 shrink-0">
-              <item.icon className="w-5 h-5" />
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-9 h-9 bg-accent/10 text-accent rounded-lg flex items-center justify-center shrink-0">
+                <item.icon className="w-4 h-4" />
+              </div>
+              <h4 className="text-[15px] font-bold text-slate-900">{item.title}</h4>
             </div>
-            <div>
-              <h4 className="text-[16px] font-bold text-slate-900 mb-1.5">{item.title}</h4>
-              <p className="text-[13px] text-slate-600 leading-relaxed">
-                {item.desc}
-              </p>
-            </div>
+            <p className="text-[12px] text-slate-500 leading-relaxed">
+              {item.desc}
+            </p>
           </motion.div>
         ))}
       </div>
@@ -2707,15 +2707,15 @@ const Guarantees = () => (
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: i * 0.05 }}
-          className="p-5 sm:p-6 rounded-2xl border border-slate-200 bg-white shadow-xs hover:border-slate-300 hover:shadow-md transition-all flex sm:block items-start gap-4 sm:gap-0"
+          className="p-5 sm:p-6 rounded-2xl border border-slate-200 bg-white shadow-xs hover:border-slate-300 hover:shadow-md transition-all"
         >
-          <div className="w-10 h-10 sm:w-11 sm:h-11 bg-accent/10 text-accent rounded-xl flex items-center justify-center sm:mb-4 shrink-0">
-            <item.icon className="w-5 h-5" />
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-9 h-9 bg-accent/10 text-accent rounded-lg flex items-center justify-center shrink-0">
+              <item.icon className="w-4 h-4" />
+            </div>
+            <h4 className="text-[15px] font-bold text-slate-900">{item.title}</h4>
           </div>
-          <div>
-            <h4 className="text-[16px] font-bold text-slate-900 mb-1.5">{item.title}</h4>
-            <p className="text-[13px] text-slate-600 leading-relaxed">{item.desc}</p>
-          </div>
+          <p className="text-[12px] text-slate-500 leading-relaxed">{item.desc}</p>
         </motion.div>
       ))}
     </div>
