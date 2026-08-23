@@ -189,7 +189,7 @@ const ServicesPage: React.FC = () => {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
             {waasPillars.map((plan, i) => (
               <motion.div
                 key={i}
@@ -197,51 +197,52 @@ const ServicesPage: React.FC = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className={`interactive-card p-8 rounded-[28px] border flex flex-col justify-between transition-all ${
+                className={`p-5 sm:p-6 rounded-2xl border bg-white shadow-xs hover:border-slate-300 hover:shadow-md transition-all flex sm:block items-start gap-4 sm:gap-0 h-full ${
                   plan.popular
-                    ? "bg-slate-900 text-white border-slate-900 shadow-2xl relative"
-                    : "bg-white text-slate-900 border-slate-200 shadow-lg hover:shadow-xl"
+                    ? "border-accent/40 ring-1 ring-accent/10"
+                    : "border-slate-200"
                 }`}
               >
-                <div>
-                  <div className="flex justify-between items-center mb-6">
-                    <span className={`text-[11px] font-black uppercase tracking-wider px-3 py-1 rounded-full ${
-                      plan.popular ? "bg-amber-400 text-slate-950" : "bg-slate-100 text-slate-700"
-                    }`}>
-                      {plan.badge}
-                    </span>
-                    <plan.icon className={`w-6 h-6 ${plan.popular ? "text-amber-400" : "text-accent"}`} />
+                {/* Popular indicator */}
+                {plan.popular && (
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="w-1.5 h-1.5 rounded-full bg-accent" />
+                    <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-accent">Recomendado</span>
                   </div>
+                )}
 
-                  <h3 className={`text-[22px] font-black tracking-tight mb-2 ${plan.popular ? "text-white" : "text-slate-900"}`}>
-                    {plan.title}
-                  </h3>
-                  <p className={`text-[13px] leading-relaxed mb-6 font-medium ${plan.popular ? "text-slate-300" : "text-slate-600"}`}>
-                    {plan.desc}
-                  </p>
-
-                  <div className="mb-8 pb-6 border-b border-slate-200/20">
-                    <div className="flex items-baseline gap-1">
-                      <span className={`text-[44px] font-black tracking-tight ${plan.popular ? "text-amber-400" : "text-accent"}`}>
-                        {plan.price}
-                      </span>
-                      <span className={`text-[14px] font-bold ${plan.popular ? "text-slate-400" : "text-slate-500"}`}>
-                        {plan.period}
-                      </span>
-                    </div>
+                {/* Icon + Title */}
+                <div className="flex items-center gap-3 mb-3">
+                  <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 ${plan.popular ? "bg-accent/10 text-accent" : "bg-slate-100 text-slate-600"}`}>
+                    <plan.icon className="w-4 h-4" />
                   </div>
-
-                  <ul className="space-y-3.5 mb-8">
-                    {plan.features.map((feat, j) => (
-                      <li key={j} className="flex items-start gap-3 text-[13px] font-medium leading-normal">
-                        <CheckCircle2 className={`w-4 h-4 shrink-0 mt-0.5 ${plan.popular ? "text-amber-400" : "text-emerald-600"}`} />
-                        <span className={plan.popular ? "text-slate-200" : "text-slate-700"}>{feat}</span>
-                      </li>
-                    ))}
-                  </ul>
+                  <div>
+                    <h3 className="text-[15px] font-black tracking-tight text-slate-900">{plan.title}</h3>
+                    <span className="text-[9px] font-bold uppercase tracking-[0.12em] text-slate-400">{plan.badge}</span>
+                  </div>
                 </div>
 
-                <div className="space-y-2.5">
+                {/* Price */}
+                <div className="flex items-baseline gap-1 mb-2">
+                  <span className="text-[32px] sm:text-[36px] font-black tracking-tighter text-slate-900 leading-none">{plan.price}</span>
+                  <span className="text-[12px] font-medium text-slate-400">{plan.period}</span>
+                </div>
+
+                {/* Description */}
+                <p className="text-[12px] text-slate-500 leading-relaxed mb-4">{plan.desc}</p>
+
+                {/* Features */}
+                <ul className="space-y-2 mb-5">
+                  {plan.features.map((feat, j) => (
+                    <li key={j} className="flex items-start gap-2">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-slate-300 mt-0.5 shrink-0" />
+                      <span className="text-[12px] font-medium text-slate-700 leading-tight">{feat}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                {/* CTA */}
+                <div className="mt-auto space-y-2">
                   <button
                     onClick={async () => {
                       try {
@@ -257,26 +258,19 @@ const ServicesPage: React.FC = () => {
                         window.open(`https://wa.me/51904060670?text=Hola!%20Me%20interesa%20el%20plan%20WaaS%20${encodeURIComponent(plan.title)}.`, "_blank");
                       }
                     }}
-                    className={`w-full py-3.5 sm:py-4 px-3 sm:px-4 rounded-xl sm:rounded-2xl font-black text-[12px] sm:text-[13px] md:text-[14px] uppercase tracking-wider transition-all flex items-center justify-center gap-2 sm:gap-2.5 cursor-pointer text-center leading-tight ${
-                      plan.popular
-                        ? "bg-amber-400 hover:bg-amber-300 text-slate-950 shadow-md"
-                        : "bg-accent hover:bg-accent/90 text-white shadow-md"
-                    }`}
+                    className="w-full py-2.5 px-4 rounded-xl font-bold text-[12px] tracking-wide transition-all flex items-center justify-center gap-2 cursor-pointer text-center bg-slate-900 hover:bg-slate-800 text-white"
                   >
-<Zap className="w-4 h-4" />
-                Suscripción Polar
+                    <Zap className="w-3.5 h-3.5" />
+                    Suscribir con Polar
                   </button>
-
                   <a
                     href={`https://wa.me/51904060670?text=Hola!%20Me%20interesa%20el%20plan%20WaaS%20${encodeURIComponent(plan.title)}.`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`w-full py-2.5 rounded-xl font-bold text-[12px] text-center flex items-center justify-center gap-2 transition-colors ${
-                      plan.popular ? "text-slate-300 hover:text-white bg-slate-800" : "text-slate-700 hover:text-slate-900 bg-slate-100"
-                    }`}
+                    className="w-full py-2 rounded-xl font-semibold text-[11px] text-slate-500 hover:text-slate-800 bg-transparent hover:bg-slate-50 border border-slate-200 transition-all cursor-pointer flex items-center justify-center gap-2"
                   >
-                    <WhatsAppIcon className="w-4 h-4 text-emerald-500" />
-                    O consulta por WhatsApp
+                    <WhatsAppIcon className="w-3.5 h-3.5 text-emerald-500" />
+                    Consultar por WhatsApp
                   </a>
                 </div>
               </motion.div>

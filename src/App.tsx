@@ -747,78 +747,71 @@ const PricingCard = ({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 25 }}
+      initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.7, delay, ease: [0.16, 1, 0.3, 1] }}
-      className={`flex flex-col h-full ${isPopular ? "relative" : ""}`}
+      transition={{ duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] }}
+      className={`p-5 sm:p-6 rounded-2xl border border-slate-200 bg-white shadow-xs hover:border-slate-300 hover:shadow-md transition-all flex sm:block items-start gap-4 sm:gap-0 h-full ${isPopular ? "border-accent/40 ring-1 ring-accent/10" : ""}`}
     >
       {/* Popular indicator */}
       {isPopular && (
-        <div className="flex items-center gap-2 mb-4">
+        <div className="flex items-center gap-2 mb-3">
           <div className="w-1.5 h-1.5 rounded-full bg-accent" />
-          <span className="text-[11px] font-bold uppercase tracking-[0.15em] text-accent">Recomendado</span>
+          <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-accent">Recomendado</span>
         </div>
       )}
 
-      {/* Badge */}
-      {!isPopular && badge && (
-        <div className="mb-4">
-          <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-slate-400">{badge}</span>
+      {/* Icon + Title row */}
+      <div className="flex items-center gap-3 mb-3">
+        <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 ${isPopular ? "bg-accent/10 text-accent" : "bg-slate-100 text-slate-600"}`}>
+          <Icon className="w-4.5 h-4.5" />
         </div>
-      )}
+        <div>
+          <h3 className="text-[15px] font-black tracking-tight text-slate-900">{title}</h3>
+          {!isPopular && badge && <span className="text-[9px] font-bold uppercase tracking-[0.12em] text-slate-400">{badge}</span>}
+        </div>
+      </div>
 
       {/* Price */}
-      <div className="mb-2">
-        <div className="flex items-baseline gap-1">
-          <span className={`font-black tracking-tighter ${isPopular ? "text-[52px] sm:text-[60px] text-slate-900" : "text-[42px] sm:text-[48px] text-slate-900"}`}>{price}</span>
-          {period && <span className="text-[14px] font-medium text-slate-400 ml-1">{period}</span>}
-        </div>
+      <div className="flex items-baseline gap-1 mb-2">
+        <span className="text-[32px] sm:text-[36px] font-black tracking-tighter text-slate-900 leading-none">{price}</span>
+        {period && <span className="text-[12px] font-medium text-slate-400">{period}</span>}
       </div>
 
-      {/* Title & Description */}
-      <div className="mb-6">
-        <h3 className="text-[18px] sm:text-[20px] font-black tracking-tight text-slate-900 mb-1.5">{title}</h3>
-        <p className="text-[13px] text-slate-500 leading-relaxed">{description}</p>
-      </div>
-
-      {/* Divider */}
-      <div className="h-px bg-slate-200 mb-6" />
+      {/* Description */}
+      <p className="text-[12px] text-slate-500 leading-relaxed mb-4">{description}</p>
 
       {/* Features */}
-      <ul className="space-y-3 flex-grow mb-8">
+      <ul className="space-y-2 mb-5">
         {items.map((item: any, idx: number) => (
-          <li key={idx} className="flex items-start gap-3">
-            <CheckCircle2 className="w-4 h-4 text-slate-300 mt-0.5 shrink-0" />
-            <div>
-              <span className="text-[13px] font-semibold text-slate-800 block leading-tight">{item.name}</span>
-              {item.details && <p className="text-[11px] text-slate-400 leading-relaxed mt-0.5">{item.details}</p>}
-            </div>
+          <li key={idx} className="flex items-start gap-2">
+            <CheckCircle2 className="w-3.5 h-3.5 text-slate-300 mt-0.5 shrink-0" />
+            <span className="text-[12px] font-medium text-slate-700 leading-tight">{item.name}</span>
           </li>
         ))}
       </ul>
 
       {/* CTA */}
-      <div className="mt-auto space-y-2.5">
+      <div className="mt-auto space-y-2">
         <motion.a
           whileHover={{ scale: 1.01 }}
           whileTap={{ scale: 0.99 }}
           href={waUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className={`w-full py-3.5 px-4 rounded-xl font-bold text-[13px] tracking-wide transition-all flex items-center justify-center gap-2 cursor-pointer text-center ${
+          className={`w-full py-2.5 px-4 rounded-xl font-bold text-[12px] tracking-wide transition-all flex items-center justify-center gap-2 cursor-pointer text-center ${
             isPopular
               ? "bg-slate-900 hover:bg-slate-800 text-white"
               : "bg-slate-900 hover:bg-slate-800 text-white"
           }`}
         >
-          <WhatsAppIcon className="w-4 h-4 text-white" />
+          <WhatsAppIcon className="w-3.5 h-3.5 text-white" />
           Contratar por WhatsApp
         </motion.a>
         <button
           onClick={handleCheckout}
           disabled={loading}
-          className="w-full py-2.5 rounded-xl font-semibold text-[11px] text-slate-500 hover:text-slate-800 bg-transparent hover:bg-slate-50 border border-slate-200 transition-all cursor-pointer"
+          className="w-full py-2 rounded-xl font-semibold text-[11px] text-slate-500 hover:text-slate-800 bg-transparent hover:bg-slate-50 border border-slate-200 transition-all cursor-pointer"
         >
           {loading ? "Cargando..." : "Pagar con Tarjeta →"}
         </button>
@@ -826,8 +819,8 @@ const PricingCard = ({
 
       {/* Savings pill */}
       {savings && (
-        <div className="mt-4 text-center">
-          <span className="text-[10px] font-semibold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-100">
+        <div className="mt-3 text-center">
+          <span className="text-[9px] font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100">
             {savings}
           </span>
         </div>
@@ -913,7 +906,7 @@ const Services = ({
           icon={Sparkles}
           badge="Empresarial"
           description="Para empresas con flujos de trabajo automatizables e integración profunda de IA."
-          price="$599.99"
+          price="$599"
           period="/mes"
           savings="Automatización Operativa Total"
           productId="ef4fe8a9-0f60-40c2-b0c3-0cf2663e38de"
