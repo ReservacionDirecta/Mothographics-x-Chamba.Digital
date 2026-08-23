@@ -52,7 +52,10 @@ import {
   MessageCircle,
   Menu,
   Shield,
+  ShieldCheck,
+  Building2,
   Clock,
+  CreditCard,
   Code2,
   Headphones,
   Repeat,
@@ -569,109 +572,115 @@ const Hero = () => {
 const Opportunity = () => (
   <section
     id="tech-stack"
-    className="py-14 md:py-20 px-6 md:px-10 max-w-[1024px] mx-auto"
+    className="py-12 md:py-20 px-4 sm:px-6 md:px-10 max-w-[1024px] mx-auto"
   >
     {/* Sección: Agencia Tradicional vs. WaaS */}
-    <div className="text-center mb-10 md:mb-16">
-      <span className="label-editorial mx-auto">Comparativa de Modelos</span>
-      <h2 className="text-[32px] md:text-[48px] font-black tracking-tight leading-none mb-4 text-slate-900">
-        El Modelo Tradicional <span className="text-slate-400">vs.</span> Nuestro <span className="text-accent">WaaS</span>
+    <div className="text-center mb-8 md:mb-14">
+      <span className="label-editorial mx-auto">La Ley del Contraste</span>
+      <h2 className="text-[28px] sm:text-[34px] md:text-[46px] font-black tracking-tight leading-tight mb-3 text-slate-900">
+        Agencia Tradicional <span className="text-slate-400">vs.</span> Tu Equipo <span className="text-accent">WaaS</span>
       </h2>
-      <p className="text-muted text-[16px] md:text-[18px] max-w-3xl mx-auto leading-relaxed">
-        Por qué una suscripción de infraestructura y soporte continuo reduce costos y acelera resultados.
+      <p className="text-muted text-[14px] sm:text-[16px] md:text-[17px] max-w-2xl mx-auto leading-relaxed">
+        ¿Por qué pagar miles por adelantado cuando puedes tener soporte técnico continuo por una fracción del costo?
       </p>
     </div>
 
     {/* Comparativa 2 columnas */}
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-12 md:mb-16">
       <motion.div
-        initial={{ opacity: 0, x: -20 }}
+        initial={{ opacity: 0, x: -15 }}
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
-        className="p-8 rounded-2xl border border-red-200/70 bg-red-50/30 relative overflow-hidden"
+        transition={{ duration: 0.5 }}
+        className="p-5 sm:p-7 rounded-2xl border border-red-200/80 bg-red-50/40 relative overflow-hidden"
       >
-        <div className="flex items-center gap-3 mb-4">
-          <div className="w-9 h-9 rounded-lg bg-red-100 flex items-center justify-center text-red-600 font-bold text-[16px]">✕</div>
-          <h3 className="text-[18px] font-bold text-slate-900">La Agencia Tradicional</h3>
+        <div className="flex items-center gap-3 mb-2.5">
+          <div className="w-8 h-8 rounded-lg bg-red-100 flex items-center justify-center text-red-600 font-bold text-[14px] shrink-0">✕</div>
+          <h3 className="text-[17px] font-black text-slate-900">La Agencia Tradicional</h3>
         </div>
-        <p className="text-[14px] text-slate-600 leading-relaxed font-medium">
-          Cobran presupuestos inflados por adelantado, entregan sitios lentos con plantillas genéricas, y cualquier cambio posterior requiere cotizaciones adicionales o demoras de semanas.
+        <p className="text-[13px] sm:text-[14px] text-slate-600 leading-relaxed font-medium">
+          Te cobran entre $1,000 y $2,000 por adelantado por una web de plantilla que queda abandonada. Cualquier cambio posterior tarda semanas o te lo cobran como extra.
         </p>
       </motion.div>
 
       <motion.div
-        initial={{ opacity: 0, x: 20 }}
+        initial={{ opacity: 0, x: 15 }}
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
-        className="p-8 rounded-2xl border border-accent/30 bg-blue-50/30 relative overflow-hidden"
+        transition={{ duration: 0.5 }}
+        className="p-5 sm:p-7 rounded-2xl border border-accent/30 bg-blue-50/40 relative overflow-hidden"
       >
-        <div className="flex items-center gap-3 mb-4">
-          <div className="w-9 h-9 rounded-lg bg-blue-100 flex items-center justify-center text-accent font-bold text-[16px]">✓</div>
-          <h3 className="text-[18px] font-bold text-slate-900">Nuestro Modelo WaaS</h3>
+        <div className="flex items-center gap-3 mb-2.5">
+          <div className="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center text-accent font-bold text-[14px] shrink-0">✓</div>
+          <h3 className="text-[17px] font-black text-slate-900">Tu Suscripción WaaS Chamba</h3>
         </div>
-        <p className="text-[14px] text-slate-700 leading-relaxed font-medium">
-          Una tarifa plana mensual que incluye desarrollo a medida con código propio, hosting cloud ultrarrápido y un equipo técnico dedicado a actualizar tu contenido cada semana.
+        <p className="text-[13px] sm:text-[14px] text-slate-700 leading-relaxed font-medium">
+          Tarifa plana desde $49/mes. Tu web vive en servidores cloud ultrarrápidos, incluye cambios de contenido semanales y un equipo de ingeniería disponible por WhatsApp.
         </p>
       </motion.div>
     </div>
 
     {/* Sección de Beneficios Clave (3 Pilares) */}
-    <div className="text-center mb-10">
-      <span className="label-editorial mx-auto">Pilares de Ingeniería</span>
-      <h3 className="text-[26px] md:text-[34px] font-black tracking-tight text-slate-900">
-        Control total y rendimiento sin fricción
+    <div className="text-center mb-8">
+      <span className="label-editorial mx-auto">Beneficios Concretos</span>
+      <h3 className="text-[22px] sm:text-[28px] md:text-[32px] font-black tracking-tight text-slate-900">
+        Resultados tangibles para tu negocio
       </h3>
     </div>
 
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 15 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.5, delay: 0.1 }}
-        className="p-6 rounded-2xl border border-slate-200 bg-white shadow-xs hover:border-slate-300 hover:shadow-md transition-all"
+        transition={{ duration: 0.4, delay: 0.1 }}
+        className="p-5 sm:p-6 rounded-2xl border border-slate-200 bg-white shadow-xs hover:border-slate-300 hover:shadow-md transition-all flex sm:block items-start gap-4 sm:gap-0"
       >
-        <div className="w-11 h-11 rounded-xl bg-accent/10 text-accent flex items-center justify-center mb-4">
+        <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-accent/10 text-accent flex items-center justify-center sm:mb-4 shrink-0">
           <Shield className="w-5 h-5" />
         </div>
-        <h4 className="text-[17px] font-bold text-slate-900 mb-2">Propiedad Total</h4>
-        <p className="text-[13px] text-slate-600 leading-relaxed">
-          Tu dominio, tu marca y tu base de clientes son 100% tuyos desde el primer día. Nosotros proveemos la infraestructura y la ingeniería.
-        </p>
+        <div>
+          <h4 className="text-[16px] font-bold text-slate-900 mb-1.5">Tu Marca y Dominio 100% Tuyos</h4>
+          <p className="text-[13px] text-slate-600 leading-relaxed">
+            Sin letras chicas ni retenciones. El dominio, la propiedad intelectual y tu base de datos están a tu nombre desde el primer día.
+          </p>
+        </div>
       </motion.div>
 
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 15 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-        className="p-6 rounded-2xl border border-slate-200 bg-white shadow-xs hover:border-slate-300 hover:shadow-md transition-all"
+        transition={{ duration: 0.4, delay: 0.2 }}
+        className="p-5 sm:p-6 rounded-2xl border border-slate-200 bg-white shadow-xs hover:border-slate-300 hover:shadow-md transition-all flex sm:block items-start gap-4 sm:gap-0"
       >
-        <div className="w-11 h-11 rounded-xl bg-accent/10 text-accent flex items-center justify-center mb-4">
+        <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-accent/10 text-accent flex items-center justify-center sm:mb-4 shrink-0">
           <Zap className="w-5 h-5" />
         </div>
-        <h4 className="text-[17px] font-bold text-slate-900 mb-2">Código Propio y Velocidad</h4>
-        <p className="text-[13px] text-slate-600 leading-relaxed">
-          Desarrollo a mano con tecnologías modernas (React, Vite, Tailwind). Tiempos de carga inferiores a 1 segundo y máxima tasa de conversión.
-        </p>
+        <div>
+          <h4 className="text-[16px] font-bold text-slate-900 mb-1.5">Carga en menos de 1 segundo</h4>
+          <p className="text-[13px] text-slate-600 leading-relaxed">
+            Tu web nunca se cae cuando lanzas anuncios en Facebook, Instagram o Google. Máxima velocidad de conversión para no perder clientes.
+          </p>
+        </div>
       </motion.div>
 
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 15 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.5, delay: 0.3 }}
-        className="p-6 rounded-2xl border border-slate-200 bg-white shadow-xs hover:border-slate-300 hover:shadow-md transition-all"
+        transition={{ duration: 0.4, delay: 0.3 }}
+        className="p-5 sm:p-6 rounded-2xl border border-slate-200 bg-white shadow-xs hover:border-slate-300 hover:shadow-md transition-all flex sm:block items-start gap-4 sm:gap-0"
       >
-        <div className="w-11 h-11 rounded-xl bg-accent/10 text-accent flex items-center justify-center mb-4">
+        <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-accent/10 text-accent flex items-center justify-center sm:mb-4 shrink-0">
           <Clock className="w-5 h-5" />
         </div>
-        <h4 className="text-[17px] font-bold text-slate-900 mb-2">Evolución Continua</h4>
-        <p className="text-[13px] text-slate-600 leading-relaxed">
-          Tu web nunca queda abandonada. Nos envías tus requerimientos y solicitudes durante la semana y las publicamos sin costos adicionales.
-        </p>
+        <div>
+          <h4 className="text-[16px] font-bold text-slate-900 mb-1.5">Actualizaciones Semanales</h4>
+          <p className="text-[13px] text-slate-600 leading-relaxed">
+            Nos envías tus ofertas, fotos o cambios de precio por WhatsApp y nosotros los publicamos. Cero dolores de cabeza técnicos.
+          </p>
+        </div>
       </motion.div>
     </div>
   </section>
@@ -713,7 +722,7 @@ const PricingCard = ({
   const waUrl = `https://wa.me/51904060670?text=${encodedMsg}`;
 
   const handleCheckout = async (e: React.MouseEvent) => {
-    if (!productId) return; // fallback to WhatsApp link if no product ID
+    if (!productId) return;
     e.preventDefault();
     setLoading(true);
     try {
@@ -738,125 +747,91 @@ const PricingCard = ({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
+      initial={{ opacity: 0, y: 25 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
-      whileHover={{ y: -8 }}
-      className={`relative p-8 rounded-[28px] flex flex-col h-full transition-all duration-500 group overflow-hidden ${
-        isPopular
-          ? "bg-slate-900 text-white border-2 border-cta shadow-2xl scale-[1.02] lg:scale-[1.04] z-10"
-          : "bg-white border border-slate-200 hover:border-slate-300 shadow-lg hover:shadow-xl"
-      }`}
+      transition={{ duration: 0.7, delay, ease: [0.16, 1, 0.3, 1] }}
+      className={`flex flex-col h-full ${isPopular ? "relative" : ""}`}
     >
-      {/* Popular background highlight */}
+      {/* Popular indicator */}
       {isPopular && (
-        <div className="absolute inset-0 -z-0 overflow-hidden rounded-[28px]">
-          <div
-            className="absolute inset-0 opacity-30"
-            style={{
-              background: "radial-gradient(circle at top right, rgba(234,88,12,0.2) 0%, transparent 60%)",
-            }}
-          />
+        <div className="flex items-center gap-2 mb-4">
+          <div className="w-1.5 h-1.5 rounded-full bg-accent" />
+          <span className="text-[11px] font-bold uppercase tracking-[0.15em] text-accent">Recomendado</span>
         </div>
       )}
 
       {/* Badge */}
-      {badge && (
-        <div className={`absolute top-0 right-0 z-20 ${isPopular ? "bg-cta text-white font-black" : "bg-slate-100 text-slate-700 border-l border-b border-slate-200 font-bold"} text-[11px] uppercase tracking-[0.15em] px-4 py-2 rounded-bl-2xl shadow-sm flex items-center gap-1.5`}>
-          {isPopular && <Flame className="w-3.5 h-3.5 text-amber-300" />}
-          {badge}
+      {!isPopular && badge && (
+        <div className="mb-4">
+          <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-slate-400">{badge}</span>
         </div>
       )}
 
-      <div className="relative z-10 flex flex-col h-full">
-        {/* Header */}
-        <div className="mb-6">
-          <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-4 ${isPopular ? "bg-cta/20 text-cta" : "bg-blue-50 text-accent"}`}>
-            <Icon className="w-6 h-6" />
-          </div>
-          <h3 className={`text-[22px] font-black tracking-tight mb-2 ${isPopular ? "text-white" : "text-slate-900"}`}>
-            {title}
-          </h3>
-          <p className={`text-[13px] leading-relaxed ${isPopular ? "text-slate-300" : "text-slate-600"}`}>{description}</p>
-        </div>
-
-        {/* Price */}
-        <div className={`mb-8 pb-6 border-b ${isPopular ? "border-slate-800" : "border-slate-100"}`}>
-          <div className="flex items-baseline gap-2">
-            <span className={`text-[46px] font-black tracking-tighter ${isPopular ? "text-amber-400" : "text-slate-900"}`}>{price}</span>
-            {period && <span className={`text-[14px] font-semibold ${isPopular ? "text-slate-400" : "text-slate-500"}`}>{period}</span>}
-          </div>
-          {savings && (
-            <div className={`mt-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-full ${isPopular ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30" : "bg-emerald-50 text-emerald-700 border border-emerald-200"}`}>
-              <Sparkles className="w-3 h-3" />
-              <span className="text-[11px] font-extrabold">{savings}</span>
-            </div>
-          )}
-        </div>
-
-        {/* Features */}
-        <ul className="space-y-4 flex-grow mb-8">
-          {items.map((item: any, idx: number) => (
-            <li key={idx} className="flex items-start gap-3">
-              <div className="mt-0.5 shrink-0">
-                <CheckCircle2 className={`w-[18px] h-[18px] ${isPopular ? "text-amber-400" : "text-emerald-600"}`} />
-              </div>
-              <div>
-                <span className={`text-[13px] font-bold block leading-tight ${isPopular ? "text-white" : "text-slate-800"}`}>{item.name}</span>
-                {item.details && <p className={`text-[11px] leading-relaxed mt-0.5 ${isPopular ? "text-slate-400" : "text-slate-500"}`}>{item.details}</p>}
-              </div>
-            </li>
-          ))}
-        </ul>
-
-        {/* CTA Buttons */}
-        <div className="mt-auto space-y-2.5">
-          <motion.button
-            whileHover={{ scale: 1.02, y: -2 }}
-            whileTap={{ scale: 0.97 }}
-            onClick={handleCheckout}
-            disabled={loading}
-            className={`w-full py-3.5 sm:py-4 px-3 sm:px-4 rounded-xl sm:rounded-2xl font-black text-[12px] sm:text-[13px] md:text-[14px] uppercase tracking-wider transition-all flex items-center justify-center gap-2 sm:gap-2.5 cursor-pointer text-center leading-tight ${
-              isPopular
-                ? "bg-cta hover:bg-cta-hover text-white shadow-[0_10px_25px_rgba(234,88,12,0.4)] cta-pulse"
-                : "bg-accent hover:bg-accent/90 text-white shadow-md"
-            }`}
-          >
-            {loading ? (
-              <span className="inline-block animate-pulse">Cargando...</span>
-            ) : (
-              <>
-                <Zap className="w-3.5 h-3.5" />
-                Suscribirme
-              </>
-            )}
-          </motion.button>
-
-          <a
-            href={waUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`w-full py-2.5 rounded-xl font-bold text-[12px] transition-colors flex items-center justify-center gap-2 ${
-              isPopular ? "text-slate-300 hover:text-white bg-slate-800/60" : "text-slate-700 hover:text-slate-900 bg-slate-100"
-            }`}
-          >
-            <WhatsAppIcon className="w-4 h-4 text-emerald-500" />
-            O consulta por WhatsApp
-          </a>
-
-          {onOpenDetails && (
-            <button
-              onClick={onOpenDetails}
-              className={`w-full text-[11px] font-bold transition-colors flex items-center justify-center gap-2 py-1.5 ${
-                isPopular ? "text-slate-400 hover:text-white" : "text-slate-500 hover:text-accent"
-              }`}
-            >
-              Ver detalles técnicos <ArrowRight className="w-3 h-3" />
-            </button>
-          )}
+      {/* Price */}
+      <div className="mb-2">
+        <div className="flex items-baseline gap-1">
+          <span className={`font-black tracking-tighter ${isPopular ? "text-[52px] sm:text-[60px] text-slate-900" : "text-[42px] sm:text-[48px] text-slate-900"}`}>{price}</span>
+          {period && <span className="text-[14px] font-medium text-slate-400 ml-1">{period}</span>}
         </div>
       </div>
+
+      {/* Title & Description */}
+      <div className="mb-6">
+        <h3 className="text-[18px] sm:text-[20px] font-black tracking-tight text-slate-900 mb-1.5">{title}</h3>
+        <p className="text-[13px] text-slate-500 leading-relaxed">{description}</p>
+      </div>
+
+      {/* Divider */}
+      <div className="h-px bg-slate-200 mb-6" />
+
+      {/* Features */}
+      <ul className="space-y-3 flex-grow mb-8">
+        {items.map((item: any, idx: number) => (
+          <li key={idx} className="flex items-start gap-3">
+            <CheckCircle2 className="w-4 h-4 text-slate-300 mt-0.5 shrink-0" />
+            <div>
+              <span className="text-[13px] font-semibold text-slate-800 block leading-tight">{item.name}</span>
+              {item.details && <p className="text-[11px] text-slate-400 leading-relaxed mt-0.5">{item.details}</p>}
+            </div>
+          </li>
+        ))}
+      </ul>
+
+      {/* CTA */}
+      <div className="mt-auto space-y-2.5">
+        <motion.a
+          whileHover={{ scale: 1.01 }}
+          whileTap={{ scale: 0.99 }}
+          href={waUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`w-full py-3.5 px-4 rounded-xl font-bold text-[13px] tracking-wide transition-all flex items-center justify-center gap-2 cursor-pointer text-center ${
+            isPopular
+              ? "bg-slate-900 hover:bg-slate-800 text-white"
+              : "bg-slate-900 hover:bg-slate-800 text-white"
+          }`}
+        >
+          <WhatsAppIcon className="w-4 h-4 text-white" />
+          Contratar por WhatsApp
+        </motion.a>
+        <button
+          onClick={handleCheckout}
+          disabled={loading}
+          className="w-full py-2.5 rounded-xl font-semibold text-[11px] text-slate-500 hover:text-slate-800 bg-transparent hover:bg-slate-50 border border-slate-200 transition-all cursor-pointer"
+        >
+          {loading ? "Cargando..." : "Pagar con Tarjeta →"}
+        </button>
+      </div>
+
+      {/* Savings pill */}
+      {savings && (
+        <div className="mt-4 text-center">
+          <span className="text-[10px] font-semibold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-100">
+            {savings}
+          </span>
+        </div>
+      )}
     </motion.div>
   );
 };
@@ -864,146 +839,151 @@ const PricingCard = ({
 
 const Services = ({
   onOpenModal,
-  title = "Planes y Soluciones",
-  subtitle = "Ingeniería diseñada para escalar tu facturación.",
-  label = "Alto Rendimiento",
+  title = "Planes y Soluciones WaaS",
+  subtitle = "Tu equipo de ingeniería y tecnología por una tarifa fija mensual. Sin sorpresas.",
+  label = "Tarifa Plana",
 }: any) => (
   <section
     id="servicios"
-    className="py-16 md:py-24 px-6 md:px-10 max-w-[1200px] mx-auto relative overflow-hidden"
+    className="py-16 md:py-28 px-4 sm:px-6 md:px-10 max-w-[1200px] mx-auto relative overflow-hidden"
   >
-    <div className="absolute inset-0 overflow-hidden -z-10 pointer-events-none">
-      <div 
-        className="absolute inset-0 opacity-40" 
-        style={{ 
-          background: "radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, transparent 70%)", 
-          filter: "blur(30px)" 
-        }} 
-      />
-    </div>
-
-    <div className="text-center mb-16 relative">
-      <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-full max-w-[800px] aspect-video -z-10 opacity-20 blur-[100px] bg-accent/30 rounded-full" />
-      
+    {/* Header */}
+    <div className="text-center mb-16 md:mb-20">
       <span className="label-editorial mx-auto">{label}</span>
-      <h2 className="text-[36px] md:text-[64px] font-black tracking-tighter mb-4 leading-[0.9]">
+      <h2 className="text-[36px] sm:text-[48px] md:text-[58px] font-black tracking-tight mb-5 leading-[1.05] text-slate-900">
         {title}
       </h2>
-      <p className="text-muted max-w-2xl mx-auto text-[16px] md:text-[18px] leading-relaxed mb-10">
+      <p className="text-muted max-w-xl mx-auto text-[15px] sm:text-[17px] leading-relaxed">
         {subtitle}
       </p>
+    </div>
 
-      {/* Trust & Conversion Signals */}
-      <div className="flex flex-wrap items-center justify-center gap-4 md:gap-8 mb-12">
-        <div className="flex items-center gap-2 px-4 py-2 bg-slate-100 rounded-full border border-slate-200">
-          <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-          <span className="text-[11px] font-bold uppercase tracking-wider text-slate-700">Sin costos ocultos</span>
-        </div>
-        <div className="flex items-center gap-2 px-4 py-2 bg-slate-100 rounded-full border border-slate-200">
-          <Shield className="w-4 h-4 text-accent" />
-          <span className="text-[11px] font-bold uppercase tracking-wider text-slate-700">Garantía de Cumplimiento</span>
-        </div>
-        <div className="flex items-center gap-2 px-4 py-2 bg-slate-100 rounded-full border border-slate-200">
-          <Clock className="w-4 h-4 text-slate-600" />
-          <span className="text-[11px] font-bold uppercase tracking-wider text-slate-700">Soporte Continuo</span>
-        </div>
+    {/* Pricing Grid — 3 columns minimalist */}
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 lg:gap-0 items-start mb-16 md:mb-24">
+      {/* Plan $49/mes */}
+      <div className="lg:border-r lg:border-slate-200 lg:pr-8 xl:pr-10">
+        <PricingCard
+          title="Web Tradicional"
+          icon={Zap}
+          badge="Plan Inicial"
+          description="Para profesionales, marcas personales, tiendas, clínicas y negocios locales."
+          price="$49"
+          period="/mes"
+          savings="Promo semestral: $245 (6 meses)"
+          productId="70f62d4c-2cd9-49ad-9628-24a04d462cc0"
+          whatsappText="Hola! Me interesa la suscripción WaaS Web Tradicional ($49/mes). Quisiera iniciar mi proyecto."
+          items={[
+            { name: "Sitio web profesional 100% a medida", details: "Código propio en React/Vite. Carga en < 1s." },
+            { name: "Actualizaciones semanales incluidas", details: "Cambios de fotos, textos y ofertas sin costo." },
+            { name: "Infraestructura Cloud en Railway", details: "Hosting ultrarrápido con SSL incluido." },
+            { name: "Integración con WhatsApp y Google", details: "Formularios y botones para captar clientes." },
+            { name: "Soporte técnico continuo", details: "Atención directa por WhatsApp." },
+          ]}
+          onOpenDetails={() => onOpenModal("Web Tradicional WaaS", "Sitio web profesional por $49/mes. Sin inversión inicial.")}
+        />
+      </div>
+
+      {/* Plan $99/mes — Popular */}
+      <div className="lg:px-8 xl:px-10 lg:border-r lg:border-slate-200">
+        <PricingCard
+          isPopular={true}
+          icon={Crown}
+          title="Web App Advanced"
+          description="Para empresas que requieren panel de administración, catálogo o API REST."
+          price="$99"
+          period="/mes"
+          savings="Promo semestral: $495 (6 meses)"
+          productId="b78ef21a-1fdc-4fb6-b411-f4eb46f3fe96"
+          whatsappText="Hola! Me interesa el plan WaaS Web App Advanced ($99/mes). Necesito panel de administración."
+          items={[
+            { name: "Panel de administración personalizado", details: "Gestión de productos, pedidos o reservas." },
+            { name: "Pasarelas de pago e integraciones", details: "Culqi, Niubiz, MercadoPago o software externo." },
+            { name: "Cambios e iteraciones continuas", details: "Evolución constante de módulos comerciales." },
+            { name: "Infraestructura Cloud + Backups", details: "Copias diarias y 99.9% uptime." },
+            { name: "Soporte prioritario directo", details: "Línea técnica dedicada para resolver dudas." },
+          ]}
+          onOpenDetails={() => onOpenModal("Web App Advanced WaaS", "Para negocios con contenido dinámico, reservas o inventario.")}
+        />
+      </div>
+
+      {/* Plan $599.99/mes — IA */}
+      <div className="lg:pl-8 xl:pl-10">
+        <PricingCard
+          title="Web App con IA"
+          icon={Sparkles}
+          badge="Empresarial"
+          description="Para empresas con flujos de trabajo automatizables e integración profunda de IA."
+          price="$599.99"
+          period="/mes"
+          savings="Automatización Operativa Total"
+          productId="ef4fe8a9-0f60-40c2-b0c3-0cf2663e38de"
+          whatsappText="Hola! Me interesa el plan WaaS Web App con IA ($599.99/mes). Deseo automatizar mi empresa con IA."
+          items={[
+            { name: "Agentes de IA en WhatsApp 24/7", details: "Cotizan, envían info y atienden automáticamente." },
+            { name: "Automatización de procesos operativos", details: "Ahorra horas de trabajo manual." },
+            { name: "Servidores Cloud dedicados", details: "Infraestructura privada con alta seguridad." },
+            { name: "Monitoreo y respaldos 24/7", details: "Supervisión activa de rendimiento." },
+            { name: "Consultoría y evolución mensual", details: "Acompañamiento estratégico continuo." },
+          ]}
+          onOpenDetails={() => onOpenModal("Web App con IA WaaS", "IA integrada en flujos de trabajo. Automatización y reducción de costos.")}
+        />
       </div>
     </div>
 
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-6 items-stretch mb-24 px-4 lg:px-0">
-      {/* Plan $49/mes - Web Tradicional */}
-      <PricingCard
-        title="Web Tradicional"
-        icon={Zap}
-        badge="Suscripción Básica"
-        description="Para profesionales, marcas personales, tiendas, clínicas y negocios locales."
-        price="$49"
-        period="/ mes"
-        savings="Promo semestral: $245 (6 meses)"
-        productId="70f62d4c-2cd9-49ad-9628-24a04d462cc0"
-        whatsappText="Hola! Me interesa la suscripción WaaS Web Tradicional ($49/mes). Quisiera más información."
-        items={[
-          { name: "Sitio Web Profesional 100% a medida", details: "Sin plantillas genéricas. Código propio." },
-          { name: "Actualizaciones de contenido incluidas", details: "Cambios cuando los necesites, sin costo extra." },
-          { name: "Infraestructura Cloud de Alto Rendimiento", details: "Olvídate de gestionar cPanel o servidores lentos. Tu web vive en nuestra infraestructura optimizada para máxima velocidad." },
-          { name: "Integración con WhatsApp y Google", details: "Optimizada para recibir clientes de inmediato." },
-          { name: "Soporte técnico continuo", details: "Atención rápida directa por WhatsApp." },
-        ]}
-        onOpenDetails={() => onOpenModal("Web Tradicional WaaS", "Sitio web profesional por $49/mes. Sin inversión inicial. Incluye diseño, desarrollo, infraestructura cloud, SSL y soporte continuo.")}
-      />
-
-      {/* Plan $99/mes - Web App Advanced */}
-      <PricingCard
-        isPopular={true}
-        icon={Crown}
-        badge="Más Popular"
-        title="Web App Advanced"
-        description="Para empresas que requieren panel de administración, catálogo o API REST."
-        price="$99"
-        period="/ mes"
-        savings="Promo semestral: $495 (6 meses)"
-        productId="b78ef21a-1fdc-4fb6-b411-f4eb46f3fe96"
-        whatsappText="Hola! Me interesa el plan WaaS Web App Advanced ($99/mes). Necesito panel de administración y funciones avanzadas."
-        items={[
-          { name: "Web App interactiva y dinámica", details: "Base de datos y panel de control personalizado." },
-          { name: "Rest API e Integración de Sistemas", details: "Conexión con pasarelas de pago o software externo." },
-          { name: "Cambios e iteraciones ilimitadas", details: "Evolución constante de la plataforma." },
-          { name: "Infraestructura Cloud + Backups", details: "Servidores de alto rendimiento con 99.9% uptime incluidos en tu suscripción." },
-          { name: "Soporte prioritario directo", details: "Contacto directo con el equipo de desarrollo." },
-        ]}
-        onOpenDetails={() => onOpenModal("Web App Advanced WaaS", "Para negocios con contenido dinámico, reservas o inventario. Incluye panel admin, base de datos y soporte activo.")}
-      />
-
-      {/* Plan $599.99/mes - Web App con IA */}
-      <PricingCard
-        title="Web App con IA"
-        icon={Sparkles}
-        badge="Empresarial & IA"
-        description="Para empresas con flujos de trabajo automatizables e integración profunda de IA."
-        price="$599.99"
-        period="/ mes"
-        savings="Automatización Operativa Total"
-        productId="ef4fe8a9-0f60-40c2-b0c3-0cf2663e38de"
-        whatsappText="Hola! Me interesa el plan WaaS Web App con IA ($599.99/mes). Deseo automatizar la gestión y flujos de mi empresa con IA."
-        items={[
-          { name: "Integración de Inteligencia Artificial", details: "Modelos de IA aplicados a la gestión de tu empresa." },
-          { name: "Agentes y Asistentes Automatizados", details: "Atención, calificación y procesamiento 24/7." },
-          { name: "Automatización de Flujos de Trabajo", details: "Eliminación de procesos manuales y repetitivos." },
-          { name: "Infraestructura Cloud Dedicada", details: "Servidores preparados para alta concurrencia." },
-          { name: "Consultoría y Evolución Mensual", details: "Optimización continua de tus sistemas con IA." },
-        ]}
-        onOpenDetails={() => onOpenModal("Web App con IA WaaS", "IA integrada en tus flujos de trabajo. Automatización de atención al cliente y reducción de costos operativos. Pago mensual fijo.")}
-      />
+    {/* Hotel Pro — Discreet CTA */}
+    <div className="text-center mb-16 md:mb-20">
+      <div className="inline-flex flex-col items-center gap-3 px-8 py-6 rounded-2xl border border-slate-200 bg-slate-50/50">
+        <div className="flex items-center gap-2">
+          <Building2 className="w-4 h-4 text-slate-400" />
+          <span className="text-[12px] font-bold uppercase tracking-[0.12em] text-slate-500">Sector Hotelero</span>
+        </div>
+        <p className="text-[15px] text-slate-700 font-semibold">
+          Plan Desarrollo Web para Hoteles — <span className="text-slate-900 font-black">$999 USD</span> <span className="text-slate-400 font-medium">pago único</span>
+        </p>
+        <p className="text-[12px] text-slate-500 max-w-md">
+          Web premium + integración PMS + motor de reservas + 2,500 créditos IA/mes en Google Flow.
+        </p>
+        <a
+          href="https://wa.me/51904060670?text=Hola,%20quiero%20información%20sobre%20el%20Plan%20Hoteles%20($999)."
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-[12px] font-bold text-accent hover:underline mt-1"
+        >
+          Cotizar por WhatsApp →
+        </a>
+      </div>
     </div>
 
-    {/* Strategy CTA Row */}
-    <div
-      className="relative rounded-3xl border border-slate-200 bg-slate-50/70 p-8 md:p-12 overflow-hidden"
-    >
-      <div className="flex flex-col lg:flex-row items-center justify-between gap-8 text-center lg:text-left">
-        <div className="flex-1 max-w-xl">
-          <div className="w-12 h-12 bg-accent/10 text-accent rounded-xl flex items-center justify-center mb-4 mx-auto lg:mx-0">
-            <Zap className="w-6 h-6" />
-          </div>
-          <h3 className="text-[24px] md:text-[30px] font-black tracking-tight text-slate-900 mb-2">
-            ¿Tienes dudas sobre qué plan se adapta a tu negocio?
-          </h3>
-          <p className="text-slate-600 text-[15px] md:text-[16px] leading-relaxed">
-            Evaluamos tus requerimientos técnicos y te asesoramos para elegir la arquitectura adecuada. Sin compromiso comercial.
-          </p>
+    {/* Trust Row */}
+    <div className="flex flex-wrap items-center justify-center gap-3 mb-14 md:mb-16">
+      {[
+        { icon: ShieldCheck, text: "RUC 15609816934 · Factura Electrónica" },
+        { icon: CheckCircle2, text: "Garantía 30 días post-lanzamiento" },
+        { icon: Clock, text: "Soporte directo por WhatsApp" },
+        { icon: CreditCard, text: "Yape · BCP · Interbank · Tarjeta" },
+      ].map((item, i) => (
+        <div key={i} className="flex items-center gap-2 px-4 py-2 bg-white rounded-full border border-slate-200 text-slate-600 text-[11px] font-semibold">
+          <item.icon className="w-3.5 h-3.5 text-slate-400" />
+          <span>{item.text}</span>
         </div>
-        
-        <div className="flex flex-col gap-3 min-w-[260px]">
-          <button
-            onClick={() => onOpenModal("Consulta Gratuita de 15 Minutos", "15min_consultation")}
-            className="bg-accent hover:bg-accent/90 text-white py-3.5 px-6 rounded-xl font-bold text-[13px] uppercase tracking-wider shadow-sm transition-colors flex items-center justify-center gap-2 cursor-pointer"
-          >
-            <Zap className="w-4 h-4" />
-            Agendar Auditoría (15 min)
-          </button>
-          <span className="text-[11px] font-medium text-slate-500 text-center">Respuesta y confirmación directa</span>
-        </div>
-      </div>
+      ))}
+    </div>
+
+    {/* Strategy CTA */}
+    <div className="text-center">
+      <h3 className="text-[22px] md:text-[28px] font-black tracking-tight text-slate-900 mb-3">
+        ¿Tienes dudas sobre qué plan se adapta a tu negocio?
+      </h3>
+      <p className="text-slate-500 text-[14px] md:text-[15px] leading-relaxed max-w-lg mx-auto mb-6">
+        Evaluamos tus requerimientos técnicos y te asesoramos para elegir la arquitectura adecuada. Sin compromiso.
+      </p>
+      <button
+        onClick={() => onOpenModal("Consulta Gratuita de 15 Minutos", "15min_consultation")}
+        className="bg-slate-900 hover:bg-slate-800 text-white py-3.5 px-7 rounded-xl font-bold text-[13px] uppercase tracking-wider transition-all inline-flex items-center justify-center gap-2 cursor-pointer"
+      >
+        <Zap className="w-4 h-4" />
+        Agendar Auditoría Gratuita (15 min)
+      </button>
     </div>
 
   </section>
@@ -1014,7 +994,6 @@ const Portfolio = () => {
 
   const hotelClients = [
     {
-      emoji: "🏨",
       name: "Hotel Costa Blanca",
       location: "Vichayito – Perú",
       tasks: [
@@ -1027,7 +1006,6 @@ const Portfolio = () => {
       focus: "Refugio resort en Vichayito con reservas directas por WhatsApp y motor de experiencias.",
     },
     {
-      emoji: "🌿",
       name: "Fundo Achamaqui",
       location: "Chachapoyas – Perú",
       tasks: [
@@ -1040,7 +1018,6 @@ const Portfolio = () => {
       focus: "Hospedaje convertido en paquete turístico con venta directa.",
     },
     {
-      emoji: "🌊",
       name: "Punta Negritos | Wind & Surf",
       location: "Talara – Perú",
       tasks: [
@@ -1053,7 +1030,6 @@ const Portfolio = () => {
       focus: "Lanzamiento digital completo: infraestructura + canales de venta.",
     },
     {
-      emoji: "🌴",
       name: "Hacienda Don Vicente",
       location: "Tarapoto – Perú",
       tasks: [
@@ -1068,19 +1044,17 @@ const Portfolio = () => {
 
   const techClients = [
     {
-      emoji: "⚖️",
       name: "Latam Abogados",
-      location: "Headless Web App (React)",
+      location: "React / Vite con carga en 0.5s",
       tasks: [
-        "Migración pixel-perfect de WordPress a React/Vite.",
+        "Desarrollo pixel-perfect en React/Vite.",
         "Integración nativa de API MailerLite / Mailchimp.",
         "Automatización de sistema de reservas B2B.",
         "Optimización de assets para SEO internacional.",
       ],
-      focus: "Plataforma líder en Inglés Jurídico y Consultoría Legal especializada en U.S., con automatización avanzada de leads.",
+      focus: "Plataforma líder en Inglés Jurídico y Consultoría Legal especializada en U.S., con captación automatizada de clientes.",
     },
     {
-      emoji: "🤖",
       name: "Hothelia SaaS",
       location: "Software Hotelero B2B",
       tasks: [
@@ -1092,16 +1066,15 @@ const Portfolio = () => {
       focus: "Reducción del 70% en tiempo de procesamiento de datos confidenciales.",
     },
     {
-      emoji: "🛍️",
       name: "Olivos del Perú",
-      location: "E-Commerce & Exportación",
+      location: "E-Commerce & WhatsApp API",
       tasks: [
-        "Implementación de ChatGPT/Claude para atención 24/7.",
-        "Conexión en tiempo real con inventario vía GraphQL.",
-        "Webhooks conectados a WhatsApp Business API.",
-        "Calificación predictiva de leads.",
+        "Implementación de Agente IA para atención 24/7.",
+        "Conexión en tiempo real con inventario.",
+        "Catálogo interactivo con checkout directo.",
+        "Flujos de conversión para compradores internacionales.",
       ],
-      focus: "Atención hiper-personalizada y aumento del 35% en tasa de conversión.",
+      focus: "E-Commerce optimizado para exportación con calificación y cierre automatizado de ventas.",
     },
   ];
 
@@ -1192,40 +1165,39 @@ const Portfolio = () => {
           transition={{ duration: 0.8 }}
           className="space-y-8"
         >
-          <div className="flex items-center justify-between mb-8 pb-4 border-b border-white/5">
-            <h3 className="text-[20px] font-bold flex items-center gap-3">
-              <Globe className="w-6 h-6 text-accent" />
+          <div className="flex items-center justify-between mb-6 pb-3 border-b border-slate-200">
+            <h3 className="text-[18px] sm:text-[20px] font-black flex items-center gap-2.5 text-slate-900">
+              <Building2 className="w-5 h-5 text-accent" />
               Vertical Hotelero
             </h3>
-            <span className="text-[12px] font-bold text-accent uppercase tracking-[0.2em] bg-accent/10 px-3 py-1 rounded-full">
-              Core Expertise
+            <span className="text-[11px] font-bold text-accent uppercase tracking-wider bg-accent/10 px-3 py-1 rounded-full">
+              Sistemas en Producción
             </span>
           </div>
-          <div className="grid grid-cols-1 gap-4">
+          <div className="grid grid-cols-1 gap-3">
             {hotelClients.map((client, i) => (
               <motion.div
                 key={i}
-                whileHover={{
-                  y: -2,
-                  backgroundColor: "rgba(255,255,255,0.03)",
-                }}
+                whileHover={{ y: -2 }}
                 onClick={() => setSelectedHotel(client)}
-                className="p-5 glass rounded-[16px] border-white/5 flex flex-col gap-2 cursor-pointer group transition-all"
+                className="p-4 sm:p-5 rounded-2xl border border-slate-200 bg-white shadow-2xs hover:border-slate-300 hover:shadow-xs flex flex-col gap-1.5 cursor-pointer group transition-all"
               >
                 <div className="flex justify-between items-center">
                   <div className="flex items-center gap-3">
-                    <span className="text-xl">{client.emoji}</span>
-                    <span className="text-[15px] font-bold text-fg group-hover:text-accent transition-colors">
+                    <div className="w-8 h-8 rounded-lg bg-accent/10 text-accent flex items-center justify-center shrink-0">
+                      <Building2 className="w-4 h-4" />
+                    </div>
+                    <span className="text-[14px] sm:text-[15px] font-bold text-slate-900 group-hover:text-accent transition-colors">
                       {client.name}
                     </span>
                   </div>
-                  <div className="w-8 h-8 rounded-full bg-white/5 group-hover:bg-accent/10 flex items-center justify-center transition-colors">
-                    <ArrowRight className="w-4 h-4 text-muted group-hover:text-accent transition-colors" />
+                  <div className="w-7 h-7 rounded-full bg-slate-100 group-hover:bg-accent/10 flex items-center justify-center transition-colors">
+                    <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-accent transition-colors" />
                   </div>
                 </div>
-                <div className="flex items-center gap-2">
-                  <MapPin className="w-3 h-3 text-muted" />
-                  <span className="text-[12px] text-muted uppercase tracking-wider">
+                <div className="flex items-center gap-2 pl-11">
+                  <MapPin className="w-3 h-3 text-slate-400" />
+                  <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
                     {client.location}
                   </span>
                 </div>
@@ -1240,42 +1212,41 @@ const Portfolio = () => {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="space-y-8"
+          className="space-y-6"
         >
-          <div className="flex items-center justify-between mb-8 pb-4 border-b border-white/5">
-            <h3 className="text-[20px] font-bold flex items-center gap-3">
-              <Zap className="w-6 h-6 text-accent" />
+          <div className="flex items-center justify-between mb-6 pb-3 border-b border-slate-200">
+            <h3 className="text-[18px] sm:text-[20px] font-black flex items-center gap-2.5 text-slate-900">
+              <Zap className="w-5 h-5 text-accent" />
               Ingeniería IA & Cloud
             </h3>
-            <span className="text-[12px] font-bold text-accent uppercase tracking-[0.2em] bg-accent/10 px-3 py-1 rounded-full">
+            <span className="text-[11px] font-bold text-accent uppercase tracking-wider bg-accent/10 px-3 py-1 rounded-full">
               Innovación
             </span>
           </div>
-          <div className="grid grid-cols-1 gap-4">
+          <div className="grid grid-cols-1 gap-3">
             {techClients.map((client, i) => (
               <motion.div
                 key={i}
-                whileHover={{
-                  y: -2,
-                  backgroundColor: "rgba(255,255,255,0.03)",
-                }}
+                whileHover={{ y: -2 }}
                 onClick={() => setSelectedHotel(client)}
-                className="p-5 glass rounded-[16px] border-white/5 flex flex-col gap-2 cursor-pointer group transition-all"
+                className="p-4 sm:p-5 rounded-2xl border border-slate-200 bg-white shadow-2xs hover:border-slate-300 hover:shadow-xs flex flex-col gap-1.5 cursor-pointer group transition-all"
               >
                 <div className="flex justify-between items-center">
                   <div className="flex items-center gap-3">
-                    <span className="text-xl">{client.emoji}</span>
-                    <span className="text-[15px] font-bold text-fg group-hover:text-accent transition-colors">
+                    <div className="w-8 h-8 rounded-lg bg-accent/10 text-accent flex items-center justify-center shrink-0">
+                      <Globe className="w-4 h-4" />
+                    </div>
+                    <span className="text-[14px] sm:text-[15px] font-bold text-slate-900 group-hover:text-accent transition-colors">
                       {client.name}
                     </span>
                   </div>
-                  <div className="w-8 h-8 rounded-full bg-white/5 group-hover:bg-accent/10 flex items-center justify-center transition-colors">
-                    <ArrowRight className="w-4 h-4 text-muted group-hover:text-accent transition-colors" />
+                  <div className="w-7 h-7 rounded-full bg-slate-100 group-hover:bg-accent/10 flex items-center justify-center transition-colors">
+                    <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-accent transition-colors" />
                   </div>
                 </div>
-                <div className="flex items-center gap-2">
-                  <Terminal className="w-3 h-3 text-muted" />
-                  <span className="text-[12px] text-muted uppercase tracking-wider">
+                <div className="flex items-center gap-2 pl-11">
+                  <Terminal className="w-3 h-3 text-slate-400" />
+                  <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
                     {client.location}
                   </span>
                 </div>
@@ -1452,12 +1423,14 @@ const Portfolio = () => {
               </button>
 
               <div className="flex items-center gap-4 mb-8">
-                <span className="text-5xl">{selectedHotel.emoji}</span>
+                <div className="w-12 h-12 rounded-2xl bg-accent/20 text-accent flex items-center justify-center shrink-0">
+                  <Building2 className="w-6 h-6" />
+                </div>
                 <div>
-                  <h3 className="text-[24px] font-black tracking-tighter leading-none mb-1">
+                  <h3 className="text-[22px] font-black tracking-tight leading-none mb-1 text-white">
                     {selectedHotel.name}
                   </h3>
-                  <p className="text-[14px] text-accent font-bold uppercase tracking-widest">
+                  <p className="text-[13px] text-amber-400 font-bold uppercase tracking-wider">
                     {selectedHotel.location}
                   </p>
                 </div>
@@ -2072,64 +2045,69 @@ const ChambaHero = () => {
 };
 
 const PainPoints = () => (
-  <section className="py-14 md:py-20 px-6 md:px-10 max-w-[1024px] mx-auto border-t border-slate-100">
+  <section className="py-12 md:py-20 px-4 sm:px-6 md:px-10 max-w-[1024px] mx-auto border-t border-slate-100">
     <ScrollReveal>
-    <div className="text-center mb-10 md:mb-16">
-      <span className="label-editorial mx-auto">Obstáculos Comunes</span>
-      <h2 className="text-[32px] md:text-[40px] font-bold tracking-tight mb-4 text-slate-900">
-        Los problemas del desarrollo web tradicional
+    <div className="text-center mb-8 md:mb-14">
+      <span className="label-editorial mx-auto">El Costo de no tener un buen sistema</span>
+      <h2 className="text-[28px] sm:text-[34px] md:text-[42px] font-black tracking-tight mb-3 text-slate-900">
+        ¿Cuánto dinero te hace perder el modelo tradicional?
       </h2>
+      <p className="text-muted text-[14px] sm:text-[16px] max-w-2xl mx-auto leading-relaxed">
+        El 80% de las pymes pagan de más por webs que quedan abandonadas a los pocos meses.
+      </p>
     </div>
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
       {[
         {
-          title: "Inversión inicial excesiva",
-          desc: "Pagar miles de dólares por adelantado antes de validar resultados crea un riesgo financiero innecesario.",
+          title: "Pagar $1,500 por adelantado a ciegas",
+          desc: "Desembolsar miles de dólares antes de validar resultados es un riesgo enorme que drena tu capital de trabajo.",
           icon: TrendingUp,
         },
         {
-          title: "Sitios web desactualizados",
-          desc: "Cada cambio de texto, imagen o precio requiere cotizaciones lentas y sobrecostos imprevistos.",
+          title: "Webs abandonadas y desactualizadas",
+          desc: "Cada cambio de texto, foto o precio requiere cotizaciones lentas, programadores caros y demoras de semanas.",
           icon: Globe,
         },
         {
-          title: "Pérdida de consultas y ventas",
-          desc: "Sin integraciones automáticas con WhatsApp o canales directos, las solicitudes se enfrían y no convierten.",
+          title: "Pérdida de 3 de cada 5 prospectos",
+          desc: "Si tu web tarda en cargar o no conecta directo con WhatsApp, los clientes que pagaste en publicidad se van con la competencia.",
           icon: MessageSquare,
         },
       ].map((item, i) => (
         <div
           key={i}
-          className="p-7 rounded-2xl border border-slate-200 bg-white shadow-xs hover:border-slate-300 hover:shadow-md transition-all"
+          className="p-5 sm:p-7 rounded-2xl border border-slate-200 bg-white shadow-xs hover:border-slate-300 hover:shadow-md transition-all flex sm:block items-start gap-4 sm:gap-0"
         >
-          <div className="w-11 h-11 bg-red-50 text-red-600 rounded-xl flex items-center justify-center mb-5">
+          <div className="w-10 h-10 sm:w-11 sm:h-11 bg-red-50 text-red-600 rounded-xl flex items-center justify-center sm:mb-4 shrink-0">
             <item.icon className="w-5 h-5" />
           </div>
-          <h4 className="text-[17px] font-bold text-slate-900 mb-2">{item.title}</h4>
-          <p className="text-[13px] text-slate-600 leading-relaxed">{item.desc}</p>
+          <div>
+            <h4 className="text-[16px] font-bold text-slate-900 mb-1.5">{item.title}</h4>
+            <p className="text-[13px] text-slate-600 leading-relaxed">{item.desc}</p>
+          </div>
         </div>
       ))}
     </div>
 
     {/* Inline Lead Capture after Pain Points */}
     <div
-      className="mt-14 text-center rounded-3xl p-8 md:p-10 border border-slate-200 bg-slate-50/70"
+      className="mt-10 sm:mt-14 text-center rounded-3xl p-6 sm:p-8 md:p-10 border border-slate-200 bg-slate-50/80"
     >
-      <h3 className="text-[22px] md:text-[28px] font-black tracking-tight mb-2 text-slate-900">
-        Una solución técnica pensada para operar sin fricción
+      <h3 className="text-[20px] sm:text-[24px] md:text-[28px] font-black tracking-tight mb-2 text-slate-900">
+        Tu equipo de ingeniería web por solo $49/mes
       </h3>
-      <p className="text-slate-600 text-[14px] md:text-[15px] mb-6 max-w-[520px] mx-auto leading-relaxed">
-        Conversa con nosotros directamente por WhatsApp para revisar tus necesidades y recibir una propuesta técnica.
+      <p className="text-slate-600 text-[13px] sm:text-[15px] mb-6 max-w-[540px] mx-auto leading-relaxed">
+        Sin contratos forzosos. Mantenimiento, hosting cloud ultrarrápido y soporte directo por WhatsApp incluido.
       </p>
       <div className="flex justify-center">
         <a
           href="https://wa.me/51904060670?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20sus%20planes%20WaaS."
           target="_blank"
           rel="noopener noreferrer"
-          className="bg-accent hover:bg-accent/90 text-white px-6 py-3.5 rounded-xl font-bold text-[13px] shadow-sm flex items-center gap-2 uppercase tracking-wider transition-colors"
+          className="bg-accent hover:bg-accent/90 text-white px-6 sm:px-7 py-3.5 rounded-xl font-bold text-[13px] shadow-sm flex items-center gap-2 uppercase tracking-wider transition-colors"
         >
           <WhatsAppIcon className="w-4 h-4" />
-          Hablar con un Asesor
+          Hablar por WhatsApp (Respuesta Rápida)
         </a>
       </div>
     </div>
@@ -2266,56 +2244,58 @@ const FAQ = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const faqs = [
     {
-      q: "¿La web es mía o de ustedes?",
-      a: "Es 100% tuya. Tú eres dueño de tu dominio, tus clientes y tu marca. Nuestra suscripción es por el uso de la infraestructura tecnológica (servidores veloces) y las horas que dedicamos a mantener, programar y actualizar tu web cada semana.",
+      q: "¿La web y el dominio son míos?",
+      a: "Totalmente. Tu dominio (.pe, .com), tu marca y tu base de datos son 100% tuyos desde el día 1. La suscripción cubre el servidor cloud de alta velocidad y nuestro equipo dedicado a actualizar y mantener tu web cada semana.",
     },
     {
-      q: "¿Qué pasa si decido dejar de pagar la suscripción?",
-      a: "Al funcionar como un servicio de infraestructura (similar a Shopify), la web requiere una suscripción activa para mantenerse en los servidores y recibir soporte. Si decides pausar, el servicio se suspende temporalmente, pero puedes reactivarlo cuando desees.",
+      q: "¿Cómo funciona el pago y emiten factura en Perú?",
+      a: "Aceptamos Yape, Plin, Transferencia BCP, Interbank y Tarjetas de Crédito/Débito. Emitimos Factura y Boleta Electrónica formal con RUC 15609816934 para que puedas deducir gastos de tu empresa.",
     },
     {
-      q: "¿Tengo que comprar un hosting aparte?",
-      a: "No. El servidor de alto rendimiento ya está incluido en nuestros planes. Si ya cuentas con un hosting propio (como cPanel), te recomendamos nuestro plan de Pago Único Semestral para instalar el sistema directamente en tu servidor.",
+      q: "¿Qué pasa si el diseño inicial no cumple mis expectativas?",
+      a: "Cero Riesgo: Si en los primeros 15 días sientes que el diseño no va con tu marca, te devolvemos el 100% de tu dinero sin peleas ni letra chica.",
     },
     {
-      q: "¿Cuánto tardan en realizar los cambios de contenido?",
-      a: "Procesamos solicitudes de contenido semanalmente. Envías tus textos o fotos durante la semana y se publican automáticamente sin costos adicionales.",
+      q: "¿Tengo que pagar un hosting o mantenimiento aparte?",
+      a: "No. Toda la infraestructura cloud, los certificados SSL y el mantenimiento semanal ya están incluidos en tu tarifa fija mensual. Cero costos sorpresa.",
     },
     {
-      q: "¿Trabajan con clientes fuera de Perú?",
-      a: "Sí. Tenemos clientes en México, Estados Unidos, España y toda Latinoamérica. Todo el proceso es 100% remoto y atendido por WhatsApp.",
+      q: "¿Hay contratos forzosos de permanencia?",
+      a: "No. No creemos en retenciones obligatorias. Puedes pausar o cancelar tu suscripción en cualquier momento avisándonos por WhatsApp.",
+    },
+    {
+      q: "¿Cómo solicito cambios de fotos, textos o promociones?",
+      a: "Solo nos envías un mensaje de WhatsApp con lo que deseas actualizar y nuestro equipo lo implementa durante la semana sin ningún costo extra.",
     },
   ];
 
   return (
-    <section id="faq" className="py-14 md:py-20 px-6 md:px-10 max-w-[800px] mx-auto">
+    <section id="faq" className="py-12 md:py-20 px-4 sm:px-6 md:px-10 max-w-[850px] mx-auto">
       <ScrollReveal>
       <div className="text-center mb-8 md:mb-12">
-        <h2 className="text-[24px] md:text-[32px] font-bold tracking-tight">
+        <span className="label-editorial mx-auto">Respuestas Claras</span>
+        <h2 className="text-[26px] sm:text-[32px] md:text-[38px] font-black tracking-tight text-slate-900">
           Preguntas Frecuentes
         </h2>
       </div>
       </ScrollReveal>
-      <div className="space-y-4">
+      <div className="space-y-3">
         {faqs.map((faq, i) => (
-          <motion.div
+          <div
             key={i}
-            initial={{ opacity: 0, y: 20, filter: "blur(4px)" }}
-            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            viewport={{ once: true, margin: "-30px" }}
-            transition={{ duration: 0.6, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
-            className="glass rounded-[12px] border-white/5 overflow-hidden smooth-gpu"
+            className="rounded-2xl border border-slate-200 bg-white shadow-2xs overflow-hidden transition-colors hover:border-slate-300"
           >
             <button
               onClick={() => setOpenIndex(openIndex === i ? null : i)}
-              className="w-full p-5 text-left flex justify-between items-center hover:bg-white/[0.02] transition-colors group"
+              className="w-full p-4 sm:p-5 text-left flex justify-between items-center hover:bg-slate-50/60 transition-colors group cursor-pointer"
             >
-              <span className="text-[14px] font-bold group-hover:text-accent transition-colors">{faq.q}</span>
+              <span className="text-[14px] sm:text-[15px] font-bold text-slate-900 group-hover:text-accent transition-colors pr-4">{faq.q}</span>
               <motion.span
                 animate={{ rotate: openIndex === i ? 90 : 0 }}
-                transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ duration: 0.25 }}
+                className="shrink-0 text-slate-400 group-hover:text-accent"
               >
-                <ArrowRight className="w-4 h-4 text-accent" />
+                <ArrowRight className="w-4 h-4" />
               </motion.span>
             </button>
             <AnimatePresence>
@@ -2324,14 +2304,14 @@ const FAQ = () => {
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ height: "auto", opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                  className="overflow-hidden"
+                  transition={{ duration: 0.25 }}
+                  className="overflow-hidden border-t border-slate-100"
                 >
-                  <p className="px-5 pb-5 text-[13px] text-muted leading-relaxed">{faq.a}</p>
+                  <p className="p-4 sm:p-5 text-[13px] sm:text-[14px] text-slate-600 leading-relaxed bg-slate-50/40">{faq.a}</p>
                 </motion.div>
               )}
             </AnimatePresence>
-          </motion.div>
+          </div>
         ))}
       </div>
     </section>
@@ -2664,18 +2644,20 @@ const ProcessTimeline = () => (
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: i * 0.05 }}
-            className="glass rounded-[20px] p-8 border-white/5 hover:border-accent/20 transition-colors group relative overflow-hidden"
+            className="p-5 sm:p-6 rounded-2xl border border-slate-200 bg-white shadow-xs hover:border-slate-300 hover:shadow-md transition-all group relative overflow-hidden flex sm:block items-start gap-4 sm:gap-0"
           >
-            <span className="absolute top-4 right-6 text-[48px] font-black text-accent/5 select-none">
+            <span className="absolute top-3 right-4 text-[32px] sm:text-[40px] font-black text-slate-200/60 select-none">
               {item.step}
             </span>
-            <div className="w-12 h-12 bg-accent/10 rounded-full flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
-              <item.icon className="w-6 h-6 text-accent" />
+            <div className="w-10 h-10 sm:w-11 sm:h-11 bg-accent/10 text-accent rounded-xl flex items-center justify-center sm:mb-4 shrink-0">
+              <item.icon className="w-5 h-5" />
             </div>
-            <h4 className="text-[16px] font-bold mb-2">{item.title}</h4>
-            <p className="text-[13px] text-muted leading-relaxed">
-              {item.desc}
-            </p>
+            <div>
+              <h4 className="text-[16px] font-bold text-slate-900 mb-1.5">{item.title}</h4>
+              <p className="text-[13px] text-slate-600 leading-relaxed">
+                {item.desc}
+              </p>
+            </div>
           </motion.div>
         ))}
       </div>
@@ -2693,84 +2675,86 @@ const Guarantees = () => (
       </h2>
     </div>
     </ScrollReveal>
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
       {[
         {
-          icon: Repeat,
-          title: "Evolución Continua",
-          desc: "Olvídate de las 2 o 3 rondas de revisión tradicionales. Nuestro modelo WaaS incluye actualizaciones y cambios de contenido semanales durante toda tu suscripción.",
+          icon: ShieldCheck,
+          title: "Garantía Cero Riesgo (15 Días)",
+          desc: "Si en los primeros 15 días sientes que el diseño no cumple tus expectativas, te devolvemos el 100% de tu dinero. Sin letra chica.",
         },
         {
-          icon: Headphones,
-          title: "Soporte Técnico Permanente",
-          desc: "No hay un límite de '30 días post-lanzamiento'. Mientras tu suscripción esté activa, tu web cuenta con nuestro respaldo técnico directo por WhatsApp.",
+          icon: Building2,
+          title: "Facturación Formal en Perú",
+          desc: "Emitimos Factura, Boleta Electrónica y Recibo por Honorarios con RUC 15609816934. Empresa peruana formal.",
         },
         {
           icon: Shield,
-          title: "Propiedad Total y Transparencia",
-          desc: "Tu marca y tu dominio son tuyos desde el día 1. Nosotros proveemos la ingeniería, el código a medida y la infraestructura rápida.",
+          title: "Propiedad Total de tu Marca",
+          desc: "Tu dominio (.pe / .com) y tu base de clientes están 100% a tu nombre. Eres el dueño absoluto de tu activo digital.",
+        },
+        {
+          icon: Repeat,
+          title: "Evolución Continua",
+          desc: "Olvídate de pagar extra por cambios pequeños. Tu suscripción incluye actualizaciones y mejoras semanales.",
         },
         {
           icon: Code2,
-          title: "Código propio, no plantillas",
-          desc: "Tu proyecto se desarrolla a mano. Carga más rápido, rankea mejor en Google y no depende de plugins ni plantillas genéricas.",
+          title: "Código Propio, No Plantillas",
+          desc: "Desarrollo en React/Vite ultra veloz. Carga en < 1 segundo y está preparado para convertir tráfico en ventas.",
         },
         {
-          icon: Clock,
-          title: "Entrega en plazo o devolvemos",
-          desc: "Si no cumplimos el deadline acordado, devolvemos el 20% del pago final. Sin letras chicas.",
-        },
-        {
-          icon: BarChart3,
-          title: "Tracking desde el día 1",
-          desc: "Google Analytics, Meta Pixel y medición de conversiones configurados desde el lanzamiento.",
+          icon: Headphones,
+          title: "Soporte Directo por WhatsApp",
+          desc: "Atención rápida y resolución técnica directa por WhatsApp sin tickets lentos ni intermediarios.",
         },
       ].map((item, i) => (
-        <GlowCard key={i}>
         <motion.div
+          key={i}
           initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: i * 0.05 }}
-          className="glass rounded-[20px] p-6 border-white/5 hover:border-accent/20 transition-colors group"
+          className="p-5 sm:p-6 rounded-2xl border border-slate-200 bg-white shadow-xs hover:border-slate-300 hover:shadow-md transition-all flex sm:block items-start gap-4 sm:gap-0"
         >
-          <div className="w-12 h-12 bg-accent/10 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-            <item.icon className="w-6 h-6 text-accent" />
+          <div className="w-10 h-10 sm:w-11 sm:h-11 bg-accent/10 text-accent rounded-xl flex items-center justify-center sm:mb-4 shrink-0">
+            <item.icon className="w-5 h-5" />
           </div>
-          <h4 className="text-[15px] font-bold mb-2">{item.title}</h4>
-          <p className="text-[13px] text-muted leading-relaxed">{item.desc}</p>
+          <div>
+            <h4 className="text-[16px] font-bold text-slate-900 mb-1.5">{item.title}</h4>
+            <p className="text-[13px] text-slate-600 leading-relaxed">{item.desc}</p>
+          </div>
         </motion.div>
-        </GlowCard>
       ))}
     </div>
 
     {/* Dual CTA */}
-    <div className="mt-16 text-center">
-      <h3 className="text-[24px] md:text-[32px] font-black mb-4">
-        ¿Empezamos?
+    <div className="mt-12 md:mt-16 text-center">
+      <h3 className="text-[22px] md:text-[30px] font-black mb-3 text-slate-900">
+        ¿Listo para transformar la presencia digital de tu negocio?
       </h3>
-      <p className="text-muted text-[15px] mb-8">
-        Escríbenos por WhatsApp y te respondemos hoy.
+      <p className="text-slate-600 text-[14px] md:text-[15px] mb-8 max-w-md mx-auto">
+        Escríbenos por WhatsApp y te asesoramos sin costo ni compromiso.
       </p>
-      <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+      <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
         <motion.a
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
           href="https://wa.me/51904060670?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20sus%20planes%20WaaS."
           target="_blank"
-          className="w-full sm:w-auto bg-accent text-white px-6 py-3.5 rounded-lg font-bold text-[13px] shadow-md"
+          rel="noopener noreferrer"
+          className="w-full sm:w-auto bg-accent hover:bg-accent/90 text-white px-7 py-3.5 rounded-xl font-bold text-[13px] shadow-sm flex items-center justify-center gap-2 uppercase tracking-wider transition-colors"
         >
-          Hablar con un Asesor
+          <WhatsAppIcon className="w-4 h-4 text-white" />
+          Hablar por WhatsApp
         </motion.a>
-        <motion.a
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+        <a
           href="https://wa.me/51904060670?text=Hola%2C%20tengo%20preguntas%20sobre%20los%20servicios%20de%20Chamba%20Digital."
           target="_blank"
-          className="w-full sm:w-auto bg-white/5 border border-white/10 hover:border-accent/30 text-fg px-6 py-3.5 rounded-lg font-bold text-[13px] transition-colors"
+          rel="noopener noreferrer"
+          className="w-full sm:w-auto bg-slate-100 hover:bg-slate-200 text-slate-700 px-6 py-3.5 rounded-xl font-bold text-[13px] transition-colors text-center"
         >
           Tengo Preguntas
-        </motion.a>
+        </a>
       </div>
     </div>
   </section>
