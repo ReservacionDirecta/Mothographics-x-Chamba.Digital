@@ -59,18 +59,7 @@
       0 10px 24px -4px rgba(15, 23, 42, 0.06);
     border-color: rgba(148, 163, 184, 0.5);
   }
-  
-  .glass-premium {
-    @apply bg-white border border-slate-200 rounded-2xl;
-    box-shadow:
-      0 1px 3px rgba(15, 23, 42, 0.04),
-      0 8px 24px -6px rgba(15, 23, 42, 0.06);
-  }
 
-  .glass-hover {
-    @apply hover:bg-white hover:border-slate-300 hover:shadow-md transition-all duration-200;
-  }
-  
   .label-editorial {
     @apply font-mono text-[11px] font-semibold tracking-[0.2em] text-accent uppercase mb-3 block;
     position: relative;
@@ -86,19 +75,6 @@
     height: 2px;
     background: var(--color-accent);
     border-radius: 1px;
-  }
-
-  .btn-premium {
-    @apply relative inline-flex items-center justify-center px-7 py-3.5 rounded-xl font-sans text-[14px] font-bold tracking-wide text-white bg-accent transition-all duration-200;
-    box-shadow: 0 2px 8px -2px rgba(37, 99, 235, 0.3);
-  }
-  .btn-premium:hover {
-    @apply bg-accent/90 transform -translate-y-0.5;
-    box-shadow: 0 4px 14px -2px rgba(37, 99, 235, 0.4);
-  }
-
-  .btn-ghost {
-    @apply inline-flex items-center justify-center px-7 py-3.5 rounded-xl font-sans text-[14px] font-bold tracking-wide text-fg bg-slate-100 border border-slate-200 hover:bg-slate-200 hover:border-slate-300 transition-all duration-200;
   }
 
   .custom-scrollbar::-webkit-scrollbar {

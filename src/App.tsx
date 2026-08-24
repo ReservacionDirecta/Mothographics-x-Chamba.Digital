@@ -6,8 +6,8 @@
 import React, { useState, useEffect, FormEvent, useRef, Suspense, lazy } from "react";
 import { BrowserRouter, Routes, Route, Navigate, Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence, useScroll, useTransform } from "motion/react";
-import { ScrollReveal, ParallaxSection, RevealText } from "./components/ScrollReveal";
-import { GlowCard, MagneticElement, SectionDivider } from "./components/MagneticElement";
+import { ScrollReveal } from "./components/ScrollReveal";
+import { SectionDivider } from "./components/MagneticElement";
 import { ProjectCardThumbnail } from "./components/common/ProjectCardThumbnail";
 import { FreeConsultationModal } from "./components/FreeConsultationModal";
 
