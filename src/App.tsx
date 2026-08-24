@@ -31,12 +31,11 @@ const SuccessPage = lazy(() => import("./pages/SuccessPage"));
 
 const CountUp = ({ value, suffix = "", className = "" }: { value: number; suffix?: string; className?: string }) => {
   const [display, setDisplay] = useState(0);
-  const [isVisible, setIsVisible] = useState(false);
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const ref = useRef<HTMLSpanElement>(null);
+  const isInView = useInView(ref, { once: true, amount: 0.3 });
 
   useEffect(() => {
-    if (isVisible) {
+    if (isInView) {
       let start: number | null = null;
       const duration = 1400;
       const animate = (now: number) => {
@@ -49,7 +48,7 @@ const CountUp = ({ value, suffix = "", className = "" }: { value: number; suffix
       };
       requestAnimationFrame(animate);
     }
-  }, [isVisible, value]);
+  }, [isInView, value]);
 
   return (
     <span ref={ref} className={`tabular-nums font-black ${className}`}>
@@ -1894,22 +1893,6 @@ const ChambaHero = () => {
     <section className="relative pt-12 md:pt-16 pb-20 px-6 md:px-10 overflow-hidden max-w-[1140px] mx-auto">
       {/* Intro Content */}
       <div className="flex flex-col items-center text-center max-w-[900px] mx-auto mb-12">
-        {/* Step 1: Status Pill */}
-        <motion.div
-          initial={{ opacity: 0, y: -15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-slate-100 border border-slate-200/80 mb-6 shadow-2xs"
-        >
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-          </span>
-          <span className="text-[11px] font-bold uppercase tracking-wider text-slate-700">
-            Partner WaaS e Ingeniería Digital · Planes desde $49/mes
-          </span>
-        </motion.div>
-
         {/* Step 2: Main Headline */}
         <motion.h1
           initial={{ opacity: 0 }}
@@ -1975,21 +1958,6 @@ const ChambaHero = () => {
               Ver Planes y Precios
               <ArrowRight className="w-4 h-4" />
             </Link>
-          </div>
-
-          <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1.5 text-[12px] font-medium text-slate-500 mt-1">
-            <span className="flex items-center gap-1.5">
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-              Sin permanencia forzosa
-            </span>
-            <span className="flex items-center gap-1.5">
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-              Entrega en 7 días
-            </span>
-            <span className="flex items-center gap-1.5">
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-              Tu dominio y marca son 100% tuyos
-            </span>
           </div>
         </motion.div>
 
