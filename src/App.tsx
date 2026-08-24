@@ -719,14 +719,13 @@ interface PricingCardProps {
   price: string;
   period?: string;
   badge?: string;
-  description: string;
-  items: Array<{ name: string; details?: string }>;
+  items: string[];
   isPopular?: boolean;
+  isPremium?: boolean;
   savings?: string;
   whatsappText?: string;
   productId?: string;
   delay?: number;
-  onOpenDetails?: () => void;
   icon?: any;
 }
 
@@ -735,14 +734,13 @@ const PricingCard = ({
   price,
   period,
   badge,
-  description,
   items,
   isPopular = false,
+  isPremium = false,
   savings,
   whatsappText,
   productId,
   delay = 0,
-  onOpenDetails,
   icon: Icon = Zap,
 }: PricingCardProps) => {
   const [loading, setLoading] = useState(false);
@@ -773,83 +771,107 @@ const PricingCard = ({
     }
   };
 
+  if (isPremium) {
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] }}
+        className="relative p-6 sm:p-7 rounded-2xl border border-slate-700 bg-slate-900 text-white shadow-xl flex flex-col h-full"
+      >
+        <div className="flex items-center gap-2 mb-4">
+          <Icon className="w-4 h-4 text-amber-400" />
+          <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-amber-400">{badge || title}</span>
+        </div>
+
+        <div className="flex items-baseline gap-1 mb-1">
+          <span className="text-[38px] sm:text-[44px] font-black tabular-nums tracking-tighter text-white leading-none">{price}</span>
+          {period && <span className="text-[13px] font-medium text-slate-400">{period}</span>}
+        </div>
+        {savings && <p className="text-[11px] text-amber-400/80 font-medium mb-5">{savings}</p>}
+        {!savings && <div className="mb-5" />}
+
+        <ul className="space-y-3 mb-6">
+          {items.map((item, idx) => (
+            <li key={idx} className="flex items-start gap-2.5">
+              <CheckCircle2 className="w-4 h-4 text-amber-400 mt-px shrink-0" />
+              <span className="text-[13px] font-medium text-slate-200 leading-snug">{item}</span>
+            </li>
+          ))}
+        </ul>
+
+        <div className="mt-auto">
+          <motion.a
+            whileHover={{ scale: 1.02, y: -1 }}
+            whileTap={{ scale: 0.98 }}
+            href={waUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full py-3.5 px-4 rounded-xl font-black text-[13px] uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer text-center bg-white text-slate-900 hover:bg-white/90 shadow-lg"
+          >
+            <WhatsAppIcon className="w-4 h-4" />
+            Quiero este plan
+          </motion.a>
+        </div>
+      </motion.div>
+    );
+  }
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] }}
-      className={`card-sheen group p-5 sm:p-6 rounded-2xl border border-slate-200 bg-white shadow-xs hover:border-slate-300 hover:shadow-md transition-all flex flex-col h-full ${isPopular ? "border-accent/40 ring-1 ring-accent/10" : ""}`}
+      className={`relative p-5 sm:p-6 rounded-2xl border flex flex-col h-full transition-all ${
+        isPopular
+          ? "border-accent/30 bg-accent/[0.03] shadow-lg ring-1 ring-accent/10 scale-[1.02] lg:z-10"
+          : "border-slate-200 bg-white shadow-xs"
+      }`}
     >
-      {/* Popular indicator */}
-      {isPopular && (
-        <div className="flex items-center gap-2 mb-3">
-          <div className="w-1.5 h-1.5 rounded-full bg-accent" />
-          <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-accent">Recomendado</span>
-        </div>
+      {badge && (
+        <span className={`inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.12em] mb-3 ${
+          isPopular ? "text-accent" : "text-slate-400"
+        }`}>
+          {isPopular && <div className="w-1.5 h-1.5 rounded-full bg-accent" />}
+          {badge}
+        </span>
       )}
 
-      {/* Icon + Title row */}
-      <div className="flex items-center gap-3 mb-3">
-        <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:rotate-6 group-hover:scale-110 ${isPopular ? "bg-accent/10 text-accent" : "bg-slate-100 text-slate-600"}`}>
-          <Icon className="w-4.5 h-4.5" />
-        </div>
-        <div>
-          <h3 className="text-[15px] font-black tracking-tight text-slate-900">{title}</h3>
-          {!isPopular && badge && <span className="text-[9px] font-bold uppercase tracking-[0.12em] text-slate-400">{badge}</span>}
-        </div>
-      </div>
-
-      {/* Price */}
-      <div className="flex items-baseline gap-1 mb-2">
-        <span className="text-[32px] sm:text-[36px] font-black tabular-nums tracking-tighter text-slate-900 leading-none">{price}</span>
+      <div className="flex items-baseline gap-1 mb-1">
+        <span className="text-[34px] sm:text-[38px] font-black tabular-nums tracking-tighter text-slate-900 leading-none">{price}</span>
         {period && <span className="text-[12px] font-medium text-slate-400">{period}</span>}
       </div>
+      {savings && <p className="text-[11px] text-emerald-600 font-medium mb-4">{savings}</p>}
+      {!savings && <div className="mb-4" />}
 
-      {/* Description */}
-      <p className="text-[12px] text-slate-500 leading-relaxed mb-4">{description}</p>
-
-      {/* Features */}
-      <ul className="space-y-2 mb-5">
-        {items.map((item: any, idx: number) => (
-          <li key={idx} className="flex items-start gap-2">
-            <CheckCircle2 className="w-3.5 h-3.5 text-slate-300 mt-0.5 shrink-0" />
-            <span className="text-[12px] font-medium text-slate-700 leading-tight">{item.name}</span>
+      <ul className="space-y-2.5 mb-6">
+        {items.map((item, idx) => (
+          <li key={idx} className="flex items-start gap-2.5">
+            <CheckCircle2 className={`w-4 h-4 mt-px shrink-0 ${isPopular ? "text-accent" : "text-slate-300"}`} />
+            <span className="text-[13px] font-medium text-slate-700 leading-snug">{item}</span>
           </li>
         ))}
       </ul>
 
-      {/* CTA */}
-      <div className="mt-auto space-y-2">
+      <div className="mt-auto">
         <motion.a
-          whileHover={{ scale: 1.02, y: -2 }}
+          whileHover={{ scale: 1.02, y: -1 }}
           whileTap={{ scale: 0.98 }}
           href={waUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className={`w-full py-3.5 px-4 rounded-xl font-black text-[12px] sm:text-[13px] md:text-[14px] uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer text-center ${
+          className={`w-full py-3.5 px-4 rounded-xl font-black text-[13px] uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer text-center ${
             isPopular
-              ? "bg-accent hover:bg-accent/90 text-white shadow-[0_10px_25px_rgba(59,130,246,0.35)]"
-              : "bg-accent hover:bg-accent/90 text-white shadow-md"
+              ? "bg-accent hover:bg-accent/90 text-white shadow-[0_8px_24px_rgba(59,130,246,0.3)]"
+              : "bg-slate-900 hover:bg-slate-800 text-white shadow-sm"
           }`}
         >
           <WhatsAppIcon className="w-4 h-4" />
           Quiero este plan
-          <span className="text-[10px] opacity-90">Iniciar Chat</span>
         </motion.a>
-        <p className="text-[10px] text-center text-slate-500 font-medium">
-          Pago seguro vía Yape, Plin o Transferencia BCP/Interbank tras validar tu proyecto.
-        </p>
       </div>
-
-      {/* Savings pill */}
-      {savings && (
-        <div className="mt-3 text-center">
-          <span className="text-[9px] font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100">
-            {savings}
-          </span>
-        </div>
-      )}
     </motion.div>
   );
 };
@@ -876,87 +898,72 @@ const Services = ({
       </p>
     </div>
 
-    {/* Pricing Grid — 3 columns minimalist */}
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 lg:gap-0 items-start mb-16 md:mb-24">
+    {/* Pricing Grid — 3 tiers */}
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-0 items-stretch mb-8">
       {/* Plan $49/mes */}
-      <div className="lg:border-r lg:border-slate-200 lg:pr-8 xl:pr-10">
+      <div className="lg:border-r lg:border-slate-200 lg:pr-6 xl:pr-8">
         <PricingCard
           title="Web Tradicional"
           icon={Zap}
-          badge="Plan Inicial"
-          description="Para profesionales, marcas personales, tiendas, clínicas y negocios locales."
+          badge="Inicial"
           price="$49"
           period="/mes"
           savings="Promo semestral: $245 (6 meses)"
           productId="70f62d4c-2cd9-49ad-9628-24a04d462cc0"
           whatsappText="Hola! Me interesa la suscripción WaaS Web Tradicional ($49/mes). Quisiera iniciar mi proyecto."
           items={[
-            { name: "Sitio web profesional 100% a medida", details: "Código propio en React/Vite. Carga en < 1s." },
-            { name: "Actualizaciones semanales incluidas", details: "Cambios de fotos, textos y ofertas sin costo." },
-            { name: "Infraestructura Cloud en Railway", details: "Hosting ultrarrápido con SSL incluido." },
-            { name: "Integración con WhatsApp y Google", details: "Formularios y botones para captar clientes." },
-            { name: "Soporte técnico continuo", details: "Atención directa por WhatsApp." },
+            "Sitio web profesional 100% a medida",
+            "Actualizaciones semanales incluidas",
+            "Soporte técnico directo por WhatsApp",
           ]}
-          onOpenDetails={() => onOpenModal("Web Tradicional WaaS", "Sitio web profesional por $49/mes. Sin inversión inicial.")}
         />
       </div>
 
       {/* Plan $99/mes — Popular */}
-      <div className="lg:px-8 xl:px-10 lg:border-r lg:border-slate-200">
+      <div className="lg:px-6 xl:px-8 lg:border-r lg:border-slate-200">
         <PricingCard
           isPopular={true}
           icon={Crown}
+          badge="Recomendado"
           title="Web App Advanced"
-          description="Para empresas que necesitan gestionar inventarios, procesar pagos y conectar su web con otros sistemas de facturación."
           price="$99"
           period="/mes"
           savings="Promo semestral: $495 (6 meses)"
           productId="b78ef21a-1fdc-4fb6-b411-f4eb46f3fe96"
           whatsappText="Hola! Me interesa el plan Web App Advanced ($99/mes). Necesito gestionar inventario y pagos online."
           items={[
-            { name: "Panel de administración personalizado", details: "Gestión de productos, pedidos o reservas." },
-            { name: "Pasarelas de pago e integraciones", details: "Culqi, Niubiz, MercadoPago o software externo." },
-            { name: "Cambios e iteraciones continuas", details: "Evolución constante de módulos comerciales." },
-            { name: "Infraestructura Cloud + Backups", details: "Copias diarias y 99.9% uptime." },
-            { name: "Soporte prioritario directo", details: "Línea técnica dedicada para resolver dudas." },
+            "Panel de administración personalizado",
+            "Pasarelas de pago e integraciones",
+            "Soporte prioritario dedicado",
           ]}
-          onOpenDetails={() => onOpenModal("Web App Advanced WaaS", "Para negocios que venden online y necesitan inventario, pagos y facturación integrada.")}
         />
       </div>
 
-      {/* Plan $599/mes — IA */}
-      <div className="lg:pl-8 xl:pl-10 lg:border-l lg:border-slate-200">
-        {/* Separator: Enterprise Solutions */}
-        <div className="mb-8 text-center lg:text-left">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 text-accent text-[11px] font-bold uppercase tracking-[0.15em] mb-3">
-            <Sparkles className="w-3.5 h-3.5" />
-            Soluciones Corporativas y Sector Hotelero
-          </div>
-          <p className="text-slate-500 text-[13px] max-w-xs mx-auto lg:mx-0">
-            Arquitectura a medida para automatizar, escalar y vender sin fricción.
-          </p>
-        </div>
+      {/* Plan $599/mes — Premium */}
+      <div className="lg:pl-6 xl:pl-8">
         <PricingCard
-          title="Web App con IA"
+          isPremium={true}
           icon={Sparkles}
-          badge="Empresarial"
-          description="Para empresas con flujos de trabajo automatizables e integración profunda de IA."
+          badge="Corporativo · IA"
+          title="Web App con IA"
           price="$599"
           period="/mes"
           savings="Automatización Operativa Total"
           productId="ef4fe8a9-0f60-40c2-b0c3-0cf2663e38de"
           whatsappText="Hola! Me interesa el plan WaaS Web App con IA ($599.99/mes). Deseo automatizar mi empresa con IA."
           items={[
-            { name: "Agentes de IA en WhatsApp 24/7", details: "Cotizan, envían info y atienden automáticamente." },
-            { name: "Automatización de procesos operativos", details: "Ahorra horas de trabajo manual." },
-            { name: "Servidores Cloud dedicados", details: "Infraestructura privada con alta seguridad." },
-            { name: "Monitoreo y respaldos 24/7", details: "Supervisión activa de rendimiento." },
-            { name: "Consultoría y evolución mensual", details: "Acompañamiento estratégico continuo." },
+            "Agentes de IA en WhatsApp 24/7",
+            "Automatización de procesos operativos",
+            "Consultoría y evolución mensual",
           ]}
-          onOpenDetails={() => onOpenModal("Web App con IA WaaS", "IA integrada en flujos de trabajo. Automatización y reducción de costos.")}
         />
       </div>
     </div>
+
+    {/* Trust line */}
+    <p className="text-center text-[11px] text-slate-400 font-medium mb-16 md:mb-24">
+      Pago seguro vía Yape, Plin o Transferencia BCP/Interbank tras validar tu proyecto.
+    </p>
 
     {/* Hotel Pro — Discreet CTA */}
     <div className="text-center mb-16 md:mb-20">
