@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence, useInView } from "motion/react";
 import { ChambaNavbar, WhatsAppIcon, ChambaFooter } from "../App";
 import { Link } from "react-router-dom";
 import { SEO } from "../components/SEO";

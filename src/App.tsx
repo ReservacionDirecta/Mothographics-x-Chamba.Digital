@@ -5,7 +5,7 @@
 
 import React, { useState, useEffect, FormEvent, useRef, Suspense, lazy } from "react";
 import { BrowserRouter, Routes, Route, Navigate, Link, useLocation } from "react-router-dom";
-import { motion, AnimatePresence, useScroll, useTransform } from "motion/react";
+import { motion, AnimatePresence, useScroll, useTransform, useInView } from "motion/react";
 import { ScrollReveal } from "./components/ScrollReveal";
 import { SectionDivider } from "./components/MagneticElement";
 import { ProjectCardThumbnail } from "./components/common/ProjectCardThumbnail";
@@ -28,6 +28,35 @@ const UserPortal = lazy(() => import("./pages/UserPortal"));
 const RafflePage = lazy(() => import("./pages/RaffleLandingPage/RafflePage"));
 const NotFoundPage = lazy(() => import("./pages/NotFoundPage"));
 const SuccessPage = lazy(() => import("./pages/SuccessPage"));
+
+const CountUp = ({ value, suffix = "", className = "" }: { value: number; suffix?: string; className?: string }) => {
+  const [display, setDisplay] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+
+  useEffect(() => {
+    if (isVisible) {
+      let start: number | null = null;
+      const duration = 1400;
+      const animate = (now: number) => {
+        if (!start) start = now;
+        const progress = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        setDisplay(Math.floor(eased * value));
+        if (progress < 1) requestAnimationFrame(animate);
+        else setDisplay(value);
+      };
+      requestAnimationFrame(animate);
+    }
+  }, [isVisible, value]);
+
+  return (
+    <span ref={ref} className={`tabular-nums font-black ${className}`}>
+      {display}{suffix}
+    </span>
+  );
+};
 import {
   ArrowRight,
   Palette,
@@ -751,7 +780,7 @@ const PricingCard = ({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] }}
-      className={`p-5 sm:p-6 rounded-2xl border border-slate-200 bg-white shadow-xs hover:border-slate-300 hover:shadow-md transition-all flex flex-col h-full ${isPopular ? "border-accent/40 ring-1 ring-accent/10" : ""}`}
+      className={`card-sheen group p-5 sm:p-6 rounded-2xl border border-slate-200 bg-white shadow-xs hover:border-slate-300 hover:shadow-md transition-all flex flex-col h-full ${isPopular ? "border-accent/40 ring-1 ring-accent/10" : ""}`}
     >
       {/* Popular indicator */}
       {isPopular && (
@@ -763,7 +792,7 @@ const PricingCard = ({
 
       {/* Icon + Title row */}
       <div className="flex items-center gap-3 mb-3">
-        <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 ${isPopular ? "bg-accent/10 text-accent" : "bg-slate-100 text-slate-600"}`}>
+        <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:rotate-6 group-hover:scale-110 ${isPopular ? "bg-accent/10 text-accent" : "bg-slate-100 text-slate-600"}`}>
           <Icon className="w-4.5 h-4.5" />
         </div>
         <div>
@@ -774,7 +803,7 @@ const PricingCard = ({
 
       {/* Price */}
       <div className="flex items-baseline gap-1 mb-2">
-        <span className="text-[32px] sm:text-[36px] font-black tracking-tighter text-slate-900 leading-none">{price}</span>
+        <span className="text-[32px] sm:text-[36px] font-black tabular-nums tracking-tighter text-slate-900 leading-none">{price}</span>
         {period && <span className="text-[12px] font-medium text-slate-400">{period}</span>}
       </div>
 
@@ -1269,15 +1298,16 @@ const Portfolio = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.05, duration: 0.5 }}
-              whileHover={{ y: -6, scale: 1.02 }}
+              whileHover={{ y: -6 }}
               whileTap={{ scale: 0.98 }}
-              className="group block interactive-card p-2 rounded-[22px] hover:bg-slate-50 border border-transparent hover:border-slate-200 transition-all duration-300"
+              className="group block interactive-card card-sheen p-2 rounded-[22px] hover:bg-slate-50 border border-transparent hover:border-slate-200 transition-all duration-300"
             >
               <div className="relative aspect-video rounded-[18px] overflow-hidden border border-slate-200/80 mb-3.5 shadow-md group-hover:shadow-xl transition-all duration-500 bg-slate-950">
                 <ProjectCardThumbnail
                   thumb={web.thumb}
                   label={web.label}
                   url={web.url}
+                  className="w-full h-full object-cover object-top transform group-hover:scale-110 transition-transform duration-500 ease-out"
                 />
                 <div className="absolute inset-0 bg-slate-900/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[2px]">
                   <div className="p-3 bg-accent text-white rounded-full shadow-lg transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
@@ -1594,12 +1624,11 @@ export const ChambaNavbar = () => {
               <Link
                 key={link.path}
                 to={link.path}
-                className={`text-[12px] font-black uppercase tracking-[0.2em] transition-all relative group py-2 ${
+                className={`link-underline text-[12px] font-black uppercase tracking-[0.2em] transition-all relative py-2 ${
                   scrolled ? "text-white hover:text-amber-400" : "text-slate-700 hover:text-accent"
                 }`}
               >
                 {link.name}
-                <span className={`absolute bottom-0 left-0 w-0 h-[2px] transition-all duration-300 group-hover:w-full ${scrolled ? "bg-amber-400" : "bg-accent"}`} />
               </Link>
             ))}
           </div>
@@ -1744,7 +1773,7 @@ export const ChambaNavbar = () => {
                   <Link
                     to={link.path}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="text-[28px] sm:text-[36px] font-black tracking-tight text-white hover:text-amber-400 transition-colors block"
+                    className="link-underline text-[28px] sm:text-[36px] font-black tracking-tight text-white hover:text-amber-400 transition-colors block"
                   >
                     {link.name}
                   </Link>
@@ -1834,6 +1863,7 @@ const showcaseProjects = [
 
 const ChambaHero = () => {
   const [activeProject, setActiveProject] = useState(0);
+  const statsRef = useRef<HTMLDivElement>(null);
   const current = showcaseProjects[activeProject];
 
   return (
@@ -1858,13 +1888,31 @@ const ChambaHero = () => {
 
         {/* Step 2: Main Headline */}
         <motion.h1
-          initial={{ opacity: 0, y: 25 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.15 }}
           className="text-[38px] sm:text-[50px] md:text-[62px] font-black leading-[1.08] md:leading-[1.04] tracking-tight text-slate-900 mb-6"
         >
-          Tu Web Profesional a Medida. <br />
-          <span className="text-accent">Sin pagar miles por adelantado.</span>
+          <span className="line-mask">
+            <motion.span
+              initial={{ y: "110%" }}
+              animate={{ y: 0 }}
+              transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+              className="block"
+            >
+              Tu Web Profesional a Medida.
+            </motion.span>
+          </span>
+          <span className="line-mask">
+            <motion.span
+              initial={{ y: "110%" }}
+              animate={{ y: 0 }}
+              transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              className="block text-accent"
+            >
+              Sin pagar miles por adelantado.
+            </motion.span>
+          </span>
         </motion.h1>
 
         {/* Step 3: Subtitle */}
@@ -1891,7 +1939,7 @@ const ChambaHero = () => {
               href="https://wa.me/51904060670?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20sus%20planes%20WaaS."
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full sm:w-auto bg-accent hover:bg-accent/90 text-white px-7 py-4 rounded-xl font-bold text-[14px] shadow-sm transition-colors flex items-center justify-center gap-2 uppercase tracking-wider"
+              className="w-full sm:w-auto bg-accent hover:bg-accent/90 text-white px-7 py-4 rounded-xl font-bold text-[14px] shadow-sm transition-colors flex items-center justify-center gap-2 uppercase tracking-wider btn-sheen"
             >
               <WhatsAppIcon className="w-5 h-5" />
               Hablar con un Asesor por WhatsApp
@@ -1920,13 +1968,37 @@ const ChambaHero = () => {
             </span>
           </div>
         </motion.div>
+
+        {/* Step 4.5: Trust Stats with CountUp */}
+        <motion.div
+          ref={(el) => { statsRef.current = el; }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.8, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          className="mt-10 pt-6 border-t border-slate-200/60 flex flex-wrap items-center justify-center gap-8 md:gap-14"
+        >
+          <div className="flex flex-col items-center gap-1">
+            <CountUp value={50} suffix="+" className="text-[28px] md:text-[36px] font-black text-accent tracking-tight" />
+            <span className="text-[10px] font-bold text-muted uppercase tracking-[0.2em]">Proyectos Entregados</span>
+          </div>
+          <div className="flex flex-col items-center gap-1">
+            <CountUp value={10} suffix="+" className="text-[28px] md:text-[36px] font-black text-accent tracking-tight" />
+            <span className="text-[10px] font-bold text-muted uppercase tracking-[0.2em]">Años de Experiencia</span>
+          </div>
+          <div className="flex flex-col items-center gap-1">
+            <span className="text-[28px] md:text-[36px] font-black text-accent tracking-tight">24/7</span>
+            <span className="text-[10px] font-bold text-muted uppercase tracking-[0.2em]">Soporte Activo</span>
+          </div>
+        </motion.div>
+
       </div>
 
       {/* Step 5: Interactive Browser Showcase */}
       <motion.div
         initial={{ opacity: 0, y: 40, scale: 0.97 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.8, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 0.8, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
         className="max-w-[960px] mx-auto mb-14"
       >
         {/* Category switcher tabs */}
@@ -2069,7 +2141,7 @@ const PainPoints = () => (
       ].map((item, i) => (
         <div
           key={i}
-          className="p-5 sm:p-7 rounded-2xl border border-slate-200 bg-white shadow-xs hover:border-slate-300 hover:shadow-md transition-all"
+          className="card-sheen p-5 sm:p-7 rounded-2xl border border-slate-200 bg-white shadow-xs hover:border-slate-300 hover:shadow-md transition-all"
         >
           <div className="flex items-center gap-3 mb-3">
             <div className="w-9 h-9 bg-red-50 text-red-600 rounded-lg flex items-center justify-center shrink-0">
@@ -2097,7 +2169,7 @@ const PainPoints = () => (
           href="https://wa.me/51904060670?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20sus%20planes%20WaaS."
           target="_blank"
           rel="noopener noreferrer"
-          className="bg-accent hover:bg-accent/90 text-white px-6 sm:px-7 py-3.5 rounded-xl font-bold text-[13px] shadow-sm flex items-center gap-2 uppercase tracking-wider transition-colors"
+          className="bg-accent hover:bg-accent/90 text-white px-6 sm:px-7 py-3.5 rounded-xl font-bold text-[13px] shadow-sm flex items-center gap-2 uppercase tracking-wider transition-colors btn-sheen"
         >
           <WhatsAppIcon className="w-4 h-4" />
           Hablar por WhatsApp (Respuesta Rápida)
@@ -2148,7 +2220,7 @@ const StickyCtaBar = () => {
             href="https://wa.me/51904060670?text=Hola%2C%20quiero%20m%C3%A1s%20informaci%C3%B3n%20sobre%20sus%20planes%20WaaS."
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-accent hover:bg-accent/90 text-white px-5 sm:px-6 py-2.5 rounded-xl font-bold text-[12px] uppercase tracking-wider shadow-xs flex items-center gap-2 transition-colors"
+            className="bg-accent hover:bg-accent/90 text-white px-5 sm:px-6 py-2.5 rounded-xl font-bold text-[12px] uppercase tracking-wider shadow-xs flex items-center gap-2 transition-colors btn-sheen"
           >
             <WhatsAppIcon className="w-4 h-4 text-white" />
             Hablar por WhatsApp
@@ -2178,7 +2250,8 @@ const Methodology = () => (
     <div className="max-w-[1024px] mx-auto">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
         <div>
-          <div className="space-y-8">
+          <div className="space-y-8 relative">
+            <div className="absolute left-[19.5px] top-8 bottom-8 w-px bg-gradient-to-b from-accent/30 via-accent/10 to-transparent" aria-hidden />
             {[
               {
                 step: "01",
@@ -2200,7 +2273,7 @@ const Methodology = () => (
                 key={i}
                 className="flex gap-5 items-start"
               >
-                <span className="text-[20px] font-mono font-bold text-accent bg-accent/10 w-10 h-10 rounded-xl flex items-center justify-center shrink-0">
+                <span className="text-[20px] font-mono font-bold tabular-nums text-accent bg-accent/10 w-10 h-10 rounded-xl flex items-center justify-center shrink-0">
                   {item.step}
                 </span>
                 <div>
@@ -2280,7 +2353,8 @@ const FAQ = () => {
           >
             <button
               onClick={() => setOpenIndex(openIndex === i ? null : i)}
-              className="w-full p-4 sm:p-5 text-left flex justify-between items-center hover:bg-slate-50/60 transition-colors group cursor-pointer"
+              aria-expanded={openIndex === i}
+              className="w-full p-4 sm:p-5 text-left flex justify-between items-center hover:bg-slate-50/60 transition-colors group cursor-pointer active:scale-[0.99]"
             >
               <span className="text-[14px] sm:text-[15px] font-bold text-slate-900 group-hover:text-accent transition-colors pr-4">{faq.q}</span>
               <motion.span
@@ -2466,7 +2540,7 @@ const ContactForm = () => {
                       setFormData({ ...formData, name: e.target.value })
                     }
                     placeholder="Ej: Juan Pérez"
-                    className="w-full bg-white/5 border border-white/10 rounded-[12px] py-3 pl-12 pr-4 text-[14px] focus:outline-none focus:border-accent/50 focus:shadow-[0_0_0_3px_rgba(59,130,246,0.1)] transition-all"
+                    className="w-full bg-white/5 border border-white/10 rounded-[12px] py-3 pl-12 pr-4 text-[14px] hover:border-white/20 focus:outline-none focus:border-accent/50 focus:shadow-[0_0_0_3px_rgba(59,130,246,0.1)] transition-all"
                   />
                 </div>
               </motion.div>
@@ -2490,7 +2564,7 @@ const ContactForm = () => {
                       setFormData({ ...formData, email: e.target.value })
                     }
                     placeholder="juan@empresa.com"
-                    className="w-full bg-white/5 border border-white/10 rounded-[12px] py-3 pl-12 pr-4 text-[14px] focus:outline-none focus:border-accent/50 focus:shadow-[0_0_0_3px_rgba(59,130,246,0.1)] transition-all"
+                    className="w-full bg-white/5 border border-white/10 rounded-[12px] py-3 pl-12 pr-4 text-[14px] hover:border-white/20 focus:outline-none focus:border-accent/50 focus:shadow-[0_0_0_3px_rgba(59,130,246,0.1)] transition-all"
                   />
                 </div>
               </motion.div>
@@ -2548,7 +2622,7 @@ const ContactForm = () => {
                     setFormData({ ...formData, message: e.target.value })
                   }
                   placeholder="Cuéntanos brevemente sobre tu negocio y objetivos..."
-                  className="w-full bg-white/5 border border-white/10 rounded-[12px] p-4 text-[14px] focus:outline-none focus:border-accent/50 focus:shadow-[0_0_0_3px_rgba(59,130,246,0.1)] transition-all resize-none"
+                  className="w-full bg-white/5 border border-white/10 rounded-[12px] p-4 text-[14px] hover:border-white/20 focus:outline-none focus:border-accent/50 focus:shadow-[0_0_0_3px_rgba(59,130,246,0.1)] transition-all resize-none"
                 />
               </motion.div>
 
@@ -2559,7 +2633,7 @@ const ContactForm = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.5 }}
-                className="w-full bg-accent text-white py-4 rounded-[12px] font-bold text-[14px] flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_10px_20px_rgba(59,130,246,0.2)]"
+                className="btn-sheen w-full bg-accent text-white py-4 rounded-[12px] font-bold text-[14px] flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_10px_20px_rgba(59,130,246,0.2)]"
               >
                 {status === "sending" ? (
                   <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -2707,7 +2781,7 @@ const Guarantees = () => (
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: i * 0.05 }}
-          className="p-5 sm:p-6 rounded-2xl border border-slate-200 bg-white shadow-xs hover:border-slate-300 hover:shadow-md transition-all"
+          className="card-sheen p-5 sm:p-6 rounded-2xl border border-slate-200 bg-white shadow-xs hover:border-slate-300 hover:shadow-md transition-all"
         >
           <div className="flex items-center gap-3 mb-3">
             <div className="w-9 h-9 bg-accent/10 text-accent rounded-lg flex items-center justify-center shrink-0">
@@ -2715,7 +2789,7 @@ const Guarantees = () => (
             </div>
             <h4 className="text-[15px] font-bold text-slate-900">{item.title}</h4>
           </div>
-          <p className="text-[12px] text-slate-500 leading-relaxed">{item.desc}</p>
+          <p className="text-[12px] text-slate-500 leading-relaxed tabular-nums">{item.desc}</p>
         </motion.div>
       ))}
     </div>
@@ -2762,8 +2836,8 @@ export const ChambaFooter = () => (
           <Logo textColor="text-white" />
           <p className="text-sm text-slate-400">Hacemos webs que venden. Desde Lima para el mundo.</p>
           <div className="flex gap-2">
-            <a href="https://instagram.com/chamba.digital" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center text-slate-400 hover:text-accent hover:bg-slate-700 transition-colors"><Instagram className="w-4 h-4" /></a>
-            <a href="https://linkedin.com/company/chamba-digital" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center text-slate-400 hover:text-accent hover:bg-slate-700 transition-colors"><Linkedin className="w-4 h-4" /></a>
+            <a href="https://instagram.com/chamba.digital" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center text-slate-400 hover:text-accent hover:bg-slate-700 hover:-translate-y-0.5 transition-all"><Instagram className="w-4 h-4" /></a>
+            <a href="https://linkedin.com/company/chamba-digital" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center text-slate-400 hover:text-accent hover:bg-slate-700 hover:-translate-y-0.5 transition-all"><Linkedin className="w-4 h-4" /></a>
           </div>
         </div>
 
@@ -2771,7 +2845,7 @@ export const ChambaFooter = () => (
           <h4 className="text-xs font-black uppercase tracking-wider mb-3 text-white">Explorar</h4>
           <ul className="space-y-2">
             {["Inicio", "Servicios", "Portafolio", "Metodología", "Hotelería Premium"].map((name) => (
-              <li key={name}><Link to={name === "Inicio" ? "/" : "/" + name.toLowerCase().replace("í", "i").replace(" ", "-")} className="text-sm text-slate-400 hover:text-white transition-colors">{name}</Link></li>
+              <li key={name}><Link to={name === "Inicio" ? "/" : "/" + name.toLowerCase().replace("í", "i").replace(" ", "-")} className="link-underline text-sm text-slate-400 hover:text-white transition-colors">{name}</Link></li>
             ))}
           </ul>
         </div>
@@ -2789,7 +2863,7 @@ export const ChambaFooter = () => (
         </div>
 
         <div className="flex flex-col gap-3">
-          <a href="https://wa.me/51904060670" target="_blank" rel="noopener noreferrer" className="w-full bg-accent text-white px-5 py-3 rounded-lg font-black text-sm text-center hover:bg-accent/90 transition-colors">Hablar con un Asesor <ArrowRight className="w-4 h-4 ml-1 inline" /></a>
+          <a href="https://wa.me/51904060670" target="_blank" rel="noopener noreferrer" className="w-full bg-accent text-white px-5 py-3 rounded-lg font-black text-sm text-center hover:bg-accent/90 transition-colors btn-sheen">Hablar con un Asesor <ArrowRight className="w-4 h-4 ml-1 inline" /></a>
           <p className="text-xs text-slate-500 text-center">Respuesta en <span className="font-bold text-white">menos de 1h</span></p>
         </div>
       </div>
@@ -2797,12 +2871,12 @@ export const ChambaFooter = () => (
       <div className="pt-4 border-t border-slate-800 flex flex-col md:flex-row items-center justify-between gap-3">
         <p className="text-xs text-slate-500">© {new Date().getFullYear()} Chamba Digital. Todos los derechos reservados.</p>
         <div className="flex flex-wrap justify-center md:justify-end gap-x-4 gap-y-1 text-[10px] font-black uppercase tracking-wider text-slate-500 hover:text-white transition-colors">
-          <Link to="/portafolio">Portafolio</Link>
-          <Link to="/metodologia">Metodología</Link>
-          <Link to="/servicios">Servicios</Link>
-          <Link to="/terminos">Términos</Link>
-          <Link to="/privacidad">Privacidad</Link>
-          <Link to="/propiedad-intelectual">Propiedad Intelectual</Link>
+          <Link to="/portafolio" className="link-underline">Portafolio</Link>
+          <Link to="/metodologia" className="link-underline">Metodología</Link>
+          <Link to="/servicios" className="link-underline">Servicios</Link>
+          <Link to="/terminos" className="link-underline">Términos</Link>
+          <Link to="/privacidad" className="link-underline">Privacidad</Link>
+          <Link to="/propiedad-intelectual" className="link-underline">Propiedad Intelectual</Link>
         </div>
       </div>
     </div>
@@ -2810,7 +2884,7 @@ export const ChambaFooter = () => (
 );
 
 const ChambaContent = ({ onOpenModal }: any) => (
-  <div className="selection:bg-accent selection:text-white overflow-x-hidden w-full relative">
+  <div className="grain selection:bg-accent selection:text-white overflow-x-hidden w-full relative">
     <ChambaNavbar />
     <main className="pt-[70px] relative z-10">
       <ChambaHero />
@@ -2840,7 +2914,7 @@ const AllianceContent = ({ onOpenModal }: any) => {
   }, []);
 
   return (
-    <div className="selection:bg-accent selection:text-white overflow-x-hidden w-full relative">
+    <div className="grain selection:bg-accent selection:text-white overflow-x-hidden w-full relative">
       <ChambaNavbar />
       <main className="pt-[70px]">
         <Hero />
