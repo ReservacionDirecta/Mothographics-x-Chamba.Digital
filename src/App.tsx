@@ -823,27 +823,24 @@ const PricingCard = ({
       {/* CTA */}
       <div className="mt-auto space-y-2">
         <motion.a
-          whileHover={{ scale: 1.01 }}
-          whileTap={{ scale: 0.99 }}
+          whileHover={{ scale: 1.02, y: -2 }}
+          whileTap={{ scale: 0.98 }}
           href={waUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className={`w-full py-2.5 px-4 rounded-xl font-bold text-[12px] tracking-wide transition-all flex items-center justify-center gap-2 cursor-pointer text-center ${
+          className={`w-full py-3.5 px-4 rounded-xl font-black text-[12px] sm:text-[13px] md:text-[14px] uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer text-center ${
             isPopular
-              ? "bg-slate-900 hover:bg-slate-800 text-white"
-              : "bg-slate-900 hover:bg-slate-800 text-white"
+              ? "bg-accent hover:bg-accent/90 text-white shadow-[0_10px_25px_rgba(59,130,246,0.35)]"
+              : "bg-accent hover:bg-accent/90 text-white shadow-md"
           }`}
         >
-          <WhatsAppIcon className="w-3.5 h-3.5 text-white" />
-          Contratar por WhatsApp
+          <WhatsAppIcon className="w-4 h-4" />
+          Quiero este plan
+          <span className="text-[10px] opacity-90">Iniciar Chat</span>
         </motion.a>
-        <button
-          onClick={handleCheckout}
-          disabled={loading}
-          className="w-full py-2 rounded-xl font-semibold text-[11px] text-slate-500 hover:text-slate-800 bg-transparent hover:bg-slate-50 border border-slate-200 transition-all cursor-pointer"
-        >
-          {loading ? "Cargando..." : "Pagar con Tarjeta →"}
-        </button>
+        <p className="text-[10px] text-center text-slate-500 font-medium">
+          Pago seguro vía Yape, Plin o Transferencia BCP/Interbank tras validar tu proyecto.
+        </p>
       </div>
 
       {/* Savings pill */}
@@ -911,12 +908,12 @@ const Services = ({
           isPopular={true}
           icon={Crown}
           title="Web App Advanced"
-          description="Para empresas que requieren panel de administración, catálogo o API REST."
+          description="Para empresas que necesitan gestionar inventarios, procesar pagos y conectar su web con otros sistemas de facturación."
           price="$99"
           period="/mes"
           savings="Promo semestral: $495 (6 meses)"
           productId="b78ef21a-1fdc-4fb6-b411-f4eb46f3fe96"
-          whatsappText="Hola! Me interesa el plan WaaS Web App Advanced ($99/mes). Necesito panel de administración."
+          whatsappText="Hola! Me interesa el plan Web App Advanced ($99/mes). Necesito gestionar inventario y pagos online."
           items={[
             { name: "Panel de administración personalizado", details: "Gestión de productos, pedidos o reservas." },
             { name: "Pasarelas de pago e integraciones", details: "Culqi, Niubiz, MercadoPago o software externo." },
@@ -924,12 +921,22 @@ const Services = ({
             { name: "Infraestructura Cloud + Backups", details: "Copias diarias y 99.9% uptime." },
             { name: "Soporte prioritario directo", details: "Línea técnica dedicada para resolver dudas." },
           ]}
-          onOpenDetails={() => onOpenModal("Web App Advanced WaaS", "Para negocios con contenido dinámico, reservas o inventario.")}
+          onOpenDetails={() => onOpenModal("Web App Advanced WaaS", "Para negocios que venden online y necesitan inventario, pagos y facturación integrada.")}
         />
       </div>
 
-      {/* Plan $599.99/mes — IA */}
-      <div className="lg:pl-8 xl:pl-10">
+      {/* Plan $599/mes — IA */}
+      <div className="lg:pl-8 xl:pl-10 lg:border-l lg:border-slate-200">
+        {/* Separator: Enterprise Solutions */}
+        <div className="mb-8 text-center lg:text-left">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 text-accent text-[11px] font-bold uppercase tracking-[0.15em] mb-3">
+            <Sparkles className="w-3.5 h-3.5" />
+            Soluciones Corporativas y Sector Hotelero
+          </div>
+          <p className="text-slate-500 text-[13px] max-w-xs mx-auto lg:mx-0">
+            Arquitectura a medida para automatizar, escalar y vender sin fricción.
+          </p>
+        </div>
         <PricingCard
           title="Web App con IA"
           icon={Sparkles}
@@ -965,14 +972,19 @@ const Services = ({
         <p className="text-[12px] text-slate-500 max-w-md">
           Web premium + integración PMS + motor de reservas + 2,500 créditos IA/mes en Google Flow.
         </p>
-        <a
-          href="https://wa.me/51904060670?text=Hola,%20quiero%20información%20sobre%20el%20Plan%20Hoteles%20($999)."
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-[12px] font-bold text-accent hover:underline mt-1"
-        >
-          Cotizar por WhatsApp →
-        </a>
+<a
+            href="https://wa.me/51904060670?text=Hola,%20quiero%20informaci%C3%B3n%20sobre%20el%20Plan%20Hoteles%20($999)."
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 bg-accent hover:bg-accent/90 text-white px-5 py-2.5 rounded-xl font-bold text-[12px] uppercase tracking-wider shadow-xs transition-colors"
+          >
+            <WhatsAppIcon className="w-4 h-4" />
+            Quiero este plan
+            <span className="text-[10px] opacity-90">Iniciar Chat</span>
+          </a>
+          <p className="text-[10px] text-center text-slate-500 font-medium mt-2">
+            Pago seguro vía Yape, Plin o Transferencia BCP/Interbank tras validar tu proyecto.
+          </p>
       </div>
     </div>
 
@@ -1026,6 +1038,7 @@ const Portfolio = () => {
         "Soporte Continuo & Mantenimiento Cloud.",
       ],
       focus: "Refugio resort en Vichayito con reservas directas por WhatsApp y motor de experiencias.",
+      testimonial: "Aumentaron sus reservas directas un 40% y eliminaron comisiones a OTAs gracias al motor de reservas propio."
     },
     {
       name: "Fundo Achamaqui",
@@ -1038,6 +1051,7 @@ const Portfolio = () => {
         "Automatización de atención y conversión.",
       ],
       focus: "Hospedaje convertido en paquete turístico con venta directa.",
+      testimonial: "Transformaron su hospedaje en un producto turístico vendible online, multiplicando la ocupación en temporada baja."
     },
     {
       name: "Punta Negritos | Wind & Surf",
@@ -1050,6 +1064,7 @@ const Portfolio = () => {
         "Construcción de presencia digital desde cero.",
       ],
       focus: "Lanzamiento digital completo: infraestructura + canales de venta.",
+      testimonial: "Pasaron de cero presencia digital a reservas directas diarias, dejando de depender 100% de terceros."
     },
     {
       name: "Hacienda Don Vicente",
@@ -1061,13 +1076,14 @@ const Portfolio = () => {
         "Optimización de mensajes de venta y conversión.",
       ],
       focus: "Incremento de reservas mediante comunicación efectiva y ofertas atractivas.",
+      testimonial: "Sus campañas de WhatsApp y web generaron un 35% más de reservas en 90 días con el mismo presupuesto publicitario."
     },
   ];
 
-  const techClients = [
+const techClients = [
     {
       name: "Latam Abogados",
-      location: "React / Vite con carga en 0.5s",
+      location: "Plataforma de captación B2B ultrarrápida",
       tasks: [
         "Desarrollo pixel-perfect en React/Vite.",
         "Integración nativa de API MailerLite / Mailchimp.",
@@ -1075,6 +1091,7 @@ const Portfolio = () => {
         "Optimización de assets para SEO internacional.",
       ],
       focus: "Plataforma líder en Inglés Jurídico y Consultoría Legal especializada en U.S., con captación automatizada de clientes.",
+      testimonial: "Su web pasó a cargar en 0.5s y el formulario de contacto ahora alimenta directo su CRM, cerrando ciclos de venta en horas."
     },
     {
       name: "Hothelia SaaS",
@@ -1086,6 +1103,7 @@ const Portfolio = () => {
         "Monitoreo 24/7 con PM2 y Docker.",
       ],
       focus: "Reducción del 70% en tiempo de procesamiento de datos confidenciales.",
+      testimonial: "Automatizaron la sincronía con OTAs y el agente IA atiende consultas 24/7, liberando al equipo de operaciones."
     },
     {
       name: "Olivos del Perú",
@@ -1094,9 +1112,9 @@ const Portfolio = () => {
         "Implementación de Agente IA para atención 24/7.",
         "Conexión en tiempo real con inventario.",
         "Catálogo interactivo con checkout directo.",
-        "Flujos de conversión para compradores internacionales.",
       ],
-      focus: "E-Commerce optimizado para exportación con calificación y cierre automatizado de ventas.",
+      focus: "Atención hiper-personalizada y aumento del 35% en tasa de conversión.",
+      testimonial: "El agente IA en WhatsApp califica leads y cierra ventas mientras duermen, recuperando carritos abandonados automáticamente."
     },
   ];
 
@@ -1223,6 +1241,9 @@ const Portfolio = () => {
                     {client.location}
                   </span>
                 </div>
+                <p className="text-[11px] text-slate-600 italic leading-relaxed border-t border-slate-100 pt-2">
+                  "{client.testimonial}"
+                </p>
               </motion.div>
             ))}
           </div>
@@ -1272,6 +1293,9 @@ const Portfolio = () => {
                     {client.location}
                   </span>
                 </div>
+                <p className="text-[11px] text-slate-600 italic leading-relaxed border-t border-slate-100 pt-2">
+                  "{client.testimonial}"
+                </p>
               </motion.div>
             ))}
           </div>
@@ -1922,7 +1946,7 @@ const ChambaHero = () => {
           transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
           className="text-[16px] md:text-[19px] text-slate-600 font-normal leading-relaxed max-w-[700px] mb-8"
         >
-          Por $49/mes cubrimos tu tecnología, el servidor cloud de alta velocidad y cambios ilimitados. Tú te enfocas en vender, nosotros somos tu equipo de ingeniería.
+          Por $49/mes cubrimos toda tu tecnología: servidor de alta velocidad, diseño a medida y cambios ilimitados. Tú te enfocas en cerrar ventas; nosotros nos convertimos en tu departamento de sistemas.
         </motion.p>
 
         {/* Step 4: CTAs & Micro-guarantees */}
@@ -2074,7 +2098,7 @@ const ChambaHero = () => {
               <div className="h-6 w-[1px] bg-slate-700 hidden sm:block"></div>
               <div className="hidden sm:block">
                 <div className="text-[11px] font-bold text-white">{current.tag}</div>
-                <div className="text-[10px] text-slate-400">Carga en {current.lcp} · React 19 + Cloud SSL</div>
+                <div className="text-[10px] text-slate-400">Carga ultrarrápida · Seguridad bancaria · Lista para captar clientes</div>
               </div>
             </div>
           </div>
