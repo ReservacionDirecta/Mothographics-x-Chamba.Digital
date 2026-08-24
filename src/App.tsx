@@ -751,7 +751,7 @@ const PricingCard = ({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] }}
-      className={`p-5 sm:p-6 rounded-2xl border border-slate-200 bg-white shadow-xs hover:border-slate-300 hover:shadow-md transition-all flex sm:block items-start gap-4 sm:gap-0 h-full ${isPopular ? "border-accent/40 ring-1 ring-accent/10" : ""}`}
+      className={`p-5 sm:p-6 rounded-2xl border border-slate-200 bg-white shadow-xs hover:border-slate-300 hover:shadow-md transition-all flex flex-col h-full ${isPopular ? "border-accent/40 ring-1 ring-accent/10" : ""}`}
     >
       {/* Popular indicator */}
       {isPopular && (

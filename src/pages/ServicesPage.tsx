@@ -197,7 +197,7 @@ const ServicesPage: React.FC = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className={`p-5 sm:p-6 rounded-2xl border bg-white shadow-xs hover:border-slate-300 hover:shadow-md transition-all flex sm:block items-start gap-4 sm:gap-0 h-full ${
+                className={`p-5 sm:p-6 rounded-2xl border bg-white shadow-xs hover:border-slate-300 hover:shadow-md transition-all flex flex-col h-full ${
                   plan.popular
                     ? "border-accent/40 ring-1 ring-accent/10"
                     : "border-slate-200"
