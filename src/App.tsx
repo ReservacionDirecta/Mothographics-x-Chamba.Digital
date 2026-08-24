@@ -1991,7 +1991,7 @@ const ChambaHero = () => {
         initial={{ opacity: 0, y: 40, scale: 0.97 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.8, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
-        className="max-w-[960px] mx-auto mb-14"
+        className="max-w-[960px] mx-auto mb-14 hidden"
       >
         {/* Category switcher tabs */}
         <div className="flex items-center justify-center gap-2 mb-3 overflow-x-auto pb-1">
