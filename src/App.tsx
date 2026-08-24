@@ -773,83 +773,89 @@ const PricingCard = ({
     }
   };
 
+  const cardBase = "card-sheen group relative p-6 sm:p-7 rounded-2xl flex flex-col h-full transition-all duration-300";
+  const cardPopular = "bg-slate-950 text-white border border-slate-800 shadow-[0_20px_40px_-12px_rgba(37,99,235,0.25)]";
+  const cardNormal = "bg-white border border-slate-200 shadow-xs hover:border-slate-300 hover:shadow-lg";
+  const cardClass = cardBase + " " + (isPopular ? cardPopular : cardNormal);
+  const iconBgClass = "w-10 h-10 rounded-xl flex items-center justify-center mb-4 shrink-0 transition-transform duration-300 group-hover:scale-105 group-hover:rotate-3 " + (isPopular ? "bg-accent/10 text-accent" : "bg-slate-100 text-slate-600");
+  const priceColor = isPopular ? "text-white" : "text-slate-950";
+  const descColor = isPopular ? "text-slate-300" : "text-slate-500";
+  const checkBgClass = isPopular ? "bg-accent/10 text-accent" : "bg-slate-100 text-slate-600";
+  const featureTextColor = isPopular ? "text-slate-200" : "text-slate-700";
+  const borderColor = isPopular ? "border-slate-800" : "border-slate-100";
+  const trustColor = isPopular ? "text-slate-400" : "text-slate-500";
+  const ctaClass = "w-full py-3.5 px-4 rounded-xl font-black text-[12px] sm:text-[13px] md:text-[14px] uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer text-center " + (isPopular ? "bg-accent hover:bg-accent/90 text-white shadow-[0_10px_25px_rgba(59,130,246,0.35)]" : "bg-accent hover:bg-accent/90 text-white shadow-md");
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] }}
-      className={`card-sheen group p-5 sm:p-6 rounded-2xl border border-slate-200 bg-white shadow-xs hover:border-slate-300 hover:shadow-md transition-all flex flex-col h-full ${isPopular ? "border-accent/40 ring-1 ring-accent/10" : ""}`}
+      className={cardClass}
     >
-      {/* Popular indicator */}
+      {/* Popular badge */}
       {isPopular && (
-        <div className="flex items-center gap-2 mb-3">
-          <div className="w-1.5 h-1.5 rounded-full bg-accent" />
-          <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-accent">Recomendado</span>
+        <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-accent text-white text-[10px] font-bold uppercase tracking-[0.15em] rounded-full shadow-[0_8px_20px_-4px_rgba(234,88,12,0.4)]">
+          Más Popular
         </div>
       )}
 
-      {/* Icon + Title row */}
-      <div className="flex items-center gap-3 mb-3">
-        <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:rotate-6 group-hover:scale-110 ${isPopular ? "bg-accent/10 text-accent" : "bg-slate-100 text-slate-600"}`}>
-          <Icon className="w-4.5 h-4.5" />
+      {/* Header */}
+      <div className="mb-6">
+        <div className={iconBgClass}>
+          <Icon className="w-5 h-5" />
         </div>
-        <div>
-          <h3 className="text-[15px] font-black tracking-tight text-slate-900">{title}</h3>
-          {!isPopular && badge && <span className="text-[9px] font-bold uppercase tracking-[0.12em] text-slate-400">{badge}</span>}
-        </div>
+        <h3 className="text-[16px] font-black tracking-tight mb-1">{title}</h3>
+        {!isPopular && badge && <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-slate-400">{badge}</span>}
       </div>
 
       {/* Price */}
-      <div className="flex items-baseline gap-1 mb-2">
-        <span className="text-[32px] sm:text-[36px] font-black tabular-nums tracking-tighter text-slate-900 leading-none">{price}</span>
-        {period && <span className="text-[12px] font-medium text-slate-400">{period}</span>}
+      <div className="mb-5">
+        <div className="flex items-baseline gap-1 mb-1">
+          <span className={"text-[36px] sm:text-[42px] font-black tabular-nums tracking-tighter leading-none " + priceColor}>{price}</span>
+          {period && <span className="text-[13px] font-medium self-center text-slate-400">{period}</span>}
+        </div>
+        {savings && (
+          <p className="text-[11px] font-semibold text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full inline-block border border-emerald-100">
+            {savings}
+          </p>
+        )}
       </div>
 
       {/* Description */}
-      <p className="text-[12px] text-slate-500 leading-relaxed mb-4">{description}</p>
+      <p className={"text-[13px] leading-relaxed mb-6 " + descColor}>{description}</p>
 
-      {/* Features */}
-      <ul className="space-y-2 mb-5">
-        {items.map((item: any, idx: number) => (
-          <li key={idx} className="flex items-start gap-2">
-            <CheckCircle2 className="w-3.5 h-3.5 text-slate-300 mt-0.5 shrink-0" />
-            <span className="text-[12px] font-medium text-slate-700 leading-tight">{item.name}</span>
+      {/* Features - only top 4, cleaner */}
+      <ul className="space-y-2.5 mb-6">
+        {items.slice(0, 4).map((item: any, idx: number) => (
+          <li key={idx} className="flex items-start gap-2.5">
+            <div className={"w-4 h-4 rounded flex-shrink-0 mt-0.5 flex items-center justify-center " + checkBgClass}>
+              <CheckCircle2 className="w-2.5 h-2.5" />
+            </div>
+            <span className={"text-[12px] font-medium leading-tight " + featureTextColor}>{item.name}</span>
           </li>
         ))}
       </ul>
 
       {/* CTA */}
-      <div className="mt-auto space-y-2">
+      <div className={"mt-auto pt-4 border-t " + borderColor}>
         <motion.a
           whileHover={{ scale: 1.02, y: -2 }}
           whileTap={{ scale: 0.98 }}
           href={waUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className={`w-full py-3.5 px-4 rounded-xl font-black text-[12px] sm:text-[13px] md:text-[14px] uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer text-center ${
-            isPopular
-              ? "bg-accent hover:bg-accent/90 text-white shadow-[0_10px_25px_rgba(59,130,246,0.35)]"
-              : "bg-accent hover:bg-accent/90 text-white shadow-md"
-          }`}
+          className={ctaClass}
         >
           <WhatsAppIcon className="w-4 h-4" />
           Quiero este plan
           <span className="text-[10px] opacity-90">Iniciar Chat</span>
         </motion.a>
-        <p className="text-[10px] text-center text-slate-500 font-medium">
+        <p className={"text-[10px] text-center mt-2 " + trustColor + " font-medium"}>
           Pago seguro vía Yape, Plin o Transferencia BCP/Interbank tras validar tu proyecto.
         </p>
       </div>
-
-      {/* Savings pill */}
-      {savings && (
-        <div className="mt-3 text-center">
-          <span className="text-[9px] font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100">
-            {savings}
-          </span>
-        </div>
-      )}
     </motion.div>
   );
 };
@@ -876,8 +882,8 @@ const Services = ({
       </p>
     </div>
 
-    {/* Pricing Grid — 3 columns minimalist */}
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 lg:gap-0 items-start mb-16 md:mb-24">
+    {/* Pricing Grid — 3 columns with breathing room */}
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-10 items-start mb-16 md:mb-24">
       {/* Plan $49/mes */}
       <div className="lg:border-r lg:border-slate-200 lg:pr-8 xl:pr-10">
         <PricingCard
