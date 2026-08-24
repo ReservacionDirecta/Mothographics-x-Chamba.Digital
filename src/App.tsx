@@ -587,7 +587,7 @@ const Hero = () => {
             href="https://wa.me/51904060670?text=Hola%2C%20quisiera%20agendar%20una%20llamada%20sobre%20sus%20planes%20WaaS."
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-[14px] font-bold text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 px-6 py-4 rounded-xl transition-colors"
+            className="link-underline inline-flex items-center gap-2 text-[14px] font-bold text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 px-6 py-4 rounded-xl transition-colors"
           >
             Agendar Llamada
             <ArrowRight className="w-4 h-4" />
@@ -1970,7 +1970,7 @@ const ChambaHero = () => {
             </motion.a>
             <Link
               to="/servicios"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 text-[14px] font-bold text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 px-6 py-4 rounded-xl transition-colors"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 text-[14px] font-bold text-white bg-accent hover:bg-accent/90 px-6 py-4 rounded-xl transition-colors btn-sheen"
             >
               Ver Planes y Precios
               <ArrowRight className="w-4 h-4" />
@@ -2196,7 +2196,8 @@ const PainPoints = () => (
           className="bg-accent hover:bg-accent/90 text-white px-6 sm:px-7 py-3.5 rounded-xl font-bold text-[13px] shadow-sm flex items-center gap-2 uppercase tracking-wider transition-colors btn-sheen"
         >
           <WhatsAppIcon className="w-4 h-4" />
-          Hablar por WhatsApp (Respuesta Rápida)
+          Quiero mi web a $49/mes
+          <span className="text-[10px] opacity-90">Iniciar Chat</span>
         </a>
       </div>
     </div>
@@ -2238,7 +2239,7 @@ const StickyCtaBar = () => {
           className="fixed bottom-0 left-0 right-0 z-[90] bg-slate-900/95 backdrop-blur-md border-t border-slate-800 py-3.5 px-6 flex items-center justify-center gap-4 sm:gap-6 shadow-lg"
         >
           <span className="text-white font-medium text-[13px] sm:text-[14px] hidden sm:block tracking-wide">
-            Tu web a medida desde <span className="text-accent font-bold">$49/mes</span> · Cambios ilimitados · Hosting Cloud incluido
+            Tu web a medida desde <span className="text-accent font-bold">$49/mes</span> · Cambios ilimitados · Hosting Cloud · Tu departamento de sistemas
           </span>
           <a
             href="https://wa.me/51904060670?text=Hola%2C%20quiero%20m%C3%A1s%20informaci%C3%B3n%20sobre%20sus%20planes%20WaaS."
@@ -2247,7 +2248,8 @@ const StickyCtaBar = () => {
             className="bg-accent hover:bg-accent/90 text-white px-5 sm:px-6 py-2.5 rounded-xl font-bold text-[12px] uppercase tracking-wider shadow-xs flex items-center gap-2 transition-colors btn-sheen"
           >
             <WhatsAppIcon className="w-4 h-4 text-white" />
-            Hablar por WhatsApp
+            Quiero este plan
+            <span className="text-[10px] opacity-90">Iniciar Chat</span>
           </a>
         </motion.div>
       )}
