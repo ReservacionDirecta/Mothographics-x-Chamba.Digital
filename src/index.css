@@ -11,6 +11,7 @@
   --color-fg: #0F172A;
   --color-muted: #64748B;
   --color-accent: #2563EB;
+  --color-brandBlue: #1E3A8A;
   --color-cta: #EA580C;
   --color-cta-hover: #C2410C;
   --color-gold: #D97706;
@@ -181,6 +182,16 @@
   }
   .card-sheen:hover::before {
     transform: translateX(130%) skewX(-12deg);
+  }
+
+  .c-glZFUG {
+    padding: 2rem 0px 2.5rem;
+    background-image: url(/noise-light.png);
+    position: relative;
+  }
+
+  .c-glZFUG-iHvQKn-css {
+    background-color: var(--color-brandBlue);
   }
 }
 

@@ -885,7 +885,7 @@ const Services = ({
     {/* Pricing Grid — 3 columns with breathing room */}
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-10 items-start mb-16 md:mb-24">
       {/* Plan $49/mes */}
-      <div className="lg:border-r lg:border-slate-200 lg:pr-8 xl:pr-10">
+      <div className="lg:border-r lg:border-slate-200">
         <PricingCard
           title="Web Tradicional"
           icon={Zap}
@@ -1993,7 +1993,7 @@ const ChambaHero = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.15 }}
-          className="text-[38px] sm:text-[50px] md:text-[62px] font-black leading-[1.08] md:leading-[1.04] tracking-tight text-slate-900 mb-6"
+          className="text-[38px] sm:text-[50px] md:text-[62px] font-black leading-[1.08] md:leading-[1.04] tracking-tight text-white mb-6"
         >
           <span className="line-mask">
             <motion.span
@@ -2022,7 +2022,7 @@ const ChambaHero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-          className="text-[16px] md:text-[19px] text-slate-600 font-normal leading-relaxed max-w-[700px] mb-8"
+          className="text-[16px] md:text-[19px] text-slate-300 font-normal leading-relaxed max-w-[700px] mb-8"
         >
           Por $49/mes cubrimos toda tu tecnología: servidor de alta velocidad, diseño a medida y cambios ilimitados. Tú te enfocas en cerrar ventas; nosotros nos convertimos en tu departamento de sistemas.
         </motion.p>
@@ -2063,19 +2063,19 @@ const ChambaHero = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.8, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-10 pt-6 border-t border-slate-200/60 flex flex-wrap items-center justify-center gap-8 md:gap-14"
+          className="mt-10 pt-6 border-t border-slate-700/50 flex flex-wrap items-center justify-center gap-8 md:gap-14"
         >
           <div className="flex flex-col items-center gap-1">
             <CountUp value={50} suffix="+" className="text-[28px] md:text-[36px] font-black text-accent tracking-tight" />
-            <span className="text-[10px] font-bold text-muted uppercase tracking-[0.2em]">Proyectos Entregados</span>
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Proyectos Entregados</span>
           </div>
           <div className="flex flex-col items-center gap-1">
             <CountUp value={10} suffix="+" className="text-[28px] md:text-[36px] font-black text-accent tracking-tight" />
-            <span className="text-[10px] font-bold text-muted uppercase tracking-[0.2em]">Años de Experiencia</span>
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Años de Experiencia</span>
           </div>
           <div className="flex flex-col items-center gap-1">
             <span className="text-[28px] md:text-[36px] font-black text-accent tracking-tight">24/7</span>
-            <span className="text-[10px] font-bold text-muted uppercase tracking-[0.2em]">Soporte Activo</span>
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Soporte Activo</span>
           </div>
         </motion.div>
 
@@ -2086,12 +2086,12 @@ const ChambaHero = () => {
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, delay: 0.75, ease: [0.16, 1, 0.3, 1] }}
-        className="text-center pt-6 border-t border-slate-200/80"
+        className="text-center pt-6 border-t border-slate-700/50"
       >
-        <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-600 mb-5">
+        <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400 mb-5">
           Infraestructura web y software desplegado para marcas y empresas
         </p>
-        <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-slate-600 text-[13px] font-bold">
+        <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-slate-400 text-[13px] font-bold">
           <span className="hover:text-slate-900 transition-colors">Peña Linda Bungalows</span>
           <span className="text-slate-300 hidden sm:inline">·</span>
           <span className="hover:text-slate-900 transition-colors">LATAM Abogados</span>
@@ -2887,6 +2887,11 @@ export const ChambaFooter = () => (
 
 const ChambaContent = ({ onOpenModal }: any) => (
   <div className="grain selection:bg-accent selection:text-white overflow-x-hidden w-full relative">
+    {/* Arc.net inspired dark theme background */}
+    <div className="fixed inset-0 z-0 bg-[var(--color-brandBlue)] c-glZFUG" aria-hidden="true">
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-slate-900/30 to-transparent" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-accent/10 rounded-full blur-[120px] -z-10" />
+    </div>
     <ChambaNavbar />
     <main className="pt-[70px] relative z-10">
       <ChambaHero />
