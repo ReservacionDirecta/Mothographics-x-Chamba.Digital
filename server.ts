@@ -2425,7 +2425,7 @@ Responde en español de forma profesional, empática, ágil y totalmente context
   // API Route: Webhook or Success Checkout Trigger
   // Polar.sh webhook with signature verification (Standard Webhooks spec)
   // https://docs.polar.sh/api-reference/webhooks/structure
-  app.post("/api/checkout/notify", async (req, res) => {
+  const polarWebhookHandler = async (req: express.Request, res: express.Response) => {
     const webhookSecret = process.env.POLAR_WEBHOOK_SECRET;
     const signatureHeader = req.headers["webhook-signature"] || req.headers["Webhook-Signature"];
 
@@ -2500,7 +2500,11 @@ Responde en español de forma profesional, empática, ágil y totalmente context
     }
 
     res.json({ success: true, received: eventType });
-  });
+  };
+
+  app.post("/api/checkout/notify", polarWebhookHandler);
+  app.post("/api/webhooks/polar", polarWebhookHandler);
+  app.post("/api/webhooks", polarWebhookHandler);
 
   // API routes
   app.post("/api/send-checklist", captureLimiter, async (req, res) => {
