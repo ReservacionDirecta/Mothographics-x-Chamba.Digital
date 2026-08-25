@@ -719,7 +719,8 @@ interface PricingCardProps {
   price: string;
   period?: string;
   badge?: string;
-  items: string[];
+  description?: string;
+  items: Array<{ name: string; detail?: string }>;
   isPopular?: boolean;
   isPremium?: boolean;
   savings?: string;
@@ -734,6 +735,7 @@ const PricingCard = ({
   price,
   period,
   badge,
+  description,
   items,
   isPopular = false,
   isPremium = false,
@@ -780,7 +782,7 @@ const PricingCard = ({
         transition={{ duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] }}
         className="relative p-6 sm:p-7 rounded-2xl border border-slate-700 bg-slate-900 text-white shadow-xl flex flex-col h-full"
       >
-        <div className="flex items-center gap-2 mb-4">
+        <div className="flex items-center gap-2 mb-3">
           <Icon className="w-4 h-4 text-amber-400" />
           <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-amber-400">{badge || title}</span>
         </div>
@@ -789,14 +791,18 @@ const PricingCard = ({
           <span className="text-[38px] sm:text-[44px] font-black tabular-nums tracking-tighter text-white leading-none">{price}</span>
           {period && <span className="text-[13px] font-medium text-slate-400">{period}</span>}
         </div>
-        {savings && <p className="text-[11px] text-amber-400/80 font-medium mb-5">{savings}</p>}
-        {!savings && <div className="mb-5" />}
+        {savings && <p className="text-[11px] text-amber-400/80 font-medium mb-3">{savings}</p>}
+        {!savings && <div className="mb-3" />}
+        {description && <p className="text-[12px] text-slate-400 leading-relaxed mb-4">{description}</p>}
 
         <ul className="space-y-3 mb-6">
           {items.map((item, idx) => (
             <li key={idx} className="flex items-start gap-2.5">
-              <CheckCircle2 className="w-4 h-4 text-amber-400 mt-px shrink-0" />
-              <span className="text-[13px] font-medium text-slate-200 leading-snug">{item}</span>
+              <CheckCircle2 className="w-4 h-4 text-amber-400 mt-0.5 shrink-0" />
+              <div className="flex-1 min-w-0">
+                <span className="text-[13px] font-semibold text-white leading-snug">{item.name}</span>
+                {item.detail && <span className="block text-[11px] font-medium text-slate-400 leading-snug mt-0.5">{item.detail}</span>}
+              </div>
             </li>
           ))}
         </ul>
@@ -843,14 +849,18 @@ const PricingCard = ({
         <span className="text-[34px] sm:text-[38px] font-black tabular-nums tracking-tighter text-slate-900 leading-none">{price}</span>
         {period && <span className="text-[12px] font-medium text-slate-400">{period}</span>}
       </div>
-      {savings && <p className="text-[11px] text-emerald-600 font-medium mb-4">{savings}</p>}
-      {!savings && <div className="mb-4" />}
+      {savings && <p className="text-[11px] text-emerald-600 font-medium mb-3">{savings}</p>}
+      {!savings && <div className="mb-3" />}
+      {description && <p className="text-[12px] text-slate-500 leading-relaxed mb-4">{description}</p>}
 
-      <ul className="space-y-2.5 mb-6">
+      <ul className="space-y-3 mb-6">
         {items.map((item, idx) => (
           <li key={idx} className="flex items-start gap-2.5">
-            <CheckCircle2 className={`w-4 h-4 mt-px shrink-0 ${isPopular ? "text-accent" : "text-slate-300"}`} />
-            <span className="text-[13px] font-medium text-slate-700 leading-snug">{item}</span>
+            <CheckCircle2 className={`w-4 h-4 mt-0.5 shrink-0 ${isPopular ? "text-accent" : "text-slate-300"}`} />
+            <div className="flex-1 min-w-0">
+              <span className="text-[13px] font-semibold text-slate-800 leading-snug">{item.name}</span>
+              {item.detail && <span className="block text-[11px] text-slate-500 leading-snug mt-0.5">{item.detail}</span>}
+            </div>
           </li>
         ))}
       </ul>
@@ -898,9 +908,9 @@ const Services = ({
       </p>
     </div>
 
-    {/* Pricing Grid — 3 tiers */}
+    {/* Pricing Grid — 3 tiers con detalle explicativo */}
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-0 items-stretch mb-8">
-      {/* Plan $49/mes */}
+      {/* Plan $49/mes — Web Tradicional */}
       <div className="lg:border-r lg:border-slate-200 lg:pr-6 xl:pr-8">
         <PricingCard
           title="Web Tradicional"
@@ -909,17 +919,20 @@ const Services = ({
           price="$49"
           period="/mes"
           savings="Promo semestral: $245 (6 meses)"
+          description="Presencia digital profesional sin pagar miles por adelantado. Ideal para validar tu oferta y crecer sin riesgo."
           productId="70f62d4c-2cd9-49ad-9628-24a04d462cc0"
           whatsappText="Hola! Me interesa la suscripción WaaS Web Tradicional ($49/mes). Quisiera iniciar mi proyecto."
           items={[
-            "Sitio web profesional 100% a medida",
-            "Actualizaciones semanales incluidas",
-            "Soporte técnico directo por WhatsApp",
+            { name: "Sitio web a medida", detail: "React/Vite, carga <1s, 100% tuyo (.pe/.com a tu nombre)" },
+            { name: "Hosting cloud + SSL + backups", detail: "Infra Railway incluida, certificado y respaldos diarios" },
+            { name: "SEO técnico + Google My Business", detail: "Indexación estructural y ficha GMB optimizada para captar" },
+            { name: "Cambios ilimitados semanales", detail: "Textos, fotos y promos sin costo extra vía WhatsApp" },
+            { name: "Soporte directo por WhatsApp", detail: "Atención rápida sin tickets, mantenimiento continuo" },
           ]}
         />
       </div>
 
-      {/* Plan $99/mes — Popular */}
+      {/* Plan $99/mes — Web App Popular */}
       <div className="lg:px-6 xl:px-8 lg:border-r lg:border-slate-200">
         <PricingCard
           isPopular={true}
@@ -929,17 +942,20 @@ const Services = ({
           price="$99"
           period="/mes"
           savings="Promo semestral: $495 (6 meses)"
+          description="Software a medida para operar y vender. Panel, pagos y APIs sin límites ni plantillas."
           productId="b78ef21a-1fdc-4fb6-b411-f4eb46f3fe96"
           whatsappText="Hola! Me interesa el plan Web App Advanced ($99/mes). Necesito gestionar inventario y pagos online."
           items={[
-            "Panel de administración personalizado",
-            "Pasarelas de pago e integraciones",
-            "Soporte prioritario dedicado",
+            { name: "Panel admin a medida", detail: "Productos, pedidos, usuarios y métricas a tu medida" },
+            { name: "REST APIs + base de datos cloud", detail: "Arquitectura escalable PostgreSQL/Redis, integraciones enterprise" },
+            { name: "Pasarelas de pago completas", detail: "Culqi, Niubiz, MercadoPago, Stripe, PayPal y webhooks" },
+            { name: "Autenticación y roles", detail: "Login, permisos y conexión con tu stack actual" },
+            { name: "Soporte prioritario + evolución", detail: "Mejoras continuas y línea técnica dedicada" },
           ]}
         />
       </div>
 
-      {/* Plan $599/mes — Premium */}
+      {/* Plan $599/mes — Premium IA */}
       <div className="lg:pl-6 xl:pl-8">
         <PricingCard
           isPremium={true}
@@ -949,12 +965,15 @@ const Services = ({
           price="$599"
           period="/mes"
           savings="Automatización Operativa Total"
+          description="Automatización operativa total. Tu equipo de IA trabajando 24/7 por ti."
           productId="ef4fe8a9-0f60-40c2-b0c3-0cf2663e38de"
           whatsappText="Hola! Me interesa el plan WaaS Web App con IA ($599.99/mes). Deseo automatizar mi empresa con IA."
           items={[
-            "Agentes de IA en WhatsApp 24/7",
-            "Automatización de procesos operativos",
-            "Consultoría y evolución mensual",
+            { name: "Agentes IA en WhatsApp 24/7", detail: "Cotizan, responden dudas y cierran ventas automáticamente" },
+            { name: "Workflows automatizados", detail: "Conecta equipos y sistemas, elimina trabajo manual" },
+            { name: "Procesamiento leads/tickets/reservas", detail: "Clasifica, responde y deriva con analítica predictiva" },
+            { name: "Integración Sirvoy/CRM", detail: "Pagos automáticos y confirmación en tiempo real" },
+            { name: "Consultoría y evolución mensual", detail: "Acompañamiento estratégico para escalar tu operación" },
           ]}
         />
       </div>

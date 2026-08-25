@@ -2658,23 +2658,116 @@ Responde en español de forma profesional, empática, ágil y totalmente context
     }
   });
 
-  // AI Knowledge fallback generator in case API key is unavailable or quota is exceeded
+  // ============================================================
+  // CHAMBA AI RAG v2 — Retrieval, Prompt & Fallback mejorados
+  // ============================================================
+
+  // Lightweight RAG v3 — chunk KB by ## headers and keyword scoring (solo web pública)
+  const retrieveRelevantContext = (query: string, kb: string): string => {
+    const lowerQuery = query.toLowerCase();
+    const queryWords = lowerQuery.split(/\s+/).filter((w) => w.length > 2);
+    const chunks = kb.split(/^##\s+/m).filter(Boolean);
+
+    const scored = chunks.map((chunk) => {
+      const lower = chunk.toLowerCase();
+      let score = 0;
+      for (const w of queryWords) if (lower.includes(w)) score += 1;
+      if (/(hotel|sirvoy|pms|reserva|booking|airbnb|hosped|channel manager)/.test(lowerQuery) && /hotel|hospitality|sirvoy/.test(lower)) score += 5;
+      if (/(precio|plan|costo|cuanto|\$49|\$99|\$599|waas|tarifa|vale)/.test(lowerQuery) && /planes waas|precios oficiales/.test(lower)) score += 5;
+      if (/(video|imagen|flow|google flow|crédito|credito)/.test(lowerQuery) && /visual ia|google flow/.test(lower)) score += 5;
+      if (/(ia continua|hothelia|agente.*ia|automat.*ia|chatbot ia)/.test(lowerQuery) && /planes ia continua|agente/.test(lower)) score += 4;
+      if (/(ia|automat|agente|chatbot)/.test(lowerQuery) && /planes ia continua|automat/.test(lower)) score += 2;
+      if (/(tiempo|entrega|plazo|cuanto tarda|cuando demora|dias entrega)/.test(lowerQuery) && /proceso|metodología|tiempos entrega|políticas/.test(lower)) score += 4;
+      if (/(sorteo|raffle|premio|concurso|ganar|rifa)/.test(lowerQuery) && /sorteo/.test(lower)) score += 5;
+      if (/(garant|pago|factura|ruc|dominio|hosting|bcp|yape|plin)/.test(lowerQuery) && /facturac|políticas|pagos y legal/.test(lower)) score += 3;
+      if (/(wordpress|elementor|wix|plantilla)/.test(lowerQuery) && /handcrafted|faq/.test(lower)) score += 4;
+      if (/(dolor|perder|abandonada|pymes|1500|prospectos|agencia tradicional|oportunidad)/.test(lowerQuery) && /dolores|oportunidad|pilares/.test(lower)) score += 5;
+      if (/(50\+|proyectos entregados|años experiencia|uptime|lighthouse|lcp|roas|conversion|reservas directas|prueba social)/.test(lowerQuery) && /prueba social|portafolio|métricas/.test(lower)) score += 4;
+      if (/(checklist|guia|guía|pdf|transformacion|transformación)/.test(lowerQuery) && /lead magnets|checklist|guía/.test(lower)) score += 5;
+      if (/(cambio|solicitar cambio|actualizar web|foto.*texto|promocion)/.test(lowerQuery) && /cómo solicito|faq|cambios/.test(lower)) score += 5;
+      if (/(ecommerce|e-commerce|shopify|woocommerce|cro|tienda online|tienda virtual)/.test(lowerQuery) && /e-commerce|verticales/.test(lower)) score += 4;
+      if (/(crm|salesforce|hubspot|pipedrive|servicebusiness|b2b.*lead)/.test(lowerQuery) && /servicios.*b2b|verticales/.test(lower)) score += 4;
+      if (/(ingleslegal|propuesta.*legal|proposal)/.test(lowerQuery) && /propuesta pública|ingleslegal/.test(lower)) score += 5;
+      if (/(terminos|términos|privacidad|propiedad intelectual|ompi|wipo|cookies|aviso legal)/.test(lowerQuery) && /términos|privacidad|propiedad/.test(lower)) score += 4;
+      if (/(contacto|email.*chamba|direccion|dirección|alameda|chorrillos|hola@|contacto@)/.test(lowerQuery) && /contacto|lead magnets/.test(lower)) score += 3;
+      if (/(consulta.*15|agendar.*cita|horario.*consulta|slots|google calendar|ics)/.test(lowerQuery) && /consulta gratuita|lead magnets/.test(lower)) score += 4;
+      return { chunk: `## ${chunk}`, score };
+    });
+
+    scored.sort((a, b) => b.score - a.score);
+    const top = scored.slice(0, 4).filter((s) => s.score > 0).map((s) => s.chunk);
+    const preface = kb.split(/^##\s+/m)[0] || "";
+    const identityChunk = chunks.find((c) => /identidad y filosofía/i.test(c));
+    const mustInclude = identityChunk ? [`## ${identityChunk}`] : [];
+    const selected = [...mustInclude, ...top];
+    const unique = [...new Set(selected)];
+    if (unique.length === 0) return kb.slice(0, 7000);
+    if (unique.length === 1 && queryWords.length <= 2) return kb.slice(0, 8000);
+    const combined = [preface, ...unique].join("\n\n").slice(0, 9000);
+    console.log(`[RAG v3] query="${query.slice(0, 40)}" → ${unique.length} chunks (~${combined.length} chars)`);
+    return combined;
+  };
+
+  const INJECTION_PATTERNS = /(ignora|olvida).*(instruccion|regla|sistema)|system prompt|jailbreak|eres ahora|actua como|prompt interno/i;
+
   const generateFallbackAiResponse = (cleanMessage: string) => {
     const lower = cleanMessage.toLowerCase();
 
-    if (lower.includes("agenda") || lower.includes("cita") || lower.includes("consulta") || lower.includes("15 min") || lower.includes("asesor") || lower.includes("auditor")) {
-      return "¡Excelente iniciativa! Puedes agendar directamente tu **Consulta Gratuita de 15 Minutos** usando el botón de la web o escribiéndonos a WhatsApp en https://wa.me/51904060670. Analizaremos tu proyecto y te daremos una ruta técnica sin compromiso.";
+    if (INJECTION_PATTERNS.test(cleanMessage)) {
+      return "Soy **Chamba AI**, asistente oficial de **chamba.digital**. Puedo ayudarte con nuestros planes WaaS, hoteles, IA y sorteos. ¿En qué te ayudo hoy? Escríbenos a https://wa.me/51904060670";
+    }
+    if (lower.includes("agenda") || lower.includes("cita") || lower.includes("consulta") || lower.includes("15 min") || lower.includes("asesor") || lower.includes("auditor") || lower.includes("reuni") || lower.includes("horario")) {
+      return "¡Excelente iniciativa! Agenda tu **Consulta Gratuita de 15 Minutos** con un ingeniero WaaS. **Horarios PET:** 09:00, 09:30, 10:00, 10:30, 11:00, 11:30, 15:00, 15:30, 16:00, 16:30, 17:00, 17:30. Escríbenos a **WhatsApp https://wa.me/51904060670** o usa el botón \"Agenda Cita 15 min\" — recibirás **link Google Calendar + .ICS** y notificamos a yerctech@gmail.com.";
+    }
+    if (lower.includes("precio") || lower.includes("plan") || lower.includes("cuanto") || lower.includes("costo") || lower.includes("tarifa") || lower.includes("vale") || lower.includes("waas")) {
+      return "En **chamba.digital** (WaaS) tenemos:\n\n• **$49/mes Web Tradicional** — sitio a medida, hosting+SSL, SEO, cambios ilimitados (semestral $245)\n• **$99/mes Web App Advanced** — panel admin a medida + APIs + pasarelas (semestral $495)\n• **$599.99/mes Web App con IA** — workflows y agentes 24/7\n\n¿Para qué tipo de negocio la necesitas **(Hotel, E-commerce, Empresa)**? Cotizamos exacto por https://wa.me/51904060670";
+    }
+    if (lower.includes("hotel") || lower.includes("sirvoy") || lower.includes("pms") || lower.includes("reserva") || lower.includes("booking") || lower.includes("airbnb") || lower.includes("hosped") || lower.includes("channel manager")) {
+      return "Para hoteles tenemos el plan **Hospitality Pro $999 pago único**: **web premium** + integración de tu **PMS (Sirvoy u otro)** + **agente de reservas básico** + **2,500 créditos/mes en Google Flow** (10/20/100 créditos por video). Demo vivo: **Booking 14 · Airbnb 8 · Expedia 5 · Motor Directo 22 (0% comisión)**. Los **planes WaaS $49/$99 no incluyen PMS ni visual IA**. ¿Agendamos demo? https://wa.me/51904060670";
+    }
+    if (lower.includes("video") || lower.includes("imagen") || lower.includes("flow") || lower.includes("crédito") || lower.includes("credito") || lower.includes("google flow")) {
+      return "El paquete **Visual IA con Google Flow** cuesta **$150** (**$125** curación/prompt engineering + **$25** recarga de **2,500 créditos**). Los 2,500 créditos cubren pruebas/descartes y afinamiento; entregamos solo los **videos finales pulidos y curados** según tu brief, no crudos al azar. ¿Quieres cotizar? https://wa.me/51904060670";
+    }
+    if (lower.includes("ia continua") || lower.includes("hothelia") || lower.includes("automat") ) {
+      return "Planes **IA Continua** (Hothelia / Chamba AI):\n\n• **Starter $49/mes** (setup $250) — 1,000 msgs, 1 línea\n• **Pro $99/mes** (setup $400) — 3,000 msgs, WhatsApp+IG, calendario y pagos\n• **Business $199/mes** (setup $600) — 10,000 msgs, Sirvoy/CRM, soporte 24/7\n\nGrowth Packs $19/2,000 msgs. Permanencia sugerida 3 meses. ¿Cuál te interesa? https://wa.me/51904060670";
+    }
+    if (lower.includes("sorteo") || lower.includes("raffle") || lower.includes("premio") || lower.includes("concurso") || lower.includes("ganar") || lower.includes("rifa")) {
+      return "¡Sorteo 2026 activo! **Cierra 11 mayo 2026**. **1er:** Landing 5 secciones (7 días) · **2do:** 50% OFF en web/PMS/IA · **3ro:** 1h consultoría. Participa en **/raffle** (nombre, email, WhatsApp 9 díg, DNI, ciudad, ¿por qué ganar?) y **valida enviando el WhatsApp autogenerado a +51 904060670** (sin esto no participa). https://wa.me/51904060670";
+    }
+    if (lower.includes("tiempo") || lower.includes("plazo") || lower.includes("entrega") || lower.includes("cuanto tarda") || lower.includes("cuando") || lower.includes("demora") || lower.includes("dias")) {
+      return "**Tiempos chamba.digital:** **OnePage 7 días**, **Web/E-commerce/IA 2–4 semanas** según complejidad. **Garantías:** 20% devolución si incumplimos fecha + **15 días Cero Riesgo 100% devolución** si diseño no convence + 30 días soporte gratis. ¿Evaluamos tu caso? https://wa.me/51904060670";
+    }
+    if (lower.includes("wordpress") || lower.includes("elementor") || lower.includes("wix") || lower.includes("plantilla")) {
+      return "No usamos **WordPress/Elementor/Wix**. Todo es **Handcrafted** (React/Next.js/Vite, código limpio). Beneficio: **<1s de carga**, sin caídas por plugins, SEO óptimo e integración directa con motores de reserva y APIs. ¿Migramos tu web actual? https://wa.me/51904060670";
+    }
+    if (lower.includes("cambio") || lower.includes("solicitar") || lower.includes("actualiz") || lower.includes("modificar") || (lower.includes("foto") && lower.includes("texto"))) {
+      return "¡Fácil! Para **solicitar cambios** (foto, texto, promo) solo envías un **WhatsApp a +51 904060670** con lo que deseas y nuestro equipo lo implementa **en la semana sin costo extra** (incluido en tu WaaS). Sin cotizaciones lentas ni programadores caros. ¿Qué necesitas actualizar?";
+    }
+    if (lower.includes("checklist") || lower.includes("guia") || lower.includes("guía") || lower.includes("pdf") || lower.includes("transformacion") || lower.includes("transformación")) {
+      return "Tenemos la **Guía Transformación Digital 2026 (PDF)** — déjanos tu **email + WhatsApp** y te la enviamos al instante a tu correo (revisa Spam si no ves en 2 min) o descárgala en **/assets/docs/Guia_Transformacion_Digital_2026.pdf**. ¿La quieres? Escríbenos a https://wa.me/51904060670";
+    }
+    if (lower.includes("ecommerce") || lower.includes("e-commerce") || lower.includes("tienda online") || lower.includes("tienda virtual") || lower.includes("shopify") || lower.includes("roas")) {
+      return "Para **E-Commerce** hacemos tiendas con **CRO one-step checkout**, **Meta Conversions API + GTM**, automatización carritos por IA, pasarelas **Kushki/Stripe/PayPal** e inventario GraphQL — **4.5x ROAS promedio**. Ver casos: Olivos del Perú +35% conversión. ¿Tu tienda es Shopify/Woo o a medida? https://wa.me/51904060670";
+    }
+    if (lower.includes("crm") || lower.includes("hubspot") || lower.includes("salesforce") || lower.includes("pipedrive") || lower.includes("b2b") || lower.includes("servicebusiness")) {
+      return "Para **Servicios & B2B** armamos máquina de leads: **captura IA con filtros presupuesto**, **agendamiento 24/7 (Google Calendar)**, **nurturing WA/Email** y sync con **Salesforce/HubSpot/Pipedrive** — **-50% tiempo calificación** + dashboard costo por cliente. ¿Tu negocio es servicios? https://wa.me/51904060670";
+    }
+    if (lower.includes("ingleslegal") || lower.includes("propuesta") || (lower.includes("400") && lower.includes("dolares"))) {
+      return "La **Propuesta InglesLegal** (pública en /propuesta/ingleslegal) es un caso ejemplo: **$400 USD / S/1,440** por embudo en **14 días** (Meta Ads → landing <2s → WhatsApp → cierre), Value Stack S/4,500, ROI 3 meses (3→5→9 alumnos). Hosting gratis 1er año luego $50/año. Para tu propuesta a medida, cotizamos exacto por https://wa.me/51904060670";
+    }
+    if (lower.includes("pago") || lower.includes("factura") || lower.includes("ruc") || lower.includes("bcp") || lower.includes("yape") || lower.includes("plin") || lower.includes("dominio") || lower.includes("hosting") || lower.includes("terminos") || lower.includes("términos")) {
+      return "**Pagos:** **≥$500: 40% inicio + 4×15% semanales** (pago 24h antes de revisión, pausa si impago, 7 días aceptación tácita) · **<$500: 60/40** · WaaS mensual es tarifa plana. **Hosting+SSL+backups incluidos** en WaaS; dominio aparte. Facturamos **RUC 15609816934 — BCP 19406354479064 (CCI 00219410635447906492)** · Yape/Plin/Tarjeta. https://wa.me/51904060670";
     }
 
-    if (lower.includes("precio") || lower.includes("plan") || lower.includes("cuanto") || lower.includes("costo") || lower.includes("waas")) {
-      return "En **chamba.digital** ofrecemos planes WaaS todo incluido:\n\n• **$50/mes (Web Tradicional):** Landing y sitio corporativo con cambios ilimitados y hosting.\n• **$100/mes (Web App Advanced):** Panel administrativo a medida, base de datos y APIs.\n• **$599.99/mes (Web App con IA):** Automatización 24/7 y agentes inteligentes.\n\n¿Deseas una consulta de 15 minutos para ver cuál se adapta a tu negocio?";
-    }
+    return "¡Hola! Soy **Chamba AI** de **chamba.digital** — Partner WaaS. Construimos webs/app con IA **desde $49/mes con cambios ilimitados**. ¿Buscas **Hotel, E-commerce o Empresa de Servicios**? Cuéntame y te llevo a **WhatsApp https://wa.me/51904060670** o agenda tu **consulta gratis 15 min**.";
+  };
 
-    if (lower.includes("hotel") || lower.includes("sirvoy") || lower.includes("reserva") || lower.includes("booking") || lower.includes("airbnb")) {
-      return "Somos especialistas certificados en **Sirvoy PMS y motores de reserva directa**. Diseñamos tu web hotelera para que vendas directo y elimines las comisiones del 15%-20% de Booking y Airbnb. ¡Contáctanos a https://wa.me/51904060670 para ver una demo en vivo!";
+  const ensureCtaIfNeeded = (text: string, query: string) => {
+    const needsCta = /(precio|plan|costo|cuanto|hotel|sirvoy|reserva|agenda|cita|consulta|video|flow|sorteo|raffle|contratar|cotiz|checklist|guia|guía|ecommerce|tienda|propuesta|cambio|actualiz)/i.test(query);
+    if (needsCta && !text.includes("wa.me")) {
+      return text.trim() + "\n\nEscríbenos a **WhatsApp https://wa.me/51904060670** para cerrar tu plan.";
     }
-
-    return "¡Hola! En **chamba.digital** construimos y gestionamos plataformas web y web apps con IA bajo modelo WaaS (*desde $50/mes con cambios ilimitados*). ¿Te gustaría agendar una **consulta gratuita de 15 minutos** o revisar alguno de nuestros planes?";
+    return text;
   };
 
   app.post("/api/chat", chatLimiter, async (req, res) => {
@@ -2686,63 +2779,81 @@ Responde en español de forma profesional, empática, ágil y totalmente context
     console.log(`[Chat] History steps: ${history?.length || 0}`);
 
     try {
-      // Security: Sanitize input
-      const cleanMessage = message.slice(0, 500).replace(/[<>]/g, ""); 
+      const cleanMessage = message.slice(0, 500).replace(/[<>]/g, "");
+      if (INJECTION_PATTERNS.test(cleanMessage)) {
+        console.warn("[Chat] Injection attempt blocked:", cleanMessage.slice(0, 80));
+        return res.json({ content: generateFallbackAiResponse(cleanMessage) });
+      }
 
-      // If AI client is configured, try live Gemini request
+      const limitedHistory = Array.isArray(history) ? history.slice(-6) : [];
+
       if (ai) {
         try {
-          const systemPrompt = `
-            Eres el asistente oficial de chamba.digital (escrito exactamente así, todo pegado y en minúsculas). 
-            REGLA DE ORO: Tienes estrictamente prohibido inventar o alucinar información que no esté en el CONTEXTO proporcionado abajo.
-            
-            INFORMACIÓN DE CONTEXTO:
-            ${knowledgeBase}
+          const relevantContext = retrieveRelevantContext(cleanMessage, knowledgeBase);
+          const systemInstruction = `Eres Chamba AI, el asistente oficial de chamba.digital (todo pegado, minúsculas). REGLA DE ORO: Prohibido inventar información no presente en el CONTEXTO. Si no está en el contexto, di que no tienes el dato y deriva a WhatsApp https://wa.me/51904060670.
 
-            INSTRUCCIONES DE SEGURIDAD Y COMPORTAMIENTO:
-            1. Identidad: El nombre de la empresa es exactamente chamba.digital (todo pegado).
-            2. Enfoque WaaS (Web as a Service): Resalta que somos una empresa WaaS donde el cliente obtiene "Tu web a medida desde $50 al mes con cambios ilimitados".
-            3. Estructura de Planes WaaS:
-               - $50/mes: Web Tradicional (negocios, marcas, tiendas, clínicas, consultorios, sitios corporativos).
-               - $100/mes: Web App Advanced (funciones avanzadas, panel administrativo a medida, REST API, integraciones enterprise).
-               - $599.99/mes: Web App con IA & Automatizaciones (automatización de flujos de trabajo de empresa, IA en la gestión operativa 24/7).
-            4. Reserva de Consultas y Cierre de Venta: Siempre invita proactivamente al usuario a agendar su Consulta Gratuita de 15 Minutos o cerrar su plan mediante nuestro enlace directo de WhatsApp: https://wa.me/51904060670. Si el usuario solicita agendar/reservar una cita en el chat, proporciónale inmediatamente el enlace para fijar el horario de su consulta de 15 min.
-            5. Formato: Utiliza negritas (**texto**) y viñetas para estructurar la información y hacerla fácil de leer.
-            6. Brevedad Extrema (Regla Crítica): Tus respuestas deben ser sumamente cortas, directas y al grano (máximo 2 párrafos cortos). NUNCA des discursos largos.
-          `;
+CONTEXTO RELEVANTE (RAG — solo web pública):
+${relevantContext}
+
+REGLAS INQUEBRANTABLES:
+1. Identidad: chamba.digital (minúsculas, pegado). Contacto: contacto@chamba.digital / hola@chamba.digital, +51 904060670, Alameda Premio Real 736 Chorrillos Lima.
+2. WaaS: "Tu web a medida desde $49 al mes. Cambios ilimitados." Hero: "Tu Web Profesional a Medida. Sin pagar miles por adelantado."
+3. Precios: $49/mes Web Tradicional (sem $245), $99/mes Advanced (sem $495), $599.99/mes IA. Stale $500 en /servicios es error — responde $599.99. Hoteles $999 pago único, Visual $150 ($125+$25, 2,500 créditos 10/20/100), IA Continua $49+$250 / $99+$400 / $199+$600 + $19/2k msgs.
+4. Hotel: WaaS $49/$99/$599 NO incluye PMS/Flow/agente. Hospitality $999 sí: web premium + PMS (Sirvoy u otro) + agente básico + 2,500 créditos Flow. Demo: Booking 14 · Airbnb 8 · Expedia 5 · Motor Directo 22 (0% comisión). Hothelia avanzado = costo adicional.
+5. Visual IA: $125+$25=150, 2,500 créditos = límite con pruebas/descartes → solo finales pulidos/curados. Showcase LCP 0.5-0.7s Lighthouse 99-100 99.9% uptime.
+6. Pagos y garantías: ≥$500: 40% inicio + 4×15% semanales (pago 24h antes revisión, pausa si impago, 7d aceptación tácita) · <$500: 60/40 · WaaS mensual tarifa plana · Garantías: Cero Riesgo 15d 100% devolución + 20% si incumplimos fecha + 30d soporte gratis · RUC 15609816934 BCP 19406354479064 CCI 00219410635447906492 · Hosting+SSL incluidos, dominio aparte ($5 es infra base informativa).
+7. Cierre: si hay intención de cotizar/agendar/sorteo/hotel/IA/checklist/ecommerce/cambio, incluye https://wa.me/51904060670 y califica: "¿Para qué tipo de negocio buscas la solución (Hotel, E-commerce, Empresa)?"
+8. Formato: máx 2 párrafos cortos, usa **negritas** y • bullets (máx 3), nunca bloques largos. Si exige más, resume y lleva a WhatsApp.
+9. Idioma: español neutro Perú, profesional y cercano.
+10. Cobertura pública total: debes manejar con solvencia pain points ($1500 a ciegas, webs abandonadas, 3/5 prospectos, 80% pymes), stats (50+ proyectos, 10+ años, 99.9% uptime, +40% reservas Costa Blanca, -70% Hothelia, +35% Olivos, 4.5x ROAS, -50% calificación), proceso 3 etapas/5 pasos/6 pasos, cambios WhatsApp semanal gratis, checklist PDF /assets/docs/Guia_Transformacion_Digital_2026.pdf, consulta 15 min slots PET (09:00-17:30) + ICS/Google Calendar + yerctech@gmail.com, sorteo 11 mayo 2026 + validación WA obligatoria, e-commerce CRO/Kushki, service businesses Salesforce/HubSpot/Pipedrive, propuesta ingleslegal $400/S1440 14 días, términos/privacidad/IP (OMPI/WIPO, cookies GA/Pixel).
+
+EJEMPLOS (few-shot):
+Usuario: "¿Cuánto cuesta una web?" -> Responde $49/$99/$599.99 + semestral + calificación + wa.me
+Usuario: "¿Web para hoteles?" -> Responde Hospitality $999 con PMS+agente+2500 créditos + demo 14/8/5/22 + wa.me
+Usuario: "¿Videos IA?" -> Responde $150 desglose + 2,500 créditos pulidos + wa.me
+Usuario: "¿Cómo pido cambios?" -> Responde "WhatsApp a 904060670, en la semana sin costo extra" + wa.me
+Usuario: "¿Cuándo es el sorteo?" -> Responde "11 mayo 2026, /raffle + valida WA autogenerado" + wa.me`;
 
           const contents = [
-            { role: "user", parts: [{ text: systemPrompt }] },
-            { role: "model", parts: [{ text: "Entendido. Soy el asistente oficial de chamba.digital. Mantendré mis respuestas cortas, directas y concisas (máximo 2 párrafos), invitando a la consulta gratuita de 15 min o WhatsApp." }] },
-            ...(history || []).map((h: any) => ({
+            ...(limitedHistory || []).map((h: any) => ({
               role: h.role === "user" ? "user" : "model",
-              parts: [{ text: h.content }]
+              parts: [{ text: h.content }],
             })),
-            { role: "user", parts: [{ text: cleanMessage }] }
+            { role: "user" as const, parts: [{ text: cleanMessage }] },
           ];
 
-          console.log("[Chat] Calling Gemini API...");
+          console.log("[Chat] Calling Gemini 2.5 Flash (RAG)...");
           const result = await ai.models.generateContent({
-            model: "models/gemini-2.5-flash-lite",
+            model: "models/gemini-2.5-flash",
             contents: contents,
             config: {
-              temperature: 0.3,
-              topP: 0.8,
+              systemInstruction,
+              temperature: 0.2,
+              topP: 0.7,
               topK: 40,
-            }
+              maxOutputTokens: 500,
+            } as any,
           });
 
-          const responseText = result.text;
+          let responseText = (result as any).text?.trim() || (result as any).candidates?.[0]?.content?.parts?.[0]?.text?.trim() || "";
           if (responseText) {
-            console.log(`[Chat] Gemini response received (${responseText.length} chars)`);
+            responseText = ensureCtaIfNeeded(responseText, cleanMessage);
+            // Enforce brevity: hard truncate if model violated 2-paragraph rule
+            const paragraphs = responseText.split(/\n\s*\n/);
+            if (paragraphs.length > 3) {
+              responseText = paragraphs.slice(0, 2).join("\n\n");
+            }
+            if (responseText.length > 900) {
+              responseText = responseText.slice(0, 870).trim() + "...";
+            }
+            console.log(`[Chat] Gemini response (${responseText.length} chars, RAG)`);
             return res.json({ content: responseText });
           }
         } catch (geminiError: any) {
-          console.warn("[Chat] Gemini API error, executing knowledge-base fallback:", geminiError.message || geminiError);
+          console.warn("[Chat] Gemini RAG error, fallback:", geminiError.message || geminiError);
         }
       }
 
-      // Fallback robusto garantizado si la API de Gemini tiene problemas de quota/key
       const fallbackReply = generateFallbackAiResponse(cleanMessage);
       return res.json({ content: fallbackReply });
     } catch (error: any) {

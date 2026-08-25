@@ -52,17 +52,14 @@ Desarrollo de tiendas digitales de alta conversión integradas con pasarelas de 
 ### Suscripciones Web as a Service (mensuales, sin pago inicial)
 - **Web Tradicional WaaS:** $49 USD/mes · Promo Semestral $245 USD (6 meses, paga 5)
 - **Web App Advanced WaaS:** $99 USD/mes · Promo Semestral $495 USD (6 meses, paga 5)
-- **Web App con IA & Automatizaciones:** $500 USD/mes
+- **Web App con IA & Automatizaciones:** $599.99 USD/mes
 ### IA Continua (Hothelia / Chamba AI)
-- **Starter IA:** $49 USD/mes (Setup $250)
-- **Pro IA:** $99 USD/mes (Setup $400)
-- **Business IA:** $199 USD/mes (Setup $600)
-### Proyectos a Medida (Pago Único)
-- **OnePage Express:** $150 USD
-- **Business Growth:** $500 USD
-- **Dominio Elite + IA:** $1,200+ USD
-- **Ecosistema Hotelero Completo (Hospitality Pro):** $999 USD (Incluye PMS Sirvoy + Web + Agente de Reservas + 2,500 créditos Google Flow)
-- **Producción Visual IA (Google Flow):** $150 USD (2,500 créditos)
+- **Starter IA:** $49 USD/mes (Setup $250) — 1,000 msgs/mes
+- **Pro IA:** $99 USD/mes (Setup $400) — 3,000 msgs/mes, WhatsApp+IG
+- **Business IA:** $199 USD/mes (Setup $600) — 10,000 msgs/mes, Sirvoy/CRM · Growth $19/2,000 msgs
+### Proyectos & Servicios (Pago Único)
+- **Hospitality Pro (Hoteles):** $999 USD — Web premium + PMS Sirvoy + Agente reservas básico + 2,500 créditos Google Flow/mes
+- **Producción Visual IA (Google Flow):** $150 USD ($125 curación + $25 recarga 2,500 créditos, videos 8s 10/20/100 créditos)
 
 ## Endpoints de API Públicos
 - `POST https://chamba.digital/api/send-checklist` — Solicitud de checklist de transformación digital por email
