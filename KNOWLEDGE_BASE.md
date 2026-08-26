@@ -198,11 +198,29 @@
 
 ## 13. Términos, Privacidad, Propiedad y Post-pago (público)
 
-- **/terminos (6 secciones):** 1 Naturaleza Locación Servicios (RHE Yosward Ríos Casanova RUC 15609816934), 2 Pagos (≥$500 40+4×15 con 24h antes revisión + pausa si impago vs <$500 60/40, RHE), 3 Revisiones 4 rondas + 7 días aceptación tácita, 4 PI transfer 100% pago + WaaS titularidad permanece CHAMBA (entrega compilado si se retira), 5 Confidencialidad, 6 Terminación pagos no reembolsables.
-- **/privacidad:** Recopila nombre/email/tel/WhatsApp; 4 fines uso; seguridad SSL encriptación; derechos acceso/corrección/eliminación vía contacto@chamba.digital; cookies GA/Pixel Meta.
-- **/propiedad-intelectual:** Reserva OMPI/WIPO, secretos comerciales (prompts, flujos Make/n8n, embudos), código transfer definitivo tras 100% pago, WaaS titularidad CHAMBA, marcas/portafolio derecho exhibir salvo NDA, locación servicios RHE.
-- **Post-pago Polar.sh (/success?checkout_id=):** Página éxito con estados loading/success/error, ID transacción, CTA *Ir a mi Portal*. Si preguntan "ya pagué, ¿qué sigue?" → verifica checkout_id y lleva a portal.
-- **Disclaimer PI público (Services):** *"Conforme a prácticas nacionales/internacionales, CHAMBA se reserva su propiedad intelectual..."*
+## 13. Términos y Condiciones Oficiales (7 Secciones WaaS)
+
+- **1. Naturaleza y Formalidad Legal:** Modelo WaaS, ingeniería de software, IA y marketing. Prestado por **Yosward Edgardy Ríos Casanova** (RUC 15609816934), emitiendo comprobantes electrónicos SUNAT (Factura, Boleta de Venta o Recibo por Honorarios).
+- **2. Clasificación de Planes WaaS:**
+  - **Plan Web Tradicional ($49/mes):** Presencia corporativa, landing pages y enlace directo a WhatsApp (sin DB ni pasarelas complejas).
+  - **Plan Web App ($99/mes):** Plataformas interactivas, paneles de control (dashboards), catálogos administrables, sistemas de reservas y gestión de base de datos.
+  - **Plan Web App con IA ($599.99/mes):** Agentes conversacionales 24/7 y automatización. (Los costos variables de consumo de tokens/API de terceros como OpenAI o Gemini son asumidos por el cliente).
+- **3. Estructura de Pagos y Suscripciones:**
+  - **Planes Mensuales:** Requieren un **compromiso de permanencia mínima de seis (6) meses**. Prepago mensual anticipado.
+  - **Planes Semestrales:** Pago único con promociones vigentes (ej. 6 meses por precio de 5).
+  - **Desarrollos Adicionales (a medida fuera de WaaS):** 60% de anticipo para iniciar y 40% restante contra entrega.
+- **4. Dinámica de Cambios Ilimitados (Regla de los Lunes):**
+  - **Recepción Consolidada:** El cliente envía una única lista con todos sus requerimientos de actualización (textos, fotos, precios, promociones) **exclusivamente los días lunes**.
+  - **Implementación:** El equipo técnico procesa e implementa de manera organizada entre martes y viernes.
+  - **Cambios Urgentes (Excepción de los Viernes hasta las 12:00 PM):** Modificaciones críticas de rápida ejecución (ej. corrección urgente de precios o promociones expiradas), sujetas a disponibilidad técnica.
+  - **Límites de Alcance:** Aplican sobre la estructura existente; nuevas funciones complejas o rediseños estructurales se cotizan por separado.
+- **5. Propiedad, Incumplimiento y Suspensión:**
+  - **Propiedad Absoluta:** Dominio y plataforma 100% del cliente desde el día 1.
+  - **Atrasos:** Se coloca un banner visible en la web indicando falta de pago.
+  - **Periodo de Gracia:** 30 días calendario para regularizar con la web activa.
+  - **Suspensión:** Tras 30 días sin pago, la web y servicios cloud quedan suspendidos.
+- **6. Propiedad Intelectual y Confidencialidad:** Reserva de metodologías y arquitecturas base de Chamba Digital. Los datos, clientes y leads capturados pertenecen de forma exclusiva y perpetua al cliente.
+- **7. Terminación:** Notificación previa sujeta a los 6 meses de permanencia mínima en planes mensuales. Pagos no reembolsables.
 
 ---
 
@@ -214,40 +232,23 @@ No. Todo es Handcrafted (React/Next.js/Vite). Sin plantillas, sin plugins desact
 **¿Cuánto tarda mi web?**
 OnePage 7 días. Web/E-commerce/IA 2–4 semanas. Depende complejidad y entrega de contenidos del cliente. Ads: leads 48–72h.
 
-**¿Trabajan fuera de Perú?**
-Sí. Remoto para México, España, EE. UU. y LATAM.
+**¿Cómo funciona la dinámica de cambios ilimitados?**
+El cliente envía su lista consolidada **los lunes**. Se implementa entre martes y viernes. Se admiten urgencias específicas los **viernes hasta el mediodía**.
 
-**¿Cuánto debo invertir en ads?**
-Desde $10–15/día en Meta/Google para que el algoritmo optimice.
+**¿Hay permanencia mínima?**
+Para el plan mensual por suscripción WaaS existe un compromiso mínimo de **6 meses** para amortizar los costos de ingeniería y despliegue inicial.
 
-**¿Condiciones de pago?**
-Oficial: ≥$500 → 40% inicio + 4×15% semanales (pago 24h antes revisión, pausa si impago, 7 días aceptación tácita). <$500 → 60/40. WaaS mensual es tarifa plana $49/$99/$599.99 (promo semestral $245/$495). Algunos resúmenes antiguos dicen "50/50" por simplicidad — lo legal es lo anterior.
-
-**¿Permanencia IA?**
-3 meses mínimo sugerido para entrenamiento. Luego mensual, cancelas con 15 días aviso.
-
-**¿Qué es Sirvoy?**
-PMS líder hotelero. Somos especialistas certificados: conectamos tu web premium a Sirvoy y creamos motor de reservas directo para que vendas sin pagar 15–20% a Booking/Airbnb. Demo con 14/8/5/22 en /hospitality.
-
-**¿Cómo participo en el sorteo / agendo auditoría?**
-Sorteo: completa `/raffle` (nombre, email, WhatsApp 9 díg, DNI, ciudad, por qué ganar) y **valida enviando el WhatsApp autogenerado a +51 904060670** (sin esto no participa). Fecha sorteo 2026-05-11. Auditoría/cotización: https://wa.me/51904060670.
-
-**¿El precio incluye dominio y hosting?**
-Hosting+SSL+backups están **incluidos** en WaaS (Railway). Dominio es aparte (lo traes o gestionamos). Badge "desde $5/mes" es solo costo infra base informativo, no extra.
-
-**¿Puedo migrar mi web actual?**
-Sí. Migración pixel-perfect (ej. Latam Abogados desde WP) y mejoramos performance.
-
-**¿Qué diferencia a Hospitality Pro de WaaS mensual para hoteles?**
-WaaS mensual ($49/$99/$599) no incluye PMS ni visual IA ni agente reservas. Hospitality Pro $999 pago único sí incluye web premium + PMS + agente básico + 2,500 créditos Flow. IA avanzada Hothelia es costo adicional.
-
-**¿Cómo funciona el paquete visual $150?**
-$125 curación + $25 créditos (2,500). Cubren pruebas/descartes. Entregas curadas/pulidas, no videos crudos al azar. Videos 8s 10/20/100 créditos.
+**¿Qué pasa si me retraso en un pago?**
+Se coloca un banner informativo en la web y dispones de **30 días de gracia** con la web activa para regularizar antes de la suspensión del servicio.
 
 **¿La web y el dominio son míos?**
 Totalmente. Tu dominio (.pe/.com), marca y base de datos son 100% tuyos desde día 1. La suscripción cubre servidor cloud y equipo dedicado a actualizar tu web cada semana.
 
-**¿Cómo solicito cambios de fotos, textos o promociones?**
+**¿Qué es Sirvoy y cómo funciona para hoteles?**
+PMS líder hotelero. Somos especialistas certificados: conectamos tu web premium a Sirvoy y creamos motor de reservas directo para que vendas sin pagar 15–25% a Booking/Airbnb. Plan Hospitality Pro $999 pago único incluye web, PMS, agente básico y 2,500 créditos Flow.
+
+**¿Qué garantías ofrecen?**
+Garantía Cero Riesgo de 15 días con 100% de devolución si el diseño no cumple expectativas, 20% de devolución si incumplimos plazos acordados y 30 días de soporte correctivo gratis post-lanzamiento. Facturación formal con RUC 15609816934.
 Solo envías mensaje de **WhatsApp a +51 904060670** con lo que deseas actualizar y nuestro equipo lo implementa **durante la semana sin costo extra** (incluido en WaaS). Sin cotizaciones lentas.
 
 **¿Qué pasa si el diseño inicial no cumple mis expectativas?**
