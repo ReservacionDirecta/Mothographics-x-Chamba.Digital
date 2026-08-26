@@ -2,16 +2,18 @@ import { motion } from "motion/react";
 import { ChambaNavbar, ChambaFooter, WhatsAppIcon } from "../App";
 import { Link } from "react-router-dom";
 import { 
-  Calendar, 
+  Building2, 
   Layers, 
-  KeyRound, 
-  AlertTriangle, 
-  Server, 
+  CreditCard, 
+  Calendar, 
+  ShieldAlert, 
+  Lock, 
+  FileText, 
   CheckCircle2, 
-  ShieldCheck,
-  Building2,
-  Lock,
-  ArrowRight
+  AlertTriangle, 
+  Bot, 
+  Globe, 
+  Server
 } from "lucide-react";
 import { SEO } from "../components/SEO";
 
@@ -19,11 +21,11 @@ export default function TermsPage() {
   return (
     <div className="bg-bg text-fg selection:bg-accent selection:text-white">
       <SEO 
-        title="Términos y Condiciones del Servicio WaaS | Chamba Digital"
-        description="Políticas, condiciones de suscripción, dinámica de cambios de los lunes, permanencia y soporte técnico de Chamba Digital."
-        keywords="términos y condiciones chamba digital, políticas waas, suscripción web mensual, reglas de servicio"
-        ogTitle="Términos y Condiciones del Servicio WaaS | Chamba Digital"
-        ogDescription="Políticas y condiciones claras y transparentes del servicio de Web as a Service (WaaS)."
+        title="Términos y Condiciones | Chamba Digital"
+        description="Marco contractual, clasificación de planes, estructura de pagos, dinámica de cambios de los lunes, propiedad y suspensión del modelo WaaS de Chamba Digital."
+        keywords="términos y condiciones chamba digital, marco legal waas, políticas de servicio, planes web app, suscripción mensual"
+        ogTitle="Términos y Condiciones | Chamba Digital"
+        ogDescription="Términos y condiciones oficiales del servicio de Web / Web App as a Service (WaaS)."
         ogImage="https://chamba.digital/og-image.webp"
         canonicalUrl="https://chamba.digital/terminos"
       />
@@ -31,37 +33,124 @@ export default function TermsPage() {
       
       <main className="pt-[100px] pb-24 px-6 md:px-10 max-w-[920px] mx-auto">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-          <span className="label-editorial">Marco Contractual & Operativo</span>
+          <span className="label-editorial">Legal</span>
           <h1 className="text-[34px] md:text-[54px] font-black tracking-tight leading-none mb-4 text-slate-900">
-            Políticas y Condiciones <br />
-            <span className="text-accent">del Servicio WaaS</span>
+            Términos y <span className="text-accent">Condiciones</span>
           </h1>
           <p className="text-slate-600 text-[15px] md:text-[16px] mb-10 leading-relaxed max-w-2xl font-normal">
-            En Chamba Digital operamos bajo un modelo transparente de Web as a Service (WaaS) para garantizar la continuidad, seguridad y evolución permanente de tu plataforma web.
+            Última actualización: Agosto de 2026
           </p>
         </motion.div>
 
-        {/* Marco Legal & Emisión SUNAT */}
-        <div className="p-5 rounded-2xl bg-blue-50/60 border border-blue-200/80 mb-10 text-xs sm:text-sm text-slate-700 leading-relaxed flex items-start gap-3">
-          <Building2 className="w-5 h-5 text-accent shrink-0 mt-0.5" />
-          <div>
-            <strong>Identificación y Formalidad Tributaria:</strong> Los servicios son prestados por <strong>Yosward Edgardy Ríos Casanova</strong> (RUC 15609816934 / Chamba Digital), emitiendo los comprobantes electrónicos correspondientes conforme a la normativa de SUNAT (Perú).
-          </div>
-        </div>
-
         <div className="space-y-10">
-          {/* Política 1: Dinámica de Cambios Ilimitados (Regla de los Lunes) */}
+          {/* 1. Naturaleza del Servicio y Marco Contractual */}
+          <section className="p-6 sm:p-8 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-4">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-blue-50 text-accent flex items-center justify-center font-bold shrink-0">
+                <Building2 className="w-5 h-5" />
+              </div>
+              <h2 className="text-[18px] sm:text-[22px] font-bold text-slate-900">
+                1. Naturaleza del Servicio y Marco Contractual
+              </h2>
+            </div>
+            <p className="text-slate-600 text-[14px] sm:text-[15px] leading-relaxed">
+              Chamba Digital proporciona servicios de infraestructura tecnológica bajo el modelo <strong>WaaS (Web/Web App as a Service)</strong>, ingeniería de software, integración de inteligencia artificial y marketing.
+            </p>
+            <p className="text-slate-600 text-[14px] sm:text-[15px] leading-relaxed">
+              Las labores se ejecutan bajo la modalidad civil a título personal por <strong>Yosward Edgardy Ríos Casanova</strong> (RUC 15609816934), emitiendo los correspondientes comprobantes electrónicos (<strong>Factura, Boleta de Venta o Recibo por Honorarios - SUNAT</strong>) conforme a ley. La contratación no constituye vínculo de subordinación laboral ni relación societaria.
+            </p>
+          </section>
+
+          {/* 2. Clasificación de Planes y Alcance del Servicio */}
+          <section className="p-6 sm:p-8 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-4">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center font-bold shrink-0">
+                <Layers className="w-5 h-5" />
+              </div>
+              <h2 className="text-[18px] sm:text-[22px] font-bold text-slate-900">
+                2. Clasificación de Planes y Alcance del Servicio
+              </h2>
+            </div>
+            <p className="text-slate-600 text-[14px] sm:text-[15px] leading-relaxed">
+              Para garantizar la transparencia en los desarrollos, los servicios bajo suscripción WaaS se categorizan en tres niveles:
+            </p>
+            <div className="space-y-3 pt-1">
+              <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                <h3 className="font-bold text-slate-900 text-sm flex items-center gap-2">
+                  <Globe className="w-4 h-4 text-accent" />
+                  Plan Web Tradicional:
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  Diseñado para presencia corporativa y embudos de captación. Incluye el desarrollo de páginas informativas, <em>landing pages</em> y enlaces directos a WhatsApp. No incluye bases de datos dinámicas, paneles de usuario, ni pasarelas de pago transaccionales.
+                </p>
+              </div>
+
+              <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                <h3 className="font-bold text-slate-900 text-sm flex items-center gap-2">
+                  <Server className="w-4 h-4 text-purple-600" />
+                  Plan Web App:
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  Diseñado para la automatización y lógica de negocio. Incluye plataformas interactivas, paneles de control (dashboards), catálogos administrables, sistemas de reservas y gestión de bases de datos.
+                </p>
+              </div>
+
+              <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                <h3 className="font-bold text-slate-900 text-sm flex items-center gap-2">
+                  <Bot className="w-4 h-4 text-emerald-600" />
+                  Plan Web App con IA:
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  Solución de alta ingeniería que suma al plan anterior la integración de Inteligencia Artificial (asistentes conversacionales, automatización de reservas, procesamiento de datos o generación de contenido).
+                </p>
+                <div className="text-xs text-slate-500 bg-white p-2.5 rounded-lg border border-slate-200 mt-2 font-medium">
+                  <strong>Nota sobre APIs de IA:</strong> Los costos variables por consumo de tokens/API de terceros (ej. OpenAI, Google Gemini, Anthropic) serán asumidos por el cliente de forma independiente, salvo que el acuerdo comercial especifique lo contrario.
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* 3. Estructura de Pagos y Suscripciones (Modelo WaaS) */}
+          <section className="p-6 sm:p-8 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-4">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold shrink-0">
+                <CreditCard className="w-5 h-5" />
+              </div>
+              <h2 className="text-[18px] sm:text-[22px] font-bold text-slate-900">
+                3. Estructura de Pagos y Suscripciones (Modelo WaaS)
+              </h2>
+            </div>
+            <p className="text-slate-600 text-[14px] sm:text-[15px] leading-relaxed">
+              El servicio opera bajo un esquema de suscripción prepago que incluye hosting en servidores de alta velocidad, certificado SSL y mantenimiento correctivo continuo.
+            </p>
+            <ul className="space-y-3 text-xs sm:text-sm text-slate-700">
+              <li className="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+                <strong className="text-slate-900 block mb-1">Planes Mensuales:</strong>
+                Requieren un <strong>compromiso de permanencia mínima de seis (6) meses</strong>. El pago se realiza de forma anticipada cada mes.
+              </li>
+              <li className="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+                <strong className="text-slate-900 block mb-1">Planes Semestrales (Pago Único):</strong>
+                Se abonan en su totalidad al inicio del periodo, aplicando las promociones vigentes de meses gratuitos o descuentos por pronto pago.
+              </li>
+              <li className="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+                <strong className="text-slate-900 block mb-1">Desarrollos Adicionales (Fuera de suscripción):</strong>
+                Requieren un <strong>60% de anticipo</strong> para iniciar operaciones y el <strong>40% restante</strong> previo a la entrega de accesos y pase a producción.
+              </li>
+            </ul>
+          </section>
+
+          {/* 4. Dinámica de Cambios Ilimitados (Regla de los Lunes) */}
           <section className="p-6 sm:p-8 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-4">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-blue-50 text-accent flex items-center justify-center font-bold shrink-0">
                 <Calendar className="w-5 h-5" />
               </div>
               <h2 className="text-[18px] sm:text-[22px] font-bold text-slate-900">
-                1. Dinámica de Cambios Ilimitados (Regla de los Lunes)
+                4. Dinámica de Cambios Ilimitados (Regla de los Lunes)
               </h2>
             </div>
             <p className="text-slate-600 text-[14px] sm:text-[15px] leading-relaxed">
-              Para los planes WaaS, el cliente cuenta con <strong>actualizaciones de contenido ilimitadas</strong> bajo las siguientes normativas operativas:
+              El cliente cuenta con <strong>actualizaciones de contenido ilimitadas</strong> bajo las siguientes normativas:
             </p>
             
             <div className="space-y-3 pt-1">
@@ -71,7 +160,7 @@ export default function TermsPage() {
                   Recepción Consolidada:
                 </strong>
                 <p className="text-slate-600 pl-6">
-                  El cliente debe enviar una única lista con todos sus requerimientos de actualización (textos, fotos, precios, promociones) <strong>exclusivamente los días lunes</strong> vía WhatsApp o correo.
+                  El cliente debe enviar una única lista con todos sus requerimientos de actualización (textos, fotos, precios, promociones) <strong>exclusivamente los días lunes</strong>.
                 </p>
               </div>
 
@@ -91,143 +180,111 @@ export default function TermsPage() {
                   Cambios Urgentes (Excepción de los Viernes):
                 </strong>
                 <p className="text-amber-900/90 pl-6">
-                  Se podrán admitir solicitudes de modificaciones urgentes los <strong>días viernes (hasta el mediodía - 12:00 PM)</strong>. Estas peticiones estarán estrictamente limitadas a cambios específicos de rápida ejecución (ej. corrección crítica de precios u ocultar promociones expiradas), quedando su implementación sujeta a la disponibilidad de la agenda técnica del equipo.
+                  Se admitirán solicitudes urgentes los días viernes, estrictamente limitadas a modificaciones de rápida ejecución (ej. ocultar promociones expiradas o corrección de precios de emergencia). Su implementación queda sujeta a la disponibilidad de la agenda técnica del equipo.
+                </p>
+              </div>
+
+              <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs sm:text-sm text-slate-800 space-y-1">
+                <strong className="text-slate-900 flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-slate-600" />
+                  Límites del Alcance:
+                </strong>
+                <p className="text-slate-600 pl-6">
+                  Las actualizaciones aplican sobre la estructura web existente. El desarrollo de nuevas funcionalidades, rediseños estructurales completos o el reentrenamiento complejo de modelos de IA se cotizarán como servicios adicionales.
                 </p>
               </div>
             </div>
           </section>
 
-          {/* Política 2: Alcance de los Cambios */}
-          <section className="p-6 sm:p-8 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-4">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center font-bold shrink-0">
-                <Layers className="w-5 h-5" />
-              </div>
-              <h2 className="text-[18px] sm:text-[22px] font-bold text-slate-900">
-                2. Alcance de los Cambios
-              </h2>
-            </div>
-            <p className="text-slate-600 text-[14px] sm:text-[15px] leading-relaxed">
-              Las actualizaciones semanales aplican <strong>únicamente sobre la estructura web existente</strong>:
-            </p>
-            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs sm:text-sm text-slate-700">
-              <li className="flex items-center gap-2 p-2.5 rounded-lg bg-slate-50 border border-slate-200/80 font-medium">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                Modificación y redacción de textos
-              </li>
-              <li className="flex items-center gap-2 p-2.5 rounded-lg bg-slate-50 border border-slate-200/80 font-medium">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                Actualización de fotografías y galerías
-              </li>
-              <li className="flex items-center gap-2 p-2.5 rounded-lg bg-slate-50 border border-slate-200/80 font-medium">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                Ajustes de precios y catálogo de servicios
-              </li>
-              <li className="flex items-center gap-2 p-2.5 rounded-lg bg-slate-50 border border-slate-200/80 font-medium">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                Banners promocionales estacionales
-              </li>
-            </ul>
-            <p className="text-xs sm:text-sm text-slate-500 italic pt-1">
-              * El desarrollo de nuevas funcionalidades complejas (pasarelas adicionales, sistemas externos a medida), añadir páginas principales nuevas o realizar rediseños estructurales completos se cotiza por separado como módulo adicional.
-            </p>
-          </section>
-
-          {/* Política 3: Propiedad y Permanencia Mínima */}
-          <section className="p-6 sm:p-8 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-4">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold shrink-0">
-                <KeyRound className="w-5 h-5" />
-              </div>
-              <h2 className="text-[18px] sm:text-[22px] font-bold text-slate-900">
-                3. Propiedad y Permanencia Mínima
-              </h2>
-            </div>
-            <p className="text-slate-600 text-[14px] sm:text-[15px] leading-relaxed">
-              El dominio (.com / .pe) y la plataforma web son <strong>100% propiedad del cliente desde el primer día</strong>. Eres el dueño legítimo de tu activo digital y de la información de tus clientes.
-            </p>
-            <div className="p-4 rounded-xl bg-amber-50/70 border border-amber-200 text-amber-950 text-xs sm:text-sm leading-relaxed">
-              <strong>Compromiso de permanencia:</strong> Para aquellos clientes que elijan el <strong>plan mensual por suscripción (sin desembolso inicial de miles de dólares)</strong>, existe un compromiso de pago mínimo de <strong>6 meses de servicio</strong> para amortizar los costos de ingeniería, despliegue y configuración de infraestructura.
-            </div>
-          </section>
-
-          {/* Política 4: Pagos, Atrasos y Suspensión */}
+          {/* 5. Propiedad, Incumplimiento de Pago y Suspensión */}
           <section className="p-6 sm:p-8 rounded-2xl bg-white border border-red-200/80 shadow-xs space-y-4">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-red-50 text-red-600 flex items-center justify-center font-bold shrink-0">
-                <AlertTriangle className="w-5 h-5" />
+                <ShieldAlert className="w-5 h-5" />
               </div>
               <h2 className="text-[18px] sm:text-[22px] font-bold text-slate-900">
-                4. Pagos, Atrasos y Suspensión
+                5. Propiedad, Incumplimiento de Pago y Suspensión
               </h2>
             </div>
-            <p className="text-slate-600 text-[14px] sm:text-[15px] leading-relaxed">
-              El servicio funciona bajo la modalidad de <strong>suscripción prepago mensual</strong>. En caso de incumplimiento de pago en la fecha acordada, se aplicarán las siguientes medidas consecutivas:
-            </p>
-            
             <div className="space-y-3 pt-1">
-              <div className="p-3.5 rounded-xl bg-red-50/50 border border-red-200 text-xs sm:text-sm text-slate-800 flex items-start gap-3">
-                <span className="w-6 h-6 rounded-full bg-red-100 text-red-700 font-bold flex items-center justify-center shrink-0 text-xs">1</span>
-                <div>
-                  <strong>Aviso y Banner de Regularización:</strong> Se colocará un banner visible en la página web indicando la falta de pago de la suscripción.
-                </div>
+              <div className="p-3.5 rounded-xl bg-emerald-50/60 border border-emerald-200 text-xs sm:text-sm text-slate-800 space-y-1">
+                <strong className="text-emerald-950 flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                  Propiedad Absoluta:
+                </strong>
+                <p className="text-emerald-900/90 pl-6">
+                  El dominio y la plataforma web son <strong>100% propiedad del cliente desde el primer día de servicio</strong>.
+                </p>
               </div>
 
-              <div className="p-3.5 rounded-xl bg-red-50/50 border border-red-200 text-xs sm:text-sm text-slate-800 flex items-start gap-3">
-                <span className="w-6 h-6 rounded-full bg-red-100 text-red-700 font-bold flex items-center justify-center shrink-0 text-xs">2</span>
-                <div>
-                  <strong>Periodo de Gracia de 30 Días:</strong> El cliente dispondrá de un periodo de gracia de <strong>30 días naturales</strong> para regularizar su cuenta manteniendo el sitio web activo (con el banner informativo visible).
-                </div>
+              <div className="p-3.5 rounded-xl bg-red-50/50 border border-red-200 text-xs sm:text-sm text-slate-800 space-y-1">
+                <strong className="text-red-900 flex items-center gap-2">
+                  <AlertTriangle className="w-4 h-4 text-red-600" />
+                  Atrasos en Suscripciones:
+                </strong>
+                <p className="text-slate-700 pl-6">
+                  En caso de incumplimiento de pago en la fecha de corte, se colocará un <strong>banner visible en la página web</strong> notificando la falta de pago.
+                </p>
               </div>
 
-              <div className="p-3.5 rounded-xl bg-red-50/50 border border-red-200 text-xs sm:text-sm text-slate-800 flex items-start gap-3">
-                <span className="w-6 h-6 rounded-full bg-red-100 text-red-700 font-bold flex items-center justify-center shrink-0 text-xs">3</span>
-                <div>
-                  <strong>Suspensión Total del Servicio:</strong> Si transcurridos los 30 días el cliente decide no regularizar el pago, <strong>la página web y los servicios cloud quedarán suspendidos</strong> en su totalidad hasta la liquidación del saldo pendiente.
-                </div>
+              <div className="p-3.5 rounded-xl bg-red-50/50 border border-red-200 text-xs sm:text-sm text-slate-800 space-y-1">
+                <strong className="text-red-900 flex items-center gap-2">
+                  <AlertTriangle className="w-4 h-4 text-red-600" />
+                  Suspensión del Servicio:
+                </strong>
+                <p className="text-slate-700 pl-6">
+                  El cliente dispondrá de un periodo de gracia de <strong>treinta (30) días calendario</strong> para regularizar su cuenta manteniendo la web activa (con el banner visible). Transcurrido este lapso sin concretarse el pago, la página web y sus servicios asociados quedarán suspendidos en su totalidad.
+                </p>
               </div>
             </div>
           </section>
 
-          {/* Política 5: Mantenimiento y Soporte Técnico */}
+          {/* 6. Propiedad Intelectual, Confidencialidad y Datos */}
           <section className="p-6 sm:p-8 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-blue-50 text-accent flex items-center justify-center font-bold shrink-0">
-                <Server className="w-5 h-5" />
+              <div className="w-10 h-10 rounded-xl bg-slate-100 text-slate-800 flex items-center justify-center font-bold shrink-0">
+                <Lock className="w-5 h-5" />
               </div>
               <h2 className="text-[18px] sm:text-[22px] font-bold text-slate-900">
-                5. Mantenimiento y Soporte Técnico
+                6. Propiedad Intelectual, Confidencialidad y Datos
               </h2>
             </div>
             <p className="text-slate-600 text-[14px] sm:text-[15px] leading-relaxed">
-              La suscripción mensual cubre de manera integral todos los costos operativos de infraestructura:
+              Chamba Digital se reserva la propiedad intelectual respecto a metodologías operativas, arquitecturas de software base, y código fuente propietario utilizado para el despliegue del modelo WaaS. Para más información, consulta nuestra sección de <Link to="/propiedad-intelectual" className="text-accent font-bold underline">Propiedad Intelectual</Link>.
             </p>
-            <ul className="space-y-2.5 text-xs sm:text-sm text-slate-700">
-              <li className="flex items-center gap-2.5">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span><strong>Servidores de alta velocidad:</strong> Alojamiento cloud optimizado para carga en menos de 1 segundo.</span>
-              </li>
-              <li className="flex items-center gap-2.5">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span><strong>Certificado de seguridad SSL:</strong> Renovación y protección de encriptación HTTPS continua.</span>
-              </li>
-              <li className="flex items-center gap-2.5">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span><strong>Soporte correctivo prioritario:</strong> Monitoreo 24/7 y resolución técnica inmediata en caso de incidencias o caídas del sitio.</span>
-              </li>
-            </ul>
+            <p className="text-slate-600 text-[14px] sm:text-[15px] leading-relaxed">
+              Ambas partes mantendrán <strong>estricta confidencialidad</strong> sobre modelos de negocio y credenciales. Los datos, clientes y <em>leads</em> capturados a través de las plataformas pertenecen de manera exclusiva y perpetua al cliente.
+            </p>
+          </section>
+
+          {/* 7. Terminación del Servicio */}
+          <section className="p-6 sm:p-8 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-4">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-slate-100 text-slate-800 flex items-center justify-center font-bold shrink-0">
+                <FileText className="w-5 h-5" />
+              </div>
+              <h2 className="text-[18px] sm:text-[22px] font-bold text-slate-900">
+                7. Terminación del Servicio
+              </h2>
+            </div>
+            <p className="text-slate-600 text-[14px] sm:text-[15px] leading-relaxed">
+              El cliente puede solicitar la cancelación de su suscripción notificando con antelación (sujeto al cumplimiento de la <strong>permanencia mínima de 6 meses en planes mensuales</strong>). Los pagos realizados no son reembolsables.
+            </p>
+            <p className="text-slate-600 text-[14px] sm:text-[15px] leading-relaxed">
+              Chamba Digital se reserva el derecho de terminar el servicio ante faltas de respeto al equipo, impagos prolongados o solicitudes que infrinjan la legalidad.
+            </p>
           </section>
         </div>
 
         {/* Contact box */}
         <div className="mt-14 p-8 rounded-2xl bg-slate-900 text-white text-center space-y-3 shadow-lg">
-          <h3 className="text-lg font-bold">¿Tienes alguna pregunta sobre nuestras condiciones?</h3>
+          <h3 className="text-lg font-bold">¿Tienes alguna pregunta sobre nuestros Términos y Condiciones?</h3>
           <p className="text-xs sm:text-sm text-slate-400 max-w-md mx-auto">
             Atendemos directamente por WhatsApp para resolver cualquier duda sobre tu contrato o suscripción.
           </p>
           <div className="pt-2">
             <a 
-              href="https://wa.me/51904060670?text=Hola,%20tengo%20dudas%20sobre%20los%20términos%20y%20condiciones%20del%20servicio%20WaaS." 
+              href="https://wa.me/51904060670?text=Hola,%20tengo%20preguntas%20sobre%20los%20términos%20y%20condiciones%20de%20Chamba%20Digital." 
               target="_blank"
               rel="noreferrer"
               className="inline-flex items-center justify-center gap-2 bg-accent hover:bg-accent/90 text-white py-3 px-6 rounded-xl font-bold text-xs uppercase tracking-wider transition-colors shadow-md"
