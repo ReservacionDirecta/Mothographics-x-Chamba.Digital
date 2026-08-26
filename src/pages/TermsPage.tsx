@@ -50,27 +50,50 @@ export default function TermsPage() {
         </div>
 
         <div className="space-y-10">
-          {/* Política 1: Dinámica de Cambios (Regla de los Lunes) */}
+          {/* Política 1: Dinámica de Cambios Ilimitados (Regla de los Lunes) */}
           <section className="p-6 sm:p-8 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-4">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-blue-50 text-accent flex items-center justify-center font-bold shrink-0">
                 <Calendar className="w-5 h-5" />
               </div>
               <h2 className="text-[18px] sm:text-[22px] font-bold text-slate-900">
-                1. Dinámica de Cambios (Regla de los Lunes)
+                1. Dinámica de Cambios Ilimitados (Regla de los Lunes)
               </h2>
             </div>
             <p className="text-slate-600 text-[14px] sm:text-[15px] leading-relaxed">
-              El plan incluye <strong>cambios ilimitados de contenido</strong>. Para garantizar un desarrollo ordenado y tiempos de entrega eficientes, las solicitudes no se procesan de forma individual día a día.
+              Para los planes WaaS, el cliente cuenta con <strong>actualizaciones de contenido ilimitadas</strong> bajo las siguientes normativas operativas:
             </p>
-            <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 text-xs sm:text-sm leading-relaxed space-y-2">
-              <div className="font-bold flex items-center gap-2 text-slate-900">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                Cómo enviar tus solicitudes:
+            
+            <div className="space-y-3 pt-1">
+              <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs sm:text-sm text-slate-800 space-y-1">
+                <strong className="text-slate-900 flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-accent" />
+                  Recepción Consolidada:
+                </strong>
+                <p className="text-slate-600 pl-6">
+                  El cliente debe enviar una única lista con todos sus requerimientos de actualización (textos, fotos, precios, promociones) <strong>exclusivamente los días lunes</strong> vía WhatsApp o correo.
+                </p>
               </div>
-              <p>
-                El cliente debe enviar una lista consolidada con todos sus requerimientos <strong>exclusivamente los días lunes</strong> vía WhatsApp o correo. Nuestro equipo técnico implementará los cambios de manera organizada a lo largo de la semana.
-              </p>
+
+              <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs sm:text-sm text-slate-800 space-y-1">
+                <strong className="text-slate-900 flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                  Implementación:
+                </strong>
+                <p className="text-slate-600 pl-6">
+                  Nuestro equipo técnico procesará e implementará la lista de manera organizada entre el <strong>martes y el viernes</strong> de esa misma semana.
+                </p>
+              </div>
+
+              <div className="p-3.5 rounded-xl bg-amber-50/70 border border-amber-200/80 text-xs sm:text-sm text-amber-950 space-y-1">
+                <strong className="text-amber-900 flex items-center gap-2">
+                  <AlertTriangle className="w-4 h-4 text-amber-600" />
+                  Cambios Urgentes (Excepción de los Viernes):
+                </strong>
+                <p className="text-amber-900/90 pl-6">
+                  Se podrán admitir solicitudes de modificaciones urgentes los <strong>días viernes (hasta el mediodía - 12:00 PM)</strong>. Estas peticiones estarán estrictamente limitadas a cambios específicos de rápida ejecución (ej. corrección crítica de precios u ocultar promociones expiradas), quedando su implementación sujeta a la disponibilidad de la agenda técnica del equipo.
+                </p>
+              </div>
             </div>
           </section>
 
