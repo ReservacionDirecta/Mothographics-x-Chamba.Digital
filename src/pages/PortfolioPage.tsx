@@ -13,6 +13,14 @@ import {
 // --- Data ---
 const hotelClients = [
   {
+    name: "Peña Linda Bungalows", location: "Máncora – Perú",
+    category: "hotel", url: "penalindamancora.com",
+    thumb: "/thumbs/penalindamancora.webp",
+    highlight: "Motor de Reservas Directo",
+    tasks: ["Plataforma Web WaaS", "Sistema de Reservas Directas", "Integración Sirvoy PMS", "Cero Comisiones a OTAs", "Mantenimiento Cloud"],
+    focus: "Hotel boutique de playa en Máncora con motor de reservas propio y pagos en línea.",
+  },
+  {
     name: "Hotel Costa Blanca", location: "Vichayito – Perú",
     category: "hotel", url: "costablanca.up.railway.app",
     thumb: "/thumbs/costablanca.webp",
@@ -60,9 +68,25 @@ const hotelClients = [
     tasks: ["Web Oficial", "Control de Reservas", "Optimización de Carga", "Soporte Técnico WaaS"],
     focus: "Velocidad de carga ultra rápida y gestión sin fricción.",
   },
+  {
+    name: "Jah Surf San Bartolo", location: "San Bartolo – Perú",
+    category: "hotel", url: "jahsurfperu.com",
+    thumb: "/thumbs/jahsurfperu.webp",
+    highlight: "Surf Lodge & Escuela",
+    tasks: ["Web Responsiva", "Gestión de Paquetes Surf", "Contacto Directo", "Infraestructura Railway"],
+    focus: "Escuela de surf y lodge juvenil frente a las mejores olas de San Bartolo.",
+  },
 ];
 
 const techClients = [
+  {
+    name: "TuAgente.pe", location: "Proptech & Real Estate IA",
+    category: "tech", url: "tuagentepe.up.railway.app",
+    thumb: "/thumbs/tuagentepe.webp",
+    highlight: "Plataforma Inmobiliaria con IA",
+    tasks: ["Arquitectura React / Vite", "Búsqueda Inmobiliaria Inteligente", "Filtros Geográficos", "Panel de Agentes", "Despliegue Cloud en Railway"],
+    focus: "Plataforma proptech moderna para compra, venta y alquiler de propiedades con matching de clientes.",
+  },
   {
     name: "Latam Abogados", location: "React / Headless WaaS",
     category: "tech", url: "latamabogados.com",
@@ -72,7 +96,23 @@ const techClients = [
     focus: "Plataforma legal internacional con captura y procesamiento automatizado de leads.",
   },
   {
-    name: "Sistema Autónomo B2B", location: "VPS Linux & IA",
+    name: "Dupla Work", location: "Creative Studio & Media",
+    category: "tech", url: "www.dupla.work",
+    thumb: "/thumbs/dupla.webp",
+    highlight: "Showcase Audiovisual Ultra HD",
+    tasks: ["Diseño Editorial Minimalista", "Optimización de Video y Assets", "Portafolio Creativo", "Arquitectura CDN"],
+    focus: "Estudio de producción audiovisual y fotografía comercial de alto impacto estético.",
+  },
+  {
+    name: "Kabsa Constructora", location: "Ingeniería & Construcción",
+    category: "tech", url: "kabsa.pe",
+    thumb: "/thumbs/kabsa.webp",
+    highlight: "Portal Corporativo Nacional",
+    tasks: ["Catálogo de Proyectos Viales y Civiles", "Formularios de Licitación B2B", "Optimización SEO", "Soporte Cloud"],
+    focus: "Empresa constructora líder en infraestructura vial, civil y proyectos de envergadura en todo el Perú.",
+  },
+  {
+    name: "Sistema Autónomo B2B (Hothelia)", location: "VPS Linux & IA",
     category: "tech", url: "hothelia.com",
     thumb: "/thumbs/hothelia.webp",
     highlight: "-70% tiempo operativo",
@@ -80,8 +120,8 @@ const techClients = [
     focus: "Automatización de flujos de trabajo internos con Inteligencia Artificial.",
   },
   {
-    name: "E-Commerce & Exportación", location: "Arquitectura Cloud",
-    category: "tech", url: "olivosdelperu.com",
+    name: "Olivos del Perú", location: "Arquitectura Cloud & E-Commerce",
+    category: "ecommerce", url: "olivosdelperu.com",
     thumb: "/thumbs/olivosdelperu.webp",
     highlight: "Tienda + Agente IA",
     tasks: ["Atención IA 24/7", "Integración GraphQL", "Webhooks WhatsApp", "Catálogo Dinámico"],
@@ -90,11 +130,13 @@ const techClients = [
 ];
 
 const webProjects = [
+  { url: "penalindamancora.com", label: "Peña Linda Bungalows Máncora", category: "hotel", thumb: "/thumbs/penalindamancora.webp" },
   { url: "costablanca.up.railway.app", label: "Hotel Costa Blanca Vichayito", category: "hotel", thumb: "/thumbs/costablanca.webp" },
+  { url: "tuagentepe.up.railway.app", label: "TuAgente.pe (Proptech IA)", category: "tech", thumb: "/thumbs/tuagentepe.webp" },
   { url: "pacificsurfschool.com.pe", label: "Escuela & Clases de Surf", category: "hotel", thumb: "/thumbs/pacificsurfschool.webp" },
   { url: "latamabogados.com", label: "Inglés Legal & Consultoría U.S.", category: "tech", thumb: "/thumbs/latamabogados.webp" },
   { url: "www.dupla.work", label: "Producción Visual & Fotografía", category: "tech", thumb: "/thumbs/dupla.webp" },
-  { url: "kabsa.pe", label: "Constructora Nacional", category: "tech", thumb: "/thumbs/kabsa.webp" },
+  { url: "kabsa.pe", label: "Constructora Alcance Nacional", category: "tech", thumb: "/thumbs/kabsa.webp" },
   { url: "puntanegritos.webflow.io", label: "Wind & Surf Hotel", category: "hotel", thumb: "/thumbs/puntanegritos.webp" },
   { url: "haciendadonvicente.com", label: "Hacienda Don Vicente", category: "hotel", thumb: "/thumbs/haciendadonvicente.webp" },
   { url: "fundoachamaqui.com", label: "Fundo Achamaqui Resort", category: "hotel", thumb: "/thumbs/fundoachamaqui.webp" },

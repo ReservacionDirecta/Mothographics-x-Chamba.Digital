@@ -1083,6 +1083,16 @@ const Portfolio = () => {
       score: "100",
     },
     {
+      id: "tuagente",
+      category: "Proptech & Real Estate IA",
+      name: "TuAgente.pe",
+      url: "tuagentepe.up.railway.app",
+      tag: "Matching Inteligente & Panel Agentes",
+      thumb: "/thumbs/tuagentepe.webp",
+      lcp: "0.5s",
+      score: "100",
+    },
+    {
       id: "latam",
       category: "Consultoría & Legal B2B",
       name: "LATAM Abogados",
@@ -1107,6 +1117,19 @@ const Portfolio = () => {
   const current = showcaseProjects[activeProject];
 
   const hotelClients = [
+    {
+      name: "Peña Linda Bungalows",
+      location: "Máncora – Perú",
+      tasks: [
+        "Plataforma Web WaaS de Alto Rendimiento.",
+        "Motor de Reservas Directas sin comisiones.",
+        "Integración Sirvoy PMS & Motor de Pagos.",
+        "Diseño Editorial Responsivo Mobile-First.",
+        "Soporte Continuo & Mantenimiento Cloud.",
+      ],
+      focus: "Hotel boutique de playa en Máncora con reservas directas y cero comisiones de intermediarios.",
+      testimonial: "Centralizaron sus reservas directas y aumentaron el ticket promedio con pagos 100% automatizados."
+    },
     {
       name: "Hotel Costa Blanca",
       location: "Vichayito – Perú",
@@ -1158,9 +1181,45 @@ const Portfolio = () => {
       focus: "Incremento de reservas mediante comunicación efectiva y ofertas atractivas.",
       testimonial: "Sus campañas de WhatsApp y web generaron un 35% más de reservas en 90 días con el mismo presupuesto publicitario."
     },
+    {
+      name: "Sauce Hotel Boutique",
+      location: "Ollantaytambo – Perú",
+      tasks: [
+        "Web Oficial con carga instantánea.",
+        "Control y sincronización de reservas.",
+        "Diseño orientado al turismo receptivo.",
+        "Soporte WaaS mensual continuo.",
+      ],
+      focus: "Velocidad de carga ultra rápida y gestión sin fricción frente a la laguna de Sauce.",
+      testimonial: "Mejoraron la velocidad de carga a menos de 1 segundo y facilitaron la reserva directa para viajeros internacionales."
+    },
+    {
+      name: "Jah Surf San Bartolo",
+      location: "San Bartolo – Perú",
+      tasks: [
+        "Web responsiva para surf lodge y escuela.",
+        "Integración de tarifas por clase y paquetes de hospedaje.",
+        "Contacto directo por WhatsApp.",
+        "Despliegue cloud continuo en Railway.",
+      ],
+      focus: "Escuela de surf y lodge juvenil frente a las mejores olas de San Bartolo.",
+      testimonial: "La web capturó reservas directas para extranjeros y surfistas locales desde la primera semana de lanzamiento."
+    },
   ];
 
-const techClients = [
+  const techClients = [
+    {
+      name: "TuAgente.pe",
+      location: "Proptech & Real Estate con IA",
+      tasks: [
+        "Arquitectura escalable en React y Vite.",
+        "Motor de búsqueda de inmuebles con filtros avanzados.",
+        "Panel para agentes inmobiliarios y scoring de leads.",
+        "Infraestructura cloud de alta disponibilidad en Railway.",
+      ],
+      focus: "Plataforma proptech moderna de compra, venta y alquiler de inmuebles con matching predictivo.",
+      testimonial: "Digitalizó el inventario inmobiliario con una interfaz ultrarrápida y captura de prospectos calificados en minutos."
+    },
     {
       name: "Latam Abogados",
       location: "Plataforma de captación B2B ultrarrápida",
@@ -1172,6 +1231,30 @@ const techClients = [
       ],
       focus: "Plataforma líder en Inglés Jurídico y Consultoría Legal especializada en U.S., con captación automatizada de clientes.",
       testimonial: "Su web pasó a cargar en 0.5s y el formulario de contacto ahora alimenta directo su CRM, cerrando ciclos de venta en horas."
+    },
+    {
+      name: "Dupla Work",
+      location: "Estudio Creativo & Producción Visual",
+      tasks: [
+        "Diseño editorial minimalista con microinteracciones fluidas.",
+        "Optimización de video y fotografía en alta resolución.",
+        "Showcase de clientes corporativos y portafolio interactivo.",
+        "Despliegue en red de entrega de contenido (CDN).",
+      ],
+      focus: "Estudio audiovisual enfocado en producción publicitaria y fotografía comercial para grandes marcas.",
+      testimonial: "La web transmite la calidad cinematográfica del estudio y ha sido clave para cerrar contratos de producción."
+    },
+    {
+      name: "Kabsa Constructora",
+      location: "Portal Corporativo de Ingeniería y Construcción",
+      tasks: [
+        "Catálogo interactivo de proyectos civiles y viales.",
+        "Módulo de licitaciones y contacto corporativo.",
+        "Optimización SEO para posicionamiento en licitaciones nacionales.",
+        "Soporte continuo y hosting dedicado.",
+      ],
+      focus: "Empresa constructora líder en infraestructura vial, civil y proyectos de envergadura en todo el Perú.",
+      testimonial: "Permitió presentar su portafolio de obras a entidades públicas y privadas con total solidez institucional."
     },
     {
       name: "Hothelia SaaS",
@@ -1200,9 +1283,19 @@ const techClients = [
 
   const webs = [
     {
+      url: "penalindamancora.com",
+      label: "Peña Linda Bungalows Máncora",
+      thumb: "/thumbs/penalindamancora.webp",
+    },
+    {
       url: "costablanca.up.railway.app",
       label: "Hotel Costa Blanca Vichayito",
       thumb: "/thumbs/costablanca.webp",
+    },
+    {
+      url: "tuagentepe.up.railway.app",
+      label: "TuAgente.pe (Proptech IA)",
+      thumb: "/thumbs/tuagentepe.webp",
     },
     {
       url: "pacificsurfschool.com.pe",
