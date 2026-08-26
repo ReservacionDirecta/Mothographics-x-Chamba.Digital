@@ -20,6 +20,7 @@ interface FreeConsultationModalProps {
   isOpen: boolean;
   onClose: () => void;
   defaultTopic?: string;
+  defaultCallType?: "call_5min" | "meeting_15_30min";
 }
 
 const AVAILABLE_TIME_SLOTS = [
@@ -40,8 +41,10 @@ const AVAILABLE_TIME_SLOTS = [
 export const FreeConsultationModal: React.FC<FreeConsultationModalProps> = ({
   isOpen,
   onClose,
-  defaultTopic = "Auditoría Técnica y Plan WaaS (15 min)",
+  defaultTopic = "Auditoría Técnica y Plan WaaS (15-30 min)",
+  defaultCallType = "meeting_15_30min",
 }) => {
+  const [callType, setCallType] = useState<"call_5min" | "meeting_15_30min">(defaultCallType);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -50,8 +53,21 @@ export const FreeConsultationModal: React.FC<FreeConsultationModalProps> = ({
     date: new Date(Date.now() + 86400000).toISOString().split("T")[0],
     timeSlot: "10:00 AM",
     topic: defaultTopic,
+    callType: defaultCallType === "call_5min" ? "Llamada Rápida (5 min)" : "Videollamada Estratégica (15-30 min)",
     notes: "",
   });
+
+  // Sync default topic and callType when opened with different props
+  React.useEffect(() => {
+    if (isOpen) {
+      setCallType(defaultCallType);
+      setFormData(prev => ({
+        ...prev,
+        topic: defaultTopic,
+        callType: defaultCallType === "call_5min" ? "Llamada Rápida (5 min)" : "Videollamada Estratégica (15-30 min)",
+      }));
+    }
+  }, [isOpen, defaultTopic, defaultCallType]);
 
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
@@ -149,16 +165,53 @@ export const FreeConsultationModal: React.FC<FreeConsultationModalProps> = ({
                   </div>
                   <div>
                     <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[10px] font-black uppercase tracking-wider mb-1">
-                      <Sparkles className="w-3 h-3" /> 100% Gratuito • 15 Minutos
+                      <Sparkles className="w-3 h-3" /> 100% Gratuito • Sin Compromiso
                     </div>
                     <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight leading-tight">
-                      Agenda tu Consulta Gratuita
+                      Agenda tu Sesión Estratégica
                     </h3>
                   </div>
                 </div>
 
-                <p className="text-xs sm:text-sm text-slate-300 mb-6 leading-relaxed">
-                  Analizaremos tu modelo de negocio, web actual y te diremos exactamente cómo automatizarlo y escalarlo con WaaS & IA. <strong className="text-white">Sin compromisos ni costos ocultos.</strong>
+                {/* Call Type Selector: 5 min vs 15-30 min */}
+                <div className="grid grid-cols-2 gap-2 mb-4 p-1.5 bg-slate-950/80 rounded-2xl border border-white/5">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setCallType("call_5min");
+                      setFormData(prev => ({ ...prev, callType: "Llamada Rápida (5 min)" }));
+                    }}
+                    className={`py-2.5 px-3 rounded-xl font-bold text-[11px] sm:text-[12px] uppercase tracking-wider flex items-center justify-center gap-2 transition-all cursor-pointer ${
+                      callType === "call_5min"
+                        ? "bg-accent text-white shadow-md font-black"
+                        : "text-slate-400 hover:text-white hover:bg-white/5"
+                    }`}
+                  >
+                    <Phone className="w-3.5 h-3.5" />
+                    Llamada (5 min)
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setCallType("meeting_15_30min");
+                      setFormData(prev => ({ ...prev, callType: "Videollamada Estratégica (15-30 min)" }));
+                    }}
+                    className={`py-2.5 px-3 rounded-xl font-bold text-[11px] sm:text-[12px] uppercase tracking-wider flex items-center justify-center gap-2 transition-all cursor-pointer ${
+                      callType === "meeting_15_30min"
+                        ? "bg-accent text-white shadow-md font-black"
+                        : "text-slate-400 hover:text-white hover:bg-white/5"
+                    }`}
+                  >
+                    <Sparkles className="w-3.5 h-3.5" />
+                    Videollamada (15-30 min)
+                  </button>
+                </div>
+
+                <p className="text-xs sm:text-sm text-slate-300 mb-5 leading-relaxed">
+                  {callType === "call_5min" 
+                    ? "Te llamamos por teléfono o WhatsApp para resolver dudas rápidas, alcance y precios al instante."
+                    : "Analizaremos tu modelo de negocio, web actual y te diremos exactamente cómo automatizarlo y escalarlo con WaaS & IA."
+                  } <strong className="text-white">Sin compromisos ni costos ocultos.</strong>
                 </p>
 
                 {/* Form */}

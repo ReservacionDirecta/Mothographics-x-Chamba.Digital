@@ -728,6 +728,7 @@ interface PricingCardProps {
   productId?: string;
   delay?: number;
   icon?: any;
+  onOpenBooking?: (topic: string, callType?: "call_5min" | "meeting_15_30min") => void;
 }
 
 const PricingCard = ({
@@ -744,32 +745,17 @@ const PricingCard = ({
   productId,
   delay = 0,
   icon: Icon = Zap,
+  onOpenBooking,
 }: PricingCardProps) => {
   const [loading, setLoading] = useState(false);
   const encodedMsg = encodeURIComponent(whatsappText || `Hola! Me interesa el plan WaaS ${title}`);
   const waUrl = `https://wa.me/51904060670?text=${encodedMsg}`;
 
-  const handleCheckout = async (e: React.MouseEvent) => {
-    if (!productId) return;
-    e.preventDefault();
-    setLoading(true);
-    try {
-      const res = await fetch("/api/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ productId }),
-      });
-      const data = await res.json();
-      if (data.url) {
-        window.location.href = data.url;
-      } else {
-        window.open(waUrl, "_blank");
-      }
-    } catch (err) {
-      console.error("Polar Checkout error:", err);
+  const handleBooking = (type: "call_5min" | "meeting_15_30min") => {
+    if (onOpenBooking) {
+      onOpenBooking(`Interés en Plan ${title} (${price}${period || ""})`, type);
+    } else {
       window.open(waUrl, "_blank");
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -807,18 +793,34 @@ const PricingCard = ({
           ))}
         </ul>
 
-        <div className="mt-auto">
-          <motion.a
+        <div className="mt-auto space-y-2">
+          <motion.button
             whileHover={{ scale: 1.02, y: -1 }}
             whileTap={{ scale: 0.98 }}
-            href={waUrl}
-            target="_blank"
-            rel="noopener noreferrer"
+            onClick={() => handleBooking("meeting_15_30min")}
             className="w-full py-3.5 px-4 rounded-xl font-black text-[13px] uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer text-center bg-white text-slate-900 hover:bg-white/90 shadow-lg"
           >
-            <WhatsAppIcon className="w-4 h-4" />
-            Quiero este plan
-          </motion.a>
+            <Sparkles className="w-4 h-4 text-accent" />
+            Agendar Videollamada (15-30 min)
+          </motion.button>
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              onClick={() => handleBooking("call_5min")}
+              className="py-2.5 px-3 rounded-xl font-bold text-[11px] text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+            >
+              <Phone className="w-3.5 h-3.5 text-emerald-400" />
+              Llamada 5 min
+            </button>
+            <a
+              href={waUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="py-2.5 px-3 rounded-xl font-bold text-[11px] text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+            >
+              <WhatsAppIcon className="w-3.5 h-3.5" />
+              WhatsApp
+            </a>
+          </div>
         </div>
       </motion.div>
     );
@@ -865,22 +867,38 @@ const PricingCard = ({
         ))}
       </ul>
 
-      <div className="mt-auto">
-        <motion.a
+      <div className="mt-auto space-y-2">
+        <motion.button
           whileHover={{ scale: 1.02, y: -1 }}
           whileTap={{ scale: 0.98 }}
-          href={waUrl}
-          target="_blank"
-          rel="noopener noreferrer"
+          onClick={() => handleBooking("meeting_15_30min")}
           className={`w-full py-3.5 px-4 rounded-xl font-black text-[13px] uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer text-center ${
             isPopular
               ? "bg-accent hover:bg-accent/90 text-white shadow-[0_8px_24px_rgba(59,130,246,0.3)]"
               : "bg-slate-900 hover:bg-slate-800 text-white shadow-sm"
           }`}
         >
-          <WhatsAppIcon className="w-4 h-4" />
-          Quiero este plan
-        </motion.a>
+          <Sparkles className="w-4 h-4" />
+          Agendar Videollamada (15-30 min)
+        </motion.button>
+        <div className="grid grid-cols-2 gap-2">
+          <button
+            onClick={() => handleBooking("call_5min")}
+            className="py-2.5 px-3 rounded-xl font-bold text-[11px] text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+          >
+            <Phone className="w-3.5 h-3.5 text-accent" />
+            Llamada 5 min
+          </button>
+          <a
+            href={waUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="py-2.5 px-3 rounded-xl font-bold text-[11px] text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+          >
+            <WhatsAppIcon className="w-3.5 h-3.5 text-emerald-600" />
+            WhatsApp
+          </a>
+        </div>
       </div>
     </motion.div>
   );
@@ -889,6 +907,7 @@ const PricingCard = ({
 
 const Services = ({
   onOpenModal,
+  onOpenBooking,
   title = "Planes y Soluciones WaaS",
   subtitle = "Tu equipo de ingeniería y tecnología por una tarifa fija mensual. Sin sorpresas.",
   label = "Tarifa Plana",
@@ -920,8 +939,8 @@ const Services = ({
           period="/mes"
           savings="Promo semestral: $245 (6 meses)"
           description="Presencia digital profesional sin pagar miles por adelantado. Ideal para validar tu oferta y crecer sin riesgo."
-          productId="70f62d4c-2cd9-49ad-9628-24a04d462cc0"
-          whatsappText="Hola! Me interesa la suscripción WaaS Web Tradicional ($49/mes). Quisiera iniciar mi proyecto."
+          onOpenBooking={onOpenBooking}
+          whatsappText="Hola! Me interesa la suscripción WaaS Web Tradicional ($49/mes). Quisiera agendar una consulta."
           items={[
             { name: "Sitio web a medida", detail: "React/Vite, carga <1s, 100% tuyo (.pe/.com a tu nombre)" },
             { name: "Hosting cloud + SSL + backups", detail: "Infra Railway incluida, certificado y respaldos diarios" },
@@ -943,8 +962,8 @@ const Services = ({
           period="/mes"
           savings="Promo semestral: $495 (6 meses)"
           description="Software a medida para operar y vender. Panel, pagos y APIs sin límites ni plantillas."
-          productId="b78ef21a-1fdc-4fb6-b411-f4eb46f3fe96"
-          whatsappText="Hola! Me interesa el plan Web App Advanced ($99/mes). Necesito gestionar inventario y pagos online."
+          onOpenBooking={onOpenBooking}
+          whatsappText="Hola! Me interesa el plan Web App Advanced ($99/mes). Necesito agendar una videollamada."
           items={[
             { name: "Panel admin a medida", detail: "Productos, pedidos, usuarios y métricas a tu medida" },
             { name: "REST APIs + base de datos cloud", detail: "Arquitectura escalable PostgreSQL/Redis, integraciones enterprise" },
@@ -966,8 +985,8 @@ const Services = ({
           period="/mes"
           savings="Automatización Operativa Total"
           description="Automatización operativa total. Tu equipo de IA trabajando 24/7 por ti."
-          productId="ef4fe8a9-0f60-40c2-b0c3-0cf2663e38de"
-          whatsappText="Hola! Me interesa el plan WaaS Web App con IA ($599.99/mes). Deseo automatizar mi empresa con IA."
+          onOpenBooking={onOpenBooking}
+          whatsappText="Hola! Me interesa el plan WaaS Web App con IA ($599.99/mes). Deseo agendar una sesión estratégica."
           items={[
             { name: "Agentes IA en WhatsApp 24/7", detail: "Cotizan, responden dudas y cierran ventas automáticamente" },
             { name: "Workflows automatizados", detail: "Conecta equipos y sistemas, elimina trabajo manual" },
@@ -2905,7 +2924,7 @@ export const ChambaFooter = () => (
   </footer>
 );
 
-const ChambaContent = ({ onOpenModal }: any) => (
+const ChambaContent = ({ onOpenModal, onOpenBooking }: any) => (
   <div className="grain selection:bg-accent selection:text-white overflow-x-hidden w-full relative">
     <ChambaNavbar />
     <main className="pt-[70px] relative z-10">
@@ -2915,7 +2934,7 @@ const ChambaContent = ({ onOpenModal }: any) => (
       <SectionDivider variant="line" />
       <Methodology />
       <SectionDivider />
-      <Services onOpenModal={onOpenModal} title="Planes WaaS" label="Suscripción Mensual" />
+      <Services onOpenModal={onOpenModal} onOpenBooking={onOpenBooking} title="Planes WaaS" label="Suscripción Mensual" />
       <SectionDivider variant="line" />
       <Portfolio />
       <SectionDivider />
@@ -2993,6 +3012,7 @@ function AppContent() {
     isOpen: false,
     title: "",
     content: "",
+    callType: "meeting_15_30min" as "call_5min" | "meeting_15_30min",
   });
 
   const location = useLocation();
@@ -3000,18 +3020,27 @@ function AppContent() {
   const isPortalRoute = path.startsWith("/admin") || path.startsWith("/dashboard") || path.startsWith("/login") || path.startsWith("/registro") || path.startsWith("/portal") || path.startsWith("/perfil");
 
   const openModal = (title: string, content: any) => {
-    setModalData({ isOpen: true, title, content });
+    setModalData({ isOpen: true, title, content, callType: "meeting_15_30min" });
+  };
+
+  const openBooking = (topic: string, callType: "call_5min" | "meeting_15_30min" = "meeting_15_30min") => {
+    setModalData({
+      isOpen: true,
+      title: topic,
+      content: "15min_consultation",
+      callType,
+    });
   };
 
   const closeModal = () => {
-    setModalData({ isOpen: false, title: "", content: "" });
+    setModalData({ isOpen: false, title: "", content: "", callType: "meeting_15_30min" });
   };
 
   return (
     <>
       <Suspense fallback={null}>
       <Routes>
-        <Route path="/" element={<ChambaContent onOpenModal={openModal} />} />
+        <Route path="/" element={<ChambaContent onOpenModal={openModal} onOpenBooking={openBooking} />} />
         <Route path="/portafolio" element={<PortfolioPage />} />
         <Route path="/servicios" element={<ServicesPage />} />
         <Route path="/metodologia" element={<MethodologyPage />} />
@@ -3048,7 +3077,8 @@ function AppContent() {
           <FreeConsultationModal
             isOpen={modalData.isOpen && modalData.content === "15min_consultation"}
             onClose={closeModal}
-            defaultTopic={modalData.title || "Auditoría Técnica y Plan WaaS (15 min)"}
+            defaultTopic={modalData.title || "Auditoría Técnica y Plan WaaS (15-30 min)"}
+            defaultCallType={modalData.callType}
           />
           <Suspense fallback={null}><Chatbot /></Suspense>
           <motion.a

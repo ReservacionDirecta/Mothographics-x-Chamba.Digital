@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import { ChambaNavbar, WhatsAppIcon, ChambaFooter } from '../App';
 import { Link } from 'react-router-dom';
 import { SEO } from '../components/SEO';
+import { FreeConsultationModal } from '../components/FreeConsultationModal';
 import { 
   Code2, 
   Bot, 
@@ -21,10 +22,24 @@ import {
   Server,
   Sparkles,
   Layers,
-  Shield
+  Shield,
+  Phone
 } from 'lucide-react';
 
 const ServicesPage: React.FC = () => {
+  const [bookingModal, setBookingModal] = React.useState({
+    isOpen: false,
+    topic: "Auditoría Técnica y Plan WaaS (15-30 min)",
+    callType: "meeting_15_30min" as "call_5min" | "meeting_15_30min",
+  });
+
+  const handleOpenBooking = (topic: string, callType: "call_5min" | "meeting_15_30min" = "meeting_15_30min") => {
+    setBookingModal({
+      isOpen: true,
+      topic,
+      callType,
+    });
+  };
   const waasPillars = [
     {
       title: "Web Tradicional WaaS",
@@ -243,35 +258,33 @@ const ServicesPage: React.FC = () => {
 
                 {/* CTA */}
                 <div className="mt-auto space-y-2">
-                  <button
-                    onClick={async () => {
-                      try {
-                        const res = await fetch("/api/checkout", {
-                          method: "POST",
-                          headers: { "Content-Type": "application/json" },
-                          body: JSON.stringify({ productId: plan.productId }),
-                        });
-                        const data = await res.json();
-                        if (data.url) window.location.href = data.url;
-                        else window.open(`https://wa.me/51904060670?text=Hola!%20Me%20interesa%20el%20plan%20WaaS%20${encodeURIComponent(plan.title)}.`, "_blank");
-                      } catch (e) {
-                        window.open(`https://wa.me/51904060670?text=Hola!%20Me%20interesa%20el%20plan%20WaaS%20${encodeURIComponent(plan.title)}.`, "_blank");
-                      }
-                    }}
-                    className="w-full py-2.5 px-4 rounded-xl font-bold text-[12px] tracking-wide transition-all flex items-center justify-center gap-2 cursor-pointer text-center bg-slate-900 hover:bg-slate-800 text-white"
+                  <motion.button
+                    whileHover={{ scale: 1.02, y: -1 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => handleOpenBooking(`Plan ${plan.title} (${plan.price}${plan.period})`, "meeting_15_30min")}
+                    className="w-full py-3 px-4 rounded-xl font-black text-[12px] uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer text-center bg-slate-900 hover:bg-slate-800 text-white shadow-sm"
                   >
-                    <Zap className="w-3.5 h-3.5" />
-                    Suscribir con Polar
-                  </button>
-                  <a
-                    href={`https://wa.me/51904060670?text=Hola!%20Me%20interesa%20el%20plan%20WaaS%20${encodeURIComponent(plan.title)}.`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full py-2 rounded-xl font-semibold text-[11px] text-slate-500 hover:text-slate-800 bg-transparent hover:bg-slate-50 border border-slate-200 transition-all cursor-pointer flex items-center justify-center gap-2"
-                  >
-                    <WhatsAppIcon className="w-3.5 h-3.5 text-emerald-500" />
-                    Consultar por WhatsApp
-                  </a>
+                    <Sparkles className="w-4 h-4 text-accent" />
+                    Agendar Videollamada (15-30 min)
+                  </motion.button>
+                  <div className="grid grid-cols-2 gap-2">
+                    <button
+                      onClick={() => handleOpenBooking(`Consulta Express: ${plan.title}`, "call_5min")}
+                      className="py-2 px-2.5 rounded-xl font-bold text-[11px] text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                    >
+                      <Phone className="w-3.5 h-3.5 text-accent" />
+                      Llamada 5 min
+                    </button>
+                    <a
+                      href={`https://wa.me/51904060670?text=Hola!%20Me%20interesa%20el%20plan%20WaaS%20${encodeURIComponent(plan.title)}.`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="py-2 px-2.5 rounded-xl font-bold text-[11px] text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                    >
+                      <WhatsAppIcon className="w-3.5 h-3.5 text-emerald-600" />
+                      WhatsApp
+                    </a>
+                  </div>
                 </div>
               </motion.div>
             ))}
@@ -384,6 +397,13 @@ const ServicesPage: React.FC = () => {
           </div>
         </section>
       </main>
+
+      <FreeConsultationModal
+        isOpen={bookingModal.isOpen}
+        onClose={() => setBookingModal(prev => ({ ...prev, isOpen: false }))}
+        defaultTopic={bookingModal.topic}
+        defaultCallType={bookingModal.callType}
+      />
 
       <ChambaFooter />
     </div>
