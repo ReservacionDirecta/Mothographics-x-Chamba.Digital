@@ -1,238 +1,279 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import { ChambaNavbar } from '../../App';
+import { ChambaNavbar, ChambaFooter, WhatsAppIcon } from '../../App';
 import { SEO } from '../../components/SEO';
 import { 
   ShoppingCart, 
   BarChart3, 
-  Settings, 
   ArrowRight,
   TrendingUp,
   CreditCard,
   CheckCircle2,
-  Mail,
-  Instagram,
-  Linkedin,
-  MapPin,
   Zap,
-  Clock,
-  Code2,
-  Headphones,
-  Target,
-  Palette,
+  ShieldCheck,
+  Package,
+  Layers,
+  Sparkles,
+  ShoppingBag,
+  ExternalLink,
+  Calendar,
+  Lock
 } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { Logo, ChambaFooter } from '../../App';
+import { FreeConsultationModal } from '../../components/FreeConsultationModal';
 
 const EcommerceLandingPage: React.FC = () => {
+  const [isBookingOpen, setIsBookingOpen] = useState(false);
+  const [bookingCallType, setBookingCallType] = useState<"call_5min" | "meeting_15_30min">("meeting_15_30min");
+
+  const openBooking = (type: "call_5min" | "meeting_15_30min" = "meeting_15_30min") => {
+    setBookingCallType(type);
+    setIsBookingOpen(true);
+  };
+
   return (
-    <div className="bg-bg text-fg selection:bg-accent selection:text-white">
+    <div className="bg-bg text-fg selection:bg-accent selection:text-white overflow-x-hidden">
       <SEO 
-        title="E-commerce y Performance Marketing | Chamba Digital"
-        description="Tiendas online con optimización de conversión (CRO). Shopify, WooCommerce y soluciones a medida."
-        keywords="E-commerce Peru, Performance Marketing, CRO Optimization, Shopify Peru, WooCommerce, Chamba Digital"
-        ogTitle="E-commerce y Performance Marketing | Chamba Digital"
-        ogDescription="Tiendas online con CRO, Shopify, WooCommerce y soluciones a medida."
+        title="Desarrollo E-commerce de Alta Conversión | Chamba Digital"
+        description="Tiendas online ultrarrápidas con optimización de conversión (CRO), pasarelas de pago integradas y control total de inventario."
+        keywords="ecommerce peru, desarrollo tiendas online, shopify peru, woocommerce waas, pasarelas de pago culqi stripe mercadopago, cro e-commerce"
+        ogTitle="Desarrollo E-commerce de Alta Conversión | Chamba Digital"
+        ogDescription="Tiendas online ultrarrápidas diseñadas para vender. Sin comisiones ocultas y con control total."
         ogImage="https://chamba.digital/og-image.webp"
         canonicalUrl="https://chamba.digital/ecommerce"
-        schema={{
-          "@context": "https://schema.org",
-          "@graph": [
-            {
-              "@type": "WebPage",
-              "@id": "https://chamba.digital/ecommerce#webpage",
-              "url": "https://chamba.digital/ecommerce",
-              "name": "E-commerce y Performance Marketing | Chamba Digital",
-              "isPartOf": { "@id": "https://chamba.digital/#website" }
-            },
-            {
-              "@type": "Service",
-              "@id": "https://chamba.digital/ecommerce#service",
-              "name": "E-commerce y Performance Marketing",
-              "provider": { "@id": "https://chamba.digital/#organization" },
-              "description": "Tiendas online con optimización de conversión y gestión de campañas.",
-              "category": "E-commerce Development"
-            }
-          ]
-        }}
       />
       <ChambaNavbar />
       
       <main className="pt-[70px]">
         {/* Hero Section */}
-        <section className="relative min-h-[90vh] flex flex-col items-center text-center justify-center px-6 md:px-10 overflow-hidden max-w-[1024px] mx-auto">
-          <div className="absolute top-[-100px] left-[30%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-radial-[circle,rgba(59,130,246,0.1)_0%,transparent_70%] blur-[60px] -z-10" />
+        <section className="relative min-h-[85vh] flex flex-col justify-center px-6 md:px-10 max-w-[1024px] mx-auto overflow-hidden py-16 md:py-24">
+          <div className="absolute top-[-10%] left-[30%] w-[500px] h-[500px] bg-accent/10 blur-[140px] rounded-full -z-10 pointer-events-none" />
           
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            className="space-y-6 max-w-3xl"
           >
-            <span className="label-editorial mx-auto">E-commerce & Performance Marketing</span>
-            <h1 className="text-[36px] md:text-[64px] font-black tracking-tight leading-[1.1] mb-6">
-              Tu tienda online con <span className="text-accent">CRO de ingeniería</span>.
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200/80 text-blue-800 text-xs font-bold tracking-wide">
+              <ShoppingBag className="w-3.5 h-3.5 text-accent" />
+              Ingeniería para E-Commerce & Retail
+            </div>
+            
+            <h1 className="text-[34px] sm:text-[46px] lg:text-[58px] font-black tracking-tight leading-[1.08] text-slate-900">
+              Tiendas online rápidas, limpias y <span className="text-accent underline decoration-accent/30 decoration-wavy">diseñadas para convertir</span>.
             </h1>
-            <p className="text-[16px] md:text-[18px] text-muted max-w-[700px] mx-auto mb-10 leading-relaxed">
-              Shopify, WooCommerce o a medida. Optimización de conversión y tracking para que cada click cuente.
+            
+            <p className="text-[17px] sm:text-[20px] text-slate-600 leading-relaxed font-normal">
+              Construimos tu plataforma de venta online sin sobrecostos ni plantillas lentas: catálogo administrable, pagos con tarjeta al instante y conexión directa con tu inventario.
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <motion.a
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
-                href="https://wa.me/51904060670"
-                target="_blank"
-                className="bg-accent text-white px-6 py-3.5 rounded-lg font-bold text-[13px] shadow-md transition-all"
+
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 pt-3">
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => openBooking("meeting_15_30min")}
+                className="bg-slate-900 hover:bg-slate-800 text-white px-7 py-4 rounded-xl font-bold text-[14px] shadow-lg flex items-center justify-center gap-2 text-center cursor-pointer transition-all"
               >
-                Solicitar Diagnóstico ROAS
-              </motion.a>
-              <a href="#tecnologia" className="text-[14px] font-bold hover:text-accent transition-colors">
-                Nuestra Tecnología
+                <Calendar className="w-4 h-4 text-accent" />
+                Agendar Diagnóstico E-Commerce (15 min)
+              </motion.button>
+              <a 
+                href="#pilares" 
+                className="text-[14px] font-semibold text-slate-600 hover:text-slate-900 transition-colors flex items-center justify-center gap-1.5 py-3 px-4"
+              >
+                Ver cómo funciona el sistema <ArrowRight className="w-4 h-4" />
               </a>
+            </div>
+
+            {/* Micro-proof */}
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 pt-3 text-[12px] font-semibold text-slate-600">
+              <span className="flex items-center gap-1.5"><CheckCircle2 className="w-4 h-4 text-emerald-600" /> Checkout en 1 paso</span>
+              <span className="flex items-center gap-1.5"><CheckCircle2 className="w-4 h-4 text-emerald-600" /> Carga móvil en &lt;1 segundo</span>
+              <span className="flex items-center gap-1.5"><CheckCircle2 className="w-4 h-4 text-emerald-600" /> Integración con Culqi, Stripe y Yape</span>
             </div>
           </motion.div>
         </section>
 
-        {/* Tech Features Grid */}
-        <section id="tecnologia" className="py-24 px-6 md:px-10 max-w-[1024px] mx-auto border-t border-white/5">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                title: "Alta Conversión (CRO)",
-                desc: "Checkouts de un solo paso y arquitectura UX optimizada para máxima tasa de conversión y venta inmediata.",
-                icon: ShoppingCart
-              },
-              {
-                title: "Tracking Avanzado",
-                desc: "API de Conversiones de Meta y Google Tag Manager para medir cada centavo de tu inversión.",
-                icon: BarChart3
-              },
-              {
-                title: "Automatización",
-                desc: "Recuperación de carritos abandonados y post-venta automatizada mediante agentes de IA.",
-                icon: Settings
-              }
-            ].map((item, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="p-8 glass rounded-[20px] border-white/5 hover:border-accent/30 transition-all group"
-              >
-                <div className="w-12 h-12 bg-accent/10 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                  <item.icon className="w-6 h-6 text-accent" />
-                </div>
-                <h4 className="text-[18px] font-bold mb-3">{item.title}</h4>
-                <p className="text-[14px] text-muted leading-relaxed">{item.desc}</p>
-              </motion.div>
-            ))}
+        {/* 3 Pillars of E-Commerce Engineering */}
+        <section id="pilares" className="py-16 md:py-20 px-6 md:px-10 max-w-[1024px] mx-auto border-t border-slate-200">
+          <div className="text-center max-w-2xl mx-auto mb-12 space-y-3">
+            <span className="label-editorial mx-auto">Arquitectura de Venta</span>
+            <h2 className="text-[28px] sm:text-[40px] font-black tracking-tight leading-tight text-slate-900">
+              Elimina los 3 mayores frenos de compra en internet.
+            </h2>
+            <p className="text-[15px] sm:text-[16px] text-slate-600 leading-relaxed">
+              El 70% de los carritos se abandonan por lentitud, procesos de pago confusos o falta de confianza visual.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="p-7 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-3">
+              <div className="w-10 h-10 rounded-xl bg-blue-50 text-accent flex items-center justify-center font-bold">
+                <Zap className="w-5 h-5" />
+              </div>
+              <h3 className="text-lg font-bold text-slate-900">1. Velocidad de Carga Instantánea</h3>
+              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                Cada segundo de retraso reduce las ventas un 20%. Desarrollamos con código limpio para que tu catálogo vuele en conexiones 4G móviles.
+              </p>
+            </div>
+
+            <div className="p-7 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-3">
+              <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold">
+                <CreditCard className="w-5 h-5" />
+              </div>
+              <h3 className="text-lg font-bold text-slate-900">2. Pasarelas de Pago Sin Fricción</h3>
+              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                Tus clientes pagan con tarjetas de crédito/débito, transferencias y billeteras digitales (Yape, Plin, MercadoPago, Culqi, Stripe).
+              </p>
+            </div>
+
+            <div className="p-7 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-3">
+              <div className="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center font-bold">
+                <Package className="w-5 h-5" />
+              </div>
+              <h3 className="text-lg font-bold text-slate-900">3. Panel de Control Sencillo</h3>
+              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                Administra productos, fotos, ofertas y pedidos desde una interfaz clara y sin complicaciones técnicas.
+              </p>
+            </div>
           </div>
         </section>
 
-        {/* ROI/Growth Section */}
-        <section className="py-24 px-6 md:px-10 bg-accent/[0.02] border-y border-white/5">
-          <div className="max-w-[1024px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div className="relative order-2 lg:order-1">
-              <div className="aspect-square glass rounded-[32px] border-accent/30 flex items-center justify-center p-12 overflow-hidden bg-accent/[0.03]">
-                <div 
-                  className="absolute inset-0 opacity-60" 
-                  style={{
-                    background: 'radial-gradient(circle, rgba(59, 130, 246, 0.4) 0%, transparent 75%)',
-                    filter: 'blur(40px)'
-                  }}
-                />
-                <div className="relative z-10 text-center">
-                  <span className="text-[64px] md:text-[84px] font-black text-accent block mb-2 leading-none">4.5x</span>
-                  <span className="text-[14px] font-bold uppercase tracking-widest text-muted">ROAS Promedio de Clientes</span>
-                </div>
-              </div>
-            </div>
-            <div className="order-1 lg:order-2">
-              <span className="label-editorial">Escalabilidad Garantizada</span>
-              <h2 className="text-[32px] md:text-[48px] font-bold tracking-tight mb-8">
-                De 0 a <span className="text-accent">Ventas Recurrentes</span> con un sistema real.
+        {/* Real Proof: Dupla Work & E-Commerce Showcase */}
+        <section className="py-16 md:py-20 px-6 md:px-10 max-w-[1024px] mx-auto border-t border-slate-200">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+            <div className="space-y-5">
+              <span className="label-editorial">Caso Destacado</span>
+              <h2 className="text-[28px] sm:text-[38px] font-black tracking-tight leading-tight text-slate-900">
+                Dupla Work: Catálogo digital y cotización directa para empresas.
               </h2>
-              <div className="space-y-6">
-                {[
-                  "Integración con pasarelas de pago globales (Stripe, PayPal, Kushki).",
-                  "Sistemas de Inventario sincronizados en tiempo real.",
-                  "Análisis de datos para optimizar el Costo por Adquisición (CPA).",
-                  "Arquitectura serverless para soportar picos de tráfico en Hot Sales."
-                ].map((text, i) => (
-                  <div key={i} className="flex items-start gap-4">
-                    <CheckCircle2 className="w-5 h-5 text-accent shrink-0 mt-1" />
-                    <p className="text-[15px] font-medium">{text}</p>
-                  </div>
-                ))}
+              <p className="text-[15px] sm:text-[16px] text-slate-600 leading-relaxed">
+                Plataforma comercial desarrollada para catálogo corporativo de mobiliario de oficina, con filtros dinámicos y captura directa de solicitudes a WhatsApp.
+              </p>
+              
+              <div className="space-y-2.5 pt-2 text-sm text-slate-700">
+                <div className="flex items-center gap-2.5 font-semibold">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <span>Catálogo modular de productos y colecciones.</span>
+                </div>
+                <div className="flex items-center gap-2.5 font-semibold">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <span>Cierre de cotizaciones sin intermediarios ni comisiones por venta.</span>
+                </div>
+                <div className="flex items-center gap-2.5 font-semibold">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <span>Infraestructura WaaS con cambios ilimitados de productos.</span>
+                </div>
+              </div>
+
+              <div className="pt-3 flex flex-wrap items-center gap-3">
+                <a
+                  href="https://www.dupla.work"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs py-3 px-5 rounded-lg flex items-center gap-2 transition-colors"
+                >
+                  Ver Proyecto en Vivo <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+                <button
+                  onClick={() => openBooking("meeting_15_30min")}
+                  className="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs py-3 px-5 rounded-lg transition-colors cursor-pointer"
+                >
+                  Cotizar mi Tienda Online
+                </button>
               </div>
             </div>
-          </div>
-        </section>
 
-        {/* Process */}
-        <section className="py-20 px-6 md:px-10 bg-accent/[0.02] border-y border-white/5">
-          <div className="max-w-[1024px] mx-auto">
-            <div className="text-center mb-16">
-              <span className="label-editorial mx-auto">Cómo Trabajamos</span>
-              <h2 className="text-[28px] md:text-[40px] font-bold tracking-tight">De la idea al <span className="text-accent">primer pedido</span>.</h2>
-            </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-5">
-              {[
-                { s: "01", t: "Análisis CRO", d: "Auditamos tu tienda y encontramos las fugas de conversión.", icon: Target },
-                { s: "02", t: "Diseño UX", d: "Checkout optimizado para venta inmediata.", icon: Palette },
-                { s: "03", t: "Desarrollo", d: "Integraciones de pago, inventario y tracking.", icon: Code2 },
-                { s: "04", t: "Revisión", d: "2 rondas de ajustes incluidas.", icon: CheckCircle2 },
-                { s: "05", t: "Lanzamiento", d: "Pixel, Analytics y campañas activados.", icon: Zap },
-                { s: "06", t: "Soporte 30 días", d: "Post-lanzamiento sin costo extra.", icon: Headphones },
-              ].map((item, i) => (
-                <motion.div key={i} initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }} className="glass rounded-[16px] p-6 border-white/5 hover:border-accent/20 transition-colors group relative overflow-hidden">
-                  <span className="absolute top-3 right-4 text-[36px] font-black text-accent/5">{item.s}</span>
-                  <div className="w-10 h-10 bg-accent/10 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform"><item.icon className="w-5 h-5 text-accent" /></div>
-                  <h4 className="text-[14px] font-bold mb-1">{item.t}</h4>
-                  <p className="text-[12px] text-muted leading-relaxed">{item.d}</p>
-                </motion.div>
-              ))}
+            <div className="rounded-2xl overflow-hidden border border-slate-200 shadow-md">
+              <img 
+                src="/thumbs/duplawork.webp" 
+                alt="Dupla Work - Catálogo y E-Commerce Corporativo" 
+                className="w-full h-auto block object-cover"
+              />
             </div>
           </div>
         </section>
 
-        {/* Guarantees */}
-        <section className="py-20 px-6 md:px-10 max-w-[1024px] mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-[24px] md:text-[32px] font-bold tracking-tight">Qué <span className="text-accent">garantizamos</span>.</h2>
+        {/* CTA & Diagnostic Section */}
+        <section className="py-16 md:py-24 px-6 md:px-10 max-w-[1024px] mx-auto border-t border-slate-200">
+          <div className="text-center max-w-2xl mx-auto mb-12 space-y-3">
+            <span className="label-editorial mx-auto">Empieza Hoy</span>
+            <h2 className="text-[28px] sm:text-[42px] font-black tracking-tight leading-tight text-slate-900">
+              ¿Listo para vender con una tienda online profesional?
+            </h2>
+            <p className="text-[15px] sm:text-[16px] text-slate-600 leading-relaxed">
+              Elige el formato que mejor se adapte a tu etapa comercial:
+            </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {[
-              { icon: Clock, t: "Entrega en plazo", d: "Si no cumplimos, devolvemos el 20% del pago final." },
-              { icon: Code2, t: "Código propio", d: "Sin plantillas. Carga rápido y rankea mejor." },
-              { icon: Headphones, t: "Soporte 30 días", d: "Ajustes técnicos post-lanzamiento incluidos." },
-            ].map((item, i) => (
-              <motion.div key={i} initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }} className="glass rounded-[16px] p-6 border-white/5 group">
-                <div className="w-10 h-10 bg-accent/10 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform"><item.icon className="w-5 h-5 text-accent" /></div>
-                <h4 className="text-[14px] font-bold mb-1">{item.t}</h4>
-                <p className="text-[12px] text-muted leading-relaxed">{item.d}</p>
-              </motion.div>
-            ))}
-          </div>
-        </section>
 
-        {/* Dual CTA */}
-        <section className="py-24 px-6 md:px-10 text-center max-w-[800px] mx-auto">
-          <h2 className="text-[32px] md:text-[48px] font-black mb-6">¿Tu tienda convierte?</h2>
-          <p className="text-muted mb-10 text-[16px]">Auditoría gratuita. Te decimos qué mejorar.</p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-            <motion.a whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} href="https://wa.me/51904060670?text=Hola%2C%20quiero%20una%20auditor%C3%ADa%20de%20mi%20tienda%20online." target="_blank" className="w-full sm:w-auto bg-accent text-white px-6 py-3.5 rounded-lg font-bold text-[13px] shadow-[0_6px_20px_rgba(59,130,246,0.3)]">
-              Auditar mi Tienda
-            </motion.a>
-            <motion.a whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} href="https://wa.me/51904060670?text=Hola%2C%20tengo%20preguntas%20sobre%20e-commerce." target="_blank" className="w-full sm:w-auto bg-white/5 border border-white/10 hover:border-accent/30 text-fg px-6 py-3.5 rounded-lg font-bold text-[13px] transition-colors">
-              Tengo Preguntas
-            </motion.a>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch text-left">
+            {/* Opción 1: Diagnóstico Gratuito */}
+            <div className="p-7 sm:p-8 rounded-2xl bg-white border border-slate-200 shadow-xs flex flex-col justify-between space-y-6">
+              <div className="space-y-3">
+                <div className="w-10 h-10 rounded-xl bg-blue-50 text-accent flex items-center justify-center">
+                  <BarChart3 className="w-5 h-5" />
+                </div>
+                <h3 className="text-xl font-bold text-slate-900">1. Sesión de Diagnóstico (15 Minutos)</h3>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  Evaluamos tu catálogo, métodos de pago requeridos y estrategia de tráfico para darte una recomendación técnica sin costo ni compromiso.
+                </p>
+                <div className="pt-2 text-xs font-semibold text-emerald-700 flex items-center gap-1.5">
+                  <ShieldCheck className="w-4 h-4" /> 100% gratuito y sin presiones de venta.
+                </div>
+              </div>
+              <button
+                onClick={() => openBooking("meeting_15_30min")}
+                className="w-full bg-slate-100 hover:bg-slate-200 text-slate-900 py-3.5 px-4 rounded-xl font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-colors cursor-pointer"
+              >
+                Agendar Sesión Gratuita <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* Opción 2: Desarrollo WaaS */}
+            <div className="p-7 sm:p-8 rounded-2xl bg-slate-900 text-white shadow-xl flex flex-col justify-between space-y-6 border border-slate-800">
+              <div className="space-y-3">
+                <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-bold uppercase tracking-wider">
+                  Modelo WaaS por Suscripción
+                </div>
+                <h3 className="text-xl font-bold text-white">2. Tienda Online Llave en Mano</h3>
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                  Desarrollo de tienda, integración de pasarelas, hosting cloud de alta velocidad y cambios ilimitados semanales de productos y banners.
+                </p>
+                <div className="pt-2 text-xs font-semibold text-emerald-400 flex items-center gap-1.5">
+                  <ShieldCheck className="w-4 h-4" /> Dominio y plataforma 100% de tu propiedad.
+                </div>
+              </div>
+              <a
+                href="https://wa.me/51904060670?text=Hola,%20quiero%20cotizar%20el%20desarrollo%20de%20mi%20tienda%20online%20e-commerce."
+                target="_blank"
+                rel="noreferrer"
+                className="w-full bg-accent hover:bg-accent/90 text-white py-3.5 px-4 rounded-xl font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all shadow-md text-center"
+              >
+                <WhatsAppIcon className="w-4 h-4 text-white" />
+                Hablar con un Especialista por WhatsApp
+              </a>
+            </div>
+          </div>
+
+          <div className="mt-12 p-5 rounded-xl bg-slate-50 border border-slate-200 text-center max-w-xl mx-auto space-y-1">
+            <div className="text-xs font-bold uppercase text-slate-800 tracking-wider flex items-center justify-center gap-1.5">
+              <Lock className="w-3.5 h-3.5 text-accent" /> Garantía de Calidad Chamba Digital
+            </div>
+            <p className="text-xs text-slate-600">
+              Entrega en plazos formales con soporte técnico correctivo y mantenimiento cloud garantizado.
+            </p>
           </div>
         </section>
       </main>
 
       <ChambaFooter />
+
+      <FreeConsultationModal 
+        isOpen={isBookingOpen}
+        onClose={() => setIsBookingOpen(false)}
+        defaultTopic="Diagnóstico de Tienda Online y E-Commerce (15 min)"
+        defaultCallType={bookingCallType}
+      />
     </div>
   );
 };
