@@ -1076,7 +1076,7 @@ const Portfolio = () => {
       id: "penalinda",
       category: "Hotelería & PMS",
       name: "Peña Linda Bungalows",
-      url: "penalindamancora.com",
+      url: "penalindabungalows.up.railway.app",
       tag: "Motor de Reservas Directo",
       thumb: "/thumbs/penalindamancora.webp",
       lcp: "0.6s",
@@ -1283,7 +1283,7 @@ const Portfolio = () => {
 
   const webs = [
     {
-      url: "penalindamancora.com",
+      url: "penalindabungalows.up.railway.app",
       label: "Peña Linda Bungalows Máncora",
       thumb: "/thumbs/penalindamancora.webp",
     },

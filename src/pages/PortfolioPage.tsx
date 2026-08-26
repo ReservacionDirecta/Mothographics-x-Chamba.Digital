@@ -14,7 +14,7 @@ import {
 const hotelClients = [
   {
     name: "Peña Linda Bungalows", location: "Máncora – Perú",
-    category: "hotel", url: "penalindamancora.com",
+    category: "hotel", url: "penalindabungalows.up.railway.app",
     thumb: "/thumbs/penalindamancora.webp",
     highlight: "Motor de Reservas Directo",
     tasks: ["Plataforma Web WaaS", "Sistema de Reservas Directas", "Integración Sirvoy PMS", "Cero Comisiones a OTAs", "Mantenimiento Cloud"],
@@ -130,7 +130,7 @@ const techClients = [
 ];
 
 const webProjects = [
-  { url: "penalindamancora.com", label: "Peña Linda Bungalows Máncora", category: "hotel", thumb: "/thumbs/penalindamancora.webp" },
+  { url: "penalindabungalows.up.railway.app", label: "Peña Linda Bungalows Máncora", category: "hotel", thumb: "/thumbs/penalindamancora.webp" },
   { url: "costablanca.up.railway.app", label: "Hotel Costa Blanca Vichayito", category: "hotel", thumb: "/thumbs/costablanca.webp" },
   { url: "tuagentepe.up.railway.app", label: "TuAgente.pe (Proptech IA)", category: "tech", thumb: "/thumbs/tuagentepe.webp" },
   { url: "pacificsurfschool.com.pe", label: "Escuela & Clases de Surf", category: "hotel", thumb: "/thumbs/pacificsurfschool.webp" },
