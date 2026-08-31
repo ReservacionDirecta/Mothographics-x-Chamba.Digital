@@ -177,29 +177,29 @@ const HospitalitySolutions: React.FC = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Pilar 1 */}
-            <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-3">
+            <div className="p-6 rounded-2xl bg-white border border-slate-200/60 heroui-shadow-sm hover:heroui-shadow-md transition-all space-y-3">
               <div className="w-10 h-10 rounded-xl bg-blue-50 text-accent flex items-center justify-center font-bold">
-                <Hotel className="w-5 h-5" />
+                <Globe className="w-5 h-5" />
               </div>
-              <h3 className="text-lg font-bold text-slate-900">1. Página Web que Enamora y Vende</h3>
+              <h3 className="text-lg font-bold text-slate-900">1. Web Directa y Rápida</h3>
               <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                Diseño visualmente impecable y ultra veloz en celulares. Muestra tus habitaciones, amenidades y experiencias para que el viajero elija reservar contigo al instante.
+                Diseñada especialmente para celulares, mostrando las fotos de tus habitaciones y facilitando la reserva en menos de 3 clics.
               </p>
             </div>
 
             {/* Pilar 2 */}
-            <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-3">
+            <div className="p-6 rounded-2xl bg-white border border-slate-200/60 heroui-shadow-sm hover:heroui-shadow-md transition-all space-y-3">
               <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold">
-                <Zap className="w-5 h-5" />
+                <ShieldCheck className="w-5 h-5" />
               </div>
-              <h3 className="text-lg font-bold text-slate-900">2. Motor de Reservas y Pagos en Línea</h3>
+              <h3 className="text-lg font-bold text-slate-900">2. Motor y Calendario Único</h3>
               <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                Tus huéspedes eligen fechas, ven disponibilidad en tiempo real y pagan de inmediato con tarjeta o transferencia. Cero sobreventas y sincronización total.
+                Tus habitaciones se sincronizan al segundo con Booking y Airbnb para evitar sobreventas, pero priorizando siempre tu canal directo sin comisiones.
               </p>
             </div>
 
             {/* Pilar 3 */}
-            <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-3">
+            <div className="p-6 rounded-2xl bg-white border border-slate-200/60 heroui-shadow-sm hover:heroui-shadow-md transition-all space-y-3">
               <div className="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center font-bold">
                 <MessageSquare className="w-5 h-5" />
               </div>

@@ -1593,104 +1593,108 @@ export default function UserPortal() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
                 {/* CARD 1: Web Tradicional */}
-                <div className="bg-white border-2 border-slate-200 hover:border-accent rounded-3xl p-5 flex flex-col justify-between shadow-lg transition-all">
+                <div className="bg-white border border-slate-200/70 hover:border-slate-300/80 rounded-3xl p-6 flex flex-col justify-between heroui-shadow-md hover:heroui-shadow-lg transition-all">
                   <div>
-                    <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-1">Entry Level</span>
-                    <h3 className="text-lg font-extrabold text-slate-900">Web Tradicional</h3>
-                    <div className="my-3">
+                    <span className="text-[10px] font-black uppercase tracking-widest bg-blue-50 text-accent px-2.5 py-0.5 rounded-full border border-blue-100 inline-block mb-3">Entry Level</span>
+                    <h3 className="text-lg font-black text-slate-900">Web Tradicional</h3>
+                    <div className="my-3 flex items-baseline gap-1">
                       <span className="text-3xl font-black text-slate-900">$49</span>
                       <span className="text-xs font-bold text-slate-500"> / mes</span>
                     </div>
-                    <ul className="space-y-1.5 text-xs text-slate-600 font-medium my-4">
-                      <li className="flex items-center gap-1.5">✓ Sitio Web Corporativo Full</li>
-                      <li className="flex items-center gap-1.5">✓ Dominio & SSL Incluidos</li>
-                      <li className="flex items-center gap-1.5">✓ Hosting WaaS en Railway</li>
-                      <li className="flex items-center gap-1.5">✓ Soporte & Cambios Ilimitados</li>
+                    <p className="text-[11px] font-bold text-emerald-700 mb-3">o $245 semestral (6 meses)</p>
+                    <ul className="space-y-2 text-xs text-slate-600 font-medium my-4 pt-3 border-t border-slate-100">
+                      <li className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" /> Sitio Web Corporativo Full</li>
+                      <li className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" /> Dominio & SSL Incluidos</li>
+                      <li className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" /> Hosting WaaS en Railway</li>
+                      <li className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" /> Soporte & Cambios Ilimitados</li>
                     </ul>
                   </div>
                   <button
                     onClick={() => handleCheckout("49")}
                     disabled={loading}
-                    className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 rounded-xl text-xs uppercase tracking-wider transition-all cursor-pointer shadow-md mt-4"
+                    className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3.5 rounded-xl text-xs uppercase tracking-wider transition-all cursor-pointer heroui-shadow-sm mt-4"
                   >
                     {loading ? "Cargando..." : "Activar por $49/mes"}
                   </button>
                 </div>
 
                 {/* CARD 2: Web App Advanced (Popular) */}
-                <div className="bg-slate-900 text-white border-2 border-accent rounded-3xl p-5 flex flex-col justify-between shadow-2xl relative">
+                <div className="bg-slate-900 text-white border border-slate-800 rounded-3xl p-6 flex flex-col justify-between heroui-shadow-xl relative ring-1 ring-accent/40">
                   <span className="absolute -top-3 right-5 bg-accent text-white text-[9px] font-black uppercase px-3 py-1 rounded-full tracking-widest shadow-md">
                     Más Popular
                   </span>
                   <div>
-                    <span className="text-[10px] font-black uppercase tracking-widest text-blue-400 block mb-1">Advanced WaaS</span>
-                    <h3 className="text-lg font-extrabold text-white">Web App Advanced</h3>
-                    <div className="my-3">
+                    <span className="text-[10px] font-black uppercase tracking-widest text-blue-400 block mb-2">Advanced WaaS</span>
+                    <h3 className="text-lg font-black text-white">Web App Advanced</h3>
+                    <div className="my-3 flex items-baseline gap-1">
                       <span className="text-3xl font-black text-white">$99</span>
                       <span className="text-xs font-bold text-slate-400"> / mes</span>
                     </div>
-                    <ul className="space-y-1.5 text-xs text-slate-300 font-medium my-4">
-                      <li className="flex items-center gap-1.5">✓ Base de Datos MongoDB/Redis</li>
-                      <li className="flex items-center gap-1.5">✓ Panel de Control de Clientes</li>
-                      <li className="flex items-center gap-1.5">✓ Integración de Pagos Polar</li>
-                      <li className="flex items-center gap-1.5">✓ Soporte Prioritario 24/7</li>
+                    <p className="text-[11px] font-bold text-emerald-400 mb-3">o $495 semestral (6 meses)</p>
+                    <ul className="space-y-2 text-xs text-slate-300 font-medium my-4 pt-3 border-t border-slate-800">
+                      <li className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-accent shrink-0" /> Base de Datos MongoDB/Redis</li>
+                      <li className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-accent shrink-0" /> Panel de Control de Clientes</li>
+                      <li className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-accent shrink-0" /> Integración de Pagos Polar</li>
+                      <li className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-accent shrink-0" /> Soporte Prioritario 24/7</li>
                     </ul>
                   </div>
                   <button
                     onClick={() => handleCheckout("99")}
                     disabled={loading}
-                    className="w-full bg-accent hover:bg-accent/90 text-white font-black py-3 rounded-xl text-xs uppercase tracking-wider transition-all cursor-pointer shadow-lg mt-4"
+                    className="w-full bg-accent hover:bg-accent/90 text-white font-black py-3.5 rounded-xl text-xs uppercase tracking-wider transition-all cursor-pointer heroui-shadow-md mt-4"
                   >
                     {loading ? "Cargando..." : "Activar por $99/mes"}
                   </button>
                 </div>
 
                 {/* CARD 3: Plan Hoteles & Reservas */}
-                <div className="bg-white border-2 border-slate-200 hover:border-emerald-500 rounded-3xl p-5 flex flex-col justify-between shadow-lg transition-all">
+                <div className="bg-white border border-slate-200/70 hover:border-slate-300/80 rounded-3xl p-6 flex flex-col justify-between heroui-shadow-md hover:heroui-shadow-lg transition-all">
                   <div>
-                    <span className="text-[10px] font-black uppercase tracking-widest text-emerald-600 block mb-1">Especializado</span>
-                    <h3 className="text-lg font-extrabold text-slate-900">Plan Hoteles</h3>
-                    <div className="my-3">
+                    <span className="text-[10px] font-black uppercase tracking-widest bg-emerald-50 text-emerald-700 px-2.5 py-0.5 rounded-full border border-emerald-200 inline-block mb-3">Especializado</span>
+                    <h3 className="text-lg font-black text-slate-900">Plan Hoteles</h3>
+                    <div className="my-3 flex items-baseline gap-1">
                       <span className="text-3xl font-black text-slate-900">$999</span>
                       <span className="text-xs font-bold text-slate-500"> pago único</span>
                     </div>
-                    <ul className="space-y-1.5 text-xs text-slate-600 font-medium my-4">
-                      <li className="flex items-center gap-1.5">✓ Motor de Reservas Directas</li>
-                      <li className="flex items-center gap-1.5">✓ Cero comisiones de terceros</li>
-                      <li className="flex items-center gap-1.5">✓ Integración Sirvoy / PMS</li>
-                      <li className="flex items-center gap-1.5">✓ Sync Airbnb & Booking</li>
+                    <p className="text-[11px] font-bold text-slate-500 mb-3">Hospitality Pro Full</p>
+                    <ul className="space-y-2 text-xs text-slate-600 font-medium my-4 pt-3 border-t border-slate-100">
+                      <li className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" /> Motor de Reservas Directas</li>
+                      <li className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" /> Cero comisiones de terceros</li>
+                      <li className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" /> Integración Sirvoy / PMS</li>
+                      <li className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" /> Sync Airbnb & Booking</li>
                     </ul>
                   </div>
                   <a
                     href="https://wa.me/51904060670?text=Hola,%20quiero%20información%20sobre%20el%20Plan%20Hoteles%20($999)."
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-xl text-xs uppercase tracking-wider transition-all cursor-pointer shadow-md mt-4 text-center block"
+                    className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl text-xs uppercase tracking-wider transition-all cursor-pointer heroui-shadow-sm mt-4 text-center block"
                   >
                     Cotizar por WhatsApp
                   </a>
                 </div>
 
                 {/* CARD 4: Web App con IA */}
-                <div className="bg-white border-2 border-slate-200 hover:border-purple-500 rounded-3xl p-5 flex flex-col justify-between shadow-lg transition-all">
+                <div className="bg-white border border-slate-200/70 hover:border-slate-300/80 rounded-3xl p-6 flex flex-col justify-between heroui-shadow-md hover:heroui-shadow-lg transition-all">
                   <div>
-                    <span className="text-[10px] font-black uppercase tracking-widest text-purple-600 block mb-1">Enterprise IA</span>
-                    <h3 className="text-lg font-extrabold text-slate-900">Web App con IA</h3>
-                    <div className="my-3">
+                    <span className="text-[10px] font-black uppercase tracking-widest bg-purple-50 text-purple-700 px-2.5 py-0.5 rounded-full border border-purple-200 inline-block mb-3">Enterprise IA</span>
+                    <h3 className="text-lg font-black text-slate-900">Web App con IA</h3>
+                    <div className="my-3 flex items-baseline gap-1">
                       <span className="text-3xl font-black text-slate-900">$599.99</span>
                       <span className="text-xs font-bold text-slate-500"> / mes</span>
                     </div>
-                    <ul className="space-y-1.5 text-xs text-slate-600 font-medium my-4">
-                      <li className="flex items-center gap-1.5">✓ Agente IA Personalizado</li>
-                      <li className="flex items-center gap-1.5">✓ Integración API Gemini/LLM</li>
-                      <li className="flex items-center gap-1.5">✓ Automatización de Flujos B2B</li>
-                      <li className="flex items-center gap-1.5">✓ Asesoría & Desarrollo VIP</li>
+                    <p className="text-[11px] font-bold text-purple-700 mb-3">Automatización Total</p>
+                    <ul className="space-y-2 text-xs text-slate-600 font-medium my-4 pt-3 border-t border-slate-100">
+                      <li className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" /> Agente IA Personalizado</li>
+                      <li className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" /> Integración API Gemini/LLM</li>
+                      <li className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" /> Automatización de Flujos B2B</li>
+                      <li className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" /> Asesoría & Desarrollo VIP</li>
                     </ul>
                   </div>
                   <button
                     onClick={() => handleCheckout("500")}
                     disabled={loading}
-                    className="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 rounded-xl text-xs uppercase tracking-wider transition-all cursor-pointer shadow-md mt-4"
+                    className="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3.5 rounded-xl text-xs uppercase tracking-wider transition-all cursor-pointer heroui-shadow-sm mt-4"
                   >
                     {loading ? "Cargando..." : "Activar por $599.99/mes"}
                   </button>

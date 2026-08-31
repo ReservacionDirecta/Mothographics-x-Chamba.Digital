@@ -212,16 +212,16 @@ const ServicesPage: React.FC = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className={`p-5 sm:p-6 rounded-2xl border bg-white shadow-xs hover:border-slate-300 hover:shadow-md transition-all flex flex-col h-full ${
+                className={`p-6 sm:p-7 rounded-3xl bg-white flex flex-col h-full transition-all ${
                   plan.popular
-                    ? "border-accent/40 ring-1 ring-accent/10"
-                    : "border-slate-200"
+                    ? "border border-slate-800 bg-slate-900 text-white heroui-shadow-xl ring-1 ring-accent/30"
+                    : "border border-slate-200/70 heroui-shadow-md hover:heroui-shadow-lg hover:border-slate-300/80"
                 }`}
               >
                 {/* Popular indicator */}
                 {plan.popular && (
                   <div className="flex items-center gap-2 mb-3">
-                    <div className="w-1.5 h-1.5 rounded-full bg-accent" />
+                    <div className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
                     <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-accent">Recomendado</span>
                   </div>
                 )}

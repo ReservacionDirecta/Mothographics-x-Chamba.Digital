@@ -266,9 +266,9 @@ export default function PortfolioPage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.05 }}
-                  whileHover={{ y: -6 }}
+                  whileHover={{ y: -4 }}
                   onClick={() => setSelectedProject(project)}
-                  className="interactive-card bg-white rounded-[24px] border border-slate-200 shadow-lg hover:shadow-xl overflow-hidden cursor-pointer group flex flex-col h-full"
+                  className="interactive-card bg-white rounded-[24px] border border-slate-200/70 heroui-shadow-md hover:heroui-shadow-xl hover:border-slate-300/80 overflow-hidden cursor-pointer group flex flex-col h-full"
                 >
                   {/* Thumbnail */}
                   {project.thumb ? (

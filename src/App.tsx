@@ -28,6 +28,7 @@ const UserPortal = lazy(() => import("./pages/UserPortal"));
 const RafflePage = lazy(() => import("./pages/RaffleLandingPage/RafflePage"));
 const NotFoundPage = lazy(() => import("./pages/NotFoundPage"));
 const SuccessPage = lazy(() => import("./pages/SuccessPage"));
+const PaymentsPage = lazy(() => import("./pages/PaymentsPage"));
 
 const CountUp = ({ value, suffix = "", className = "" }: { value: number; suffix?: string; className?: string }) => {
   const [display, setDisplay] = useState(0);
@@ -2286,7 +2287,7 @@ const PainPoints = () => (
       ].map((item, i) => (
         <div
           key={i}
-          className="card-sheen p-5 sm:p-7 rounded-2xl border border-slate-200 bg-white shadow-xs hover:border-slate-300 hover:shadow-md transition-all"
+          className="card-sheen p-5 sm:p-7 rounded-2xl border border-slate-200/60 bg-white heroui-shadow-sm hover:heroui-shadow-md hover:border-slate-300/80 transition-all"
         >
           <div className="flex items-center gap-3 mb-3">
             <div className="w-9 h-9 bg-red-50 text-red-600 rounded-lg flex items-center justify-center shrink-0">
@@ -2301,7 +2302,7 @@ const PainPoints = () => (
 
     {/* Inline Lead Capture after Pain Points */}
     <div
-      className="mt-10 sm:mt-14 text-center rounded-3xl p-6 sm:p-8 md:p-10 border border-slate-200 bg-slate-50/80"
+      className="mt-10 sm:mt-14 text-center rounded-3xl p-6 sm:p-8 md:p-10 border border-slate-200/60 bg-slate-50/80 heroui-shadow-sm"
     >
       <h3 className="text-[20px] sm:text-[24px] md:text-[28px] font-black tracking-tight mb-2 text-slate-900">
         Tu equipo de ingeniería web por solo $49/mes
@@ -2512,7 +2513,7 @@ const FAQ = () => {
         {faqs.map((faq, i) => (
           <div
             key={i}
-            className="rounded-2xl border border-slate-200 bg-white shadow-2xs overflow-hidden transition-colors hover:border-slate-300"
+            className="rounded-2xl border border-slate-200/60 bg-white heroui-shadow-xs overflow-hidden transition-all hover:border-slate-300/80 hover:heroui-shadow-sm"
           >
             <button
               onClick={() => setOpenIndex(openIndex === i ? null : i)}
@@ -3184,6 +3185,8 @@ function AppContent() {
         <Route path="/portal" element={<UserPortal />} />
         <Route path="/perfil" element={<UserPortal />} />
         <Route path="/success" element={<SuccessPage />} />
+        <Route path="/payments" element={<PaymentsPage />} />
+        <Route path="/pricing" element={<PaymentsPage />} />
         <Route path="/sorteo" element={<RafflePage />} />
         <Route path="/raffle" element={<RafflePage />} />
         <Route path="*" element={<NotFoundPage />} />

@@ -106,7 +106,7 @@ const ServiceBusinessesLandingPage: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="p-7 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-3">
+            <div className="p-7 rounded-2xl bg-white border border-slate-200/60 heroui-shadow-sm hover:heroui-shadow-md transition-all space-y-3">
               <div className="w-10 h-10 rounded-xl bg-blue-50 text-accent flex items-center justify-center font-bold">
                 <Target className="w-5 h-5" />
               </div>
@@ -116,7 +116,7 @@ const ServiceBusinessesLandingPage: React.FC = () => {
               </p>
             </div>
 
-            <div className="p-7 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-3">
+            <div className="p-7 rounded-2xl bg-white border border-slate-200/60 heroui-shadow-sm hover:heroui-shadow-md transition-all space-y-3">
               <div className="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center font-bold">
                 <Filter className="w-5 h-5" />
               </div>
@@ -126,7 +126,7 @@ const ServiceBusinessesLandingPage: React.FC = () => {
               </p>
             </div>
 
-            <div className="p-7 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-3">
+            <div className="p-7 rounded-2xl bg-white border border-slate-200/60 heroui-shadow-sm hover:heroui-shadow-md transition-all space-y-3">
               <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold">
                 <Calendar className="w-5 h-5" />
               </div>
