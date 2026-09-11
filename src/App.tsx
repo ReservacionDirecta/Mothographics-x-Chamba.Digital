@@ -2282,11 +2282,8 @@ const ChambaHero = ({ onOpenBooking }: { onOpenBooking?: (topic: string, callTyp
               </div>
             </div>
           </div>
-          <div className="mt-3 flex items-center justify-between gap-3">
-            <p className="text-[11px] leading-relaxed text-slate-500 max-w-[360px]">
-              Video generado con IA sobre el flujo WaaS real. Reemplazá <code className="font-mono bg-stone-100 border border-stone-200 px-1 py-0.5 rounded text-[10px]">/assets/hero_bg.mp4</code> por tu render final.
-            </p>
-            <a href="#portafolio" className="hidden sm:inline-flex items-center gap-1 text-[11px] font-mono font-semibold tracking-[0.08em] uppercase text-ink hover:text-accent">
+          <div className="mt-3 flex justify-end">
+            <a href="#portafolio" className="inline-flex items-center gap-1 text-[11px] font-mono font-semibold tracking-[0.08em] uppercase text-ink hover:text-accent">
               Ver casos <ArrowRight className="w-3 h-3" />
             </a>
           </div>
