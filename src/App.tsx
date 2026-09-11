@@ -279,7 +279,7 @@ const ExitIntentModal = ({
                   <a
                     href="/assets/docs/Guia_Transformacion_Digital_2026.pdf"
                     download
-                    className="bg-accent text-white py-4 px-8 rounded-2xl font-extrabold text-[14px] shadow-lg flex items-center justify-center gap-2 uppercase tracking-widest"
+                    className="bg-accent text-white py-4 px-8 rounded-[14px] font-extrabold text-[14px] shadow-lg flex items-center justify-center gap-2 uppercase tracking-widest"
                   >
                     Descarga Directa <Download className="w-4 h-4" />
                   </a>
@@ -601,117 +601,93 @@ const Hero = () => {
 const Opportunity = () => (
   <section
     id="tech-stack"
-    className="py-12 md:py-20 px-4 sm:px-6 md:px-10 max-w-[1024px] mx-auto"
+    className="section-stone py-12 md:py-20 px-6 md:px-10"
   >
+    <div className="max-w-[1120px] mx-auto">
     {/* Sección: Agencia Tradicional vs. WaaS */}
-    <div className="text-center mb-8 md:mb-14">
-      <span className="label-editorial mx-auto">La Ley del Contraste</span>
-      <h2 className="text-[28px] sm:text-[34px] md:text-[46px] font-extrabold tracking-[-0.025em] leading-tight mb-3 text-slate-900">
-        Agencia Tradicional <span className="text-slate-400">vs.</span> Tu Equipo <span className="text-accent">WaaS</span>
-      </h2>
-      <p className="text-muted text-[14px] sm:text-[16px] md:text-[17px] max-w-2xl mx-auto leading-relaxed">
-        ¿Por qué pagar miles por adelantado cuando puedes tener soporte técnico continuo por una fracción del costo?
+    <div className="flex items-start justify-between gap-6 mb-10 md:mb-14">
+      <div className="max-w-[640px]">
+        <div className="flex items-center gap-3 mb-3">
+          <span className="kicker-number">01 — Contraste</span>
+          <span className="h-px w-12 bg-ink/20" />
+        </div>
+        <h2 className="display-section text-ink">
+          Agencia tradicional <span className="text-stone-400 font-normal">vs.</span> tu equipo WaaS
+        </h2>
+      </div>
+      <p className="hidden lg:block body-prose text-[14px] max-w-[360px] pt-2">
+        El mismo resultado, sin hipotecar tu capital. Soporte continuo por fracción del costo.
       </p>
     </div>
 
-    {/* Comparativa 2 columnas */}
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-12 md:mb-16">
-      <motion.div
-        initial={{ opacity: 0, x: -15 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5 }}
-        className="p-5 sm:p-7 rounded-2xl border border-red-200/80 bg-red-50/40 relative overflow-hidden"
-      >
-        <div className="flex items-center gap-3 mb-2.5">
-          <div className="w-8 h-8 rounded-lg bg-red-100 flex items-center justify-center text-red-600 font-bold text-[14px] shrink-0">✕</div>
-          <h3 className="text-[15px] font-bold tracking-[-0.015em] text-slate-900">La Agencia Tradicional</h3>
+    {/* Comparativa 2 columnas — editorial rule, no pastel AI cards */}
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-0 border-y border-ink divide-y md:divide-y-0 md:divide-x divide-ink">
+      <div className="py-7 md:py-8 pr-0 md:pr-8">
+        <div className="flex items-center gap-2 mb-3">
+          <span className="w-6 h-6 rounded-full border border-ink flex items-center justify-center text-[12px] font-bold">—</span>
+          <span className="label-mono text-ink">La agencia tradicional</span>
         </div>
-        <p className="text-[13px] sm:text-[14px] text-slate-600 leading-relaxed font-medium">
-          Te cobran entre $1,000 y $2,000 por adelantado por una web de plantilla que queda abandonada. Cualquier cambio posterior tarda semanas o te lo cobran como extra.
+        <h3 className="card-title text-[17px] text-ink mb-2">Pagás $1,500 y te quedás solo</h3>
+        <p className="body-prose text-[13px] leading-relaxed">
+          Web de plantilla que queda abandonada. Cada cambio tarda semanas o te lo cobran como extra. Sin hosting, sin soporte.
         </p>
-      </motion.div>
+      </div>
 
-      <motion.div
-        initial={{ opacity: 0, x: 15 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5 }}
-        className="p-5 sm:p-7 rounded-2xl border border-accent/30 bg-blue-50/40 relative overflow-hidden"
-      >
-        <div className="flex items-center gap-3 mb-2.5">
-          <div className="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center text-accent font-bold text-[14px] shrink-0">✓</div>
-          <h3 className="text-[15px] font-bold tracking-[-0.015em] text-slate-900">Tu Suscripción WaaS Chamba</h3>
+      <div className="py-7 md:py-8 pl-0 md:pl-8 bg-white/60">
+        <div className="flex items-center gap-2 mb-3">
+          <span className="w-6 h-6 rounded-full bg-accent text-white flex items-center justify-center text-[11px] font-bold">✓</span>
+          <span className="label-mono text-accent">Suscripción WaaS Chamba</span>
         </div>
-        <p className="text-[13px] sm:text-[14px] text-slate-700 leading-relaxed font-medium">
-          Tarifa plana desde $49/mes. Tu web vive en servidores cloud ultrarrápidos, incluye cambios de contenido semanales y un equipo de ingeniería disponible por WhatsApp.
+        <h3 className="card-title text-[17px] text-ink mb-2">Desde $49/mes, tu web nunca se detiene</h3>
+        <p className="body-prose text-[13px] leading-relaxed">
+          Servidor cloud {"<"}1s, cambios semanales por WhatsApp y equipo de ingeniería disponible. Tu dominio 100% tuyo.
         </p>
-      </motion.div>
+      </div>
     </div>
 
-    {/* Sección de Beneficios Clave (3 Pilares) */}
-    <div className="text-center mb-8">
-      <span className="label-editorial mx-auto">Beneficios Concretos</span>
-      <h3 className="text-[22px] sm:text-[28px] md:text-[32px] font-extrabold tracking-[-0.025em] text-slate-900">
-        Resultados tangibles para tu negocio
+    {/* Sección de Beneficios Clave (3 Pilares) — editorial rules, not cards */}
+    <div className="mt-12 pt-8 border-t border-ink">
+      <div className="flex items-center gap-3 mb-6">
+        <span className="kicker-number">02 — Garantías operativas</span>
+        <span className="h-px flex-1 bg-rule" />
+      </div>
+      <h3 className="text-[22px] md:text-[26px] font-bold tracking-[-0.02em] text-ink mb-8">
+        Resultados tangibles, sin letra chica
       </h3>
     </div>
 
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
-      <motion.div
-        initial={{ opacity: 0, y: 15 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.4, delay: 0.1 }}
-        className="p-5 sm:p-6 rounded-2xl border border-slate-200 bg-white shadow-xs hover:border-slate-300 hover:shadow-md transition-all"
-      >
-        <div className="flex items-center gap-3 mb-3">
-          <div className="w-9 h-9 rounded-lg bg-accent/10 text-accent flex items-center justify-center shrink-0">
-            <Shield className="w-4 h-4" />
-          </div>
-          <h4 className="text-[14px] card-title text-slate-900">Tu Marca y Dominio 100% Tuyos</h4>
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-0 divide-y md:divide-y-0 md:divide-x divide-rule border-y border-rule">
+      <div className="py-6 pr-0 md:pr-6">
+        <div className="w-8 h-8 rounded-full border border-ink flex items-center justify-center mb-3">
+          <Shield className="w-3.5 h-3.5 text-ink" />
         </div>
-        <p className="text-[12px] text-slate-500 leading-relaxed">
-          Sin letras chicas ni retenciones. El dominio, la propiedad intelectual y tu base de datos están a tu nombre desde el primer día.
+        <h4 className="card-title text-[14px] text-ink mb-1.5">Tu marca 100% tuya</h4>
+        <p className="body-prose text-[12px] leading-relaxed">
+          Dominio, propiedad intelectual y base de datos a tu nombre desde el día 1. Sin retenciones.
         </p>
-      </motion.div>
+      </div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 15 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.4, delay: 0.2 }}
-        className="p-5 sm:p-6 rounded-2xl border border-slate-200 bg-white shadow-xs hover:border-slate-300 hover:shadow-md transition-all"
-      >
-        <div className="flex items-center gap-3 mb-3">
-          <div className="w-9 h-9 rounded-lg bg-accent/10 text-accent flex items-center justify-center shrink-0">
-            <Zap className="w-4 h-4" />
-          </div>
-          <h4 className="text-[14px] card-title text-slate-900">Carga en menos de 1 segundo</h4>
+      <div className="py-6 px-0 md:px-6">
+        <div className="w-8 h-8 rounded-full bg-ink text-white flex items-center justify-center mb-3">
+          <Zap className="w-3.5 h-3.5" />
         </div>
-        <p className="text-[12px] text-slate-500 leading-relaxed">
-          Tu web nunca se cae cuando lanzas anuncios en Facebook, Instagram o Google. Máxima velocidad de conversión para no perder clientes.
+        <h4 className="card-title text-[14px] text-ink mb-1.5">Carga {"<"}1s real</h4>
+        <p className="body-prose text-[12px] leading-relaxed">
+          No se cae con picos de Ads. Convierte antes de que tu cliente se vaya a la competencia.
         </p>
-      </motion.div>
+      </div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 15 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.4, delay: 0.3 }}
-        className="p-5 sm:p-6 rounded-2xl border border-slate-200 bg-white shadow-xs hover:border-slate-300 hover:shadow-md transition-all"
-      >
-        <div className="flex items-center gap-3 mb-3">
-          <div className="w-9 h-9 rounded-lg bg-accent/10 text-accent flex items-center justify-center shrink-0">
-            <Clock className="w-4 h-4" />
-          </div>
-          <h4 className="text-[14px] card-title text-slate-900">Actualizaciones Semanales</h4>
+      <div className="py-6 pl-0 md:pl-6">
+        <div className="w-8 h-8 rounded-full border border-ink flex items-center justify-center mb-3">
+          <Clock className="w-3.5 h-3.5 text-ink" />
         </div>
-        <p className="text-[12px] text-slate-500 leading-relaxed">
-          Nos envías tus ofertas, fotos o cambios de precio por WhatsApp y nosotros los publicamos. Cero dolores de cabeza técnicos.
+        <h4 className="card-title text-[14px] text-ink mb-1.5">Cambios en horas, no semanas</h4>
+        <p className="body-prose text-[12px] leading-relaxed">
+          Mandás foto, precio o promo por WhatsApp y lo publicamos en el día. Sin tickets.
         </p>
-      </motion.div>
+      </div>
     </div>
+  </div>
   </section>
 );
 
@@ -767,7 +743,7 @@ const PricingCard = ({
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5, delay, ease: [0.22, 1, 0.36, 1] }}
-        className="relative p-6 sm:p-7 rounded-2xl border border-slate-800 bg-slate-900 text-white flex flex-col h-full heroui-shadow-md hover:border-slate-700 transition-colors"
+        className="relative p-6 sm:p-7 rounded-[14px] border border-slate-800 bg-slate-900 text-white flex flex-col h-full heroui-shadow-md hover:border-slate-700 transition-colors"
       >
         <div className="flex items-center gap-2 mb-3">
           <Icon className="w-4 h-4 text-amber-400" />
@@ -834,7 +810,7 @@ const PricingCard = ({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay, ease: [0.22, 1, 0.36, 1] }}
-      className={`relative p-5 sm:p-6 rounded-2xl border flex flex-col h-full transition-colors ${
+      className={`relative p-5 sm:p-6 rounded-[14px] border flex flex-col h-full transition-colors ${
         isPopular
           ? "border-slate-900 bg-white heroui-shadow-md"
           : "border-slate-200 bg-white heroui-shadow-xs hover:border-slate-300"
@@ -917,15 +893,16 @@ const Services = ({
 }: any) => (
   <section
     id="servicios"
-    className="py-16 md:py-28 px-4 sm:px-6 md:px-10 max-w-[1200px] mx-auto relative overflow-hidden"
+    className="section-paper py-16 md:py-24 px-6 md:px-10 relative overflow-hidden"
   >
+    <div className="max-w-[1200px] mx-auto">
     {/* Header */}
-    <div className="text-center mb-16 md:mb-20">
-      <span className="label-editorial mx-auto">{label}</span>
-      <h2 className="text-[36px] sm:text-[48px] md:text-[58px] font-extrabold tracking-[-0.025em] mb-5 leading-[1.05] text-slate-900">
+    <div className="max-w-[720px] mb-12 md:mb-16">
+      <span className="kicker-number">04 — Planes</span>
+      <h2 className="display-section text-ink mt-2">
         {title}
       </h2>
-      <p className="text-muted max-w-xl mx-auto text-[15px] sm:text-[17px] leading-relaxed">
+      <p className="body-prose max-w-xl text-[15px] leading-relaxed mt-3">
         {subtitle}
       </p>
     </div>
@@ -1008,7 +985,7 @@ const Services = ({
 
     {/* Hotel Pro — Discreet CTA */}
     <div className="text-center mb-16 md:mb-20">
-      <div className="inline-flex flex-col items-center gap-3 px-8 py-6 rounded-2xl border border-slate-200 bg-slate-50/50">
+      <div className="inline-flex flex-col items-center gap-3 px-8 py-6 rounded-[14px] border border-slate-200 bg-slate-50/50">
         <div className="flex items-center gap-2">
           <Building2 className="w-4 h-4 text-slate-400" />
           <span className="text-[12px] font-bold uppercase tracking-[0.12em] text-slate-500">Sector Hotelero</span>
@@ -1051,22 +1028,25 @@ const Services = ({
     </div>
 
     {/* Strategy CTA */}
-    <div className="text-center">
-      <h3 className="text-[22px] md:text-[28px] font-extrabold tracking-[-0.025em] text-slate-900 mb-3">
-        ¿Tienes dudas sobre qué plan se adapta a tu negocio?
-      </h3>
-      <p className="text-slate-500 text-[14px] md:text-[15px] leading-relaxed max-w-lg mx-auto mb-6">
-        Evaluamos tus requerimientos técnicos y te asesoramos para elegir la arquitectura adecuada. Sin compromiso.
-      </p>
+    <div className="mt-12 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 border-t border-ink pt-8">
+      <div>
+        <h3 className="text-[18px] md:text-[22px] font-bold tracking-[-0.02em] text-ink">
+          ¿Dudas sobre qué plan te conviene?
+        </h3>
+        <p className="body-prose text-[13px] max-w-lg mt-1">
+          Revisamos tu stack y tu operación y te decimos qué arquitectura te hace vender más. Sin humo.
+        </p>
+      </div>
       <button
         onClick={() => onOpenModal("Consulta Gratuita de 15 Minutos", "15min_consultation")}
-        className="bg-slate-900 hover:bg-slate-800 text-white py-3.5 px-7 rounded-xl btn-label transition-all inline-flex items-center justify-center gap-2 cursor-pointer"
+        className="shrink-0 bg-ink hover:bg-slate-800 text-white py-3.5 px-7 rounded-[10px] btn-label inline-flex items-center justify-center gap-2 cursor-pointer"
       >
         <Zap className="w-4 h-4" />
-        Agendar Auditoría Gratuita (15 min)
+        Agendar auditoría (15 min)
       </button>
     </div>
 
+    </div>
   </section>
 );
 
@@ -1360,15 +1340,19 @@ const Portfolio = () => {
   return (
     <section
       id="portafolio"
-      className="py-14 md:py-20 px-6 md:px-10 max-w-[1024px] mx-auto overflow-hidden"
+      className="section-ink py-14 md:py-20 px-6 md:px-10 overflow-hidden"
     >
-      <div className="text-center mb-10 md:mb-16">
-        <span className="label-editorial mx-auto">Experiencia Comprobada</span>
-        <h2 className="text-[32px] md:text-[56px] font-extrabold tracking-[-0.025em] leading-none mb-4">
-          Nuestra <span className="text-accent">Trayectoria</span>.
+      <div className="max-w-[1120px] mx-auto">
+      <div className="mb-10 md:mb-16">
+        <div className="flex items-center gap-3 mb-3">
+          <span className="kicker-number text-white/60">03 — Prueba</span>
+          <span className="h-px w-12 bg-white/20" />
+        </div>
+        <h2 className="display-section text-white">
+          No vendemos plantillas.<br/> <span className="text-white/60">Desplegamos sistemas.</span>
         </h2>
-        <p className="text-muted max-w-2xl mx-auto text-[15px] md:text-[17px]">
-          De la industria hotelera al E-Commerce e infraestructura IA & Cloud.
+        <p className="body-prose text-white/60 max-w-2xl mt-3 text-[14px] md:text-[15px]">
+          De Máncora a Lima: 50+ proyectos en producción, con dominio, pagos y soporte real. Esta es la trayectoria que sostiene tu garantía.
         </p>
       </div>
 
@@ -1381,43 +1365,44 @@ const Portfolio = () => {
           transition={{ duration: 0.8 }}
           className="space-y-8"
         >
-          <div className="flex items-center justify-between mb-6 pb-3 border-b border-slate-200">
-            <h3 className="text-[18px] sm:text-[20px] font-extrabold flex items-center gap-2.5 text-slate-900">
-              <Building2 className="w-5 h-5 text-accent" />
+          <div className="flex items-center justify-between mb-6 pb-3 border-b border-white/10">
+            <h3 className="text-[14px] font-mono font-semibold tracking-[0.12em] uppercase text-white/70 flex items-center gap-2.5">
+              <Building2 className="w-4 h-4 text-white/50" />
               Vertical Hotelero
             </h3>
-            <span className="text-[11px] font-bold text-accent uppercase tracking-wider bg-accent/10 px-3 py-1 rounded-full">
-              Sistemas en Producción
+            <span className="text-[10px] font-mono font-semibold tracking-[0.12em] uppercase text-white/50 border border-white/15 px-3 py-1 rounded-full">
+              7 sistemas live
             </span>
           </div>
           <div className="grid grid-cols-1 gap-3">
             {hotelClients.map((client, i) => (
               <motion.div
                 key={i}
-                whileHover={{ y: -2 }}
+                whileHover={{ y: -1 }}
+                transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
                 onClick={() => setSelectedHotel(client)}
-                className="p-4 sm:p-5 rounded-2xl border border-slate-200 bg-white shadow-2xs hover:border-slate-300 hover:shadow-xs flex flex-col gap-1.5 cursor-pointer group transition-all"
+                className="p-4 sm:p-5 rounded-[14px] border border-white/10 bg-white/[0.04] hover:bg-white/[0.07] hover:border-white/20 flex flex-col gap-1.5 cursor-pointer group transition-colors backdrop-blur"
               >
                 <div className="flex justify-between items-center">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-accent/10 text-accent flex items-center justify-center shrink-0">
+                    <div className="w-8 h-8 rounded-lg bg-white text-ink flex items-center justify-center shrink-0">
                       <Building2 className="w-4 h-4" />
                     </div>
-                    <span className="text-[14px] sm:text-[14px] card-title text-slate-900 group-hover:text-accent transition-colors">
+                    <span className="text-[14px] card-title text-white group-hover:text-white transition-colors">
                       {client.name}
                     </span>
                   </div>
-                  <div className="w-7 h-7 rounded-full bg-slate-100 group-hover:bg-accent/10 flex items-center justify-center transition-colors">
-                    <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-accent transition-colors" />
+                  <div className="w-7 h-7 rounded-full bg-white/10 group-hover:bg-white flex items-center justify-center transition-colors">
+                    <ArrowRight className="w-3.5 h-3.5 text-white/70 group-hover:text-ink transition-colors" />
                   </div>
                 </div>
                 <div className="flex items-center gap-2 pl-11">
-                  <MapPin className="w-3 h-3 text-slate-400" />
-                  <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                  <MapPin className="w-3 h-3 text-white/40" />
+                  <span className="text-[10px] font-mono font-semibold tracking-[0.1em] uppercase text-white/50">
                     {client.location}
                   </span>
                 </div>
-                <p className="text-[11px] text-slate-600 italic leading-relaxed border-t border-slate-100 pt-2">
+                <p className="text-[11px] text-white/60 leading-relaxed border-t border-white/10 pt-2">
                   "{client.testimonial}"
                 </p>
               </motion.div>
@@ -1433,43 +1418,44 @@ const Portfolio = () => {
           transition={{ duration: 0.8 }}
           className="space-y-6"
         >
-          <div className="flex items-center justify-between mb-6 pb-3 border-b border-slate-200">
-            <h3 className="text-[18px] sm:text-[20px] font-extrabold flex items-center gap-2.5 text-slate-900">
-              <Zap className="w-5 h-5 text-accent" />
+          <div className="flex items-center justify-between mb-6 pb-3 border-b border-white/10">
+            <h3 className="text-[14px] font-mono font-semibold tracking-[0.12em] uppercase text-white/70 flex items-center gap-2.5">
+              <Zap className="w-4 h-4 text-white/50" />
               Ingeniería IA & Cloud
             </h3>
-            <span className="text-[11px] font-bold text-accent uppercase tracking-wider bg-accent/10 px-3 py-1 rounded-full">
-              Innovación
+            <span className="text-[10px] font-mono font-semibold tracking-[0.12em] uppercase text-white/50 border border-white/15 px-3 py-1 rounded-full">
+              6 productos
             </span>
           </div>
           <div className="grid grid-cols-1 gap-3">
             {techClients.map((client, i) => (
               <motion.div
                 key={i}
-                whileHover={{ y: -2 }}
+                whileHover={{ y: -1 }}
+                transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
                 onClick={() => setSelectedHotel(client)}
-                className="p-4 sm:p-5 rounded-2xl border border-slate-200 bg-white shadow-2xs hover:border-slate-300 hover:shadow-xs flex flex-col gap-1.5 cursor-pointer group transition-all"
+                className="p-4 sm:p-5 rounded-[14px] border border-white/10 bg-white/[0.04] hover:bg-white/[0.07] hover:border-white/20 flex flex-col gap-1.5 cursor-pointer group transition-colors backdrop-blur"
               >
                 <div className="flex justify-between items-center">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-accent/10 text-accent flex items-center justify-center shrink-0">
+                    <div className="w-8 h-8 rounded-lg bg-white text-ink flex items-center justify-center shrink-0">
                       <Globe className="w-4 h-4" />
                     </div>
-                    <span className="text-[14px] sm:text-[14px] card-title text-slate-900 group-hover:text-accent transition-colors">
+                    <span className="text-[14px] card-title text-white group-hover:text-white transition-colors">
                       {client.name}
                     </span>
                   </div>
-                  <div className="w-7 h-7 rounded-full bg-slate-100 group-hover:bg-accent/10 flex items-center justify-center transition-colors">
-                    <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-accent transition-colors" />
+                  <div className="w-7 h-7 rounded-full bg-white/10 group-hover:bg-white flex items-center justify-center transition-colors">
+                    <ArrowRight className="w-3.5 h-3.5 text-white/70 group-hover:text-ink transition-colors" />
                   </div>
                 </div>
                 <div className="flex items-center gap-2 pl-11">
-                  <Terminal className="w-3 h-3 text-slate-400" />
-                  <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                  <Terminal className="w-3 h-3 text-white/40" />
+                  <span className="text-[10px] font-mono font-semibold tracking-[0.1em] uppercase text-white/50">
                     {client.location}
                   </span>
                 </div>
-                <p className="text-[11px] text-slate-600 italic leading-relaxed border-t border-slate-100 pt-2">
+                <p className="text-[11px] text-white/60 leading-relaxed border-t border-white/10 pt-2">
                   "{client.testimonial}"
                 </p>
               </motion.div>
@@ -1506,7 +1492,7 @@ const Portfolio = () => {
         </div>
 
         {/* Browser Frame */}
-        <div className="rounded-2xl border border-slate-200 bg-white shadow-lg overflow-hidden">
+        <div className="rounded-[14px] border border-slate-200 bg-white shadow-lg overflow-hidden">
           {/* Browser Header Bar */}
           <div className="px-4 py-3 bg-slate-50 border-b border-slate-200 flex items-center justify-between gap-4">
             <div className="flex items-center gap-1.5">
@@ -1590,7 +1576,7 @@ const Portfolio = () => {
               transition={{ duration: 0.4, delay: Math.min(i * 0.03, 0.2), ease: [0.22, 1, 0.36, 1] }}
               whileHover={{ y: -2 }}
               whileTap={{ scale: 0.99 }}
-              className="group block bg-white rounded-2xl border border-slate-200 overflow-hidden heroui-shadow-xs hover:border-slate-300 hover:heroui-shadow-sm transition-all"
+              className="group block bg-white rounded-[14px] border border-slate-200 overflow-hidden heroui-shadow-xs hover:border-slate-300 hover:heroui-shadow-sm transition-all"
             >
               <div className="relative aspect-[16/10] overflow-hidden bg-slate-100 border-b border-slate-200">
                 <ProjectCardThumbnail
@@ -1673,7 +1659,7 @@ const Portfolio = () => {
 
           <div className="p-6 lg:p-10 lg:col-span-6 bg-slate-950/60 flex items-center justify-center border-t lg:border-t-0 lg:border-l border-slate-800">
             {/* High-Resolution Browser Mockup for Hothelia */}
-            <div className="w-full rounded-2xl border border-slate-700/80 bg-slate-900 shadow-2xl overflow-hidden group/hothelia">
+            <div className="w-full rounded-[14px] border border-slate-700/80 bg-slate-900 shadow-2xl overflow-hidden group/hothelia">
               {/* Browser bar */}
               <div className="px-4 py-2.5 bg-slate-800/90 border-b border-slate-700/80 flex items-center justify-between gap-3">
                 <div className="flex items-center gap-1.5">
@@ -1741,7 +1727,7 @@ const Portfolio = () => {
               </button>
 
               <div className="flex items-center gap-4 mb-8">
-                <div className="w-12 h-12 rounded-2xl bg-accent/20 text-accent flex items-center justify-center shrink-0">
+                <div className="w-12 h-12 rounded-[14px] bg-accent/20 text-accent flex items-center justify-center shrink-0">
                   <Building2 className="w-6 h-6" />
                 </div>
                 <div>
@@ -1794,7 +1780,7 @@ const Portfolio = () => {
                 <div className="flex flex-col gap-4">
                   <Link
                     to="/hotels"
-                    className="bg-accent text-white py-5 rounded-2xl flex items-center justify-center gap-2 font-semibold uppercase tracking-[0.16em] text-[12px] shadow-lg hover:shadow-accent/40 transition-all"
+                    className="bg-accent text-white py-5 rounded-[14px] flex items-center justify-center gap-2 font-semibold uppercase tracking-[0.16em] text-[12px] shadow-lg hover:shadow-accent/40 transition-all"
                   >
                     Ver Sector Completo <ArrowRight className="w-4 h-4" />
                   </Link>
@@ -1810,6 +1796,7 @@ const Portfolio = () => {
           </div>
         )}
       </AnimatePresence>
+      </div>
     </section>
   );
 };
@@ -1954,7 +1941,7 @@ export const ChambaNavbar = () => {
             </button>
 
             {userDropdownOpen && (
-              <div className="absolute right-0 top-full mt-2 w-56 bg-white border border-slate-200 rounded-2xl shadow-2xl overflow-hidden z-[110]">
+              <div className="absolute right-0 top-full mt-2 w-56 bg-white border border-slate-200 rounded-[14px] shadow-2xl overflow-hidden z-[110]">
                 <div className="p-4 border-b border-slate-100 bg-slate-50">
                   <p className="text-[13px] font-bold text-slate-900">{loggedUser.name}</p>
                   <p className="text-[11px] text-slate-500 font-medium">{loggedUser.email}</p>
@@ -2049,7 +2036,7 @@ export const ChambaNavbar = () => {
 
             <button
               onClick={() => setIsMobileMenuOpen(false)}
-              className="absolute top-6 right-6 p-3 bg-white/10 text-white rounded-2xl border border-white/10 hover:bg-white/20 transition-colors"
+              className="absolute top-6 right-6 p-3 bg-white/10 text-white rounded-[14px] border border-white/10 hover:bg-white/20 transition-colors"
             >
               <X className="w-6 h-6" />
             </button>
@@ -2261,49 +2248,48 @@ const ChambaHero = ({ onOpenBooking }: { onOpenBooking?: (topic: string, callTyp
           transition={{ duration: 0.7, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
           className="relative lg:pl-2"
         >
-          <div className="rounded-[18px] border border-slate-200 bg-white heroui-shadow-lg overflow-hidden">
-            <div className="px-3.5 py-2.5 bg-slate-50 border-b border-slate-200 flex items-center justify-between gap-3">
-              <div className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-slate-300" />
-                <span className="w-2.5 h-2.5 rounded-full bg-slate-300" />
-                <span className="w-2.5 h-2.5 rounded-full bg-slate-300" />
+          <div className="rounded-[18px] border border-ink overflow-hidden bg-ink heroui-shadow-lg">
+            <div className="relative aspect-[16/11] bg-ink overflow-hidden">
+              <video
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="auto"
+                poster="/thumbs/penalindamancora.webp"
+                className="w-full h-full object-cover"
+              >
+                <source src="/assets/hero_bg.mp4" type="video/mp4" />
+                <source src="/assets/methodology.mp4" type="video/mp4" />
+              </video>
+              <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-ink/10 to-transparent pointer-events-none" />
+              <div className="absolute top-3 left-3 flex items-center gap-2">
+                <span className="inline-flex items-center gap-1.5 bg-white text-ink text-[10px] font-mono font-semibold tracking-[0.1em] uppercase px-2.5 py-1 rounded-full border border-white">
+                  <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" /> IA · Chamba
+                </span>
+                <span className="hidden sm:inline-flex bg-ink/80 backdrop-blur text-white/80 text-[10px] font-mono px-2 py-1 rounded-full border border-white/15">
+                  0:31 · WaaS
+                </span>
               </div>
-              <div className="flex-1 max-w-[220px] mx-auto bg-white border border-slate-200 rounded-md px-2.5 py-1 text-[11px] font-mono text-slate-600 flex items-center justify-center gap-1.5">
-                <Lock className="w-3 h-3 text-emerald-600" />
-                <span className="truncate">penalindabungalows.up.railway.app</span>
-              </div>
-              <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-md hidden sm:inline-flex items-center gap-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" /> Live
-              </span>
-            </div>
-            <div className="relative aspect-[4/3] sm:aspect-[16/11] bg-slate-950 overflow-hidden">
-              <img
-                src="/thumbs/penalindamancora.webp"
-                alt="Peña Linda Bungalows - Caso Real WaaS"
-                className="w-full h-full object-cover object-top"
-                loading="eager"
-              />
-              <div className="absolute bottom-3 left-3 right-3 bg-white rounded-xl border border-slate-200 p-3 flex items-center justify-between heroui-shadow-sm">
+              <div className="absolute bottom-0 left-0 right-0 p-4 flex items-end justify-between gap-3">
                 <div>
-                  <div className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-slate-500">Caso destacado</div>
-                  <div className="text-[13px] font-bold text-slate-900 leading-tight">Peña Linda · Reservas directas sin comisiones</div>
-                  <div className="text-[11px] text-slate-500">Máncora · Motor Sirvoy + pagos automáticos</div>
+                  <div className="text-white text-[13px] font-bold leading-tight">Tu web en 30 segundos</div>
+                  <div className="text-white/70 text-[11px] font-mono">De idea a producción — sin pagar miles</div>
                 </div>
-                <div className="hidden sm:flex items-center gap-2 ml-3 shrink-0">
-                  <span className="text-[11px] font-mono font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-1 rounded-md">100/100</span>
-                  <span className="text-[11px] font-bold text-slate-600">0.6s LCP</span>
-                </div>
+                <span className="hidden sm:inline-flex w-8 h-8 rounded-full bg-white text-ink items-center justify-center shrink-0">
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M3 2.5L9 6L3 9.5V2.5Z" /></svg>
+                </span>
               </div>
             </div>
           </div>
-          <div className="mt-3 flex flex-wrap items-center gap-2 text-[11px] font-semibold text-slate-500">
-            <span className="inline-flex items-center gap-1.5 bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-full">Peña Linda Bungalows <span className="text-slate-300">·</span> Máncora</span>
-            <span className="inline-flex items-center gap-1.5 bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-full">LATAM Abogados <span className="text-slate-300">·</span> 0.5s</span>
-            <span className="inline-flex items-center gap-1.5 bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-full">TuAgente.pe <span className="text-slate-300">·</span> Proptech IA</span>
+          <div className="mt-3 flex items-center justify-between gap-3">
+            <p className="text-[11px] leading-relaxed text-slate-500 max-w-[360px]">
+              Video generado con IA sobre el flujo WaaS real. Reemplazá <code className="font-mono bg-stone-100 border border-stone-200 px-1 py-0.5 rounded text-[10px]">/assets/hero_bg.mp4</code> por tu render final.
+            </p>
+            <a href="#portafolio" className="hidden sm:inline-flex items-center gap-1 text-[11px] font-mono font-semibold tracking-[0.08em] uppercase text-ink hover:text-accent">
+              Ver casos <ArrowRight className="w-3 h-3" />
+            </a>
           </div>
-          <p className="mt-2 text-[11px] text-slate-400 font-medium">
-            Infraestructura real en producción — no mockups. Desliza casos en Portfolio ↓
-          </p>
         </motion.div>
       </div>
     </section>
@@ -2311,18 +2297,21 @@ const ChambaHero = ({ onOpenBooking }: { onOpenBooking?: (topic: string, callTyp
 };
 
 const PainPoints = () => (
-  <section className="py-12 md:py-20 px-4 sm:px-6 md:px-10 max-w-[1024px] mx-auto border-t border-slate-100">
+  <section className="section-paper py-12 md:py-20 px-6 md:px-10">
+    <div className="max-w-[1100px] mx-auto">
     <ScrollReveal>
-    <div className="text-center mb-8 md:mb-14">
-      <span className="label-editorial mx-auto">El Costo de no tener un buen sistema</span>
-      <h2 className="text-[28px] sm:text-[34px] md:text-[42px] font-extrabold tracking-[-0.025em] mb-3 text-slate-900">
-        ¿Cuánto dinero te hace perder el modelo tradicional?
-      </h2>
-      <p className="text-muted text-[14px] sm:text-[16px] max-w-2xl mx-auto leading-relaxed">
-        El 80% de las pymes pagan de más por webs que quedan abandonadas a los pocos meses.
+    <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10 md:mb-12">
+      <div className="max-w-[560px]">
+        <span className="kicker-number">00 — Diagnóstico</span>
+        <h2 className="display-section text-ink mt-2">
+          ¿Cuánto te cuesta<br/>el modelo tradicional?
+        </h2>
+      </div>
+      <p className="body-prose text-[14px] max-w-[420px] border-l-2 border-ink pl-4">
+        El 80% de pymes paga de más por webs que mueren a los 3 meses. Sin soporte, sin velocidad, sin ventas.
       </p>
     </div>
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border-y border-ink divide-y md:divide-y-0 md:divide-x divide-ink">
       {[
         {
           title: "Pagar $1,500 por adelantado a ciegas",
@@ -2342,43 +2331,45 @@ const PainPoints = () => (
       ].map((item, i) => (
         <div
           key={i}
-          className="p-5 sm:p-6 rounded-2xl border border-slate-200 bg-white heroui-shadow-xs hover:border-slate-300 hover:heroui-shadow-sm transition-colors"
+          className="py-6 px-0 md:px-6 first:pl-0 last:pr-0"
         >
-          <div className="flex items-center gap-3 mb-3">
-            <div className="w-9 h-9 bg-slate-900 text-white rounded-lg flex items-center justify-center shrink-0">
-              <item.icon className="w-4 h-4" />
+          <div className="flex items-start gap-3 mb-3">
+            <span className="kicker-number mt-0.5">0{i+1}</span>
+            <div className="w-8 h-8 rounded-full border border-ink flex items-center justify-center shrink-0">
+              <item.icon className="w-3.5 h-3.5 text-ink" />
             </div>
-            <h4 className="text-[14px] card-title text-slate-900 leading-tight">{item.title}</h4>
           </div>
-          <p className="text-[12px] text-slate-600 leading-relaxed">{item.desc}</p>
+          <h4 className="card-title text-[14px] text-ink leading-tight mb-2">{item.title}</h4>
+          <p className="body-prose text-[12px] leading-relaxed">{item.desc}</p>
         </div>
       ))}
     </div>
 
-    {/* Inline Lead Capture after Pain Points */}
+    {/* Inline Lead Capture — editorial rule, not rounded card */}
     <div
-      className="mt-10 sm:mt-14 text-center rounded-3xl p-6 sm:p-8 md:p-10 border border-slate-200/60 bg-slate-50/80 heroui-shadow-sm"
+      className="mt-10 border border-ink p-6 sm:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 bg-paper-strong"
     >
-      <h3 className="text-[20px] sm:text-[24px] md:text-[28px] font-extrabold tracking-[-0.025em] mb-2 text-slate-900">
-        Tu equipo de ingeniería web por solo $49/mes
-      </h3>
-      <p className="text-slate-600 text-[13px] sm:text-[15px] mb-6 max-w-[540px] mx-auto leading-relaxed">
-        Sin contratos forzosos. Mantenimiento, hosting cloud ultrarrápido y soporte directo por WhatsApp incluido.
-      </p>
-      <div className="flex justify-center">
-        <a
-          href="https://wa.me/51904060670?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20sus%20planes%20WaaS."
-          target="_blank"
-          rel="noopener noreferrer"
-          className="bg-accent hover:bg-accent/90 text-white px-6 sm:px-7 py-3.5 rounded-xl btn-label text-[13px] shadow-sm flex items-center gap-2 uppercase tracking-wider transition-colors btn-sheen"
-        >
-          <WhatsAppIcon className="w-4 h-4" />
-          Quiero mi web a $49/mes
-          <span className="text-[10px] opacity-90">Iniciar Chat</span>
-        </a>
+      <div>
+        <span className="label-mono text-ink">Sin letra chica</span>
+        <h3 className="text-[18px] md:text-[22px] font-bold tracking-[-0.02em] text-ink mt-1">
+          Tu equipo de ingeniería por <span className="price-display text-[22px] md:text-[26px]">$49/mes</span>
+        </h3>
+        <p className="body-prose text-[13px] mt-1">
+          Hosting cloud {"<"}1s, mantenimiento y cambios por WhatsApp. Sin permanencia.
+        </p>
       </div>
+      <a
+        href="https://wa.me/51904060670?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20sus%20planes%20WaaS."
+        target="_blank"
+        rel="noopener noreferrer"
+        className="shrink-0 bg-ink hover:bg-slate-800 text-white px-6 py-3.5 rounded-[10px] btn-label inline-flex items-center gap-2"
+      >
+        <WhatsAppIcon className="w-4 h-4" />
+        Quiero mi web a $49/mes
+      </a>
     </div>
     </ScrollReveal>
+    </div>
   </section>
 );
 
@@ -2506,7 +2497,7 @@ const Methodology = () => (
           </div>
         </div>
         <div>
-          <div className="aspect-square rounded-2xl border border-slate-200 flex items-center justify-center overflow-hidden bg-slate-950 shadow-sm">
+          <div className="aspect-square rounded-[14px] border border-slate-200 flex items-center justify-center overflow-hidden bg-slate-950 shadow-sm">
             <video
               autoPlay
               muted
@@ -2568,7 +2559,7 @@ const FAQ = () => {
         {faqs.map((faq, i) => (
           <div
             key={i}
-            className="rounded-2xl border border-slate-200/60 bg-white heroui-shadow-xs overflow-hidden transition-all hover:border-slate-300/80 hover:heroui-shadow-sm"
+            className="rounded-[14px] border border-slate-200/60 bg-white heroui-shadow-xs overflow-hidden transition-all hover:border-slate-300/80 hover:heroui-shadow-sm"
           >
             <button
               onClick={() => setOpenIndex(openIndex === i ? null : i)}
@@ -2930,7 +2921,7 @@ const ProcessTimeline = () => (
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: i * 0.05 }}
-            className="p-5 sm:p-6 rounded-2xl border border-slate-200 bg-white shadow-xs hover:border-slate-300 hover:shadow-md transition-all group relative overflow-hidden"
+            className="p-5 sm:p-6 rounded-[14px] border border-slate-200 bg-white shadow-xs hover:border-slate-300 hover:shadow-md transition-all group relative overflow-hidden"
           >
             <span className="absolute top-3 right-4 text-[32px] sm:text-[40px] font-extrabold text-slate-200/60 select-none">
               {item.step}
@@ -3000,7 +2991,7 @@ const Guarantees = () => (
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.4, delay: Math.min(i * 0.03, 0.12), ease: [0.22, 1, 0.36, 1] }}
-          className="p-5 sm:p-6 rounded-2xl border border-slate-200 bg-white heroui-shadow-xs hover:border-slate-300 hover:heroui-shadow-sm transition-colors text-left"
+          className="p-5 sm:p-6 rounded-[14px] border border-slate-200 bg-white heroui-shadow-xs hover:border-slate-300 hover:heroui-shadow-sm transition-colors text-left"
         >
           <div className="flex items-center gap-3 mb-3">
             <div className="w-8 h-8 bg-slate-900 text-white rounded-lg flex items-center justify-center shrink-0">
