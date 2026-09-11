@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Inter+Tight:wght@600;700;800;900&family=JetBrains+Mono:wght@500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Inter+Tight:wght@700;800&family=JetBrains+Mono:wght@500;600&display=swap');
 @import "tailwindcss";
 
 @theme {
@@ -16,6 +16,10 @@
   --color-cta-hover: #C2410C;
   --color-gold: #D97706;
   --color-emerald: #059669;
+
+  --text-hero: clamp(2.25rem, 5.2vw, 3.5rem);
+  --text-h2: clamp(1.75rem, 3.8vw, 2.65rem);
+  --text-h3: clamp(1.25rem, 2.4vw, 1.6rem);
 }
 
 @layer base {
@@ -23,7 +27,11 @@
     @apply bg-white text-fg font-sans antialiased overflow-x-hidden;
     width: 100%;
     position: relative;
-    letter-spacing: -0.01em;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-variant-ligatures: common-ligatures;
+    font-feature-settings: "cv01","cv02","ss01";
   }
 
   html {
@@ -41,8 +49,33 @@
     border-radius: 8px;
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-display tracking-tight;
+  h1 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    letter-spacing: -0.032em;
+    line-height: 0.98;
+    font-feature-settings: "ss01";
+  }
+  h2 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    line-height: 1.05;
+  }
+  h3 {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+  h4, h5, h6 {
+    font-family: var(--font-sans);
+    font-weight: 650;
+    letter-spacing: -0.015em;
+    line-height: 1.35;
+  }
+  p {
+    text-wrap: pretty;
   }
 }
 
@@ -86,9 +119,10 @@
   }
 
   .label-editorial {
-    @apply font-mono text-[11px] font-semibold tracking-[0.2em] text-accent uppercase mb-3 block;
+    @apply font-mono text-[10px] font-semibold tracking-[0.16em] text-slate-500 uppercase mb-3 block;
     position: relative;
-    padding-left: 18px;
+    padding-left: 16px;
+    font-weight: 600;
   }
   .label-editorial::before {
     content: "";
@@ -96,10 +130,68 @@
     left: 0;
     top: 50%;
     transform: translateY(-50%);
-    width: 8px;
-    height: 2px;
+    width: 10px;
+    height: 1.5px;
     background: var(--color-accent);
     border-radius: 1px;
+  }
+  .label-editorial--accent {
+    @apply text-accent;
+  }
+
+  /* ── Editorial typography utilities — anti AI slop ── */
+  .display-hero {
+    font-family: var(--font-display);
+    font-size: var(--text-hero);
+    font-weight: 800;
+    letter-spacing: -0.032em;
+    line-height: 0.98;
+  }
+  .display-section {
+    font-family: var(--font-display);
+    font-size: var(--text-h2);
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    line-height: 1.06;
+  }
+  .body-prose {
+    font-family: var(--font-sans);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    line-height: 1.65;
+    color: #475569;
+  }
+  .body-prose strong {
+    font-weight: 650;
+    color: #0f172a;
+    letter-spacing: -0.015em;
+  }
+  .label-mono {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #64748b;
+  }
+  .price-display {
+    font-family: var(--font-display);
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    line-height: 0.9;
+    font-variant-numeric: tabular-nums;
+  }
+  .card-title {
+    font-family: var(--font-sans);
+    font-weight: 650;
+    letter-spacing: -0.015em;
+    line-height: 1.3;
+  }
+  .btn-label {
+    font-family: var(--font-sans);
+    font-weight: 650;
+    letter-spacing: 0.015em;
+    font-size: 13px;
   }
 
   .custom-scrollbar::-webkit-scrollbar {

@@ -52,7 +52,7 @@ const CountUp = ({ value, suffix = "", className = "" }: { value: number; suffix
   }, [isInView, value]);
 
   return (
-    <span ref={ref} className={`tabular-nums font-black ${className}`}>
+    <span ref={ref} className={`tabular-nums font-extrabold ${className}`}>
       {display}{suffix}
     </span>
   );
@@ -178,7 +178,7 @@ const ExitIntentModal = ({
 
             {status !== "success" ? (
               <>
-                <h3 className="text-[32px] md:text-[38px] font-black tracking-tighter leading-none mb-4">
+                <h3 className="text-[32px] md:text-[38px] font-extrabold tracking-[-0.025em] leading-none mb-4">
                   Acceso{" "}
                   <span className="text-accent underline decoration-accent/30 underline-offset-8">
                     Exclusivo
@@ -191,7 +191,7 @@ const ExitIntentModal = ({
                 </p>
                 <form onSubmit={handleSubmit} className="space-y-4 text-left">
                   <div className="space-y-1.5 px-1">
-                    <label className="text-[11px] font-black uppercase tracking-[0.2em] text-muted ml-1">
+                    <label className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted ml-1">
                       Email Corporativo
                     </label>
                     <div className="relative">
@@ -210,7 +210,7 @@ const ExitIntentModal = ({
                   </div>
 
                   <div className="space-y-1.5 px-1">
-                    <label className="text-[11px] font-black uppercase tracking-[0.2em] text-muted ml-1">
+                    <label className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted ml-1">
                       Número WhatsApp
                     </label>
                     <div className="relative">
@@ -235,7 +235,7 @@ const ExitIntentModal = ({
                       y: status === "loading" ? 0 : -2,
                     }}
                     whileTap={{ scale: status === "loading" ? 1 : 0.98 }}
-                    className={`w-full text-white py-5 rounded-[20px] font-black text-[15px] flex items-center justify-center gap-3 shadow-[0_20px_40px_rgba(59,130,246,0.3)] transition-all mt-6 uppercase tracking-widest ${status === "loading" ? "bg-accent/50 cursor-not-allowed" : "bg-accent"}`}
+                    className={`w-full text-white py-5 rounded-[20px] font-extrabold text-[15px] flex items-center justify-center gap-3 shadow-[0_20px_40px_rgba(59,130,246,0.3)] transition-all mt-6 uppercase tracking-widest ${status === "loading" ? "bg-accent/50 cursor-not-allowed" : "bg-accent"}`}
                   >
                     {status === "loading"
                       ? "Procesando..."
@@ -254,7 +254,7 @@ const ExitIntentModal = ({
 
                 <button
                   onClick={onClose}
-                  className="mt-8 text-[11px] text-muted/40 hover:text-muted transition-colors uppercase font-black tracking-[0.3em]"
+                  className="mt-8 text-[11px] text-muted/40 hover:text-muted transition-colors uppercase font-extrabold tracking-[0.3em]"
                 >
                   Cerrar Ventana
                 </button>
@@ -268,7 +268,7 @@ const ExitIntentModal = ({
                 <div className="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-8">
                   <CheckCircle2 className="w-10 h-10 text-green-500" />
                 </div>
-                <h3 className="text-[30px] font-black tracking-tighter mb-4 leading-none">
+                <h3 className="text-[30px] font-extrabold tracking-[-0.025em] mb-4 leading-none">
                   ¡Enviado con Éxito!
                 </h3>
                 <p className="text-muted text-[15px] mb-10 leading-relaxed">
@@ -279,7 +279,7 @@ const ExitIntentModal = ({
                   <a
                     href="/assets/docs/Guia_Transformacion_Digital_2026.pdf"
                     download
-                    className="bg-accent text-white py-4 px-8 rounded-2xl font-black text-[14px] shadow-lg flex items-center justify-center gap-2 uppercase tracking-widest"
+                    className="bg-accent text-white py-4 px-8 rounded-2xl font-extrabold text-[14px] shadow-lg flex items-center justify-center gap-2 uppercase tracking-widest"
                   >
                     Descarga Directa <Download className="w-4 h-4" />
                   </a>
@@ -314,10 +314,10 @@ export const Logo = ({
       className={`flex items-center gap-2 sm:gap-3 cursor-pointer ${className}`}
     >
       <div className="flex flex-col sm:flex-row sm:items-center leading-[0.9] sm:leading-none">
-        <span className={`font-black tracking-tighter transition-colors duration-300 ${textColor} ${compact ? "text-[14px]" : "text-[16px] sm:text-[22px]"}`}>
+        <span className={`font-extrabold tracking-[-0.025em] transition-colors duration-300 ${textColor} ${compact ? "text-[14px]" : "text-[16px] sm:text-[22px]"}`}>
           Chamba
         </span>
-        <span className={`font-bold sm:font-black tracking-tighter text-accent ${compact ? "text-[14px]" : "text-[14px] sm:text-[22px]"}`}>
+        <span className={`font-bold sm:font-extrabold tracking-[-0.025em] text-accent ${compact ? "text-[14px]" : "text-[14px] sm:text-[22px]"}`}>
           .Digital
         </span>
       </div>
@@ -427,7 +427,7 @@ const Modal = ({ isOpen, onClose, title, content }: any) => {
           <div>
             <div className="flex items-center gap-2 mb-4">
               <div className="h-[1px] flex-grow bg-white/5" />
-              <h4 className="text-[11px] font-black uppercase tracking-[0.2em] text-accent shrink-0">
+              <h4 className="text-[11px] font-semibold uppercase tracking-[0.16em] text-accent shrink-0">
                 📈 Casos de Éxito
               </h4>
               <div className="h-[1px] flex-grow bg-white/5" />
@@ -455,7 +455,7 @@ const Modal = ({ isOpen, onClose, title, content }: any) => {
           <div>
             <div className="flex items-center gap-2 mb-4">
               <div className="h-[1px] flex-grow bg-white/5" />
-              <h4 className="text-[11px] font-black uppercase tracking-[0.2em] text-accent shrink-0">
+              <h4 className="text-[11px] font-semibold uppercase tracking-[0.16em] text-accent shrink-0">
                 ⭐ Testimonios
               </h4>
               <div className="h-[1px] flex-grow bg-white/5" />
@@ -516,7 +516,7 @@ const Modal = ({ isOpen, onClose, title, content }: any) => {
               <div className="p-3 bg-accent/10 rounded-xl shadow-[0_0_15px_rgba(59,130,246,0.1)]">
                 <Info className="w-6 h-6 text-accent" />
               </div>
-              <h3 className="text-[22px] sm:text-[26px] font-black tracking-tight leading-none">
+              <h3 className="text-[22px] sm:text-[26px] font-extrabold tracking-[-0.025em] leading-none">
                 {title}
               </h3>
             </div>
@@ -555,7 +555,7 @@ const Hero = () => {
           Web as a Service (WaaS)
         </motion.span>
 
-        <h1 className="text-[36px] sm:text-[44px] md:text-[56px] font-black max-w-[950px] leading-tight md:leading-[1.1] mb-6 tracking-tight text-slate-900">
+        <h1 className="text-[36px] sm:text-[44px] md:text-[56px] font-extrabold max-w-[950px] leading-tight md:leading-[1.1] mb-6 tracking-tight text-slate-900">
           Tu Web Profesional a Medida.{" "}
           <br className="hidden sm:inline" />
           <span className="text-accent">
@@ -578,7 +578,7 @@ const Hero = () => {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             href="#servicios"
-            className="bg-accent hover:bg-accent/90 text-white px-8 py-4 rounded-xl font-bold text-[14px] shadow-sm transition-colors uppercase tracking-wider flex items-center gap-2"
+            className="bg-accent hover:bg-accent/90 text-white px-8 py-4 rounded-xl btn-label text-[14px] shadow-sm transition-colors uppercase tracking-wider flex items-center gap-2"
           >
             Ver Planes de Suscripción
             <ArrowRight className="w-4 h-4" />
@@ -606,7 +606,7 @@ const Opportunity = () => (
     {/* Sección: Agencia Tradicional vs. WaaS */}
     <div className="text-center mb-8 md:mb-14">
       <span className="label-editorial mx-auto">La Ley del Contraste</span>
-      <h2 className="text-[28px] sm:text-[34px] md:text-[46px] font-black tracking-tight leading-tight mb-3 text-slate-900">
+      <h2 className="text-[28px] sm:text-[34px] md:text-[46px] font-extrabold tracking-[-0.025em] leading-tight mb-3 text-slate-900">
         Agencia Tradicional <span className="text-slate-400">vs.</span> Tu Equipo <span className="text-accent">WaaS</span>
       </h2>
       <p className="text-muted text-[14px] sm:text-[16px] md:text-[17px] max-w-2xl mx-auto leading-relaxed">
@@ -625,7 +625,7 @@ const Opportunity = () => (
       >
         <div className="flex items-center gap-3 mb-2.5">
           <div className="w-8 h-8 rounded-lg bg-red-100 flex items-center justify-center text-red-600 font-bold text-[14px] shrink-0">✕</div>
-          <h3 className="text-[17px] font-black text-slate-900">La Agencia Tradicional</h3>
+          <h3 className="text-[15px] font-bold tracking-[-0.015em] text-slate-900">La Agencia Tradicional</h3>
         </div>
         <p className="text-[13px] sm:text-[14px] text-slate-600 leading-relaxed font-medium">
           Te cobran entre $1,000 y $2,000 por adelantado por una web de plantilla que queda abandonada. Cualquier cambio posterior tarda semanas o te lo cobran como extra.
@@ -641,7 +641,7 @@ const Opportunity = () => (
       >
         <div className="flex items-center gap-3 mb-2.5">
           <div className="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center text-accent font-bold text-[14px] shrink-0">✓</div>
-          <h3 className="text-[17px] font-black text-slate-900">Tu Suscripción WaaS Chamba</h3>
+          <h3 className="text-[15px] font-bold tracking-[-0.015em] text-slate-900">Tu Suscripción WaaS Chamba</h3>
         </div>
         <p className="text-[13px] sm:text-[14px] text-slate-700 leading-relaxed font-medium">
           Tarifa plana desde $49/mes. Tu web vive en servidores cloud ultrarrápidos, incluye cambios de contenido semanales y un equipo de ingeniería disponible por WhatsApp.
@@ -652,7 +652,7 @@ const Opportunity = () => (
     {/* Sección de Beneficios Clave (3 Pilares) */}
     <div className="text-center mb-8">
       <span className="label-editorial mx-auto">Beneficios Concretos</span>
-      <h3 className="text-[22px] sm:text-[28px] md:text-[32px] font-black tracking-tight text-slate-900">
+      <h3 className="text-[22px] sm:text-[28px] md:text-[32px] font-extrabold tracking-[-0.025em] text-slate-900">
         Resultados tangibles para tu negocio
       </h3>
     </div>
@@ -669,7 +669,7 @@ const Opportunity = () => (
           <div className="w-9 h-9 rounded-lg bg-accent/10 text-accent flex items-center justify-center shrink-0">
             <Shield className="w-4 h-4" />
           </div>
-          <h4 className="text-[15px] font-bold text-slate-900">Tu Marca y Dominio 100% Tuyos</h4>
+          <h4 className="text-[14px] card-title text-slate-900">Tu Marca y Dominio 100% Tuyos</h4>
         </div>
         <p className="text-[12px] text-slate-500 leading-relaxed">
           Sin letras chicas ni retenciones. El dominio, la propiedad intelectual y tu base de datos están a tu nombre desde el primer día.
@@ -687,7 +687,7 @@ const Opportunity = () => (
           <div className="w-9 h-9 rounded-lg bg-accent/10 text-accent flex items-center justify-center shrink-0">
             <Zap className="w-4 h-4" />
           </div>
-          <h4 className="text-[15px] font-bold text-slate-900">Carga en menos de 1 segundo</h4>
+          <h4 className="text-[14px] card-title text-slate-900">Carga en menos de 1 segundo</h4>
         </div>
         <p className="text-[12px] text-slate-500 leading-relaxed">
           Tu web nunca se cae cuando lanzas anuncios en Facebook, Instagram o Google. Máxima velocidad de conversión para no perder clientes.
@@ -705,7 +705,7 @@ const Opportunity = () => (
           <div className="w-9 h-9 rounded-lg bg-accent/10 text-accent flex items-center justify-center shrink-0">
             <Clock className="w-4 h-4" />
           </div>
-          <h4 className="text-[15px] font-bold text-slate-900">Actualizaciones Semanales</h4>
+          <h4 className="text-[14px] card-title text-slate-900">Actualizaciones Semanales</h4>
         </div>
         <p className="text-[12px] text-slate-500 leading-relaxed">
           Nos envías tus ofertas, fotos o cambios de precio por WhatsApp y nosotros los publicamos. Cero dolores de cabeza técnicos.
@@ -763,11 +763,11 @@ const PricingCard = ({
   if (isPremium) {
     return (
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 14 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] }}
-        className="relative p-6 sm:p-7 rounded-2xl border border-slate-700 bg-slate-900 text-white shadow-xl flex flex-col h-full"
+        transition={{ duration: 0.5, delay, ease: [0.22, 1, 0.36, 1] }}
+        className="relative p-6 sm:p-7 rounded-2xl border border-slate-800 bg-slate-900 text-white flex flex-col h-full heroui-shadow-md hover:border-slate-700 transition-colors"
       >
         <div className="flex items-center gap-2 mb-3">
           <Icon className="w-4 h-4 text-amber-400" />
@@ -775,7 +775,7 @@ const PricingCard = ({
         </div>
 
         <div className="flex items-baseline gap-1 mb-1">
-          <span className="text-[38px] sm:text-[44px] font-black tabular-nums tracking-tighter text-white leading-none">{price}</span>
+          <span className="text-[38px] sm:text-[44px] font-extrabold tabular-nums tracking-[-0.025em] text-white leading-none">{price}</span>
           {period && <span className="text-[13px] font-medium text-slate-400">{period}</span>}
         </div>
         {savings && <p className="text-[11px] text-amber-400/80 font-medium mb-3">{savings}</p>}
@@ -796,12 +796,13 @@ const PricingCard = ({
 
         <div className="mt-auto space-y-2">
           <motion.button
-            whileHover={{ scale: 1.02, y: -1 }}
+            whileHover={{ y: -1 }}
             whileTap={{ scale: 0.98 }}
+            transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
             onClick={() => handleBooking("meeting_15_30min")}
-            className="w-full py-3.5 px-4 rounded-xl font-black text-[13px] uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer text-center bg-white text-slate-900 hover:bg-white/90 shadow-lg"
+            className="w-full py-3.5 px-4 rounded-xl btn-label flex items-center justify-center gap-2 cursor-pointer bg-white text-slate-900 hover:bg-slate-50 transition-colors"
           >
-            <Sparkles className="w-4 h-4 text-accent" />
+            <Sparkles className="w-4 h-4 text-slate-900" />
             Agendar Videollamada (15-30 min)
           </motion.button>
           <div className="flex items-center justify-between pt-1 px-1">
@@ -829,27 +830,27 @@ const PricingCard = ({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 14 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] }}
-      className={`relative p-5 sm:p-6 rounded-2xl border flex flex-col h-full transition-all ${
+      transition={{ duration: 0.5, delay, ease: [0.22, 1, 0.36, 1] }}
+      className={`relative p-5 sm:p-6 rounded-2xl border flex flex-col h-full transition-colors ${
         isPopular
-          ? "border-accent/30 bg-accent/[0.03] shadow-lg ring-1 ring-accent/10 scale-[1.02] lg:z-10"
-          : "border-slate-200 bg-white shadow-xs"
+          ? "border-slate-900 bg-white heroui-shadow-md"
+          : "border-slate-200 bg-white heroui-shadow-xs hover:border-slate-300"
       }`}
     >
       {badge && (
         <span className={`inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.12em] mb-3 ${
-          isPopular ? "text-accent" : "text-slate-400"
+          isPopular ? "text-slate-900" : "text-slate-400"
         }`}>
-          {isPopular && <div className="w-1.5 h-1.5 rounded-full bg-accent" />}
+          {isPopular && <span className="w-1.5 h-1.5 rounded-full bg-slate-900" />}
           {badge}
         </span>
       )}
 
       <div className="flex items-baseline gap-1 mb-1">
-        <span className="text-[34px] sm:text-[38px] font-black tabular-nums tracking-tighter text-slate-900 leading-none">{price}</span>
+        <span className="text-[34px] sm:text-[38px] font-extrabold tabular-nums tracking-[-0.025em] text-slate-900 leading-none">{price}</span>
         {period && <span className="text-[12px] font-medium text-slate-400">{period}</span>}
       </div>
       {savings && <p className="text-[11px] text-emerald-600 font-medium mb-3">{savings}</p>}
@@ -859,7 +860,7 @@ const PricingCard = ({
       <ul className="space-y-3 mb-6">
         {items.map((item, idx) => (
           <li key={idx} className="flex items-start gap-2.5">
-            <CheckCircle2 className={`w-4 h-4 mt-0.5 shrink-0 ${isPopular ? "text-accent" : "text-slate-300"}`} />
+            <CheckCircle2 className={`w-4 h-4 mt-0.5 shrink-0 ${isPopular ? "text-slate-900" : "text-slate-300"}`} />
             <div className="flex-1 min-w-0">
               <span className="text-[13px] font-semibold text-slate-800 leading-snug">{item.name}</span>
               {item.detail && <span className="block text-[11px] text-slate-500 leading-snug mt-0.5">{item.detail}</span>}
@@ -870,13 +871,14 @@ const PricingCard = ({
 
       <div className="mt-auto space-y-2">
         <motion.button
-          whileHover={{ scale: 1.02, y: -1 }}
+          whileHover={{ y: -1 }}
           whileTap={{ scale: 0.98 }}
+          transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
           onClick={() => handleBooking("meeting_15_30min")}
-          className={`w-full py-3.5 px-4 rounded-xl font-black text-[13px] uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer text-center ${
+          className={`w-full py-3.5 px-4 rounded-xl btn-label flex items-center justify-center gap-2 cursor-pointer transition-colors ${
             isPopular
-              ? "bg-accent hover:bg-accent/90 text-white shadow-[0_8px_24px_rgba(59,130,246,0.3)]"
-              : "bg-slate-900 hover:bg-slate-800 text-white shadow-sm"
+              ? "bg-slate-900 hover:bg-slate-800 text-white"
+              : "bg-white hover:bg-slate-50 text-slate-900 border border-slate-200"
           }`}
         >
           <Sparkles className="w-4 h-4" />
@@ -887,7 +889,7 @@ const PricingCard = ({
             onClick={() => handleBooking("call_5min")}
             className="text-[11px] font-bold text-slate-500 hover:text-slate-900 flex items-center gap-1.5 transition-colors cursor-pointer"
           >
-            <Phone className="w-3 h-3 text-accent" />
+            <Phone className="w-3 h-3 text-slate-900" />
             Llamada express (5 min)
           </button>
           <a
@@ -920,7 +922,7 @@ const Services = ({
     {/* Header */}
     <div className="text-center mb-16 md:mb-20">
       <span className="label-editorial mx-auto">{label}</span>
-      <h2 className="text-[36px] sm:text-[48px] md:text-[58px] font-black tracking-tight mb-5 leading-[1.05] text-slate-900">
+      <h2 className="text-[36px] sm:text-[48px] md:text-[58px] font-extrabold tracking-[-0.025em] mb-5 leading-[1.05] text-slate-900">
         {title}
       </h2>
       <p className="text-muted max-w-xl mx-auto text-[15px] sm:text-[17px] leading-relaxed">
@@ -1021,7 +1023,7 @@ const Services = ({
             href="https://wa.me/51904060670?text=Hola,%20quiero%20informaci%C3%B3n%20sobre%20el%20Plan%20Hoteles%20($999)."
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-accent hover:bg-accent/90 text-white px-5 py-2.5 rounded-xl font-bold text-[12px] uppercase tracking-wider shadow-xs transition-colors"
+            className="inline-flex items-center gap-2 bg-accent hover:bg-accent/90 text-white px-5 py-2.5 rounded-xl btn-label shadow-xs transition-colors"
           >
             <WhatsAppIcon className="w-4 h-4" />
             Quiero este plan
@@ -1050,7 +1052,7 @@ const Services = ({
 
     {/* Strategy CTA */}
     <div className="text-center">
-      <h3 className="text-[22px] md:text-[28px] font-black tracking-tight text-slate-900 mb-3">
+      <h3 className="text-[22px] md:text-[28px] font-extrabold tracking-[-0.025em] text-slate-900 mb-3">
         ¿Tienes dudas sobre qué plan se adapta a tu negocio?
       </h3>
       <p className="text-slate-500 text-[14px] md:text-[15px] leading-relaxed max-w-lg mx-auto mb-6">
@@ -1058,7 +1060,7 @@ const Services = ({
       </p>
       <button
         onClick={() => onOpenModal("Consulta Gratuita de 15 Minutos", "15min_consultation")}
-        className="bg-slate-900 hover:bg-slate-800 text-white py-3.5 px-7 rounded-xl font-bold text-[13px] uppercase tracking-wider transition-all inline-flex items-center justify-center gap-2 cursor-pointer"
+        className="bg-slate-900 hover:bg-slate-800 text-white py-3.5 px-7 rounded-xl btn-label transition-all inline-flex items-center justify-center gap-2 cursor-pointer"
       >
         <Zap className="w-4 h-4" />
         Agendar Auditoría Gratuita (15 min)
@@ -1362,7 +1364,7 @@ const Portfolio = () => {
     >
       <div className="text-center mb-10 md:mb-16">
         <span className="label-editorial mx-auto">Experiencia Comprobada</span>
-        <h2 className="text-[32px] md:text-[56px] font-black tracking-tighter leading-none mb-4">
+        <h2 className="text-[32px] md:text-[56px] font-extrabold tracking-[-0.025em] leading-none mb-4">
           Nuestra <span className="text-accent">Trayectoria</span>.
         </h2>
         <p className="text-muted max-w-2xl mx-auto text-[15px] md:text-[17px]">
@@ -1380,7 +1382,7 @@ const Portfolio = () => {
           className="space-y-8"
         >
           <div className="flex items-center justify-between mb-6 pb-3 border-b border-slate-200">
-            <h3 className="text-[18px] sm:text-[20px] font-black flex items-center gap-2.5 text-slate-900">
+            <h3 className="text-[18px] sm:text-[20px] font-extrabold flex items-center gap-2.5 text-slate-900">
               <Building2 className="w-5 h-5 text-accent" />
               Vertical Hotelero
             </h3>
@@ -1401,7 +1403,7 @@ const Portfolio = () => {
                     <div className="w-8 h-8 rounded-lg bg-accent/10 text-accent flex items-center justify-center shrink-0">
                       <Building2 className="w-4 h-4" />
                     </div>
-                    <span className="text-[14px] sm:text-[15px] font-bold text-slate-900 group-hover:text-accent transition-colors">
+                    <span className="text-[14px] sm:text-[14px] card-title text-slate-900 group-hover:text-accent transition-colors">
                       {client.name}
                     </span>
                   </div>
@@ -1432,7 +1434,7 @@ const Portfolio = () => {
           className="space-y-6"
         >
           <div className="flex items-center justify-between mb-6 pb-3 border-b border-slate-200">
-            <h3 className="text-[18px] sm:text-[20px] font-black flex items-center gap-2.5 text-slate-900">
+            <h3 className="text-[18px] sm:text-[20px] font-extrabold flex items-center gap-2.5 text-slate-900">
               <Zap className="w-5 h-5 text-accent" />
               Ingeniería IA & Cloud
             </h3>
@@ -1453,7 +1455,7 @@ const Portfolio = () => {
                     <div className="w-8 h-8 rounded-lg bg-accent/10 text-accent flex items-center justify-center shrink-0">
                       <Globe className="w-4 h-4" />
                     </div>
-                    <span className="text-[14px] sm:text-[15px] font-bold text-slate-900 group-hover:text-accent transition-colors">
+                    <span className="text-[14px] sm:text-[14px] card-title text-slate-900 group-hover:text-accent transition-colors">
                       {client.name}
                     </span>
                   </div>
@@ -1564,50 +1566,57 @@ const Portfolio = () => {
         </div>
       </motion.div>
 
-      {/* Galería de Interfaces */}
-      <div className="mt-20">
-        <div className="flex items-center gap-4 mb-10">
-          <div className="h-[1px] flex-1 bg-white/5" />
-          <h3 className="text-[14px] font-black uppercase tracking-[0.3em] text-muted">
-            Galería de Proyectos
-          </h3>
-          <div className="h-[1px] flex-1 bg-white/5" />
+      {/* Galería de Interfaces — editorial, anti-slop */}
+      <div className="mt-16">
+        <div className="flex items-end justify-between gap-4 mb-6 border-b border-slate-200 pb-4">
+          <div>
+            <h3 className="text-[13px] font-mono font-semibold tracking-[0.14em] uppercase text-slate-500">Galería viva · 14 proyectos en producción</h3>
+            <p className="text-[13px] text-slate-600 mt-1">No son mockups. Cada thumb es Railway/Vercel con dominio real y tráfico.</p>
+          </div>
+          <a href="/portafolio" className="hidden sm:inline-flex items-center gap-1.5 text-[12px] font-bold text-slate-900 hover:text-accent">
+            Ver portafolio completo <ArrowRight className="w-3.5 h-3.5" />
+          </a>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
           {webs.map((web, i) => (
             <motion.a
               key={i}
               href={`https://${web.url}`}
               target="_blank"
               rel="noopener noreferrer"
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.05, duration: 0.5 }}
-              whileHover={{ y: -6 }}
-              whileTap={{ scale: 0.98 }}
-              className="group block interactive-card card-sheen p-2 rounded-[22px] hover:bg-slate-50 border border-transparent hover:border-slate-200 transition-all duration-300"
+              transition={{ duration: 0.4, delay: Math.min(i * 0.03, 0.2), ease: [0.22, 1, 0.36, 1] }}
+              whileHover={{ y: -2 }}
+              whileTap={{ scale: 0.99 }}
+              className="group block bg-white rounded-2xl border border-slate-200 overflow-hidden heroui-shadow-xs hover:border-slate-300 hover:heroui-shadow-sm transition-all"
             >
-              <div className="relative aspect-video rounded-[18px] overflow-hidden border border-slate-200/80 mb-3.5 shadow-md group-hover:shadow-xl transition-all duration-500 bg-slate-950">
+              <div className="relative aspect-[16/10] overflow-hidden bg-slate-100 border-b border-slate-200">
                 <ProjectCardThumbnail
                   thumb={web.thumb}
                   label={web.label}
                   url={web.url}
-                  className="w-full h-full object-cover object-top transform group-hover:scale-110 transition-transform duration-500 ease-out"
+                  className="w-full h-full object-cover object-top"
                 />
-                <div className="absolute inset-0 bg-slate-900/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[2px]">
-                  <div className="p-3 bg-accent text-white rounded-full shadow-lg transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                    <ExternalLink className="w-5 h-5" />
-                  </div>
-                </div>
+                <span className="absolute top-3 left-3 bg-white/95 backdrop-blur border border-slate-200 text-[10px] font-bold tracking-[0.08em] uppercase text-slate-700 px-2 py-1 rounded-md">
+                  {web.url.replace("www.", "").split(".")[0]}
+                </span>
               </div>
-              <h4 className="text-[14px] font-extrabold text-slate-900 mb-0.5 group-hover:text-accent transition-colors">
-                {web.label}
-              </h4>
-              <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider flex items-center gap-1">
-                <Globe className="w-3 h-3 text-slate-400 group-hover:text-accent transition-colors" />
-                {web.url}
-              </p>
+              <div className="p-4 flex items-center justify-between gap-3">
+                <div className="min-w-0">
+                  <h4 className="text-[14px] font-bold text-slate-900 leading-tight truncate">
+                    {web.label}
+                  </h4>
+                  <p className="text-[11px] font-mono text-slate-500 flex items-center gap-1 truncate">
+                    <Globe className="w-3 h-3 shrink-0" />
+                    {web.url}
+                  </p>
+                </div>
+                <span className="w-8 h-8 rounded-lg bg-slate-900 text-white flex items-center justify-center shrink-0 group-hover:bg-accent transition-colors">
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </span>
+              </div>
             </motion.a>
           ))}
         </div>
@@ -1628,7 +1637,7 @@ const Portfolio = () => {
               Software in-house & IA
             </div>
             
-            <h3 className="text-[28px] md:text-[34px] font-black tracking-tight mb-4 text-white leading-tight">
+            <h3 className="text-[28px] md:text-[34px] font-extrabold tracking-[-0.025em] mb-4 text-white leading-tight">
               Ingeniería Propia: Hothelia SaaS
             </h3>
             
@@ -1655,7 +1664,7 @@ const Portfolio = () => {
               href="https://hothelia.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-amber-400 hover:bg-amber-300 text-slate-950 px-6 py-3.5 rounded-xl font-bold text-[13px] uppercase tracking-wider transition-colors shadow-sm"
+              className="inline-flex items-center gap-2 bg-amber-400 hover:bg-amber-300 text-slate-950 px-6 py-3.5 rounded-xl btn-label transition-colors shadow-sm"
             >
               <span>Explorar Hothelia.com</span>
               <ExternalLink className="w-4 h-4" />
@@ -1736,7 +1745,7 @@ const Portfolio = () => {
                   <Building2 className="w-6 h-6" />
                 </div>
                 <div>
-                  <h3 className="text-[22px] font-black tracking-tight leading-none mb-1 text-white">
+                  <h3 className="text-[22px] font-extrabold tracking-[-0.025em] leading-none mb-1 text-white">
                     {selectedHotel.name}
                   </h3>
                   <p className="text-[13px] text-amber-400 font-bold uppercase tracking-wider">
@@ -1749,7 +1758,7 @@ const Portfolio = () => {
                 <div>
                   <div className="flex items-center gap-2 mb-6">
                     <div className="h-[1px] flex-grow bg-white/5" />
-                    <span className="text-[11px] font-black uppercase tracking-[0.3em] text-accent">
+                    <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-accent">
                       Implementación Estratégica
                     </span>
                     <div className="h-[1px] flex-grow bg-white/5" />
@@ -1774,7 +1783,7 @@ const Portfolio = () => {
                   <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                     <Zap className="w-12 h-12 text-accent" />
                   </div>
-                  <span className="text-[10px] font-black uppercase text-accent tracking-[0.4em] block mb-2">
+                  <span className="text-[10px] font-extrabold uppercase text-accent tracking-[0.4em] block mb-2">
                     🔑 Enfoque Estratégico
                   </span>
                   <p className="text-[14px] font-bold italic leading-tight text-fg">
@@ -1785,7 +1794,7 @@ const Portfolio = () => {
                 <div className="flex flex-col gap-4">
                   <Link
                     to="/hotels"
-                    className="bg-accent text-white py-5 rounded-2xl flex items-center justify-center gap-2 font-black uppercase tracking-[0.2em] text-[12px] shadow-lg hover:shadow-accent/40 transition-all"
+                    className="bg-accent text-white py-5 rounded-2xl flex items-center justify-center gap-2 font-semibold uppercase tracking-[0.16em] text-[12px] shadow-lg hover:shadow-accent/40 transition-all"
                   >
                     Ver Sector Completo <ArrowRight className="w-4 h-4" />
                   </Link>
@@ -1910,7 +1919,7 @@ export const ChambaNavbar = () => {
               <Link
                 key={link.path}
                 to={link.path}
-                className={`link-underline text-[12px] font-black uppercase tracking-[0.2em] transition-all relative py-2 ${
+                className={`link-underline text-[12px] font-semibold uppercase tracking-[0.16em] transition-all relative py-2 ${
                   scrolled ? "text-white hover:text-amber-400" : "text-slate-700 hover:text-accent"
                 }`}
               >
@@ -1927,7 +1936,7 @@ export const ChambaNavbar = () => {
           <div ref={dropdownRef} className="relative">
             <button
               onClick={() => setUserDropdownOpen(!userDropdownOpen)}
-              className={`flex items-center gap-2 rounded-xl font-black transition-all border cursor-pointer ${
+              className={`flex items-center gap-2 rounded-xl font-extrabold transition-all border cursor-pointer ${
                 isPortalRoute
                   ? "text-white/90 hover:text-white border-slate-700/50 bg-slate-800/60 hover:bg-slate-800 px-2.5 py-1.5 text-[11px]"
                   : `px-4 py-2 text-[12px] uppercase tracking-[0.15em] ${
@@ -1947,7 +1956,7 @@ export const ChambaNavbar = () => {
             {userDropdownOpen && (
               <div className="absolute right-0 top-full mt-2 w-56 bg-white border border-slate-200 rounded-2xl shadow-2xl overflow-hidden z-[110]">
                 <div className="p-4 border-b border-slate-100 bg-slate-50">
-                  <p className="text-[13px] font-black text-slate-900">{loggedUser.name}</p>
+                  <p className="text-[13px] font-bold text-slate-900">{loggedUser.name}</p>
                   <p className="text-[11px] text-slate-500 font-medium">{loggedUser.email}</p>
                 </div>
                 <div className="p-2">
@@ -1980,7 +1989,7 @@ export const ChambaNavbar = () => {
             {/* Login Button */}
             <Link
               to="/login"
-              className={`text-[12px] font-black uppercase tracking-[0.15em] transition-all px-4 py-2 rounded-xl flex items-center gap-1.5 border ${
+              className={`text-[12px] font-extrabold uppercase tracking-[0.15em] transition-all px-4 py-2 rounded-xl flex items-center gap-1.5 border ${
                 scrolled
                   ? "text-white hover:text-amber-400 border-slate-700 bg-slate-800/80 hover:bg-slate-800"
                   : "text-slate-800 hover:text-accent border-slate-200 bg-slate-100 hover:bg-slate-200"
@@ -1996,7 +2005,7 @@ export const ChambaNavbar = () => {
               href="https://wa.me/51904060670"
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden lg:flex bg-accent text-white px-5 py-2.5 rounded-xl text-[11px] font-black uppercase tracking-wider transition-all shadow-[0_4px_12px_rgba(37,99,235,0.35)] hover:shadow-[0_6px_18px_rgba(37,99,235,0.5)] border border-white/10 smooth-gpu shrink-0"
+              className="hidden lg:flex bg-accent text-white px-5 py-2.5 rounded-xl text-[11px] btn-label uppercase transition-all shadow-[0_4px_12px_rgba(37,99,235,0.35)] hover:shadow-[0_6px_18px_rgba(37,99,235,0.5)] border border-white/10 smooth-gpu shrink-0"
             >
               Iniciar Proyecto
             </motion.a>
@@ -2046,7 +2055,7 @@ export const ChambaNavbar = () => {
             </button>
 
             <div className="flex flex-col gap-5 my-auto py-6">
-              <span className="text-[11px] font-black uppercase tracking-[0.3em] text-accent mb-2">
+              <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-accent mb-2">
                 Menu de Navegacion
               </span>
               {navLinks.map((link, i) => (
@@ -2059,7 +2068,7 @@ export const ChambaNavbar = () => {
                   <Link
                     to={link.path}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="link-underline text-[28px] sm:text-[36px] font-black tracking-tight text-white hover:text-amber-400 transition-colors block"
+                    className="link-underline text-[28px] sm:text-[36px] font-extrabold tracking-[-0.025em] text-white hover:text-amber-400 transition-colors block"
                   >
                     {link.name}
                   </Link>
@@ -2069,12 +2078,12 @@ export const ChambaNavbar = () => {
               {loggedUser ? (
                 <>
                   <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: navLinks.length * 0.08 }}>
-                    <Link to="/portal" onClick={() => setIsMobileMenuOpen(false)} className="text-[28px] sm:text-[36px] font-black tracking-tight text-amber-400 hover:text-white transition-colors flex items-center gap-3 pt-2 border-t border-white/10">
+                    <Link to="/portal" onClick={() => setIsMobileMenuOpen(false)} className="text-[28px] sm:text-[36px] font-extrabold tracking-[-0.025em] text-amber-400 hover:text-white transition-colors flex items-center gap-3 pt-2 border-t border-white/10">
                       <Layers className="w-8 h-8" /> Mi Portal
                     </Link>
                   </motion.div>
                   <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: (navLinks.length + 1) * 0.08 }}>
-                    <button onClick={() => { handleLogout(); setIsMobileMenuOpen(false); }} className="text-[28px] sm:text-[36px] font-black tracking-tight text-red-400 hover:text-white transition-colors flex items-center gap-3 cursor-pointer">
+                    <button onClick={() => { handleLogout(); setIsMobileMenuOpen(false); }} className="text-[28px] sm:text-[36px] font-extrabold tracking-[-0.025em] text-red-400 hover:text-white transition-colors flex items-center gap-3 cursor-pointer">
                       <LogOut className="w-8 h-8" /> Cerrar Sesion
                     </button>
                   </motion.div>
@@ -2084,7 +2093,7 @@ export const ChambaNavbar = () => {
                   <Link
                     to="/login"
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="text-[28px] sm:text-[36px] font-black tracking-tight text-amber-400 hover:text-white transition-colors flex items-center gap-3 pt-2 border-t border-white/10"
+                    className="text-[28px] sm:text-[36px] font-extrabold tracking-[-0.025em] text-amber-400 hover:text-white transition-colors flex items-center gap-3 pt-2 border-t border-white/10"
                   >
                     <User className="w-8 h-8" /> Login Cliente
                   </Link>
@@ -2101,7 +2110,7 @@ export const ChambaNavbar = () => {
                   href="https://wa.me/51904060670"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-accent hover:bg-accent/90 text-white py-4 rounded-xl text-center font-black uppercase tracking-wider text-[13px] shadow-lg"
+                  className="bg-accent hover:bg-accent/90 text-white py-4 rounded-xl text-center btn-label uppercase text-[13px] shadow-lg"
                 >
                   Hablar por WhatsApp
                 </a>
@@ -2126,131 +2135,177 @@ const ChambaHero = ({ onOpenBooking }: { onOpenBooking?: (topic: string, callTyp
   };
 
   return (
-    <section className="relative pt-12 md:pt-16 pb-20 px-6 md:px-10 overflow-hidden max-w-[1140px] mx-auto">
-      {/* Intro Content */}
-      <div className="flex flex-col items-center text-center max-w-[900px] mx-auto mb-12">
-        {/* Step 2: Main Headline */}
-        <motion.h1
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.15 }}
-          className="text-[38px] sm:text-[50px] md:text-[62px] font-black leading-[1.08] md:leading-[1.04] tracking-tight text-slate-900 mb-6"
-        >
-          <span className="line-mask">
-            <motion.span
-              initial={{ y: "110%" }}
-              animate={{ y: 0 }}
-              transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-              className="block"
-            >
-              Tu Web Profesional a Medida.
-            </motion.span>
-          </span>
-          <span className="line-mask">
-            <motion.span
-              initial={{ y: "110%" }}
-              animate={{ y: 0 }}
-              transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              className="block text-accent"
-            >
-              Sin pagar miles por adelantado.
-            </motion.span>
-          </span>
-        </motion.h1>
+    <section className="relative pt-10 md:pt-14 pb-16 md:pb-20 px-6 md:px-10 overflow-hidden max-w-[1200px] mx-auto">
+      <div className="grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-10 lg:gap-12 items-center">
+        <div className="text-left">
+          <motion.span
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            className="label-editorial"
+          >
+            Web as a Service · Desde $49/mes · RUC 15609816934
+          </motion.span>
 
-        {/* Step 3: Subtitle */}
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-          className="text-[16px] md:text-[19px] text-slate-600 font-normal leading-relaxed max-w-[700px] mb-8"
-        >
-          Por $49/mes cubrimos toda tu tecnología: servidor de alta velocidad, diseño a medida y cambios ilimitados. Tú te enfocas en cerrar ventas; nosotros nos convertimos en tu departamento de sistemas.
-        </motion.p>
+          <motion.h1
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="display-hero text-slate-900 mb-5"
+          >
+            <span className="line-mask">
+              <motion.span
+                initial={{ y: "110%" }}
+                animate={{ y: 0 }}
+                transition={{ duration: 0.65, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
+                className="block"
+              >
+                Tu web deja de ser
+              </motion.span>
+            </span>
+            <span className="line-mask">
+              <motion.span
+                initial={{ y: "110%" }}
+                animate={{ y: 0 }}
+                transition={{ duration: 0.65, delay: 0.22, ease: [0.22, 1, 0.36, 1] }}
+                className="block"
+              >
+                un gasto.
+              </motion.span>
+            </span>
+            <span className="line-mask">
+              <motion.span
+                initial={{ y: "110%" }}
+                animate={{ y: 0 }}
+                transition={{ duration: 0.65, delay: 0.32, ease: [0.22, 1, 0.36, 1] }}
+                className="block text-accent"
+              >
+                Empieza a vender.
+              </motion.span>
+            </span>
+          </motion.h1>
 
-        {/* Step 4: CTAs & Micro-guarantees */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
-          className="flex flex-col items-center gap-4 w-full"
-        >
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 w-full sm:w-auto">
+          <motion.p
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            className="body-prose text-[16px] md:text-[17px] max-w-[560px] mb-7"
+          >
+            Antes: pagas $1,500 y te quedas con una web lenta que nadie actualiza. Después: por <strong>$49/mes</strong> tienes tu dominio 100% tuyo, hosting cloud {"<"}1s y un equipo que actualiza tu oferta por WhatsApp en horas.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            className="flex flex-col sm:flex-row gap-3 mb-5"
+          >
             <motion.button
-              whileHover={{ scale: 1.02 }}
+              whileHover={{ y: -1 }}
               whileTap={{ scale: 0.98 }}
+              transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
               onClick={() => handleBooking("meeting_15_30min")}
-              className="w-full sm:w-auto bg-accent hover:bg-accent/90 text-white px-7 py-4 rounded-xl font-bold text-[14px] shadow-sm transition-colors flex items-center justify-center gap-2 uppercase tracking-wider btn-sheen cursor-pointer"
+              className="bg-slate-900 hover:bg-slate-800 text-white px-7 py-4 rounded-xl btn-label flex items-center justify-center gap-2 cursor-pointer shadow-sm"
             >
-              <Sparkles className="w-4 h-4 text-white" />
+              <Sparkles className="w-4 h-4" />
               Agendar Sesión Estratégica (15 min)
             </motion.button>
             <a
-              href="#servicios"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 text-[14px] font-bold text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 px-6 py-4 rounded-xl transition-colors border border-slate-200"
+              href="#portafolio"
+              className="inline-flex items-center justify-center gap-2 btn-label text-slate-700 hover:text-slate-900 bg-white hover:bg-slate-50 px-6 py-4 rounded-xl border border-slate-200 transition-colors"
             >
-              Ver Planes desde $49/mes
+              Ver casos reales
               <ArrowRight className="w-4 h-4" />
             </a>
-          </div>
-          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-[12px] text-slate-500 font-medium">
-            <span className="flex items-center gap-1"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> Sin permanencia forzosa</span>
-            <span className="text-slate-300 hidden sm:inline">•</span>
-            <span className="flex items-center gap-1"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> Entrega en 3 a 5 días</span>
-            <span className="text-slate-300 hidden sm:inline">•</span>
-            <span className="flex items-center gap-1"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> Factura Electrónica SUNAT</span>
-          </div>
-        </motion.div>
+          </motion.div>
 
-        {/* Step 4.5: Trust Stats with CountUp */}
-        <motion.div
-          ref={(el) => { statsRef.current = el; }}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.8, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-10 pt-6 border-t border-slate-200/60 flex flex-wrap items-center justify-center gap-8 md:gap-14"
-        >
-          <div className="flex flex-col items-center gap-1">
-            <CountUp value={50} suffix="+" className="text-[28px] md:text-[36px] font-black text-accent tracking-tight" />
-            <span className="text-[10px] font-bold text-muted uppercase tracking-[0.2em]">Proyectos Entregados</span>
+          <div className="flex flex-wrap gap-x-4 gap-y-1.5 text-[11px] font-semibold text-slate-500 mb-8">
+            <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" /> Sin permanencia</span>
+            <span className="text-slate-300">·</span>
+            <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" /> Entrega 3–5 días</span>
+            <span className="text-slate-300">·</span>
+            <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" /> Factura SUNAT</span>
+            <span className="text-slate-300">·</span>
+            <span className="flex items-center gap-1.5"><ShieldCheck className="w-3.5 h-3.5 text-slate-400" /> Garantía 15 días</span>
           </div>
-          <div className="flex flex-col items-center gap-1">
-            <CountUp value={10} suffix="+" className="text-[28px] md:text-[36px] font-black text-accent tracking-tight" />
-            <span className="text-[10px] font-bold text-muted uppercase tracking-[0.2em]">Años de Experiencia</span>
-          </div>
-          <div className="flex flex-col items-center gap-1">
-            <span className="text-[28px] md:text-[36px] font-black text-accent tracking-tight">24/7</span>
-            <span className="text-[10px] font-bold text-muted uppercase tracking-[0.2em]">Soporte Activo</span>
-          </div>
-        </motion.div>
 
-      </div>
-
-      {/* Step 6: Client Trust Logos Row */}
-      <motion.div
-        initial={{ opacity: 0, y: 15 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7, delay: 0.75, ease: [0.16, 1, 0.3, 1] }}
-        className="text-center pt-6 border-t border-slate-200/80"
-      >
-        <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-600 mb-5">
-          Infraestructura web y software desplegado para marcas y empresas
-        </p>
-        <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-slate-600 text-[13px] font-bold">
-          <span className="hover:text-slate-900 transition-colors">Peña Linda Bungalows</span>
-          <span className="text-slate-300 hidden sm:inline">·</span>
-          <span className="hover:text-slate-900 transition-colors">LATAM Abogados</span>
-          <span className="text-slate-300 hidden sm:inline">·</span>
-          <span className="hover:text-slate-900 transition-colors">Fundo Achamaqui</span>
-          <span className="text-slate-300 hidden sm:inline">·</span>
-          <span className="hover:text-slate-900 transition-colors">Sauce Hotel Boutique</span>
-          <span className="text-slate-300 hidden sm:inline">·</span>
-          <span className="hover:text-slate-900 transition-colors">Olivos del Perú</span>
-          <span className="text-slate-300 hidden sm:inline">·</span>
-          <span className="hover:text-slate-900 transition-colors">Dupla Work</span>
+          <motion.div
+            ref={(el) => { statsRef.current = el; }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.65 }}
+            className="flex items-center gap-8 pt-6 border-t border-slate-200/70"
+          >
+            <div>
+              <div className="flex items-baseline gap-1">
+                <CountUp value={50} suffix="+" className="text-[26px] font-bold text-slate-900 tracking-tight" />
+              </div>
+              <span className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.14em]">Proyectos en producción</span>
+            </div>
+            <div className="h-9 w-px bg-slate-200" />
+            <div>
+              <div className="text-[26px] font-bold text-slate-900 tracking-tight leading-none">{"<"}1s</div>
+              <span className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.14em]">Carga Lighthouse</span>
+            </div>
+            <div className="h-9 w-px bg-slate-200 hidden sm:block" />
+            <div className="hidden sm:block">
+              <div className="text-[26px] font-bold text-slate-900 tracking-tight leading-none">24/7</div>
+              <span className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.14em]">Soporte WhatsApp</span>
+            </div>
+          </motion.div>
         </div>
-      </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
+          className="relative lg:pl-2"
+        >
+          <div className="rounded-[18px] border border-slate-200 bg-white heroui-shadow-lg overflow-hidden">
+            <div className="px-3.5 py-2.5 bg-slate-50 border-b border-slate-200 flex items-center justify-between gap-3">
+              <div className="flex items-center gap-1.5">
+                <span className="w-2.5 h-2.5 rounded-full bg-slate-300" />
+                <span className="w-2.5 h-2.5 rounded-full bg-slate-300" />
+                <span className="w-2.5 h-2.5 rounded-full bg-slate-300" />
+              </div>
+              <div className="flex-1 max-w-[220px] mx-auto bg-white border border-slate-200 rounded-md px-2.5 py-1 text-[11px] font-mono text-slate-600 flex items-center justify-center gap-1.5">
+                <Lock className="w-3 h-3 text-emerald-600" />
+                <span className="truncate">penalindabungalows.up.railway.app</span>
+              </div>
+              <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-md hidden sm:inline-flex items-center gap-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" /> Live
+              </span>
+            </div>
+            <div className="relative aspect-[4/3] sm:aspect-[16/11] bg-slate-950 overflow-hidden">
+              <img
+                src="/thumbs/penalindamancora.webp"
+                alt="Peña Linda Bungalows - Caso Real WaaS"
+                className="w-full h-full object-cover object-top"
+                loading="eager"
+              />
+              <div className="absolute bottom-3 left-3 right-3 bg-white rounded-xl border border-slate-200 p-3 flex items-center justify-between heroui-shadow-sm">
+                <div>
+                  <div className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-slate-500">Caso destacado</div>
+                  <div className="text-[13px] font-bold text-slate-900 leading-tight">Peña Linda · Reservas directas sin comisiones</div>
+                  <div className="text-[11px] text-slate-500">Máncora · Motor Sirvoy + pagos automáticos</div>
+                </div>
+                <div className="hidden sm:flex items-center gap-2 ml-3 shrink-0">
+                  <span className="text-[11px] font-mono font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-1 rounded-md">100/100</span>
+                  <span className="text-[11px] font-bold text-slate-600">0.6s LCP</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="mt-3 flex flex-wrap items-center gap-2 text-[11px] font-semibold text-slate-500">
+            <span className="inline-flex items-center gap-1.5 bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-full">Peña Linda Bungalows <span className="text-slate-300">·</span> Máncora</span>
+            <span className="inline-flex items-center gap-1.5 bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-full">LATAM Abogados <span className="text-slate-300">·</span> 0.5s</span>
+            <span className="inline-flex items-center gap-1.5 bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-full">TuAgente.pe <span className="text-slate-300">·</span> Proptech IA</span>
+          </div>
+          <p className="mt-2 text-[11px] text-slate-400 font-medium">
+            Infraestructura real en producción — no mockups. Desliza casos en Portfolio ↓
+          </p>
+        </motion.div>
+      </div>
     </section>
   );
 };
@@ -2260,7 +2315,7 @@ const PainPoints = () => (
     <ScrollReveal>
     <div className="text-center mb-8 md:mb-14">
       <span className="label-editorial mx-auto">El Costo de no tener un buen sistema</span>
-      <h2 className="text-[28px] sm:text-[34px] md:text-[42px] font-black tracking-tight mb-3 text-slate-900">
+      <h2 className="text-[28px] sm:text-[34px] md:text-[42px] font-extrabold tracking-[-0.025em] mb-3 text-slate-900">
         ¿Cuánto dinero te hace perder el modelo tradicional?
       </h2>
       <p className="text-muted text-[14px] sm:text-[16px] max-w-2xl mx-auto leading-relaxed">
@@ -2287,15 +2342,15 @@ const PainPoints = () => (
       ].map((item, i) => (
         <div
           key={i}
-          className="card-sheen p-5 sm:p-7 rounded-2xl border border-slate-200/60 bg-white heroui-shadow-sm hover:heroui-shadow-md hover:border-slate-300/80 transition-all"
+          className="p-5 sm:p-6 rounded-2xl border border-slate-200 bg-white heroui-shadow-xs hover:border-slate-300 hover:heroui-shadow-sm transition-colors"
         >
           <div className="flex items-center gap-3 mb-3">
-            <div className="w-9 h-9 bg-red-50 text-red-600 rounded-lg flex items-center justify-center shrink-0">
+            <div className="w-9 h-9 bg-slate-900 text-white rounded-lg flex items-center justify-center shrink-0">
               <item.icon className="w-4 h-4" />
             </div>
-            <h4 className="text-[15px] font-bold text-slate-900">{item.title}</h4>
+            <h4 className="text-[14px] card-title text-slate-900 leading-tight">{item.title}</h4>
           </div>
-          <p className="text-[12px] text-slate-500 leading-relaxed">{item.desc}</p>
+          <p className="text-[12px] text-slate-600 leading-relaxed">{item.desc}</p>
         </div>
       ))}
     </div>
@@ -2304,7 +2359,7 @@ const PainPoints = () => (
     <div
       className="mt-10 sm:mt-14 text-center rounded-3xl p-6 sm:p-8 md:p-10 border border-slate-200/60 bg-slate-50/80 heroui-shadow-sm"
     >
-      <h3 className="text-[20px] sm:text-[24px] md:text-[28px] font-black tracking-tight mb-2 text-slate-900">
+      <h3 className="text-[20px] sm:text-[24px] md:text-[28px] font-extrabold tracking-[-0.025em] mb-2 text-slate-900">
         Tu equipo de ingeniería web por solo $49/mes
       </h3>
       <p className="text-slate-600 text-[13px] sm:text-[15px] mb-6 max-w-[540px] mx-auto leading-relaxed">
@@ -2315,7 +2370,7 @@ const PainPoints = () => (
           href="https://wa.me/51904060670?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20sus%20planes%20WaaS."
           target="_blank"
           rel="noopener noreferrer"
-          className="bg-accent hover:bg-accent/90 text-white px-6 sm:px-7 py-3.5 rounded-xl font-bold text-[13px] shadow-sm flex items-center gap-2 uppercase tracking-wider transition-colors btn-sheen"
+          className="bg-accent hover:bg-accent/90 text-white px-6 sm:px-7 py-3.5 rounded-xl btn-label text-[13px] shadow-sm flex items-center gap-2 uppercase tracking-wider transition-colors btn-sheen"
         >
           <WhatsAppIcon className="w-4 h-4" />
           Quiero mi web a $49/mes
@@ -2374,7 +2429,7 @@ const StickyCtaBar = ({ onOpenBooking }: { onOpenBooking?: (topic: string, callT
           <div className="flex items-center gap-2 shrink-0">
             <button
               onClick={handleAction}
-              className="bg-accent hover:bg-accent/90 text-white px-4 sm:px-5 py-2.5 rounded-xl font-bold text-[11px] sm:text-[12px] uppercase tracking-wider shadow-xs flex items-center gap-1.5 transition-colors btn-sheen cursor-pointer"
+              className="bg-accent hover:bg-accent/90 text-white px-4 sm:px-5 py-2.5 rounded-xl btn-label text-[11px] sm:text-[12px] uppercase tracking-wider shadow-xs flex items-center gap-1.5 transition-colors btn-sheen cursor-pointer"
             >
               <Sparkles className="w-3.5 h-3.5" />
               <span>Agendar (15 min)</span>
@@ -2403,7 +2458,7 @@ const Methodology = () => (
     <ScrollReveal>
     <div className="max-w-[1024px] mx-auto text-center mb-10 md:mb-16">
       <span className="label-editorial mx-auto">Onboarding Ágil</span>
-      <h2 className="text-[32px] md:text-[44px] font-black tracking-tight leading-tight mb-3 text-slate-900">
+      <h2 className="text-[32px] md:text-[44px] font-extrabold tracking-[-0.025em] leading-tight mb-3 text-slate-900">
         ¿Cómo adquieres y lanzas tu web en 3 pasos?
       </h2>
       <p className="text-muted text-[15px] md:text-[16px] max-w-xl mx-auto">
@@ -2504,7 +2559,7 @@ const FAQ = () => {
       <ScrollReveal>
       <div className="text-center mb-8 md:mb-12">
         <span className="label-editorial mx-auto">Respuestas Claras</span>
-        <h2 className="text-[26px] sm:text-[32px] md:text-[38px] font-black tracking-tight text-slate-900">
+        <h2 className="text-[26px] sm:text-[32px] md:text-[38px] font-extrabold tracking-[-0.025em] text-slate-900">
           Preguntas Frecuentes
         </h2>
       </div>
@@ -2520,7 +2575,7 @@ const FAQ = () => {
               aria-expanded={openIndex === i}
               className="w-full p-4 sm:p-5 text-left flex justify-between items-center hover:bg-slate-50/60 transition-colors group cursor-pointer active:scale-[0.99]"
             >
-              <span className="text-[14px] sm:text-[15px] font-bold text-slate-900 group-hover:text-accent transition-colors pr-4">{faq.q}</span>
+              <span className="text-[14px] sm:text-[14px] card-title text-slate-900 group-hover:text-accent transition-colors pr-4">{faq.q}</span>
               <motion.span
                 animate={{ rotate: openIndex === i ? 90 : 0 }}
                 transition={{ duration: 0.25 }}
@@ -2877,14 +2932,14 @@ const ProcessTimeline = () => (
             transition={{ delay: i * 0.05 }}
             className="p-5 sm:p-6 rounded-2xl border border-slate-200 bg-white shadow-xs hover:border-slate-300 hover:shadow-md transition-all group relative overflow-hidden"
           >
-            <span className="absolute top-3 right-4 text-[32px] sm:text-[40px] font-black text-slate-200/60 select-none">
+            <span className="absolute top-3 right-4 text-[32px] sm:text-[40px] font-extrabold text-slate-200/60 select-none">
               {item.step}
             </span>
             <div className="flex items-center gap-3 mb-3">
               <div className="w-9 h-9 bg-accent/10 text-accent rounded-lg flex items-center justify-center shrink-0">
                 <item.icon className="w-4 h-4" />
               </div>
-              <h4 className="text-[15px] font-bold text-slate-900">{item.title}</h4>
+              <h4 className="text-[14px] card-title text-slate-900">{item.title}</h4>
             </div>
             <p className="text-[12px] text-slate-500 leading-relaxed">
               {item.desc}
@@ -2941,26 +2996,26 @@ const Guarantees = () => (
       ].map((item, i) => (
         <motion.div
           key={i}
-          initial={{ opacity: 0, y: 15 }}
+          initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ delay: i * 0.05 }}
-          className="card-sheen p-5 sm:p-6 rounded-2xl border border-slate-200 bg-white shadow-xs hover:border-slate-300 hover:shadow-md transition-all"
+          transition={{ duration: 0.4, delay: Math.min(i * 0.03, 0.12), ease: [0.22, 1, 0.36, 1] }}
+          className="p-5 sm:p-6 rounded-2xl border border-slate-200 bg-white heroui-shadow-xs hover:border-slate-300 hover:heroui-shadow-sm transition-colors text-left"
         >
           <div className="flex items-center gap-3 mb-3">
-            <div className="w-9 h-9 bg-accent/10 text-accent rounded-lg flex items-center justify-center shrink-0">
+            <div className="w-8 h-8 bg-slate-900 text-white rounded-lg flex items-center justify-center shrink-0">
               <item.icon className="w-4 h-4" />
             </div>
-            <h4 className="text-[15px] font-bold text-slate-900">{item.title}</h4>
+            <h4 className="text-[14px] font-bold text-slate-900 leading-tight">{item.title}</h4>
           </div>
-          <p className="text-[12px] text-slate-500 leading-relaxed tabular-nums">{item.desc}</p>
+          <p className="text-[12px] text-slate-600 leading-relaxed">{item.desc}</p>
         </motion.div>
       ))}
     </div>
 
     {/* Dual CTA */}
     <div className="mt-12 md:mt-16 text-center">
-      <h3 className="text-[22px] md:text-[30px] font-black mb-3 text-slate-900">
+      <h3 className="text-[22px] md:text-[30px] font-extrabold mb-3 text-slate-900">
         ¿Listo para transformar la presencia digital de tu negocio?
       </h3>
       <p className="text-slate-600 text-[14px] md:text-[15px] mb-8 max-w-md mx-auto">
@@ -2973,7 +3028,7 @@ const Guarantees = () => (
           href="https://wa.me/51904060670?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20sus%20planes%20WaaS."
           target="_blank"
           rel="noopener noreferrer"
-          className="w-full sm:w-auto bg-accent hover:bg-accent/90 text-white px-7 py-3.5 rounded-xl font-bold text-[13px] shadow-sm flex items-center justify-center gap-2 uppercase tracking-wider transition-colors"
+          className="w-full sm:w-auto bg-accent hover:bg-accent/90 text-white px-7 py-3.5 rounded-xl btn-label text-[13px] shadow-sm flex items-center justify-center gap-2 uppercase tracking-wider transition-colors"
         >
           <WhatsAppIcon className="w-4 h-4 text-white" />
           Hablar por WhatsApp
@@ -2982,7 +3037,7 @@ const Guarantees = () => (
           href="https://wa.me/51904060670?text=Hola%2C%20tengo%20preguntas%20sobre%20los%20servicios%20de%20Chamba%20Digital."
           target="_blank"
           rel="noopener noreferrer"
-          className="w-full sm:w-auto bg-slate-100 hover:bg-slate-200 text-slate-700 px-6 py-3.5 rounded-xl font-bold text-[13px] transition-colors text-center"
+          className="w-full sm:w-auto bg-slate-100 hover:bg-slate-200 text-slate-700 px-6 py-3.5 rounded-xl btn-label text-[13px] transition-colors text-center"
         >
           Tengo Preguntas
         </a>
@@ -3006,7 +3061,7 @@ export const ChambaFooter = () => (
         </div>
 
         <div>
-          <h4 className="text-xs font-black uppercase tracking-wider mb-3 text-white">Explorar</h4>
+          <h4 className="text-xs btn-label uppercase mb-3 text-white">Explorar</h4>
           <ul className="space-y-2">
             {["Inicio", "Servicios", "Portafolio", "Metodología", "Hotelería Premium"].map((name) => (
               <li key={name}><Link to={name === "Inicio" ? "/" : "/" + name.toLowerCase().replace("í", "i").replace(" ", "-")} className="link-underline text-sm text-slate-400 hover:text-white transition-colors">{name}</Link></li>
@@ -3015,7 +3070,7 @@ export const ChambaFooter = () => (
         </div>
 
         <div>
-          <h4 className="text-xs font-black uppercase tracking-wider mb-3 text-white">Contacto</h4>
+          <h4 className="text-xs btn-label uppercase mb-3 text-white">Contacto</h4>
           <div className="space-y-2 text-sm">
             <a href="https://wa.me/51904060670" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors"><MessageSquare className="w-4 h-4 text-green-500" /> WhatsApp</a>
             <div className="flex items-center gap-2 text-slate-400"><Mail className="w-4 h-4 shrink-0" /> hola@chamba.digital</div>
@@ -3027,14 +3082,14 @@ export const ChambaFooter = () => (
         </div>
 
         <div className="flex flex-col gap-3">
-          <a href="https://wa.me/51904060670" target="_blank" rel="noopener noreferrer" className="w-full bg-accent text-white px-5 py-3 rounded-lg font-black text-sm text-center hover:bg-accent/90 transition-colors btn-sheen">Hablar con un Asesor <ArrowRight className="w-4 h-4 ml-1 inline" /></a>
+          <a href="https://wa.me/51904060670" target="_blank" rel="noopener noreferrer" className="w-full bg-accent text-white px-5 py-3 rounded-lg font-extrabold text-sm text-center hover:bg-accent/90 transition-colors btn-sheen">Hablar con un Asesor <ArrowRight className="w-4 h-4 ml-1 inline" /></a>
           <p className="text-xs text-slate-500 text-center">Respuesta en <span className="font-bold text-white">menos de 1h</span></p>
         </div>
       </div>
 
       <div className="pt-4 border-t border-slate-800 flex flex-col md:flex-row items-center justify-between gap-3">
         <p className="text-xs text-slate-500">© {new Date().getFullYear()} Chamba Digital. Todos los derechos reservados.</p>
-        <div className="flex flex-wrap justify-center md:justify-end gap-x-4 gap-y-1 text-[10px] font-black uppercase tracking-wider text-slate-500 hover:text-white transition-colors">
+        <div className="flex flex-wrap justify-center md:justify-end gap-x-4 gap-y-1 text-[10px] btn-label uppercase text-slate-500 hover:text-white transition-colors">
           <Link to="/portafolio" className="link-underline">Portafolio</Link>
           <Link to="/metodologia" className="link-underline">Metodología</Link>
           <Link to="/servicios" className="link-underline">Servicios</Link>
@@ -3055,12 +3110,12 @@ const ChambaContent = ({ onOpenModal, onOpenBooking }: any) => (
       <SectionDivider />
       <PainPoints />
       <SectionDivider variant="line" />
+      <Portfolio />
+      <SectionDivider />
       <Methodology />
       <SectionDivider />
       <Services onOpenModal={onOpenModal} onOpenBooking={onOpenBooking} title="Planes WaaS" label="Suscripción Mensual" />
       <SectionDivider variant="line" />
-      <Portfolio />
-      <SectionDivider />
       <Guarantees />
       <SectionDivider variant="dots" />
       <FAQ />

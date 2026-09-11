@@ -17,6 +17,7 @@ import {
   AlertTriangle,
   Lock,
   Zap,
+  Globe,
 } from 'lucide-react';
 import { SEO } from '../../components/SEO';
 import { FreeConsultationModal } from '../../components/FreeConsultationModal';
